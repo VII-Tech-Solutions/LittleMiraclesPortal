@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use App\API\Serializers\CustomArraySerializer;
+use Dingo\Api\Transformer\Adapter\Fractal;
+use Dingo\Api\Transformer\Factory;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use League\Fractal\Manager;
+use VIITech\Helpers\GlobalHelpers;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (GlobalHelpers::isDevelopmentEnv()) {
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -23,6 +31,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        // set default schema string length
+        Schema::defaultStringLength(200);
+
+        // Customize Dingo API Serializer
+        $this->app[Factory::class]->setAdapter(function ($app) {
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomArraySerializer());
+            return new Fractal($fractal);
+        });
+
+        if ($this->app->isLocal()) {
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 }

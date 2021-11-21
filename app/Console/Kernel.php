@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Constants\EnvVariables;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use VIITech\Helpers\GlobalHelpers;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,13 +21,22 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // cleanup telescope
+        if(env(EnvVariables::TELESCOPE_ENABLED) == true){
+            $schedule->command('telescope:prune')->daily();
+        }
+
+        // Database Backup
+        if(GlobalHelpers::isProductionEnv()){
+            $schedule->command('backup:clean')->daily()->at('03:00');
+            $schedule->command('backup:run --only-db')->daily()->at('03:30');
+            $schedule->command('backup:monitor')->daily()->at('03:15');
+        }
     }
 
     /**

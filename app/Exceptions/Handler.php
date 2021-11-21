@@ -4,6 +4,10 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Symfony\Component\HttpFoundation\Response;
+use VIITech\Helpers\Packagist\SentryHelper;
 
 class Handler extends ExceptionHandler
 {
@@ -29,24 +33,32 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
+
+        // Kill reporting if this is an "access denied" (code 9) OAuthServerException.
+        if ($exception instanceof OAuthServerException && $exception->getCode() == 9) {
+            return;
+        }
+
+        SentryHelper::capture($this, $exception);
+
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @param Exception $exception
+     * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function render($request, Exception $exception)
     {
