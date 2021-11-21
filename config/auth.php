@@ -39,12 +39,13 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'hash' => true,
         ],
 
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
-            'hash' => false,
+            'hash' => true,
         ],
     ],
 

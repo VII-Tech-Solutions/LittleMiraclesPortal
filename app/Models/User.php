@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Constants\Attributes;
+use App\Constants\Tables;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -10,13 +13,16 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends CustomModel implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Notifiable, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
+    use Notifiable, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasApiTokens, CrudTrait;
+
+    protected $table = Tables::USERS;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +30,9 @@ class User extends CustomModel implements
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        Attributes::FIRST_NAME, Attributes::LAST_NAME,
+        Attributes::PASSWORD, Attributes::EMAIL, Attributes::PHONE_NUMBER,
+        Attributes::GENDER
     ];
 
     /**
@@ -33,7 +41,7 @@ class User extends CustomModel implements
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        Attributes::PASSWORD, Attributes::REMEMBER_TOKEN,
     ];
 
     /**
@@ -42,6 +50,6 @@ class User extends CustomModel implements
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        Attributes::VERIFIED_AT => 'datetime',
     ];
 }
