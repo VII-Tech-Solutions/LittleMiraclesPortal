@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,33 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+/*******************************
+ * API
+ *******************************/
+/** @var Router $api */
+
+use Dingo\Api\Routing\Router;
+use VIITech\Helpers\GlobalHelpers;
+
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', function ($api) {
+    $api->get('/', function () {
+        return ['status' => true];
+    });
+
+    // Sentry
+    if(!GlobalHelpers::isProductionEnv()) {
+        $api->get('/debug-sentry', function () {
+            throw new Exception('My first Sentry error!');
+        });
+    }
+
+    $api->group(['namespace' => 'App\API\Controllers'], function () use ($api) {
+
+        /*******************************
+         * Registration
+         *******************************/
+        $api->post('/login', 'AuthenticationController@authenticate')->middleware('allowed_user:true'); // Login
+
+    });
 });
