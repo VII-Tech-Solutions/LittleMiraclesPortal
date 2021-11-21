@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "aws/aws-sdk-php-laravel": "^3.6",
+        "backpack/crud": "4.1.*",
         "bensampo/laravel-enum": "^1",
         "darkaonline/l5-swagger": "6.*",
         "fideloper/proxy": "^4.4",
@@ -29,6 +30,7 @@
         "viitech/laravel-dev-helpers": "dev-master"
     },
     "require-dev": {
+        "backpack/generators": "^3.1",
         "barryvdh/laravel-debugbar": "^3.6",
         "facade/ignition": "^1.16.15",
         "fakerphp/faker": "^1.9.1",
