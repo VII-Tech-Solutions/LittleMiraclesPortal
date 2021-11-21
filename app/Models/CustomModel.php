@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\Attributes;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -17,5 +18,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CustomModel extends Model
 {
-
+    protected $primaryKey = Attributes::ID;
 }

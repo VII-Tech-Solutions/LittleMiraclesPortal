@@ -24,7 +24,7 @@ return [
     // ----
 
     // Project name. Shown in the window title.
-    'project_name' => 'Backpack Admin Panel',
+    'project_name' => 'Little Miracles Admin Portal',
 
     // When clicking on the admin panel's top-left logo/name,
     // where should the user be redirected?
@@ -72,7 +72,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>Back</b>pack',
+    'project_logo'   => '<b>Little</b> Miracles',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -106,13 +106,13 @@ return [
     // change background color with bg-dark, bg-primary, bg-secondary, bg-danger, bg-warning, bg-success, bg-info, bg-blue, bg-light-blue, bg-indigo, bg-purple, bg-pink, bg-red, bg-orange, bg-yellow, bg-green, bg-teal, bg-cyan, bg-white
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Cristian Tabacitu',
+    'developer_name' => 'VII Tech Solutions',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'http://tabacitu.ro',
+    'developer_link' => 'http://viitech.net',
 
     // Show powered by Laravel Backpack in the footer? true/false
-    'show_powered_by' => true,
+    'show_powered_by' => false,
 
     // -------
     // SCRIPTS
@@ -174,7 +174,7 @@ return [
 
     // The prefix used in all base routes (the 'admin' in admin/dashboard)
     // You can make sure all your URLs use this prefix by using the backpack_url() helper instead of url()
-    'route_prefix' => 'admin',
+    'route_prefix' => env("BACKPACK_ROUTE_PREFIX", 'admin'),
 
     // The web middleware (group) used in all base & CRUD routes
     // If you've modified your "web" middleware group (ex: removed sessions), you can use a different
@@ -192,19 +192,19 @@ return [
     // Set this to false if you would like to use your own AuthController and PasswordController
     // (you then need to setup your auth routes manually in your routes.php file)
     // Warning: if you disable this, the password recovery routes (below) will be disabled too!
-    'setup_auth_routes' => true,
-
-    // Set this to false if you would like to skip adding the dashboard routes
-    // (you then need to overwrite the login route on your AuthController)
-    'setup_dashboard_routes' => true,
-
-    // Set this to false if you would like to skip adding "my account" routes
-    // (you then need to manually define the routes in your web.php)
-    'setup_my_account_routes' => true,
+    'setup_auth_routes' => env("BACKPACK_AUTH_ROUTES", true),
 
     // Set this to false if you would like to skip adding the password recovery routes
     // (you then need to manually define the routes in your web.php)
-    'setup_password_recovery_routes' => true,
+    'setup_password_recovery_routes' => env("BACKPACK_PASSWORD_ROUTES", true),
+
+    // Set this to false if you would like to skip adding the dashboard routes
+    // (you then need to overwrite the login route on your AuthController)
+    'setup_dashboard_routes' => env("BACKPACK_DASHBOARD_ROUTES", true),
+
+    // Set this to false if you would like to skip adding "my account" routes
+    // (you then need to manually define the routes in your web.php)
+    'setup_my_account_routes' => env("BACKPACK_ACCOUNT_ROUTES", true),
 
     /*
     |--------------------------------------------------------------------------
@@ -235,8 +235,8 @@ return [
     */
 
     // Fully qualified namespace of the User model
-    'user_model_fqn' => config('auth.providers.users.model'),
-    // 'user_model_fqn' => App\User::class, // works on Laravel <= 7
+//    'user_model_fqn' => config('auth.providers.users.model'),
+    'user_model_fqn' => App\Models\BackpackUser::class, // works on Laravel <= 7
     // 'user_model_fqn' => App\Models\User::class, // works on Laravel >= 8
 
     // The classes for the middleware to check if the visitor is an admin
