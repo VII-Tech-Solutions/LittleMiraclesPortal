@@ -3,9 +3,21 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\Status;
 use App\Constants\Tables;
+use App\Exceptions\Handler;
 use App\Helpers;
 
+
+/**
+ * Onboarding
+ *
+ * @property string title
+ * @property string content
+ * @property int order
+ * @property string image
+ * @property int status
+ */
 class Onboarding extends CustomModel
 {
 
@@ -19,7 +31,18 @@ class Onboarding extends CustomModel
         Attributes::CONTENT,
         Attributes::ORDER,
         Attributes::IMAGE,
+        Attributes::STATUS,
     ];
+
+    protected $appends = [
+        Attributes::STATUS_NAME
+    ];
+
+    public function getStatusNameAttribute($value)
+    {
+        $text = Status::getKey( $this->status);
+        return Helpers::readableText($text);
+    }
 
 //    /**
 //     * Set Attribute: Image

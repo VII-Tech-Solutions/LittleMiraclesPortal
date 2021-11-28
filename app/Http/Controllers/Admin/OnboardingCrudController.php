@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\Status;
 use App\Http\Controllers\Admin\CustomCrudController;
 use App\Http\Requests\OnboardingRequest;
 use App\Models\Onboarding;
@@ -46,6 +47,9 @@ class OnboardingCrudController extends CustomCrudController
         // Column: order
         $this->addOrder();
 
+        // Column: Status
+        $this->addStatusColumn(Attributes::STATUS_NAME);
+
     }
 
     /**
@@ -56,20 +60,23 @@ class OnboardingCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
-//        CRUD::setValidation(OnboardingRequest::class);
+        CRUD::setValidation(OnboardingRequest::class);
 
 //         Field: Name
         $this->addNameField(Attributes::TITLE);
 
 ////
         // Field: Description
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200, "Hint: Content of the last item will not be shown in the app");
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 //
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 //
         // Field: Order
         $this->addOrderField();
+
+        // Field: status
+        $this->addStatusField(Status::all());
     }
 
     /**

@@ -26,8 +26,10 @@ class OnboardingRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
-            Attributes::IMAGE => 'required|base64image:1024',
+             Attributes::TITLE => 'required|min:1|max:255',
+             Attributes::CONTENT => 'required',
+             Attributes::ORDER => 'required',
+//            Attributes::IMAGE => 'required|base64image:1024',
         ];
     }
 
