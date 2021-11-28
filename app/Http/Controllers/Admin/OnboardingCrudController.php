@@ -34,13 +34,9 @@ class OnboardingCrudController extends CustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        $this->addNameColumn();
+        // Column: Status
+        $this->addStatusColumn();
     }
 
     /**
@@ -53,17 +49,17 @@ class OnboardingCrudController extends CustomCrudController
     {
         CRUD::setValidation(OnboardingRequest::class);
 
-        // Field: Name
-        $this->addNameField(Attributes::TITLE);
-
-        // Field: Description
-        $this->addDescriptionField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200, "Hint: Content of the last item will not be shown in the app");
-
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
-
-        // Field: Order
-        $this->addOrderField();
+//        // Field: Name
+//        $this->addNameField(Attributes::TITLE);
+//
+//        // Field: Description
+//        $this->addDescriptionField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200, "Hint: Content of the last item will not be shown in the app");
+//
+//        // Field: Featured Image
+//        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+//
+//        // Field: Order
+//        $this->addOrderField();
     }
 
     /**

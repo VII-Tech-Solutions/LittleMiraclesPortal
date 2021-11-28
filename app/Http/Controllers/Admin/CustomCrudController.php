@@ -180,4 +180,48 @@ class CustomCrudController extends CrudController
     }
 
 
+    /**
+     * Disabled
+     * @param boolean $is_disabled
+     * @return array
+     */
+    function disabled($is_disabled = false){
+        if($is_disabled){
+            return [
+                'readonly' => 'readonly',
+                'disabled' => 'disabled',
+            ];
+        }
+        return [];
+    }
+
+
+    /**
+     * Add Name Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addNameColumn($label = null, $priority = 1, $column_name = Attributes::NAME)
+    {
+        if (is_null($label)) {
+            $label = "Title";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    function addStatusColumn($priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => Attributes::STATUS_NAME,
+            Attributes::LABEL => "Status",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+
 }
