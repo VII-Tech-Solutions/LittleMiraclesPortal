@@ -287,10 +287,10 @@ class CustomCrudController extends CrudController
         ]);
     }
 
-    function addStatusColumn($priority = 1)
+    function addStatusColumn($attribute = Attributes::STATUS, $priority = 1)
     {
         $this->crud->addColumn([
-            Attributes::NAME => Attributes::STATUS,
+            Attributes::NAME => $attribute,
             Attributes::LABEL => "Status",
             Attributes::PRIORITY => $priority
         ]);
