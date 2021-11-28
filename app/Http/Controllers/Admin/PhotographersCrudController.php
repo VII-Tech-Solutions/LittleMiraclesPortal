@@ -56,10 +56,6 @@ class PhotographersCrudController extends CustomCrudController
 
 //        // Field: status
         $this->addStatusField(Status::all());
-//        $this->addFeaturedImageField(Attributes::AVATAR, "Avatar");
-
-        // Field: Status
-//        $this->addStatusField(UserStatus::all());
 
 
     }
