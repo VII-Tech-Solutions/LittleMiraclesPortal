@@ -37,6 +37,8 @@ class Attributes extends CustomEnum
     const FEATURED_IMAGE = "featured_image";
     const CROP = "crop";
     const ASPECT_RATIO = "aspect_ratio";
+    const PRIORITY = "priority";
+    const STATUS_NAME = "status_name";
 
 
 }
