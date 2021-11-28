@@ -41,6 +41,9 @@ class Attributes extends CustomEnum
     const STATUS_NAME = "status_name";
     const ALLOWS_NULL = "allows_null";
     const OPTIONS = "options";
+    const URL = "url";
+    const THUMBNAIL = "thumbnail";
+    const IS_COMPRESSED = "is_compressed";
 
 
 }

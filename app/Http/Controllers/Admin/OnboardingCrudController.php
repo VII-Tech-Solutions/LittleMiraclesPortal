@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
-use App\Http\Controllers\Admin\CustomCrudController;
 use App\Http\Requests\OnboardingRequest;
 use App\Models\Onboarding;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -24,7 +23,6 @@ class OnboardingCrudController extends CustomCrudController
         CRUD::setModel(Onboarding::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/onboarding');
         CRUD::setEntityNameStrings('Onboarding', 'Onboardings');
-
     }
 
     /**
@@ -62,16 +60,15 @@ class OnboardingCrudController extends CustomCrudController
     {
         CRUD::setValidation(OnboardingRequest::class);
 
-//         Field: Name
+        // Field: Name
         $this->addNameField(Attributes::TITLE);
 
-////
         // Field: Description
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
-//
+
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
-//
+
         // Field: Order
         $this->addOrderField();
 
