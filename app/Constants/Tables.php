@@ -9,4 +9,7 @@ class Tables extends CustomEnum
 
     // Photographers table
     const PHOTOGRAPHERS = "photographers";
+
+    // Onboarding
+    const ONBOARDING = "onboarding";
 }

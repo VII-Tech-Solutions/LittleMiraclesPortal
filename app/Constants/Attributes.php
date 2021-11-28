@@ -19,6 +19,18 @@ class Attributes extends CustomEnum
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
     const STATUS = "status";
+    const TITLE = "title";
+    const CONTENT = "content";
     const IMAGE = "image";
+    const ORDER = "order";
+    const ONBOARDING = "onboarding";
+    const RTL = "rtl";
+    const TYPE = "type";
+    const MAXLENGTH = "maxlength";
+    const LABEL = "label";
+    const ATTRIBUTES = "attributes";
+    const DIR = "dir";
+    const TAB = "tab";
+
 
 }

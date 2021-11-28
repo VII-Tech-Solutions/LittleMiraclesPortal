@@ -5,6 +5,7 @@ namespace App\Models;
 use App\API\Transformers\IDTransformer;
 use App\Constants\Attributes;
 use App\Helpers;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,7 +24,7 @@ use Illuminate\Support\Str;
  */
 class CustomModel extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CrudTrait;
 
     const TRANSFORMER_NAME = IDTransformer::class;
 
