@@ -1,6 +1,6 @@
 <?php
 use App\Constants\Attributes;
-use App\Constants\PhotographersStatus;
+use App\Constants\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +18,7 @@ class CreatePhotographersTable extends Migration
             $table->bigIncrements('id');
             $table->string(Attributes::NAME)->nullable();
             $table->string(Attributes::IMAGE)->nullable();
-            $table->integer(Attributes::STATUS)->default(PhotographersStatus::ACTIVE);;
+            $table->integer(Attributes::STATUS)->default(Status::ACTIVE);;
             $table->timestamps();
             $table->softDeletes();
 

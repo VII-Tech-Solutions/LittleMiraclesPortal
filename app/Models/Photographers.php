@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Constants\Attributes;
 use App\Constants\Tables;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use VIITech\Helpers\Constants\CastingTypes;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Photographers extends Model
 {
     //
-    use SoftDeletes;
+    use SoftDeletes, CrudTrait;
     protected $table = Tables::PHOTOGRAPHERS;
 
     protected $guarded = [

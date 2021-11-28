@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\Status;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -12,6 +13,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
+
 
 class CustomCrudController extends CrudController
 {
@@ -133,5 +136,48 @@ class CustomCrudController extends CrudController
             Attributes::ATTRIBUTES => $this->disabled($is_disabled),
         ]);
     }
+    function addStatusFilter($statuses = null, $column_name = Attributes::STATUS, $label = "Status")
+    {
+        if (is_null($statuses)) {
+            $statuses = Status::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $statuses, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+    function addNameColumn($label = null, $priority = 1, $column_name = Attributes::NAME)
+    {
+        if (is_null($label)) {
+            $label = "Title";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    function addStatusColumn($priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => Attributes::STATUS,
+            Attributes::LABEL => "Status",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    function addImageColumn($priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => Attributes::IMAGE,
+            Attributes::LABEL => "image",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
 
 }
