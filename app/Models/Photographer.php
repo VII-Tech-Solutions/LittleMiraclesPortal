@@ -12,10 +12,9 @@ use VIITech\Helpers\Constants\CastingTypes;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Photographers extends Model
+class Photographer extends CustomModel
 {
-    //
-    use SoftDeletes, CrudTrait;
+
     protected $table = Tables::PHOTOGRAPHERS;
 
     protected $guarded = [
@@ -40,4 +39,19 @@ class Photographers extends Model
         $text = Status::getKey( $this->status);
         return Helpers::readableText($text);
     }
+
+    /**
+     * Set Attribute: Image
+     * @param $value
+     */
+    public function setImageAttribute($value)
+    {
+        if(!is_null($value)){
+            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, "uploads/photographers", true, false, true);
+            $this->attributes[Attributes::IMAGE] = $path;
+        }else{
+            $this->attributes[Attributes::IMAGE] = null;
+        }
+    }
+
 }

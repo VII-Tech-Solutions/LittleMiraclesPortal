@@ -10,7 +10,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Photographers;
+use App\Models\Photographer;
 use Exception;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 //use Illuminate\Http\RedirectResponse;
@@ -24,7 +24,7 @@ class PhotographersCrudController extends CustomCrudController
 
     public function setup()
     {
-        CRUD::setModel(Photographers::class);
+        CRUD::setModel(Photographer::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/photographers');
         CRUD::setEntityNameStrings('Photographers', 'Photographers');
     }
@@ -49,11 +49,12 @@ class PhotographersCrudController extends CustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(PhotographersRequest::class);
+
          //Field: Name
         $this->addNameField(Attributes::NAME, "Name");
 
-//        // Field: image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image");
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
 //        // Field: status
         $this->addStatusField(Status::all());

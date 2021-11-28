@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 use App\Constants\Attributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PhotographersRequest
+class PhotographersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
