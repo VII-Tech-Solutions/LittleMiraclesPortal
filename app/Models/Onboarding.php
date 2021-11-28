@@ -44,28 +44,18 @@ class Onboarding extends CustomModel
         return Helpers::readableText($text);
     }
 
-//    /**
-//     * Set Attribute: Image
-//     * @param $value
-//     */
-//    public function setImageAttribute($value)
-//    {
-//        if(!is_null($value)){
-//            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, "uploads/onboarding", true, false);
-//            $this->attributes[Attributes::IMAGE] = $path;
-//        }else{
-//            $this->attributes[Attributes::IMAGE] = null;
-//        }
-//    }
-//
-//    /**
-//     * Get Attribute: image
-//     * @param $value
-//     * @return string|null
-//     */
-//    public function getImageAttribute($value)
-//    {
-//        return Helpers::getCDNLink($value);
-//    }
+    /**
+     * Set Attribute: Image
+     * @param $value
+     */
+    public function setImageAttribute($value)
+    {
+        if(!is_null($value)){
+            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, "uploads/onboarding", true, false, true);
+            $this->attributes[Attributes::IMAGE] = $path;
+        }else{
+            $this->attributes[Attributes::IMAGE] = null;
+        }
+    }
 }
 
