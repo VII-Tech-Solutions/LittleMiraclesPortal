@@ -27,10 +27,8 @@ class PhotographersRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:255',
-            
-
-            //Attributes::IMAGE => 'required|base64image:1024',
+            Attributes::NAME => 'required|min:1|max:255',
+            //Attributes::IMAGE => 'required',
         ];
     }
 
