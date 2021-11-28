@@ -179,6 +179,27 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    function addImageField($field_name = null, $label = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::NAME;
+        }
+        if (is_null($label)) {
+            $label = "Title";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge($limit) + $this->disabled($disabled),
+
+        ]);
+    }
 
     /**
      * Disabled
@@ -202,26 +223,9 @@ class CustomCrudController extends CrudController
      * @param int $priority
      * @param string $column_name
      */
-    function addNameColumn($label = null, $priority = 1, $column_name = Attributes::NAME)
-    {
-        if (is_null($label)) {
-            $label = "Title";
-        }
-        $this->crud->addColumn([
-            Attributes::NAME => $column_name,
-            Attributes::LABEL => $label,
-            Attributes::PRIORITY => $priority
-        ]);
-    }
 
-    function addStatusColumn($priority = 1)
-    {
-        $this->crud->addColumn([
-            Attributes::NAME => Attributes::STATUS_NAME,
-            Attributes::LABEL => "Status",
-            Attributes::PRIORITY => $priority
-        ]);
-    }
+
+
 
 
 }

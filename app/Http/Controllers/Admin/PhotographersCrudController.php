@@ -38,43 +38,30 @@ class PhotographersCrudController extends CustomCrudController
         $this->addNameColumn("Name");
 
         // column: Image
-        $this->addImageColumn("Name");
+        $this->addImageColumn("1");
 
         // Column: Status
         $this->addStatusColumn();
 
     }
 
-//    protected function setupCreateOperation()
-//    {
-//        CRUD::setValidation(UserRequest::class);
-//
-//        // Field: Name
-//        $this->addNameField(Attributes::NAME, "Name");
-//
-//        // Field: Email
-//        $this->addTextField("Email", Attributes::EMAIL, true);
-//
-//        // Field: Username
-//        $this->addTextField("Username", Attributes::USERNAME, true);
-//
+    protected function setupCreateOperation()
+    {
+
+        // Field: Name
+        $this->addNameField(Attributes::NAME, "Name");
+
+//        // Field: image
+//        $this->addNameField(Attributes::IMAGE, "Image");
+
 //        // Field: Avatar
 //        $this->addFeaturedImageField(Attributes::AVATAR, "Avatar");
-//
-//        // Field: Email Verified At
-//        $this->addTextField("Email Verified At", Attributes::EMAIL_VERIFIED_AT, true);
-//
-//        // Field: Email Verified At
-//        $this->addTextField("Email Resent At", Attributes::EMAIL_RESENT_AT, true);
-//
-//        // Field: Login Method
-//        $this->addTextField("Login Method", Attributes::PROVIDER_NAME, true);
-//
-//        // Field: Status
+
+        // Field: Status
 //        $this->addStatusField(UserStatus::all());
-//
-//
-//    }
+
+
+    }
 
 
 }
