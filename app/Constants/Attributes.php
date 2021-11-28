@@ -18,4 +18,7 @@ class Attributes extends CustomEnum
     const NAME = "NAME";
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
+    const STATUS = "status";
+    const IMAGE = "image";
+
 }
