@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         // set default schema string length
-        Schema::defaultStringLength(200);
+        Schema::defaultStringLength(191);
 
         // Customize Dingo API Serializer
         $this->app[Factory::class]->setAdapter(function ($app) {

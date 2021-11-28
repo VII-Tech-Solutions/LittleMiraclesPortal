@@ -6,4 +6,7 @@ class Tables extends CustomEnum
 {
     const USERS = "users";
     const ADMIN_USERS = "admin_users";
+
+    // Onboarding
+    const ONBOARDING = "onboarding";
 }
