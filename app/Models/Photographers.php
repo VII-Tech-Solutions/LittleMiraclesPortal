@@ -26,7 +26,6 @@ class Photographers extends Model
 
     protected $casts = [
         Attributes::NAME => CastingTypes::STRING,
-        Attributes::IMAGE=> CastingTypes::STRING,
         Attributes::STATUS => CastingTypes::INTEGER,
     ];
 

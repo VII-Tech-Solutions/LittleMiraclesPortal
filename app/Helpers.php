@@ -5,6 +5,7 @@ namespace App;
 use App\Constants\Attributes;
 use App\Constants\EnvVariables;
 use App\Models\User;
+use App\Models\Photographers;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Sentry\State\Scope;
@@ -77,6 +78,10 @@ class Helpers
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    static function readableText($text){
+        return ucwords(strtolower(str_replace("_", " ", $text)));
     }
 
 }

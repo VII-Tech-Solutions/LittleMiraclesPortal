@@ -35,7 +35,7 @@ class PhotographersCrudController extends CustomCrudController
 //        $this->addStatusFilter(Status::all());
 
         // Column: Name
-        $this->addNameColumn("Name");
+        $this->addNameColumn("Name",1 , 'NAME');
 
         // column: Image
         $this->addImageColumn("1");
@@ -48,13 +48,14 @@ class PhotographersCrudController extends CustomCrudController
     protected function setupCreateOperation()
     {
 
-        // Field: Name
+         //Field: Name
         $this->addNameField(Attributes::NAME, "Name");
 
 //        // Field: image
-//        $this->addNameField(Attributes::IMAGE, "Image");
+        $this->addFeaturedImageField(Attributes::IMAGE, "Image");
 
-//        // Field: Avatar
+//        // Field: status
+        $this->addStatusField(Status::all());
 //        $this->addFeaturedImageField(Attributes::AVATAR, "Avatar");
 
         // Field: Status

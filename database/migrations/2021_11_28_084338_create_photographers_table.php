@@ -17,7 +17,7 @@ class CreatePhotographersTable extends Migration
         Schema::create('photographers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string(Attributes::NAME)->nullable();
-            $table->string(Attributes::IMAGE)->nullable();
+            $table->TEXT(Attributes::IMAGE)->nullable();
             $table->integer(Attributes::STATUS)->default(Status::ACTIVE);;
             $table->timestamps();
             $table->softDeletes();

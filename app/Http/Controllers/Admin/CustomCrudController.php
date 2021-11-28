@@ -13,6 +13,14 @@ use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
+use Prologue\Alerts\Facades\Alert;
+use VIITech\Helpers\GlobalHelpers;
 
 
 
@@ -29,29 +37,28 @@ class CustomCrudController extends CrudController
      * @param string $dir
      * @param array $limit
      */
-    function addNameField($field_name = null, $label = null, $tab_name = null, $dir = Attributes::RTL, $limit = [], $disabled = false)
-    {
-        if (is_null($field_name)) {
-            $field_name = Attributes::NAME;
-        }
-        if (is_null($label)) {
-            $label = "Title";
-        }
-        if(!is_array($limit)){
-            $limit = [
-                Attributes::MAXLENGTH => $limit
-            ];
-        }
-        CRUD::addField([
-            Attributes::NAME => $field_name,
-            Attributes::TYPE => FieldTypes::TEXT,
-            Attributes::LABEL => ucwords($label),
-            Attributes::ATTRIBUTES => array_merge([
-                    Attributes::DIR => $dir,
-                ], $limit) + $this->disabled($disabled),
-            Attributes::TAB => $tab_name
-        ]);
+
+    function addNameField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+{
+    if (is_null($field_name)) {
+        $field_name = Attributes::NAME;
     }
+    if (is_null($label)) {
+        $label = "Title";
+    }
+    if(!is_array($limit)){
+        $limit = [
+            Attributes::MAXLENGTH => $limit
+        ];
+    }
+    CRUD::addField([
+        Attributes::NAME => $field_name,
+        Attributes::TYPE => FieldTypes::TEXT,
+        Attributes::LABEL => ucwords($label),
+        Attributes::ATTRIBUTES => array_merge( $limit) + $this->disabled($disabled),
+        Attributes::TAB => $tab_name
+    ]);
+}
 
     /**
      * Add Description Field
@@ -149,6 +156,27 @@ class CustomCrudController extends CrudController
             $this->crud->addClause('where', $column_name, $value);
         });
     }
+    function addStatusField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($statuses)) {
+            $statuses = Status::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::STATUS;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::STATUS);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $statuses,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
     function addNameColumn($label = null, $priority = 1, $column_name = Attributes::NAME)
     {
         if (is_null($label)) {
@@ -170,14 +198,7 @@ class CustomCrudController extends CrudController
         ]);
     }
 
-    function addImageColumn($priority = 1)
-    {
-        $this->crud->addColumn([
-            Attributes::NAME => Attributes::IMAGE,
-            Attributes::LABEL => "image",
-            Attributes::PRIORITY => $priority
-        ]);
-    }
+    
 
     function addImageField($field_name = null, $label = null, $limit = [], $disabled = false)
     {
