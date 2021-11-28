@@ -49,7 +49,7 @@ class PhotographersCrudController extends CustomCrudController
     {
 
         // Field: Name
-        $this->addNameField(Attributes::NAME, "Name");
+//        $this->addNameField(Attributes::NAME, "Name");
 
 //        // Field: image
 //        $this->addNameField(Attributes::IMAGE, "Image");
