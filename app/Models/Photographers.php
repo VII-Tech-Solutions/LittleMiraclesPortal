@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\Status;
 use App\Constants\Tables;
+use App\Helpers;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use VIITech\Helpers\Constants\CastingTypes;
@@ -29,4 +31,13 @@ class Photographers extends Model
         Attributes::STATUS => CastingTypes::INTEGER,
     ];
 
+    protected $appends = [
+        Attributes::STATUS_NAME
+    ];
+
+    public function getStatusNameAttribute($value)
+    {
+        $text = Status::getKey( $this->status);
+        return Helpers::readableText($text);
+    }
 }
