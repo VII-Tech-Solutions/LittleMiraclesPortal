@@ -37,28 +37,28 @@ class CustomCrudController extends CrudController
      * @param string $dir
      * @param array $limit
      */
-
     function addNameField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
-{
-    if (is_null($field_name)) {
-        $field_name = Attributes::NAME;
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::NAME;
+        }
+        if (is_null($label)) {
+            $label = "Title";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+        ]);
     }
-    if (is_null($label)) {
-        $label = "Title";
-    }
-    if(!is_array($limit)){
-        $limit = [
-            Attributes::MAXLENGTH => $limit
-        ];
-    }
-    CRUD::addField([
-        Attributes::NAME => $field_name,
-        Attributes::TYPE => FieldTypes::TEXT,
-        Attributes::LABEL => ucwords($label),
-        Attributes::ATTRIBUTES => array_merge( $limit) + $this->disabled($disabled),
-        Attributes::TAB => $tab_name
-    ]);
-}
 
     /**
      * Add Description Field
@@ -87,7 +87,48 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => $field_type,
             Attributes::LABEL => ucwords($label),
             Attributes::ATTRIBUTES => array_merge([
+                Attributes::ROWS => $rows,
+            ], $limit),
+            Attributes::TAB => $tab_name,
+            Attributes::HINT => $hint,
+            'options'       => [
                 Attributes::DIR => Attributes::RTL,
+                "language" => 'ar',
+//                'removePlugins' => 'embed,Embed',
+//                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
+            ]
+
+        ]);
+    }
+
+
+    /**
+    * Add Description Field
+     * @param string|null $name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param string $field_type
+     * @param int $rows
+     * @param integer|array $limit
+     */
+    function addContentField($name = null, $label = null, $tab_name = null, $field_type = FieldTypes::TEXTAREA, $rows = 5, $limit = [], $hint = null)
+    {
+        if (is_null($name)) {
+            $name = Attributes::CONTENT;
+        }
+        if (is_null($label)) {
+            $label = ucwords(Attributes::CONTENT);
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $name,
+            Attributes::TYPE => $field_type,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
                 Attributes::ROWS => $rows,
             ], $limit),
             Attributes::TAB => $tab_name,
@@ -189,6 +230,63 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+
+    /**
+     * Add Image Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addImageColumn($label = null, $priority = 1, $column_name = Attributes::IMAGE)
+    {
+        if (is_null($label)) {
+            $label = "Image";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+
+    /**
+     * Add Order Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addOrder($label = null, $priority = 1, $column_name = Attributes::ORDER)
+    {
+        if (is_null($label)) {
+            $label = "Order";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+
+   /**
+     * Add Name Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addContentColumn($label = null, $priority = 1, $column_name = Attributes::CONTENT)
+    {
+        if (is_null($label)) {
+            $label = "Content";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
     function addStatusColumn($priority = 1)
     {
         $this->crud->addColumn([
@@ -197,8 +295,6 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
-
-    
 
     function addImageField($field_name = null, $label = null, $limit = [], $disabled = false)
     {
@@ -236,17 +332,4 @@ class CustomCrudController extends CrudController
         }
         return [];
     }
-
-
-    /**
-     * Add Name Column
-     * @param string|null $label
-     * @param int $priority
-     * @param string $column_name
-     */
-
-
-
-
-
 }

@@ -12,6 +12,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class OnboardingCrudController extends CustomCrudController
 {
 
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -23,7 +24,6 @@ class OnboardingCrudController extends CustomCrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/onboarding');
         CRUD::setEntityNameStrings('Onboarding', 'Onboardings');
 
-        $this->crud->denyAccess(['create', 'delete']);
     }
 
     /**
@@ -34,9 +34,18 @@ class OnboardingCrudController extends CustomCrudController
      */
     protected function setupListOperation()
     {
-        $this->addNameColumn();
-        // Column: Status
-        $this->addStatusColumn();
+        // Column: Name
+        $this->addNameColumn("title", 1, "title");
+
+        // Column: Content
+        $this->addContentColumn();
+
+        // Column: image
+        $this->addImageColumn();
+
+        // Column: order
+        $this->addOrder();
+
     }
 
     /**
@@ -47,19 +56,20 @@ class OnboardingCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(OnboardingRequest::class);
+//        CRUD::setValidation(OnboardingRequest::class);
 
-//        // Field: Name
-//        $this->addNameField(Attributes::TITLE);
+//         Field: Name
+        $this->addNameField(Attributes::TITLE);
+
+////
+        // Field: Description
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200, "Hint: Content of the last item will not be shown in the app");
 //
-//        // Field: Description
-//        $this->addDescriptionField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200, "Hint: Content of the last item will not be shown in the app");
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 //
-//        // Field: Featured Image
-//        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
-//
-//        // Field: Order
-//        $this->addOrderField();
+        // Field: Order
+        $this->addOrderField();
     }
 
     /**
