@@ -21,7 +21,7 @@ class CreateBackdropTable extends Migration
             $table->string(Attributes::TITLE)->nullable();
             $table->string(Attributes::CATEGORY)->nullable();
             $table->string(Attributes::IMAGE)->nullable();
-            $table->integer(Attributes::STATUS)->default(Status::ACTIVE);;
+            $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -11,4 +11,5 @@ class Tables extends CustomEnum
     const MEDIA = "media";
     const CAKES = "cakes";
     const BACKDROP = "backdrop";
+    const DAILY_TIP = "daily_tips";
 }

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\PhotographersRequest;
+use App\Http\Requests\PhotographerRequest;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -17,7 +17,7 @@ use App\Constants\FieldTypes;
 
 
 
-class PhotographersCrudController extends CustomCrudController
+class PhotographerCrudController extends CustomCrudController
 {
     use CreateOperation { store as traitStore; }
     use UpdateOperation { update as traitUpdate; }
@@ -36,7 +36,7 @@ class PhotographersCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Column: Name
-        $this->addNameColumn("Name",1 , 'NAME');
+        $this->addNameColumn("Name",1 , 'name');
 
         // column: Image
         $this->addImageColumn("Image");
@@ -48,7 +48,7 @@ class PhotographersCrudController extends CustomCrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PhotographersRequest::class);
+        CRUD::setValidation(PhotographerRequest::class);
 
          //Field: Name
         $this->addNameField(Attributes::NAME, "Name");

@@ -3,11 +3,10 @@
 
 namespace App\Http\Requests;
 
-
 use App\Constants\Attributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CakesRequest extends FormRequest
+class DailyTipRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +27,11 @@ class CakesRequest extends FormRequest
     public function rules()
     {
         return [
-            Attributes::TITLE => 'required|min:2|max:255',
-            Attributes::CATEGORY=>'required |min:1|max:255',
             Attributes::IMAGE => 'required',
-            //Attributes::IMAGE => 'required',
+            Attributes::TITLE => 'required|min:2|max:255',
+            Attributes::POSTED_AT=>'required',
+            Attributes::CONTENT=>'required',
+
         ];
     }
 
