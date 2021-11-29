@@ -31,6 +31,8 @@ class Attributes extends CustomEnum
     const IMAGE = "image";
     const ORDER = "order";
     const PHOTOGRAPHERS = "photographers";
+    const HOME = "home";
+    const PROMOTIONS = "promotions";
     const ONBOARDING = "onboarding";
     const RTL = "rtl";
     const TYPE = "type";
