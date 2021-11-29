@@ -37,6 +37,11 @@ $api->version('v1', function ($api) {
          *******************************/
 //        $api->post('/login', 'AuthController@login'); // Login
 
+        /*******************************
+         * Users
+         *******************************/
+        $api->post('/users/register', 'UserController@register'); // User Registration
+
     });
 
 });

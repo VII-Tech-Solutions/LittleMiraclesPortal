@@ -10,7 +10,7 @@ use App\API\Transformers\ListPhotographerTransformer;
 use App\API\Transformers\ListPromotionTransformer;
 use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
-use App\Constants\Status;
+use App\Constants\Headers;
 use App\Helpers;
 use App\Models\Backdrop;
 use App\Models\Cake;
@@ -18,14 +18,33 @@ use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
 use App\Models\Promotion;
+use App\Models\UserDevice;
 use App\Models\Workshop;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 /**
  * Home Controller
  */
 class HomeController extends CustomController
 {
+
+    /**
+     * Welcome
+     * @return View
+     */
+    function welcome(){
+        return view('welcome');
+    }
+
+    /**
+     * Home
+     * @return RedirectResponse
+     */
+    function home(){
+        return redirect(backpack_url());
+    }
 
     /**
      * App Data
@@ -48,6 +67,18 @@ class HomeController extends CustomController
         $user = Helpers::resolveUser();
 
         // TODO fetch family if not null
+
+        // update user device
+        if(!is_null($user)){
+            UserDevice::createOrUpdate([
+                Attributes::USER_ID => $user->id,
+                Attributes::PLATFORM =>  $this->request->hasHeader(Headers::PLATFORM) ? $this->request->header(Headers::PLATFORM) : $this->request->get(Headers::PLATFORM),
+                Attributes::APP_VERSION =>  $this->request->hasHeader(Headers::APP_VERSION) ? $this->request->header(Headers::APP_VERSION) : $this->request->get(Headers::APP_VERSION),
+                Attributes::TOKEN =>  $this->request->get(Attributes::TOKEN),
+            ],[
+                Attributes::USER_ID, Attributes::PLATFORM
+            ]);
+        }
 
         // get on boardings
         $onboardings = Onboarding::active()->get()->sortBy(Attributes::ORDER);

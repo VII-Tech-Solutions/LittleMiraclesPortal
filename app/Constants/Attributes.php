@@ -13,7 +13,10 @@ class Attributes extends CustomEnum
     const TYPE_NAME = "type_name";
     const EMAIL = "email";
     const VERIFIED_AT = "verified_at";
+    const APP_VERSION = "app_version";
+    const PLATFORM = "platform";
     const LAST_NAME = "last_name";
+    const TOKEN = "token";
     const LTR = "ltr";
     const FIRST_NAME = "first_name";
     const MESSAGE = "message";

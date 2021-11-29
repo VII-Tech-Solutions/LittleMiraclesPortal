@@ -15,4 +15,5 @@ class Tables extends CustomEnum
     const PROMOTIONS = "promotions";
     const NOTIFICATIONS = "notifications";
     const WORKSHOPS = "workshops";
+    const USER_DEVICES = "user_devices";
 }
