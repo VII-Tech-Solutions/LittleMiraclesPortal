@@ -241,6 +241,21 @@ class CustomCrudController extends CrudController
         ]);
     }
     /**
+     * Add Rating Field for Review table
+     */
+    function addRatingField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::RATING;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Rating" : ucwords($label),
+            Attributes::NAME => Attributes::RATING,
+            Attributes::TYPE => FieldTypes::NUMBER,
+            Attributes::ATTRIBUTES => ["step" => "any"], // allow decimals
+        ]);
+    }
+    /**
      * Add Promotion Date Field
      */
     function addDateField($field_name= NULL, $label = null )
@@ -462,7 +477,7 @@ class CustomCrudController extends CrudController
         ]);
     }
     /**
-     * Add Price for Workshop Column
+     * Add Price  Column for Workshop
      * @param string|null $label
      * @param int $priority
      * @param string $column_name
@@ -471,6 +486,40 @@ class CustomCrudController extends CrudController
     {
         if (is_null($label)) {
             $label ="Price";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
+        ]);
+    }
+    /**
+     * Add ID  Column for Review table
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addIDColumn($label = null, $priority = 1, $column_name = Attributes::USER_ID)
+    {
+        if (is_null($label)) {
+            $label ="User ID";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
+        ]);
+    }
+    /**
+     * Add rating  Column for Review
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addRatingColumn($label = null, $priority = 1, $column_name = Attributes::RATING)
+    {
+        if (is_null($label)) {
+            $label ="Rating";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -516,7 +565,7 @@ class CustomCrudController extends CrudController
 
 
    /**
-     * Add Name Column
+     * Add Content Column
      * @param string|null $label
      * @param int $priority
      * @param string $column_name

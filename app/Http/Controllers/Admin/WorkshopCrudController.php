@@ -7,7 +7,6 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Http\Requests\WorkshopRequest;
-use App\Models\Promotion;
 use App\Models\Workshop;
 use Exception;
 

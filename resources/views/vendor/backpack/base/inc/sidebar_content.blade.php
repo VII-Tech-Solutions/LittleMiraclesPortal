@@ -8,3 +8,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('daily-tips') }}'><i class='nav-icon la la-hands-helping'></i>Daily Tip</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promotions') }}'><i class='nav-icon la la-hands-helping'></i>Promotions</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('workshops') }}'><i class='nav-icon la la-hands-helping'></i>Workshops</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('reviews') }}'><i class='nav-icon la la-hands-helping'></i>Reviews</a></li>
