@@ -15,6 +15,7 @@ use App\Models\Cake;
 use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class HomeController extends CustomController
      */
     public function data(Request $request)
     {
+
         // get on boardings
         $onboardings = Onboarding::where(Attributes::STATUS, Status::ACTIVE)->get()->sortBy(Attributes::ORDER);
 
@@ -55,13 +57,21 @@ class HomeController extends CustomController
         // get daily tips
         $daily_tips = DailyTip::where(Attributes::STATUS, Status::ACTIVE)->get();
 
+        // TODO Home Header
+        // TODO Booking Section
+        // TODO Promotions List
+        // TODO Workshops List
+        // TODO Packages List
+        // TODO Studio Section
+        // TODO User Info
+
         // return response
         return Helpers::returnResponse([
             Attributes::ONBOARDING => Onboarding::returnTransformedItems($onboardings, ListOnboardingTransformer::class),
             Attributes::PHOTOGRAPHERS => Photographer::returnTransformedItems($photographers, ListPhotographerTransformer::class),
             Attributes::CAKES => Cake::returnTransformedItems($cakes, ListCakeTransformer::class),
             Attributes::BACKDROPS => Backdrop::returnTransformedItems($backdrops, ListBackdropTransformer::class),
-            Attributes::DAILY_TIPS => DailyTip::returnTransformedItems($daily_tips, ListDailyTipTransformer::class)
+            Attributes::DAILY_TIPS => DailyTip::returnTransformedItems($daily_tips, ListDailyTipTransformer::class),
         ]);
     }
 

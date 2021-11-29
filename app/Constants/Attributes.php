@@ -10,14 +10,18 @@ class Attributes extends CustomEnum
     const USER = "user";
     const USER_ID = "user_id";
     const PHONE_NUMBER = "phone_number";
+    const TYPE_NAME = "type_name";
     const EMAIL = "email";
     const VERIFIED_AT = "verified_at";
     const LAST_NAME = "last_name";
     const LTR = "ltr";
     const FIRST_NAME = "first_name";
+    const MESSAGE = "message";
     const PASSWORD = "password";
+    const ITEM_TYPE = "item_type";
     const DEFAULT = "default";
     const UPDATED_AT = "updated_at";
+    const ITEM_ID = "item_id";
     const DAILY_TIPS = "daily_tips";
     const CAKES = "cakes";
     const NAME = "name";
@@ -31,6 +35,8 @@ class Attributes extends CustomEnum
     const IMAGE = "image";
     const ORDER = "order";
     const PHOTOGRAPHERS = "photographers";
+    const HOME = "home";
+    const PROMOTIONS = "promotions";
     const ONBOARDING = "onboarding";
     const RTL = "rtl";
     const TYPE = "type";
