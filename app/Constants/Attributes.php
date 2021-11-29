@@ -18,7 +18,9 @@ class Attributes extends CustomEnum
     const FIRST_NAME = "first_name";
     const MESSAGE = "message";
     const PASSWORD = "password";
+    const CREATED_AT = "created_at";
     const ITEM_TYPE = "item_type";
+    const DELETED_AT = "deleted_at";
     const DEFAULT = "default";
     const UPDATED_AT = "updated_at";
     const ITEM_ID = "item_id";

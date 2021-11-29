@@ -7,6 +7,7 @@ use App\API\Transformers\IDTransformer;
 use App\Constants\Attributes;
 use App\Helpers;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,14 @@ class CustomModel extends Model
     const TRANSFORMER_NAME = IDTransformer::class;
 
     protected $primaryKey = Attributes::ID;
+
+    protected $dateFormat = "c";
+    protected $dates = [
+        Attributes::CREATED_AT,
+        Attributes::UPDATED_AT,
+        Attributes::DELETED_AT,
+        Attributes::POSTED_AT
+    ];
 
     /**
      * Create or Update

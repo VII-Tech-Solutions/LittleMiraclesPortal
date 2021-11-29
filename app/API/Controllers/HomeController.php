@@ -7,6 +7,7 @@ use App\API\Transformers\ListCakeTransformer;
 use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListOnboardingTransformer;
 use App\API\Transformers\ListPhotographerTransformer;
+use App\API\Transformers\ListPromotionTransformer;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Helpers;
@@ -15,6 +16,7 @@ use App\Models\Cake;
 use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
+use App\Models\Promotion;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -42,6 +44,11 @@ class HomeController extends CustomController
     public function data(Request $request)
     {
 
+        // get current user info
+        $user = Helpers::resolveUser();
+
+        // TODO fetch family if not null
+
         // get on boardings
         $onboardings = Onboarding::where(Attributes::STATUS, Status::ACTIVE)->get()->sortBy(Attributes::ORDER);
 
@@ -57,9 +64,11 @@ class HomeController extends CustomController
         // get daily tips
         $daily_tips = DailyTip::where(Attributes::STATUS, Status::ACTIVE)->get();
 
+        // get promotions
+        $promotions = Promotion::where(Attributes::STATUS, Status::ACTIVE)->get();
+
         // TODO Home Header
         // TODO Booking Section
-        // TODO Promotions List
         // TODO Workshops List
         // TODO Packages List
         // TODO Studio Section
@@ -72,6 +81,7 @@ class HomeController extends CustomController
             Attributes::CAKES => Cake::returnTransformedItems($cakes, ListCakeTransformer::class),
             Attributes::BACKDROPS => Backdrop::returnTransformedItems($backdrops, ListBackdropTransformer::class),
             Attributes::DAILY_TIPS => DailyTip::returnTransformedItems($daily_tips, ListDailyTipTransformer::class),
+            Attributes::PROMOTIONS => Promotion::returnTransformedItems($promotions, ListPromotionTransformer::class),
         ]);
     }
 

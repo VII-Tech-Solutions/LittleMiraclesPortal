@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use App\Constants\Attributes;
@@ -15,7 +14,7 @@ use VIITech\Helpers\Constants\CastingTypes;
 class Promotion extends CustomModel
 {
     protected $table = Tables::PROMOTIONS;
-    public const DIRECTORY = "uploads/photographers";
+    public const DIRECTORY = "uploads/promotions";
 
     protected $guarded = [
         Attributes::ID
