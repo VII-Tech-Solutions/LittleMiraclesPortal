@@ -23,6 +23,7 @@ class Attributes extends CustomEnum
     const DELETED_AT = "deleted_at";
     const DEFAULT = "default";
     const UPDATED_AT = "updated_at";
+    const GO_TO = "go_to";
     const ITEM_ID = "item_id";
     const DAILY_TIPS = "daily_tips";
     const CAKES = "cakes";

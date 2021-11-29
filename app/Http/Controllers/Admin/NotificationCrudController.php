@@ -35,7 +35,7 @@ class NotificationCrudController extends CustomCrudController
     public function setup()
     {
         $this->crud->setModel(Notification::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/notification');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/notifications');
         $this->crud->setEntityNameStrings('Notification', 'Notifications');
     }
 
@@ -80,7 +80,7 @@ class NotificationCrudController extends CustomCrudController
         $this->crud->setValidation(NotificationRequest::class);
 
         // Field: Name
-        $this->addNameField(Attributes::TITLE, "Title", null, Attributes::RTL, 200);
+        $this->addNameField(Attributes::TITLE, "Title", null, 200);
 
         // Field: Message
         $this->addDescriptionField(Attributes::MESSAGE, "Message", null, FieldTypes::TEXTAREA, 5, 1024);

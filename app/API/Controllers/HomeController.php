@@ -17,7 +17,6 @@ use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
 use App\Models\Promotion;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
