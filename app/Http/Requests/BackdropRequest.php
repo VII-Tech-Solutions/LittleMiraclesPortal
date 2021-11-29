@@ -2,11 +2,11 @@
 
 
 namespace App\Http\Requests;
-
 use App\Constants\Attributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PhotographersRequest extends FormRequest
+
+class BackdropRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,10 @@ class PhotographersRequest extends FormRequest
     public function rules()
     {
         return [
-            Attributes::NAME => 'required|min:1|max:255',
+            Attributes::TITLE => 'required|min:2|max:255',
+            Attributes::CATEGORY=>'required |min:1|max:255',
             Attributes::IMAGE => 'required',
+            //Attributes::IMAGE => 'required',
         ];
     }
 

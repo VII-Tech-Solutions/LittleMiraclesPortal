@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\PhotographersRequest;
-use App\Helpers;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Photographer;
-use Exception;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-//use Illuminate\Http\RedirectResponse;
-//use Illuminate\Http\Request;
+use App\Constants\FieldTypes;
+
+
+
+
+
 
 
 class PhotographersCrudController extends CustomCrudController
@@ -26,17 +26,17 @@ class PhotographersCrudController extends CustomCrudController
     {
         CRUD::setModel(Photographer::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/photographers');
-        CRUD::setEntityNameStrings('Photographers', 'Photographers');
+        CRUD::setEntityNameStrings('Photographer', 'Photographers');
     }
 
     protected function setupListOperation()
     {
 
         // Filter: Status
-//        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::all());
 
         // Column: Name
-        $this->addNameColumn(Attributes::NAME,1 , 'NAME');
+        $this->addNameColumn("Name",1 , 'NAME');
 
         // column: Image
         $this->addImageColumn("Image");
@@ -56,7 +56,7 @@ class PhotographersCrudController extends CustomCrudController
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
-//        // Field: status
+        // Field: status
         $this->addStatusField(Status::all());
 
 

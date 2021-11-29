@@ -9,4 +9,6 @@ class Tables extends CustomEnum
     const PHOTOGRAPHERS = "photographers";
     const ONBOARDING = "onboarding";
     const MEDIA = "media";
+    const CAKES = "cakes";
+    const BACKDROP = "backdrop";
 }

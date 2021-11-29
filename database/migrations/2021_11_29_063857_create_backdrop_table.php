@@ -1,11 +1,12 @@
 <?php
-use App\Constants\Attributes;
-use App\Constants\Status;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\Attributes;
+use App\Constants\Status;
 
-class CreatePhotographersTable extends Migration
+class CreateBackdropTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +15,15 @@ class CreatePhotographersTable extends Migration
      */
     public function up()
     {
-        Schema::create('photographers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string(Attributes::NAME)->nullable();
+        Schema::create(\App\Constants\Tables::BACKDROP, function (Blueprint $table) {
+            $table->bigIncrements(Attributes::ID);
+
+            $table->string(Attributes::TITLE)->nullable();
+            $table->string(Attributes::CATEGORY)->nullable();
             $table->string(Attributes::IMAGE)->nullable();
             $table->integer(Attributes::STATUS)->default(Status::ACTIVE);;
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
@@ -32,6 +34,6 @@ class CreatePhotographersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photographers');
+        Schema::dropIfExists(\App\Constants\Tables::BACKDROP);
     }
 }
