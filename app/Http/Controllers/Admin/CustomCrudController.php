@@ -172,6 +172,22 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Tag Category Field
+     */
+    function addTagCategoryField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::CATEGORY;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Category" : ucwords($label),
+            Attributes::NAME => Attributes::CATEGORY,
+            Attributes::TYPE => FieldTypes::TEXT,
+
+        ]);
+    }
+
+    /**
      * Add Order Field
      */
     function addOrderField($hint = null, $is_disabled = false)
@@ -249,6 +265,24 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+
+    /**
+     * Add Image Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addCakeCategoryColumn($label = null, $priority = 1, $column_name = Attributes::IMAGE)
+    {
+        if (is_null($label)) {
+            $label ="Category";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
     /**
      * Add Order Column

@@ -4,8 +4,9 @@
 namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\PhotographersRequest;
+use App\Http\Requests\CakesRequest;
 use App\Helpers;
+use App\Models\Cake;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
@@ -14,18 +15,19 @@ use App\Models\Photographer;
 use Exception;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
-
-
-class PhotographersCrudController extends CustomCrudController
+class CakesCrudController extends CustomCrudController
 {
-    use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
 
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     *
+     * @return void
+     */
     public function setup()
     {
-        CRUD::setModel(Photographer::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/photographers');
-        CRUD::setEntityNameStrings('Photographer', 'Photographers');
+        CRUD::setModel(Cake::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/cakes');
+        CRUD::setEntityNameStrings('Cake', 'Cakes');
     }
 
     protected function setupListOperation()
@@ -35,7 +37,10 @@ class PhotographersCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Column: Name
-        $this->addNameColumn("Name",1 , 'NAME');
+        $this->addNameColumn("Title", 1, Attributes::TITLE);
+
+        // Column: Category
+        $this->addCakeCategoryColumn("Category", 1, Attributes::CATEGORY);
 
         // column: Image
         $this->addImageColumn("Image");
@@ -47,19 +52,19 @@ class PhotographersCrudController extends CustomCrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PhotographersRequest::class);
+        CRUD::setValidation(CakesRequest::class);
 
-         //Field: Name
-        $this->addNameField(Attributes::NAME, "Name");
+        //Field: Name
+        $this->addNameField(Attributes::TITLE, "Title");
 
+        //Field: category
+        $this->addTagCategoryField(Attributes::CATEGORY, "Category");
         // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: status
         $this->addStatusField(Status::all());
 
 
     }
-
-
 }

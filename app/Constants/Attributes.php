@@ -44,6 +44,7 @@ class Attributes extends CustomEnum
     const URL = "url";
     const THUMBNAIL = "thumbnail";
     const IS_COMPRESSED = "is_compressed";
+    const CATEGORY = "category";
 
 
 }
