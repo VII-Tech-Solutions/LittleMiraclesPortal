@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\EnvVariables;
 use App\Models\Media;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
@@ -45,6 +46,22 @@ class Helpers
             $level = DebuggerLevels::ERROR;
         }
         GlobalHelpers::debugger($exception, $level);
+    }
+
+    /**
+     * Get The Latest Only In Collection
+     * @param $collection
+     * @param $last_update
+     * @return mixed
+     */
+    static function getLatestOnlyInCollection($collection, $last_update){
+        return $collection->filter(function($item) use($last_update){
+            if(is_null($last_update)){
+                return is_null($item->deleted_at);
+            }else{
+                return Carbon::parse($item->updated_at)->greaterThanOrEqualTo($last_update);
+            }
+        });
     }
 
     /**
