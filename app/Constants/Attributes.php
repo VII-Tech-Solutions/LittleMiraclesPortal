@@ -29,9 +29,11 @@ class Attributes extends CustomEnum
     const CAKES = "cakes";
     const NAME = "name";
     const BACKDROPS = "backdrops";
+    const LAST_UPDATE = "last_update";
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
     const STATUS = "status";
+    const WORKSHOPS = "workshops";
     const TITLE = "title";
     const CONTENT = "content";
     const DATA = "data";

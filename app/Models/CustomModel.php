@@ -5,9 +5,9 @@ namespace App\Models;
 use App\API\Serializers\CustomArraySerializer;
 use App\API\Transformers\IDTransformer;
 use App\Constants\Attributes;
+use App\Constants\Status;
 use App\Helpers;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +26,7 @@ use Illuminate\Support\Str;
  * @property string deleted_at
  *
  * @method static Builder|self where($attribute = null, $operator = null, $value = null)
+ * @method static Builder|self active()
  */
 class CustomModel extends Model
 {
@@ -93,5 +94,15 @@ class CustomModel extends Model
             $class_name = static::TRANSFORMER_NAME;
         }
         return fractal($items, new $class_name(), new CustomArraySerializer())->toArray();
+    }
+
+
+    /**
+     * Scope: Active
+     * @param $q
+     * @return Builder
+     */
+    function scopeActive($q){
+        return $q->where(Attributes::STATUS, Status::ACTIVE);
     }
 }

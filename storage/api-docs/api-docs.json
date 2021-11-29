@@ -8,6 +8,14 @@
         {
             "url": "http://littlemiracles.test/api",
             "description": "Development API"
+        },
+        {
+            "url": "https://littlemiracles.viitech.net/api",
+            "description": "Staging API"
+        },
+        {
+            "url": "https://api.littlemiraclesbys.com/api",
+            "description": "Production API"
         }
     ],
     "paths": {
@@ -19,6 +27,17 @@
                 "summary": "App Data",
                 "description": "App Data",
                 "operationId": "2f5eb0163e3f87d089135347b76a04ba",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "App Data",

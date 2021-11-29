@@ -17,6 +17,8 @@ use VIITech\Helpers\GlobalHelpers;
  *
  * @OA\Info(title="Little Miracles API", version="1.0")
  * @OA\Server(url="http://littlemiracles.test/api",description="Development API")
+ * @OA\Server(url="https://littlemiracles.viitech.net/api",description="Staging API")
+ * @OA\Server(url="https://api.littlemiraclesbys.com/api",description="Production API")
  */
 class CustomController extends BaseController
 {
@@ -26,6 +28,7 @@ class CustomController extends BaseController
     public $request;
     public $page;
     public $limit;
+    public $last_update;
 
     /**
      * Create a new controller instance.
@@ -36,5 +39,6 @@ class CustomController extends BaseController
         $this->request = $request;
         $this->limit = GlobalHelpers::getValueFromHTTPRequest($request, Attributes::LIMIT, Values::ITEMS_PER_PAGE, CastingTypes::INTEGER);
         $this->page = GlobalHelpers::getValueFromHTTPRequest($request, Attributes::PAGE, Values::DEFAULT_PAGE, CastingTypes::INTEGER);
+        $this->last_update = GlobalHelpers::getValueFromHTTPRequest($request, Attributes::LAST_UPDATE, null, CastingTypes::STRING);
     }
 }
