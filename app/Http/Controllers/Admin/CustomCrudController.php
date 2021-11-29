@@ -225,6 +225,22 @@ class CustomCrudController extends CrudController
         ]);
     }
     /**
+     * Add Price Field for workshop
+     */
+    function addPriceField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::PRICE;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Price" : ucwords($label),
+            Attributes::NAME => Attributes::PRICE,
+            Attributes::TYPE => FieldTypes::NUMBER,
+            Attributes::ATTRIBUTES => ["step" => "any"], // allow decimals
+            Attributes::PREFIX => "BHD",
+        ]);
+    }
+    /**
      * Add Promotion Date Field
      */
     function addDateField($field_name= NULL, $label = null )
@@ -405,12 +421,12 @@ class CustomCrudController extends CrudController
         ]);
     }
     /**
-     * Add Promotion Date Column
+     * Add Promotion AND Workshop Date Column
      * @param string|null $label
      * @param int $priority
      * @param string $column_name
      */
-    function addPromotionDateColumn($label = null, $priority = 1, $column_name = Attributes::DATE)
+    function addDateColumn($label = null, $priority = 1, $column_name = Attributes::DATE)
     {
         if (is_null($label)) {
             $label ="Date";
@@ -421,6 +437,13 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+    /**
+     * Add Promotion Date Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+
     /**
      * Add Promotion Code Column
      * @param string|null $label
@@ -438,7 +461,23 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority,
         ]);
     }
-
+    /**
+     * Add Price for Workshop Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addPriceColumn($label = null, $priority = 1, $column_name = Attributes::PRICE)
+    {
+        if (is_null($label)) {
+            $label ="Price";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
+        ]);
+    }
     /**
      * Add Posted At Column
      * @param string|null $label

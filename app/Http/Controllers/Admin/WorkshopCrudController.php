@@ -6,14 +6,15 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
-use App\Http\Requests\PromotionRequest;
+use App\Http\Requests\WorkshopRequest;
 use App\Models\Promotion;
+use App\Models\Workshop;
 use Exception;
 
 /**
- * Promotions CRUD Controller
+ * Workshop CRUD Controller
  */
-class PromotionCrudController extends CustomCrudController
+class WorkshopCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -23,9 +24,9 @@ class PromotionCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Promotion::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/promotions');
-        $this->crud->setEntityNameStrings('Promotion', 'Promotions');
+        $this->crud->setModel(Workshop::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/workshops');
+        $this->crud->setEntityNameStrings('Workshop', 'Workshops');
     }
 
     /**
@@ -49,17 +50,11 @@ class PromotionCrudController extends CustomCrudController
         // Column: Content
         $this->addContentColumn();
 
-        // Column: Offer
-        $this->addOfferColumn("Offer", 1, Attributes::OFFER);
-
-        // Column: Type
-        $this->addPromotionTypeColumn("Type", 1, Attributes::TYPE);
+        // Column: Price
+        $this->addPriceColumn("Price", 1, Attributes::PRICE);
 
         // Column: Date
         $this->addDateColumn("Date", 1, Attributes::DATE);
-
-        // Column: Code
-        $this->addPromotionCodeColumn("Code", 1, Attributes::CODE);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -87,7 +82,7 @@ class PromotionCrudController extends CustomCrudController
     {
 
         // Validation
-        $this->crud->setValidation(PromotionRequest::class);
+        $this->crud->setValidation(WorkshopRequest::class);
 
         // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
@@ -98,17 +93,11 @@ class PromotionCrudController extends CustomCrudController
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
-        // Field: Offer
-        $this->addOfferField(Attributes::CATEGORY, "Offer");
-
-        // Field: Type
-        $this->addPromotionTypeField(Attributes::CATEGORY, "Type");
-
         // Field: Date
         $this->addDateField(Attributes::DATE, "Date");
 
-        // Field: Code
-        $this->addPromotionCodeField(Attributes::CODE, "Code");
+        // Field: Price
+        $this->addPriceField(Attributes::PRICE, "Price");
 
         // Field: Status
         $this->addStatusField(Status::all());
