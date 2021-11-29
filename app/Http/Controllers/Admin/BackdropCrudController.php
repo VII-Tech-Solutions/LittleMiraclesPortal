@@ -4,27 +4,23 @@
 namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\CakesRequest;
-use App\Models\Cake;
+use App\Http\Requests\BackdropRequest;
+use App\Helpers;
+use App\Models\Backdrop;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Backdrop;
-use App\Constants\FieldTypes;
+use Exception;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
-class CakesCrudController extends CustomCrudController
+class BackdropCrudController extends CustomCrudController
 {
-
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
-        CRUD::setModel(Cake::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/cakes');
-        CRUD::setEntityNameStrings('Cake', 'Cakes');
+        CRUD::setModel(Backdrop::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/backdrop');
+        CRUD::setEntityNameStrings('Backdrop', 'Backdrops');
     }
 
     protected function setupListOperation()
@@ -47,9 +43,10 @@ class CakesCrudController extends CustomCrudController
 
     }
 
+
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CakesRequest::class);
+        CRUD::setValidation(BackdropRequest::class);
 
         //Field: Name
         $this->addNameField(Attributes::TITLE, "Title");

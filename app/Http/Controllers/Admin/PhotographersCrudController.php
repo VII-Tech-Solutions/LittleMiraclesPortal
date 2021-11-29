@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\PhotographersRequest;
-use App\Helpers;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Photographer;
-use Exception;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use App\Constants\FieldTypes;
+
+
+
+
 
 
 

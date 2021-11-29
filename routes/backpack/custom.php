@@ -17,4 +17,5 @@ Route::group([
     Route::crud('onboarding', 'OnboardingCrudController');
     Route::crud('photographers', 'PhotographersCrudController');
     Route::crud('cakes', 'CakesCrudController');
+    Route::crud('backdrop', 'BackdropCrudController');
 }); // this should be the absolute last line of this file
