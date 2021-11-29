@@ -180,6 +180,66 @@ class CustomCrudController extends CrudController
         ]);
     }
     /**
+     * Add Offer Field
+     */
+    function addOfferField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::OFFER;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Offer" : ucwords($label),
+            Attributes::NAME => Attributes::OFFER,
+            Attributes::TYPE => FieldTypes::TEXT,
+
+        ]);
+    }
+    /**
+     * Add Promotion Type Field
+     */
+    function addPromotionTypeField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::TYPE;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Type" : ucwords($label),
+            Attributes::NAME => Attributes::TYPE,
+            Attributes::TYPE => FieldTypes::TEXT,
+
+        ]);
+    }
+    /**
+     * Add Promotion Code Field
+     */
+    function addPromotionCodeField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::CODE;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Code" : ucwords($label),
+            Attributes::NAME => Attributes::CODE,
+            Attributes::TYPE => FieldTypes::TEXT,
+
+        ]);
+    }
+    /**
+     * Add Promotion Date Field
+     */
+    function addDateField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::DATE;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Date" : ucwords($label),
+            Attributes::NAME => Attributes::DATE,
+            Attributes::TYPE => FieldTypes::DATE_PICKER,
+
+        ]);
+    }
+    /**
      * Add Tag Posted At Field
      */
     function addPostedAtField($field_name= NULL, $label = null )
@@ -190,10 +250,12 @@ class CustomCrudController extends CrudController
         CRUD::addField([
             Attributes::LABEL => is_null($label) ? "Posted At" : ucwords($label),
             Attributes::NAME => Attributes::POSTED_AT,
-            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::TYPE => FieldTypes::DATE_PICKER,
 
         ]);
     }
+
+
 
     /**
      * Add Order Field
@@ -303,6 +365,77 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
             Attributes::PRIORITY => $priority
+        ]);
+    }
+
+
+    /**
+     * Add Offer Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addOfferColumn($label = null, $priority = 1, $column_name = Attributes::OFFER)
+    {
+        if (is_null($label)) {
+            $label ="Offer";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Promotion Type Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addPromotionTypeColumn($label = null, $priority = 1, $column_name = Attributes::TYPE)
+    {
+        if (is_null($label)) {
+            $label ="Type";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
+     * Add Promotion Date Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addPromotionDateColumn($label = null, $priority = 1, $column_name = Attributes::DATE)
+    {
+        if (is_null($label)) {
+            $label ="Date";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
+     * Add Promotion Code Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addPromotionCodeColumn($label = null, $priority = 1, $column_name = Attributes::CODE)
+    {
+        if (is_null($label)) {
+            $label ="Code";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
         ]);
     }
 

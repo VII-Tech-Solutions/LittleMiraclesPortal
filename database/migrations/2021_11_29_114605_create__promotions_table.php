@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 use App\Constants\Attributes;
 use App\Constants\Status;
 
-class CreateDailyTipsTable extends Migration
+
+class CreatePromotionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,15 +16,19 @@ class CreateDailyTipsTable extends Migration
      */
     public function up()
     {
-        Schema::create(\App\Constants\Tables::DAILY_TIP, function (Blueprint $table) {
+        Schema::create(\App\Constants\Tables::PROMOTIONS, function (Blueprint $table) {
             $table->bigIncrements(Attributes::ID);
             $table->string(Attributes::IMAGE)->nullable();
             $table->string(Attributes::TITLE)->nullable();
-            $table->string(Attributes::POSTED_AT)->nullable();
+            $table->string(Attributes::OFFER)->nullable();
+            $table->string(Attributes::TYPE)->nullable();
+            $table->string(Attributes::DATE)->nullable();
             $table->string(Attributes::CONTENT)->nullable();
+            $table->string(Attributes::CODE)->nullable();
             $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 
@@ -34,6 +39,6 @@ class CreateDailyTipsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(\App\Constants\Tables::DAILY_TIP);
+        Schema::dropIfExists(\App\Constants\Tables::PROMOTIONS);
     }
 }
