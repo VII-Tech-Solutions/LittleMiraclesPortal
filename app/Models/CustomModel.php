@@ -8,6 +8,7 @@ use App\Constants\Attributes;
 use App\Helpers;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -22,6 +23,8 @@ use Illuminate\Support\Str;
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
+ *
+ * @method static Builder|self where($attribute = null, $operator = null, $value = null)
  */
 class CustomModel extends Model
 {
