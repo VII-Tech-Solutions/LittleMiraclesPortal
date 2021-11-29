@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Constants\Attributes;
 use App\Constants\Status;
 
-
-class CreateCakesTable extends Migration
+class CreateDailyTipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,12 +15,13 @@ class CreateCakesTable extends Migration
      */
     public function up()
     {
-        Schema::create(\App\Constants\Tables::CAKES, function (Blueprint $table) {
+        Schema::create('daily_tips', function (Blueprint $table) {
             $table->bigIncrements(Attributes::ID);
-            $table->string(Attributes::TITLE)->nullable();
-            $table->string(Attributes::CATEGORY)->nullable();
             $table->string(Attributes::IMAGE)->nullable();
-            $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);;
+            $table->string(Attributes::TITLE)->nullable();
+            $table->string(Attributes::POSTED_AT)->nullable();
+            $table->string(Attributes::CONTENT)->nullable();
+            $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +34,6 @@ class CreateCakesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(\App\Constants\Tables::CAKES);
+        Schema::dropIfExists('daily_tips');
     }
 }

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\CakesRequest;
+use App\Http\Requests\CakeRequest;
 use App\Models\Cake;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -12,7 +12,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Backdrop;
 use App\Constants\FieldTypes;
 
-class CakesCrudController extends CustomCrudController
+class CakeCrudController extends CustomCrudController
 {
 
     /**
@@ -33,7 +33,7 @@ class CakesCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // Column: Name
+        // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Category
@@ -49,7 +49,7 @@ class CakesCrudController extends CustomCrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CakesRequest::class);
+        CRUD::setValidation(CakeRequest::class);
 
         //Field: Name
         $this->addNameField(Attributes::TITLE, "Title");

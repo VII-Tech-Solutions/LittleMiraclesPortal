@@ -18,7 +18,7 @@ class CreatePhotographersTable extends Migration
             $table->bigIncrements('id');
             $table->string(Attributes::NAME)->nullable();
             $table->string(Attributes::IMAGE)->nullable();
-            $table->integer(Attributes::STATUS)->default(Status::ACTIVE);;
+            $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);;
             $table->timestamps();
             $table->softDeletes();
 

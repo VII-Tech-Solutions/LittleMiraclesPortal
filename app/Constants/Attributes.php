@@ -49,6 +49,6 @@ class Attributes extends CustomEnum
     const THUMBNAIL = "thumbnail";
     const IS_COMPRESSED = "is_compressed";
     const CATEGORY = "category";
-
+    const POSTED_AT = "posted_at";
 
 }

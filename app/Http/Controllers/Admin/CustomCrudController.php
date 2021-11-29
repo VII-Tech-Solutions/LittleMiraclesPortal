@@ -186,6 +186,21 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+    /**
+     * Add Tag Posted At Field
+     */
+    function addPostedAtField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::POSTED_AT;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Posted At" : ucwords($label),
+            Attributes::NAME => Attributes::POSTED_AT,
+            Attributes::TYPE => FieldTypes::TEXT,
+
+        ]);
+    }
 
     /**
      * Add Order Field
@@ -267,7 +282,7 @@ class CustomCrudController extends CrudController
 
 
     /**
-     * Add Image Column
+     * Add Cake Category Column
      * @param string|null $label
      * @param int $priority
      * @param string $column_name
@@ -276,6 +291,24 @@ class CustomCrudController extends CrudController
     {
         if (is_null($label)) {
             $label ="Category";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Posted At Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addPostedAtColumn($label = null, $priority = 1, $column_name = Attributes::POSTED_AT)
+    {
+        if (is_null($label)) {
+            $label ="Posted At";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
