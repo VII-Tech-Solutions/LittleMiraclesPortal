@@ -32,6 +32,7 @@ class Attributes extends CustomEnum
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
     const STATUS = "status";
+    const WORKSHOPS = "workshops";
     const TITLE = "title";
     const CONTENT = "content";
     const DATA = "data";

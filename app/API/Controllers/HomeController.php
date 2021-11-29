@@ -8,6 +8,7 @@ use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListOnboardingTransformer;
 use App\API\Transformers\ListPhotographerTransformer;
 use App\API\Transformers\ListPromotionTransformer;
+use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Helpers;
@@ -17,6 +18,7 @@ use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
 use App\Models\Promotion;
+use App\Models\Workshop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -66,9 +68,11 @@ class HomeController extends CustomController
         // get promotions
         $promotions = Promotion::where(Attributes::STATUS, Status::ACTIVE)->get();
 
+        // Workshops List
+        $workshops = Workshop::where(Attributes::STATUS, Status::ACTIVE)->get();
+
         // TODO Home Header
         // TODO Booking Section
-        // TODO Workshops List
         // TODO Packages List
         // TODO Studio Section
         // TODO User Info
@@ -81,6 +85,7 @@ class HomeController extends CustomController
             Attributes::BACKDROPS => Backdrop::returnTransformedItems($backdrops, ListBackdropTransformer::class),
             Attributes::DAILY_TIPS => DailyTip::returnTransformedItems($daily_tips, ListDailyTipTransformer::class),
             Attributes::PROMOTIONS => Promotion::returnTransformedItems($promotions, ListPromotionTransformer::class),
+            Attributes::WORKSHOPS => Workshop::returnTransformedItems($workshops, ListWorkshopTransformer::class),
         ]);
     }
 

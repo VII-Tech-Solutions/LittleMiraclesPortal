@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateNotificationsTable extends Migration
 {
+
+    protected $table = Tables::NOTIFICATIONS;
+
     /**
      * Run the migrations.
      *
@@ -17,8 +20,8 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable(Tables::NOTIFICATIONS)) {
-            Schema::create(Tables::NOTIFICATIONS, function (Blueprint $table) {
+        if (!Schema::hasTable($this->table)) {
+            Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
                 $table->text(Attributes::TITLE);
                 $table->text(Attributes::MESSAGE);
@@ -39,6 +42,6 @@ class CreateNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(Tables::NOTIFICATIONS);
+        Schema::dropIfExists($this->table);
     }
 }

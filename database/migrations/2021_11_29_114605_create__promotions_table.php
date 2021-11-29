@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\Tables;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ class CreatePromotionsTable extends Migration
      */
     public function up()
     {
-        Schema::create(\App\Constants\Tables::PROMOTIONS, function (Blueprint $table) {
+        Schema::create(Tables::PROMOTIONS, function (Blueprint $table) {
             $table->bigIncrements(Attributes::ID);
             $table->string(Attributes::IMAGE)->nullable();
             $table->string(Attributes::TITLE)->nullable();
@@ -39,6 +40,6 @@ class CreatePromotionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(\App\Constants\Tables::PROMOTIONS);
+        Schema::dropIfExists(Tables::PROMOTIONS);
     }
 }
