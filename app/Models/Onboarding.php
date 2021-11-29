@@ -50,7 +50,7 @@ class Onboarding extends CustomModel
     }
 
     /**
-     * Image
+     * Get image Attribute
      * @param $value
      * @return string|null
      */

@@ -16,6 +16,7 @@ class Attributes extends CustomEnum
     const FIRST_NAME = "first_name";
     const PASSWORD = "password";
     const DEFAULT = "default";
+    const UPDATED_AT = "updated_at";
     const NAME = "name";
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
@@ -25,6 +26,7 @@ class Attributes extends CustomEnum
     const DATA = "data";
     const IMAGE = "image";
     const ORDER = "order";
+    const PHOTOGRAPHERS = "photographers";
     const ONBOARDING = "onboarding";
     const RTL = "rtl";
     const TYPE = "type";

@@ -5,17 +5,16 @@ namespace App\API\Transformers;
 use App\Constants\Attributes;
 
 /**
- * Class ListOnboardingTransformer
+ * Class ListPhotographerTransformer
  * @package App\API\Transformers
  */
-class ListOnboardingTransformer extends CustomTransformer
+class ListPhotographerTransformer extends CustomTransformer
 {
     public $fields = [
         Attributes::ID,
-        Attributes::TITLE,
-        Attributes::CONTENT,
+        Attributes::NAME,
         Attributes::IMAGE,
-        Attributes::ORDER,
+        Attributes::STATUS,
         Attributes::UPDATED_AT
     ];
 }
