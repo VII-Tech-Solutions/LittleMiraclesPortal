@@ -7,22 +7,24 @@ use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Http\Requests\OnboardingRequest;
 use App\Models\Onboarding;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Exception;
 
+/**
+ * Onboarding CRUD Controller
+ */
 class OnboardingCrudController extends CustomCrudController
 {
 
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     *
      * @return void
+     * @throws Exception
      */
     public function setup()
     {
-        CRUD::setModel(Onboarding::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/onboarding');
-        CRUD::setEntityNameStrings('Onboarding', 'Onboardings');
+        $this->crud->setModel(Onboarding::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/onboardings');
+        $this->crud->setEntityNameStrings('Onboarding', 'Onboardings');
     }
 
     /**
@@ -58,7 +60,7 @@ class OnboardingCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(OnboardingRequest::class);
+        $this->crud->setValidation(OnboardingRequest::class);
 
         // Field: Name
         $this->addNameField(Attributes::TITLE);

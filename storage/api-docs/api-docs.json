@@ -1,0 +1,99 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Little Miracles API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://littlemiracles.test/api",
+            "description": "Development API"
+        }
+    ],
+    "paths": {
+        "/api/data": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "App Data",
+                "description": "App Data",
+                "operationId": "2f5eb0163e3f87d089135347b76a04ba",
+                "responses": {
+                    "200": {
+                        "description": "App Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CustomJsonResponse": {
+                "description": "Class CustomJsonResponse",
+                "properties": {
+                    "message": {
+                        "description": "Message",
+                        "type": "string"
+                    },
+                    "data": {
+                        "description": "Data",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "error": {
+                        "description": "Error",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "LoginJsonResponse": {
+                "description": "Class LoginJsonResponse",
+                "properties": {
+                    "message": {
+                        "description": "Message",
+                        "type": "string"
+                    },
+                    "data": {
+                        "description": "Data",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "error": {
+                        "description": "Error",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

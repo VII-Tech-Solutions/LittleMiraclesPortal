@@ -7,6 +7,7 @@ use App\Constants\EnvVariables;
 use App\Models\Media;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -44,6 +45,18 @@ class Helpers
             $level = DebuggerLevels::ERROR;
         }
         GlobalHelpers::debugger($exception, $level);
+    }
+
+    /**
+     * Return Response
+     * @param $data
+     * @return JsonResponse
+     */
+    static function returnResponse($data): JsonResponse
+    {
+        return response()->json([
+            Attributes::DATA => $data,
+        ]);
     }
 
     /**

@@ -264,7 +264,7 @@ class CustomCrudController extends CrudController
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
-            Attributes::PRIORITY => $priority
+            Attributes::PRIORITY => $priority,
         ]);
     }
 

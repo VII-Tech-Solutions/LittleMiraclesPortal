@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\API\Serializers\CustomArraySerializer;
 use App\API\Transformers\IDTransformer;
 use App\Constants\Attributes;
 use App\Helpers;
@@ -68,4 +69,17 @@ class CustomModel extends Model
         }
     }
 
+    /**
+     * Return Transformed Items
+     * @param $items
+     * @param string|null $class_name
+     * @return array
+     */
+    static function returnTransformedItems($items, $class_name = null): array
+    {
+        if(is_null($class_name)){
+            $class_name = static::TRANSFORMER_NAME;
+        }
+        return fractal($items, new $class_name(), new CustomArraySerializer())->toArray();
+    }
 }

@@ -15,12 +15,14 @@ class Attributes extends CustomEnum
     const LAST_NAME = "last_name";
     const FIRST_NAME = "first_name";
     const PASSWORD = "password";
+    const DEFAULT = "default";
     const NAME = "name";
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
     const STATUS = "status";
     const TITLE = "title";
     const CONTENT = "content";
+    const DATA = "data";
     const IMAGE = "image";
     const ORDER = "order";
     const ONBOARDING = "onboarding";

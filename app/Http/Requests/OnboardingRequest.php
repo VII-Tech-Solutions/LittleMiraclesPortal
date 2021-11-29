@@ -29,7 +29,7 @@ class OnboardingRequest extends FormRequest
              Attributes::TITLE => 'required|min:1|max:255',
              Attributes::CONTENT => 'required',
              Attributes::ORDER => 'required',
-            Attributes::IMAGE => 'required|base64image:1024',
+            Attributes::IMAGE => 'required',
         ];
     }
 
