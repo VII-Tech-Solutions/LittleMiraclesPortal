@@ -12,5 +12,6 @@ class Tables extends CustomEnum
     const CAKES = "cakes";
     const BACKDROP = "backdrop";
     const DAILY_TIP = "daily_tips";
+    const PROMOTIONS = "promotions";
     const NOTIFICATIONS = "notifications";
 }

@@ -60,5 +60,8 @@ class Attributes extends CustomEnum
     const IS_COMPRESSED = "is_compressed";
     const CATEGORY = "category";
     const POSTED_AT = "posted_at";
+    const OFFER = "offer";
+    const DATE = "date";
+    const CODE = "code";
 
 }
