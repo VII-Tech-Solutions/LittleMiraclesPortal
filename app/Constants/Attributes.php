@@ -13,11 +13,15 @@ class Attributes extends CustomEnum
     const EMAIL = "email";
     const VERIFIED_AT = "verified_at";
     const LAST_NAME = "last_name";
+    const LTR = "ltr";
     const FIRST_NAME = "first_name";
     const PASSWORD = "password";
     const DEFAULT = "default";
     const UPDATED_AT = "updated_at";
+    const DAILY_TIPS = "daily_tips";
+    const CAKES = "cakes";
     const NAME = "name";
+    const BACKDROPS = "backdrops";
     const GENDER = "gender";
     const REMEMBER_TOKEN = "remember_token";
     const STATUS = "status";

@@ -13,17 +13,10 @@ use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
-use Prologue\Alerts\Facades\Alert;
-use VIITech\Helpers\GlobalHelpers;
 
-
-
+/**
+ * Custom CRUD Controller
+ */
 class CustomCrudController extends CrudController
 {
 
@@ -34,8 +27,8 @@ class CustomCrudController extends CrudController
      * @param string|null $field_name
      * @param string|null $label
      * @param string|null $tab_name
-     * @param string $dir
      * @param array $limit
+     * @param bool $disabled
      */
     function addNameField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
     {
@@ -92,8 +85,8 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
             'options'       => [
-                Attributes::DIR => Attributes::RTL,
-                "language" => 'ar',
+                Attributes::DIR => Attributes::LTR,
+                "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
 //                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
             ]
@@ -134,8 +127,8 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
             'options'       => [
-                Attributes::DIR => Attributes::RTL,
-                "language" => 'ar',
+                Attributes::DIR => Attributes::LTR,
+                "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
 //                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
             ]
@@ -228,6 +221,15 @@ class CustomCrudController extends CrudController
             $this->crud->addClause('where', $column_name, $value);
         });
     }
+
+    /**
+     * Add Status Field
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
     function addStatusField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
     {
         if (is_null($statuses)) {
@@ -249,6 +251,12 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Name Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
     function addNameColumn($label = null, $priority = 1, $column_name = Attributes::NAME)
     {
         if (is_null($label)) {
@@ -279,7 +287,6 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
-
 
     /**
      * Add Cake Category Column
@@ -354,6 +361,11 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Status Column
+     * @param string $attribute
+     * @param int $priority
+     */
     function addStatusColumn($attribute = Attributes::STATUS, $priority = 1)
     {
         $this->crud->addColumn([
@@ -363,6 +375,13 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Image Field
+     * @param null $field_name
+     * @param null $label
+     * @param array $limit
+     * @param false $disabled
+     */
     function addImageField($field_name = null, $label = null, $limit = [], $disabled = false)
     {
         if (is_null($field_name)) {

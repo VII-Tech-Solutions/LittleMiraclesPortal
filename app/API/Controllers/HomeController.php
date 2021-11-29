@@ -2,11 +2,17 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\ListBackdropTransformer;
+use App\API\Transformers\ListCakeTransformer;
+use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListOnboardingTransformer;
 use App\API\Transformers\ListPhotographerTransformer;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Helpers;
+use App\Models\Backdrop;
+use App\Models\Cake;
+use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
 use Illuminate\Http\JsonResponse;
@@ -38,12 +44,24 @@ class HomeController extends CustomController
         $onboardings = Onboarding::where(Attributes::STATUS, Status::ACTIVE)->get()->sortBy(Attributes::ORDER);
 
         // get photographers
-        $photographers = Photographer::where(Attributes::STATUS, Status::ACTIVE)->get()->sortBy(Attributes::ORDER);
+        $photographers = Photographer::where(Attributes::STATUS, Status::ACTIVE)->get();
+
+        // get cakes
+        $cakes = Cake::where(Attributes::STATUS, Status::ACTIVE)->get();
+
+        // get backdrops
+        $backdrops = Backdrop::where(Attributes::STATUS, Status::ACTIVE)->get();
+
+        // get daily tips
+        $daily_tips = DailyTip::where(Attributes::STATUS, Status::ACTIVE)->get();
 
         // return response
         return Helpers::returnResponse([
             Attributes::ONBOARDING => Onboarding::returnTransformedItems($onboardings, ListOnboardingTransformer::class),
-            Attributes::PHOTOGRAPHERS => Photographer::returnTransformedItems($photographers, ListPhotographerTransformer::class)
+            Attributes::PHOTOGRAPHERS => Photographer::returnTransformedItems($photographers, ListPhotographerTransformer::class),
+            Attributes::CAKES => Cake::returnTransformedItems($cakes, ListCakeTransformer::class),
+            Attributes::BACKDROPS => Backdrop::returnTransformedItems($backdrops, ListBackdropTransformer::class),
+            Attributes::DAILY_TIPS => DailyTip::returnTransformedItems($daily_tips, ListDailyTipTransformer::class)
         ]);
     }
 

@@ -17,6 +17,7 @@ class OnboardingCrudController extends CustomCrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
+     *
      * @return void
      * @throws Exception
      */
@@ -36,20 +37,31 @@ class OnboardingCrudController extends CustomCrudController
     protected function setupListOperation()
     {
         // Column: Name
-        $this->addNameColumn("title", 1, "title");
+        $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Content
         $this->addContentColumn();
 
-        // Column: image
+        // Column: Image
         $this->addImageColumn();
 
-        // Column: order
+        // Column: Order
         $this->addOrder();
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
 
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
     }
 
     /**
@@ -60,6 +72,8 @@ class OnboardingCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
+
+        // Validation
         $this->crud->setValidation(OnboardingRequest::class);
 
         // Field: Name
@@ -74,18 +88,7 @@ class OnboardingCrudController extends CustomCrudController
         // Field: Order
         $this->addOrderField();
 
-        // Field: status
+        // Field: Status
         $this->addStatusField(Status::all());
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
-    protected function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
     }
 }

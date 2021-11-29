@@ -1,17 +1,16 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
+
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\CakeRequest;
 use App\Models\Cake;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Backdrop;
-use App\Constants\FieldTypes;
+use Exception;
 
+/**
+ * Cake CRUD Controller
+ */
 class CakeCrudController extends CustomCrudController
 {
 
@@ -19,14 +18,21 @@ class CakeCrudController extends CustomCrudController
      * Configure the CrudPanel object. Apply settings to all operations.
      *
      * @return void
+     * @throws Exception
      */
     public function setup()
     {
-        CRUD::setModel(Cake::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/cakes');
-        CRUD::setEntityNameStrings('Cake', 'Cakes');
+        $this->crud->setModel(Cake::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/cakes');
+        $this->crud->setEntityNameStrings('Cake', 'Cakes');
     }
 
+    /**
+     * Define what happens when the List operation is loaded.
+     *
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
     protected function setupListOperation()
     {
 
@@ -47,21 +53,40 @@ class CakeCrudController extends CustomCrudController
 
     }
 
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     * @return void
+     */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CakeRequest::class);
 
-        //Field: Name
+        // Validation
+        $this->crud->setValidation(CakeRequest::class);
+
+        // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
 
-        //Field: category
+        // Field: Category
         $this->addTagCategoryField(Attributes::CATEGORY, "Category");
+
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
-        // Field: status
+        // Field: Status
         $this->addStatusField(Status::all());
-
 
     }
 }

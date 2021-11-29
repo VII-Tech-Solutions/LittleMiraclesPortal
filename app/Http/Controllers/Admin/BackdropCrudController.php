@@ -1,28 +1,38 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
+
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\BackdropRequest;
-use App\Helpers;
 use App\Models\Backdrop;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
+/**
+ * Backdrop CRUD Controller
+ */
 class BackdropCrudController extends CustomCrudController
 {
+
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     *
+     * @return void
+     * @throws Exception
+     */
     public function setup()
     {
-        CRUD::setModel(Backdrop::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/backdrop');
-        CRUD::setEntityNameStrings('Backdrop', 'Backdrops');
+        $this->crud->setModel(Backdrop::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/backdrops');
+        $this->crud->setEntityNameStrings('Backdrop', 'Backdrops');
     }
 
+    /**
+     * Define what happens when the List operation is loaded.
+     *
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
     protected function setupListOperation()
     {
 
@@ -43,22 +53,39 @@ class BackdropCrudController extends CustomCrudController
 
     }
 
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
+    }
 
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     * @return void
+     */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(BackdropRequest::class);
+        // Validation
+        $this->crud->setValidation(BackdropRequest::class);
 
-        //Field: Name
+        // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
 
-        //Field: category
+        // Field: category
         $this->addTagCategoryField(Attributes::CATEGORY, "Category");
+
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: status
         $this->addStatusField(Status::all());
-
 
     }
 }

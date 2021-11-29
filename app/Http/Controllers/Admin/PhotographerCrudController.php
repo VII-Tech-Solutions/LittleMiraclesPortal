@@ -4,23 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\PhotographersRequest;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Http\Requests\PhotographerRequest;
 use App\Models\Photographer;
 use Exception;
 
 /**
  * Photographers CRUD Controller
  */
-class PhotographersCrudController extends CustomCrudController
+class PhotographerCrudController extends CustomCrudController
 {
-    use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
+     *
      * @return void
      * @throws Exception
      */
@@ -44,35 +40,13 @@ class PhotographersCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Column: Name
-        $this->addNameColumn("Name",1 , Attributes::NAME);
+        $this->addNameColumn("Name");
 
-        // column: Image
+        // Column: Image
         $this->addImageColumn("Image");
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
-
-    }
-
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(PhotographersRequest::class);
-
-         //Field: Name
-        $this->addNameField(Attributes::NAME, "Name");
-
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
-
-        // Field: status
-        $this->addStatusField(Status::all());
-
 
     }
 
@@ -87,5 +61,26 @@ class PhotographersCrudController extends CustomCrudController
         $this->setupCreateOperation();
     }
 
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     * @return void
+     */
+    protected function setupCreateOperation()
+    {
 
+        // Validation
+        $this->crud->setValidation(PhotographerRequest::class);
+
+        // Field: Name
+        $this->addNameField(Attributes::NAME, "Name");
+
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+
+        // Field: Status
+        $this->addStatusField(Status::all());
+
+    }
 }

@@ -1,27 +1,38 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
+
 use App\Constants\Attributes;
+use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Http\Requests\DailyTipRequest;
 use App\Models\DailyTip;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Backdrop;
-use App\Constants\FieldTypes;
+use Exception;
 
+/**
+ * Daily Tip CRUD Controller
+ */
 class DailyTipCrudController extends CustomCrudController
 {
-//Attributes::IMAGE, Attributes::TITLE,Attributes::POSTED_AT, Attributes::CONTENT, Attributes::STATUS,
+
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     * @return void
+     * @throws Exception
+     */
     public function setup()
     {
-        CRUD::setModel(DailyTip::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/daily-tip');
-        CRUD::setEntityNameStrings('Daily tip', 'Daily tips');
+        $this->crud->setModel(DailyTip::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/daily-tips');
+        $this->crud->setEntityNameStrings('Daily Tip', 'Daily Tips');
     }
 
+    /**
+     * Define what happens when the List operation is loaded.
+     *
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
     protected function setupListOperation()
     {
         // Filter: Status
@@ -30,11 +41,11 @@ class DailyTipCrudController extends CustomCrudController
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
-        // column: Featured Image
+        // Column: Featured Image
         $this->addImageColumn("Featured Image");
 
         // Column: Posted At
-        $this->addPostedAtColumn("Posated At", 3, Attributes::POSTED_AT);
+        $this->addPostedAtColumn("Posted At", 3, Attributes::POSTED_AT);
 
         // Column: Content
         $this->addContentColumn();
@@ -44,25 +55,43 @@ class DailyTipCrudController extends CustomCrudController
 
     }
 
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     * @return void
+     */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(DailyTipRequest::class);
 
-        //Field: Name
+        // Validation
+        $this->crud->setValidation(DailyTipRequest::class);
+
+        // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
 
         // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
+        $this->addFeaturedImageField(Attributes::IMAGE, "Featured Image", true);
 
-        //Field: Posted At
+        // Field: Posted At
         $this->addPostedAtField(Attributes::POSTED_AT, "Posted At");
 
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
-        
-        // Field: status
-        $this->addStatusField(Status::all());
 
+        // Field: Status
+        $this->addStatusField(Status::all());
 
     }
 }
