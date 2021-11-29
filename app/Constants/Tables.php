@@ -14,4 +14,5 @@ class Tables extends CustomEnum
     const DAILY_TIP = "daily_tips";
     const PROMOTIONS = "promotions";
     const NOTIFICATIONS = "notifications";
+    const WORKSHOPS = "workshops";
 }

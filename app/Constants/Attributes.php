@@ -63,5 +63,8 @@ class Attributes extends CustomEnum
     const OFFER = "offer";
     const DATE = "date";
     const CODE = "code";
+    const PRICE = "price";
+    const PREFIX = "prefix";
+    const SUFFIX = "suffix";
 
 }

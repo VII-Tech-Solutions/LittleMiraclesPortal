@@ -23,5 +23,7 @@ Route::group([
     Route::crud('backdrops', 'BackdropCrudController');
     Route::crud('daily-tips', 'DailyTipCrudController');
     Route::crud('promotions', 'PromotionCrudController');
+    Route::crud('workshops', 'WorkshopCrudController');
+
 
 }); // this should be the absolute last line of this file
