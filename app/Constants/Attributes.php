@@ -69,5 +69,11 @@ class Attributes extends CustomEnum
     const PRICE = "price";
     const PREFIX = "prefix";
     const SUFFIX = "suffix";
+    const RATING = "rating";
+    const USER_NAME = "user_name";
+    const USER_IMAGE = "user_image";
+    const PACKAGE_ID = "package_id";
+    const SESSION_ID = "session_id";
+    const COMMENT = "comment";
 
 }

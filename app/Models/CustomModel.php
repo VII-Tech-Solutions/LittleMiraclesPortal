@@ -35,7 +35,7 @@ class CustomModel extends Model
 
     protected $primaryKey = Attributes::ID;
 
-    protected $dateFormat = "c";
+//    protected $dateFormat = "c";
     protected $dates = [
         Attributes::CREATED_AT,
         Attributes::UPDATED_AT,

@@ -20,7 +20,7 @@ class CreateWorkshopsTable extends Migration
             $table->bigIncrements(Attributes::ID);
             $table->string(Attributes::IMAGE)->nullable();
             $table->string(Attributes::TITLE)->nullable();
-            $table->string(Attributes::PRICE)->nullable();
+            $table->decimal(Attributes::PRICE)->nullable();
             $table->string(Attributes::DATE)->nullable();
             $table->string(Attributes::CONTENT)->nullable();
             $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
