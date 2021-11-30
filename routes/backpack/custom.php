@@ -29,4 +29,7 @@ Route::group([
     Route::crud('faqs', 'FaqsCrudController');
     Route::crud('pages', 'PageCrudController');
     Route::crud('session-package', 'SessionPackageCrudController');
+    Route::crud('social-media', 'SocialMediaCrudController');
+    Route::crud('sections', 'SectionCrudController');
+
 }); // this should be the absolute last line of this file

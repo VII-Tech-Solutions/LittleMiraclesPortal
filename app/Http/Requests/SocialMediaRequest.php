@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 use App\Constants\Attributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class WorkshopRequest extends FormRequest
+class SocialMediaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +27,9 @@ class WorkshopRequest extends FormRequest
     public function rules()
     {
         return [
-            Attributes::TITLE => 'required|min:2|max:255',
-            Attributes::PRICE=>'required',
-            Attributes::IMAGE => 'required',
-            Attributes::POSTED_AT => 'required',
-            Attributes::CONTENT => 'required',
-
+            Attributes::TITLE => 'required|min:1|max:255',
+            Attributes::LINK => 'required',
+            Attributes::ICON => 'required|min:1|max:255'
         ];
     }
 
@@ -45,19 +42,6 @@ class WorkshopRequest extends FormRequest
     {
         return [
             //
-        ];
-    }
-
-    /**
-     * Get the validation messages that apply to the request.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            "image.base64image" => "Image size cannot exceed 1MB.",
-            "image.base64image_ratio" => "Image ratio should be 1:2",
         ];
     }
 }

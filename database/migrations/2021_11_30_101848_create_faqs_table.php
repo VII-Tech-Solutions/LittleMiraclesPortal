@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\Tables;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,15 +16,16 @@ class CreateFaqsTable extends Migration
      */
     public function up()
     {
-        Schema::create('FAQS', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string(Attributes::QUESTION);
-            $table->text(Attributes::ANSWER);
-            $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
-            $table->timestamps();
-            $table->softDeletes();
-
-        });
+        if (!Schema::hasTable(Tables::FAQS)) {
+            Schema::create(Tables::FAQS, function (Blueprint $table) {
+                $table->bigIncrements(Attributes::ID);
+                $table->string(Attributes::QUESTION);
+                $table->text(Attributes::ANSWER);
+                $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**
@@ -33,6 +35,6 @@ class CreateFaqsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faqs');
+        Schema::dropIfExists(Tables::FAQS);
     }
 }

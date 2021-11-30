@@ -7,11 +7,10 @@ use Illuminate\Support\Facades\Schema;
 use App\Constants\Status;
 use App\Constants\Tables;
 
-
-class CreatePagesTable extends Migration
+class CreateSocialmediaTable extends Migration
 {
 
-    protected $table = Tables::PAGES;
+    protected $table = Tables::SOCIAL_MEDIA;
 
     /**
      * Run the migrations.
@@ -24,12 +23,13 @@ class CreatePagesTable extends Migration
 
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
-                $table->string(Attributes::TITLE)->nullable();;
-                $table->text(Attributes::CONTENT)->nullable();;
-                $table->string(Attributes::SLUG)->nullable();
+                $table->string(Attributes::TITLE)->nullable();
+                $table->string(Attributes::ICON)->nullable();
+                $table->string(Attributes::LINK)->nullable();
                 $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
                 $table->timestamps();
                 $table->softDeletes();
+
             });
         }
     }
@@ -41,6 +41,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists($this->table);
     }
 }

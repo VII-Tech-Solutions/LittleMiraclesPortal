@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\SectionTypes;
 use App\Constants\Status;
-use App\Http\Requests\PageRequest;
-use App\Models\Page;
+use App\Http\Requests\SectionRequest;
+use App\Models\Section;
 
-class PageCrudController extends CustomCrudController
+class SectionCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -18,9 +19,9 @@ class PageCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Page::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/pages');
-        $this->crud->setEntityNameStrings('Page', 'Pages');
+        $this->crud->setModel(Section::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/sections');
+        $this->crud->setEntityNameStrings('Section', 'Sections');
     }
 
     /**
@@ -35,17 +36,30 @@ class PageCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
+        // Filter: Status
+        $this->addTypeFilter(SectionTypes::all());
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Content
         $this->addContentColumn();
 
-        // Column: Slug
-        $this->addNameColumn("Slug",2,Attributes::SLUG);
+        // Column: Image
+        $this->addImageColumn("Image", 1, Attributes::IMAGE);
+
+
+        // Column: Action Text
+        $this->addNameColumn("Action Text", 1, Attributes::ACTION_TEXT);
+
+        // Column: Go To
+        $this->addNameColumn("Go To", 1, Attributes::GO_TO);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
+
+        // Column: Type
+        $this->addSectionTypeColumn(Attributes::TYPE_NAME);
 
     }
 
@@ -69,21 +83,30 @@ class PageCrudController extends CustomCrudController
     protected function setupCreateOperation()
     {
 
-
         // Validation
-        $this->crud->setValidation(PageRequest::class);
+        $this->crud->setValidation(SectionRequest::class);
+
+
 
         // Field: Title
         $this->addNameField(Attributes::TITLE);
 
-        // Field: Content
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
+        // Field: Description
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
-        // Field: Slug
-        $this->addNameField(Attributes::SLUG,'Slug',null,Attributes::LTR,[],true);
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+
+        // Field: Link
+        $this->addNameField(Attributes::ACTION_TEXT, 'Action Text');
+
+        // Field: Icon
+        $this->addNameField(Attributes::GO_TO , 'Go To');
 
         // Field: Status
         $this->addStatusField(Status::all());
 
+        // Field: Status
+        $this->addTypeField(SectionTypes::all());
     }
 }

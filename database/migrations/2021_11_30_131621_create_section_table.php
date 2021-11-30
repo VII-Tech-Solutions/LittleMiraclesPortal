@@ -1,15 +1,17 @@
 <?php
 
-use App\Constants\Tables;
+use App\Constants\Attributes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Constants\Attributes;
 use App\Constants\Status;
+use App\Constants\Tables;
 
-
-class CreatePromotionsTable extends Migration
+class CreateSectionTable extends Migration
 {
+
+    protected $table = Tables::SECTIONS;
+
     /**
      * Run the migrations.
      *
@@ -17,17 +19,16 @@ class CreatePromotionsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable(Tables::PROMOTIONS)) {
-            Schema::create(Tables::PROMOTIONS, function (Blueprint $table) {
+        if (!Schema::hasTable($this->table)) {
+            Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
                 $table->string(Attributes::IMAGE)->nullable();
                 $table->string(Attributes::TITLE)->nullable();
-                $table->string(Attributes::OFFER)->nullable();
-                $table->string(Attributes::TYPE)->nullable();
-                $table->string(Attributes::DATE)->nullable();
                 $table->string(Attributes::CONTENT)->nullable();
-                $table->string(Attributes::CODE)->nullable();
-                $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
+                $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
+                $table->integer(Attributes::TYPE)->default(\App\Constants\SectionTypes::HEADER);
+                $table->string(Attributes::ACTION_TEXT)->nullable();
+                $table->string(Attributes::GO_TO)->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -41,6 +42,6 @@ class CreatePromotionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(Tables::PROMOTIONS);
+        Schema::dropIfExists($this->table);
     }
 }

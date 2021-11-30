@@ -95,6 +95,9 @@ class Attributes extends CustomEnum
     const LOCATION_TEXT = "location_text";
     const LOCATION_LINK = "location_link";
     const IS_POPULAR_NAME = "is_popular_name";
-
+    const ICON = "icon";
+    const LINK = "link";
+    const ACTION_TEXT = "action_text";
+    const VALID_UNTIL = "valid_until";
 
 }

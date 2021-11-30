@@ -88,7 +88,7 @@ class DailyTipCrudController extends CustomCrudController
         $this->addPostedAtField(Attributes::POSTED_AT, "Posted At");
 
         // Field: Content
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
 
         // Field: Status
         $this->addStatusField(Status::all());

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
-use App\Constants\FieldTypes;
 use App\Constants\Status;
-use App\Http\Requests\PageRequest;
-use App\Models\Page;
+use App\Http\Requests\SocialMediaRequest;
+use App\Models\SocialMedia;
 
-class PageCrudController extends CustomCrudController
+class SocialMediaCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -18,9 +17,9 @@ class PageCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Page::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/pages');
-        $this->crud->setEntityNameStrings('Page', 'Pages');
+        $this->crud->setModel(SocialMedia::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/social-media');
+        $this->crud->setEntityNameStrings('Social Media', 'Social Media');
     }
 
     /**
@@ -38,11 +37,11 @@ class PageCrudController extends CustomCrudController
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
-        // Column: Content
-        $this->addContentColumn();
+        // Column: Link
+        $this->addNameColumn("Link", 1, Attributes::LINK);
 
-        // Column: Slug
-        $this->addNameColumn("Slug",2,Attributes::SLUG);
+        // Column: Icon
+        $this->addNameColumn("Icon", 1, Attributes::ICON);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -69,21 +68,19 @@ class PageCrudController extends CustomCrudController
     protected function setupCreateOperation()
     {
 
-
         // Validation
-        $this->crud->setValidation(PageRequest::class);
+        $this->crud->setValidation(SocialMediaRequest::class);
 
         // Field: Title
         $this->addNameField(Attributes::TITLE);
 
-        // Field: Content
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
+        // Field: Link
+        $this->addNameField(Attributes::LINK, Attributes::LINK);
 
-        // Field: Slug
-        $this->addNameField(Attributes::SLUG,'Slug',null,Attributes::LTR,[],true);
+        // Field: Icon
+        $this->addNameField(Attributes::ICON , Attributes::ICON);
 
         // Field: Status
         $this->addStatusField(Status::all());
-
     }
 }

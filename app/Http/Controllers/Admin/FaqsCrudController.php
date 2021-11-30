@@ -6,9 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Http\Requests\FaqRequest;
-use App\Http\Requests\OnboardingRequest;
 use App\Models\Faq;
-use App\Models\Onboarding;
 use Exception;
 
 class FaqsCrudController extends CustomCrudController
@@ -23,7 +21,7 @@ class FaqsCrudController extends CustomCrudController
     {
         $this->crud->setModel(Faq::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/faqs');
-        $this->crud->setEntityNameStrings('Faq', 'Faqs');
+        $this->crud->setEntityNameStrings('FAQ', 'FAQs');
     }
 
     /**
