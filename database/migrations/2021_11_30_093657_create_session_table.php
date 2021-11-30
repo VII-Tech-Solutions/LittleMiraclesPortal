@@ -1,17 +1,17 @@
 <?php
 
-use App\Constants\Tables;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Constants\Attributes;
+use App\Constants\Tables;
 use App\Constants\Status;
+use App\Constants\SessionStatus;
 
-
-class CreateWorkshopsTable extends Migration
+class CreateSessionTable extends Migration
 {
 
-    protected $table = Tables::WORKSHOPS;
+    protected $table = Tables::SESSIONS;
 
     /**
      * Run the migrations.
@@ -23,17 +23,22 @@ class CreateWorkshopsTable extends Migration
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
-                $table->string(Attributes::IMAGE)->nullable();
+                $table->integer(Attributes::SESSION_STATUS)->nullable()->default(SessionStatus::BOOKED);
                 $table->string(Attributes::TITLE)->nullable();
-                $table->float(Attributes::PRICE)->nullable();
-                $table->string(Attributes::DATE)->nullable();
-                $table->string(Attributes::CONTENT)->nullable();
+                $table->bigInteger(Attributes::USER_ID)->nullable();
+                $table->bigInteger(Attributes::FAMILY_ID)->nullable();
+                $table->bigInteger(Attributes::PACKAGE_ID)->nullable();
+                $table->text(Attributes::CUSTOM_BACKDROP)->nullable();
+                $table->text(Attributes::CUSTOM_CAKE)->nullable();
+                $table->text(Attributes::COMMENTS)->nullable();
+                $table->float(Attributes::TOTAL_PRICE)->nullable();
                 $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
                 $table->timestamps();
                 $table->softDeletes();
 
-            });
-        }
+
+                });
+            }
     }
 
     /**

@@ -31,7 +31,7 @@ class Workshop extends CustomModel
 
     protected $casts = [
         Attributes::TITLE => CastingTypes::STRING,
-        Attributes::PRICE => CastingTypes::FLOAT,
+        Attributes::PRICE => 'decimal:3',
         Attributes::CONTENT => CastingTypes::STRING,
         Attributes::STATUS => CastingTypes::INTEGER,
     ];

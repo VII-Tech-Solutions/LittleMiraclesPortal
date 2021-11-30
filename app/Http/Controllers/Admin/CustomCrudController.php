@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
+use App\Constants\SessionStatus;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -137,6 +138,48 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Custom Cake AND custom Backdrop Field
+     * @param string|null $name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param string $field_type
+     * @param int $rows
+     * @param integer|array $limit
+     */
+    function addCustomField($name = null, $label = null, $tab_name = null, $field_type = FieldTypes::TEXTAREA, $rows = 5, $limit = [], $hint = null)
+    {
+        if (is_null($name)) {
+            $name = Attributes::CUSTOM_CAKE;
+        }
+        if (is_null($label)) {
+            $label = ucwords(Attributes::CUSTOM_CAKE);
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $name,
+            Attributes::TYPE => $field_type,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                Attributes::ROWS => $rows,
+            ], $limit),
+            Attributes::TAB => $tab_name,
+            Attributes::HINT => $hint,
+            'options'       => [
+                Attributes::DIR => Attributes::LTR,
+                "language" => 'en',
+//                'removePlugins' => 'embed,Embed',
+//                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
+            ]
+
+        ]);
+    }
+
+
+    /**
      * Add Featured Image Field
      * @param null $field_name
      * @param null $label
@@ -234,7 +277,7 @@ class CustomCrudController extends CrudController
         }
         CRUD::addField([
             Attributes::LABEL => is_null($label) ? "Price" : ucwords($label),
-            Attributes::NAME => Attributes::PRICE,
+            Attributes::NAME => $field_name,
             Attributes::TYPE => FieldTypes::NUMBER,
             Attributes::ATTRIBUTES => ["step" => "any"], // allow decimals
             Attributes::PREFIX => "BHD",
@@ -343,6 +386,7 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
         ]);
     }
+
 
     /**
      * Add Name Column
@@ -493,6 +537,24 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority,
         ]);
     }
+
+    /**
+     * Add Total Price Column for Workshop
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addTotalPriceColumn($label = null, $priority = 1, $column_name = Attributes::TOTAL_PRICE)
+    {
+        if (is_null($label)) {
+            $label ="Total Price";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
+        ]);
+    }
     /**
      * Add ID  Column for Review table
      * @param string|null $label
@@ -583,6 +645,61 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Comments Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+
+    function addCommentsColumn($label = null, $priority = 1, $column_name = Attributes::COMMENTS)
+    {
+        if (is_null($label)) {
+            $label = "Additional Comments";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Custom Backdrop Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addCustomBackdropColumn($label = null, $priority = 1, $column_name = Attributes::CUSTOM_BACKDROP)
+    {
+        if (is_null($label)) {
+            $label = "Custom Backdrop";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Custom Cake Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addCustomCakeColumn($label = null, $priority = 1, $column_name = Attributes::CUSTOM_CAKE)
+    {
+        if (is_null($label)) {
+            $label = "Custom Cake";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
      * Add Status Column
      * @param string $attribute
      * @param int $priority
@@ -592,6 +709,20 @@ class CustomCrudController extends CrudController
         $this->crud->addColumn([
             Attributes::NAME => $attribute,
             Attributes::LABEL => "Status",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Session Status Column
+     * @param string $attribute
+     * @param int $priority
+     */
+    function addSessionStatusColumn($attribute = Attributes::SESSION_STATUS, $priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => "Session Status",
             Attributes::PRIORITY => $priority
         ]);
     }
