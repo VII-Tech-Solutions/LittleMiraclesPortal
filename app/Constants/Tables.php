@@ -17,6 +17,7 @@ class Tables extends CustomEnum
     const WORKSHOPS = "workshops";
     const REVIEWS = "reviews";
     const USER_DEVICES = "user_devices";
+    const SESSIONS = "sessions";
     const FAQS = "faqs";
     const PAGES = "pages";
     const SOCIAL_MEDIA = "social_media";

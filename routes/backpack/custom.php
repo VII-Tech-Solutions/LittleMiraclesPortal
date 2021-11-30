@@ -25,6 +25,7 @@ Route::group([
     Route::crud('promotions', 'PromotionCrudController');
     Route::crud('workshops', 'WorkshopCrudController');
     Route::crud('reviews', 'ReviewCrudController');
+    Route::crud('sessions', 'SessionCrudController');
     Route::crud('faqs', 'FaqsCrudController');
     Route::crud('pages', 'PageCrudController');
     Route::crud('social-media', 'SocialMediaCrudController');
