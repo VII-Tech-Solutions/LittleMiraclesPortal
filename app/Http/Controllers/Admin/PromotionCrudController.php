@@ -100,7 +100,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: Content
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
 
         // Field: Offer
         $this->addOfferField(Attributes::CATEGORY, "Offer");

@@ -77,7 +77,7 @@ class PageCrudController extends CustomCrudController
         $this->addNameField(Attributes::TITLE);
 
         // Field: Content
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
 
         // Field: Slug
         $this->addNameField(Attributes::SLUG,'Slug',null,Attributes::LTR,[],true);
