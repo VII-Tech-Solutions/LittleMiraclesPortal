@@ -21,7 +21,7 @@ class FaqsCrudController extends CustomCrudController
     {
         $this->crud->setModel(Faq::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/faqs');
-        $this->crud->setEntityNameStrings('Faq', 'Faqs');
+        $this->crud->setEntityNameStrings('FAQ', 'FAQs');
     }
 
     /**

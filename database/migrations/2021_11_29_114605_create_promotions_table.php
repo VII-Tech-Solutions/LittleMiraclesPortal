@@ -17,20 +17,21 @@ class CreatePromotionsTable extends Migration
      */
     public function up()
     {
-        Schema::create(Tables::PROMOTIONS, function (Blueprint $table) {
-            $table->bigIncrements(Attributes::ID);
-            $table->string(Attributes::IMAGE)->nullable();
-            $table->string(Attributes::TITLE)->nullable();
-            $table->string(Attributes::OFFER)->nullable();
-            $table->string(Attributes::TYPE)->nullable();
-            $table->string(Attributes::DATE)->nullable();
-            $table->string(Attributes::CONTENT)->nullable();
-            $table->string(Attributes::CODE)->nullable();
-            $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
-            $table->timestamps();
-            $table->softDeletes();
-
-        });
+        if (!Schema::hasTable(Tables::PROMOTIONS)) {
+            Schema::create(Tables::PROMOTIONS, function (Blueprint $table) {
+                $table->bigIncrements(Attributes::ID);
+                $table->string(Attributes::IMAGE)->nullable();
+                $table->string(Attributes::TITLE)->nullable();
+                $table->string(Attributes::OFFER)->nullable();
+                $table->string(Attributes::TYPE)->nullable();
+                $table->string(Attributes::DATE)->nullable();
+                $table->string(Attributes::CONTENT)->nullable();
+                $table->string(Attributes::CODE)->nullable();
+                $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**
