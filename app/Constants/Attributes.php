@@ -80,5 +80,7 @@ class Attributes extends CustomEnum
     const PACKAGE_ID = "package_id";
     const SESSION_ID = "session_id";
     const COMMENT = "comment";
+    const QUESTION = "question";
+    const ANSWER = "answer";
 
 }
