@@ -39,20 +39,21 @@ class SectionCrudController extends CustomCrudController
         // Filter: Status
         $this->addTypeFilter(SectionTypes::all());
 
-        // Column: Image
-        $this->addImageColumn("Image", 1, Attributes::IMAGE);
-
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Content
         $this->addContentColumn();
 
+        // Column: Image
+        $this->addImageColumn("Image", 1, Attributes::IMAGE);
+
+
         // Column: Action Text
-        $this->addNameColumn("Action_Text", 1, Attributes::ACTION_TEXT);
+        $this->addNameColumn("Action Text", 1, Attributes::ACTION_TEXT);
 
         // Column: Go To
-        $this->addNameColumn("Go_To", 1, Attributes::GO_TO);
+        $this->addNameColumn("Go To", 1, Attributes::GO_TO);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -85,8 +86,7 @@ class SectionCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(SectionRequest::class);
 
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+
 
         // Field: Title
         $this->addNameField(Attributes::TITLE);
@@ -94,11 +94,14 @@ class SectionCrudController extends CustomCrudController
         // Field: Description
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+
         // Field: Link
-        $this->addNameField(Attributes::ACTION_TEXT, Attributes::ACTION_TEXT);
+        $this->addNameField(Attributes::ACTION_TEXT, 'Action Text');
 
         // Field: Icon
-        $this->addNameField(Attributes::GO_TO , Attributes::GO_TO);
+        $this->addNameField(Attributes::GO_TO , 'Go To');
 
         // Field: Status
         $this->addStatusField(Status::all());

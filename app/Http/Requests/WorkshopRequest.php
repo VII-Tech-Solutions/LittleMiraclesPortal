@@ -30,7 +30,7 @@ class WorkshopRequest extends FormRequest
             Attributes::TITLE => 'required|min:2|max:255',
             Attributes::PRICE=>'required',
             Attributes::IMAGE => 'required',
-            Attributes::DATE => 'required',
+            Attributes::POSTED_AT => 'required',
             Attributes::CONTENT => 'required',
 
         ];

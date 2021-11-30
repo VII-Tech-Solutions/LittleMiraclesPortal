@@ -93,5 +93,6 @@ class Attributes extends CustomEnum
     const ICON = "icon";
     const LINK = "link";
     const ACTION_TEXT = "action_text";
+    const VALID_UNTIL = "valid_until";
 
 }

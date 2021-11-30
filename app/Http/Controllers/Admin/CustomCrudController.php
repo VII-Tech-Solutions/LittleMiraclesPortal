@@ -408,6 +408,22 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Tag Posted At Field
+     */
+    function addValidUntilField($field_name= NULL, $label = null )
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::VALID_UNTIL;
+        }
+        CRUD::addField([
+            Attributes::LABEL => is_null($label) ? "Valid Until" : ucwords($label),
+            Attributes::NAME => Attributes::VALID_UNTIL,
+            Attributes::TYPE => FieldTypes::DATE_PICKER,
+
+        ]);
+    }
+
 
 
     /**

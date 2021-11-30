@@ -22,7 +22,7 @@ class Workshop extends CustomModel
 
     protected $fillable = [
         Attributes::TITLE,
-        Attributes::DATE,
+        Attributes::POSTED_AT,
         Attributes::CONTENT,
         Attributes::PRICE,
         Attributes::IMAGE,

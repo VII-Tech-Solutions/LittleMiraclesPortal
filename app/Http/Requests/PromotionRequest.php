@@ -32,7 +32,8 @@ class PromotionRequest extends FormRequest
             Attributes::IMAGE => 'required',
             Attributes::TYPE => 'required',
             Attributes::CODE => 'required',
-            Attributes::DATE => 'required',
+            Attributes::POSTED_AT => 'required',
+            Attributes::VALID_UNTIL => 'required',
             Attributes::CONTENT => 'required',
 
         ];

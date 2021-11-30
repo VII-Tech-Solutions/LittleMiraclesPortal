@@ -53,7 +53,7 @@ class WorkshopCrudController extends CustomCrudController
         $this->addPriceColumn("Price", 1, Attributes::PRICE);
 
         // Column: Date
-        $this->addDateColumn("Date", 1, Attributes::DATE);
+        $this->addPostedAtColumn( Attributes::POSTED_AT);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -93,7 +93,7 @@ class WorkshopCrudController extends CustomCrudController
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Date
-        $this->addDateField(Attributes::DATE, "Date");
+        $this->addPostedAtField(Attributes::POSTED_AT);
 
         // Field: Price
         $this->addPriceField(Attributes::PRICE, "Price");
