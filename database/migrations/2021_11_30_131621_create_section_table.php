@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Schema;
 use App\Constants\Status;
 use App\Constants\Tables;
 
-class CreateSocialmediaTable extends Migration
+class CreateSectionTable extends Migration
 {
 
-    protected $table = Tables::SOCIAL_MEDIA;
+    protected $table = Tables::SECTIONS;
 
     /**
      * Run the migrations.
@@ -20,16 +20,17 @@ class CreateSocialmediaTable extends Migration
     public function up()
     {
         if (!Schema::hasTable($this->table)) {
-
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
+                $table->string(Attributes::IMAGE)->nullable();
                 $table->string(Attributes::TITLE)->nullable();
-                $table->string(Attributes::ICON)->nullable();
-                $table->string(Attributes::LINK)->nullable();
+                $table->string(Attributes::CONTENT)->nullable();
                 $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
+                $table->integer(Attributes::TYPE)->default(\App\Constants\SectionTypes::HEADER);
+                $table->string(Attributes::ACTION_TEXT)->nullable();
+                $table->string(Attributes::GO_TO)->nullable();
                 $table->timestamps();
                 $table->softDeletes();
-
             });
         }
     }

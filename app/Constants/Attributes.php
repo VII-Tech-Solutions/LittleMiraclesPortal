@@ -92,5 +92,6 @@ class Attributes extends CustomEnum
     const SLUG = "slug";
     const ICON = "icon";
     const LINK = "link";
+    const ACTION_TEXT = "action_text";
 
 }

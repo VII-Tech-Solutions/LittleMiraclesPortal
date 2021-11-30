@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Constants\SessionStatus;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -436,6 +437,20 @@ class CustomCrudController extends CrudController
         });
     }
 
+    function addTypeFilter($statuses = null, $column_name = Attributes::TYPE, $label = "Type")
+    {
+        if (is_null($statuses)) {
+            $statuses = SectionTypes::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $statuses, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
     /**
      * Add Status Field
      * @param null $statuses
@@ -454,6 +469,35 @@ class CustomCrudController extends CrudController
         }
         if (is_null($label)) {
             $label = ucfirst(Attributes::STATUS);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $statuses,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
+    /**
+     * Add SectionType Field
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addTypeField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($statuses)) {
+            $statuses = SectionTypes::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::TYPE;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::TYPE);
         }
         CRUD::addField([
             Attributes::LABEL => $label,
@@ -825,6 +869,20 @@ class CustomCrudController extends CrudController
         $this->crud->addColumn([
             Attributes::NAME => $attribute,
             Attributes::LABEL => "Status",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Status Column
+     * @param string $attribute
+     * @param int $priority
+     */
+    function addSectionTypeColumn($attribute = Attributes::TYPE, $priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => "Type",
             Attributes::PRIORITY => $priority
         ]);
     }

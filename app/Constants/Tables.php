@@ -21,4 +21,5 @@ class Tables extends CustomEnum
     const FAQS = "faqs";
     const PAGES = "pages";
     const SOCIAL_MEDIA = "social_media";
+    const SECTIONS = "sections";
 }

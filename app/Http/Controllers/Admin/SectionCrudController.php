@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
+use App\Constants\FieldTypes;
+use App\Constants\SectionTypes;
 use App\Constants\Status;
-use App\Http\Requests\SocialMediaRequest;
-use App\Models\SocialMedia;
+use App\Http\Requests\SectionRequest;
+use App\Models\Section;
 
-class SocialMediaCrudController extends CustomCrudController
+class SectionCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -17,9 +19,9 @@ class SocialMediaCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(SocialMedia::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/social-media');
-        $this->crud->setEntityNameStrings('Social Media', 'Social Media');
+        $this->crud->setModel(Section::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/sections');
+        $this->crud->setEntityNameStrings('Section', 'Sections');
     }
 
     /**
@@ -34,17 +36,29 @@ class SocialMediaCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
+        // Filter: Status
+        $this->addTypeFilter(SectionTypes::all());
+
+        // Column: Image
+        $this->addImageColumn("Image", 1, Attributes::IMAGE);
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
-        // Column: Link
-        $this->addNameColumn("Link", 1, Attributes::LINK);
+        // Column: Content
+        $this->addContentColumn();
 
-        // Column: Icon
-        $this->addNameColumn("Icon", 1, Attributes::ICON);
+        // Column: Action Text
+        $this->addNameColumn("Action_Text", 1, Attributes::ACTION_TEXT);
+
+        // Column: Go To
+        $this->addNameColumn("Go_To", 1, Attributes::GO_TO);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
+
+        // Column: Type
+        $this->addSectionTypeColumn(Attributes::TYPE_NAME);
 
     }
 
@@ -69,18 +83,27 @@ class SocialMediaCrudController extends CustomCrudController
     {
 
         // Validation
-        $this->crud->setValidation(SocialMediaRequest::class);
+        $this->crud->setValidation(SectionRequest::class);
+
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
         // Field: Title
         $this->addNameField(Attributes::TITLE);
 
+        // Field: Description
+        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
+
         // Field: Link
-        $this->addNameField(Attributes::LINK, Attributes::LINK);
+        $this->addNameField(Attributes::ACTION_TEXT, Attributes::ACTION_TEXT);
 
         // Field: Icon
-        $this->addNameField(Attributes::ICON , Attributes::ICON);
+        $this->addNameField(Attributes::GO_TO , Attributes::GO_TO);
 
         // Field: Status
         $this->addStatusField(Status::all());
+
+        // Field: Status
+        $this->addTypeField(SectionTypes::all());
     }
 }
