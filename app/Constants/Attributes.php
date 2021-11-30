@@ -99,5 +99,10 @@ class Attributes extends CustomEnum
     const LINK = "link";
     const ACTION_TEXT = "action_text";
     const VALID_UNTIL = "valid_until";
+    const COUNTRY_CODE = "country_code";
+    const BIRTH_DATE = "birth_date";
+    const PROVIDE = "PROVIDE";
+    const AVATAR = "avatar";
+    const PAST_EXPERIENCE = "past_experience";
 
 }

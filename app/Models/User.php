@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use VIITech\Helpers\Constants\CastingTypes;
 
 class User extends CustomModel implements
     AuthenticatableContract,
@@ -29,10 +30,22 @@ class User extends CustomModel implements
      *
      * @var array
      */
+
     protected $fillable = [
-        Attributes::FIRST_NAME, Attributes::LAST_NAME,
-        Attributes::PASSWORD, Attributes::EMAIL, Attributes::PHONE_NUMBER,
-        Attributes::GENDER
+        Attributes::FIRST_NAME,
+        Attributes::LAST_NAME,
+        Attributes::PASSWORD,
+        Attributes::EMAIL,
+        Attributes::PHONE_NUMBER,
+        Attributes::GENDER,
+        Attributes::USER_ID,
+        Attributes::COUNTRY_CODE,
+        Attributes::GENDER,
+        Attributes::BIRTH_DATE,
+        Attributes::PROVIDE,
+        Attributes::AVATAR,
+        Attributes::PAST_EXPERIENCE,
+        Attributes::STATUS
     ];
 
     /**
@@ -49,7 +62,16 @@ class User extends CustomModel implements
      *
      * @var array
      */
+
     protected $casts = [
         Attributes::VERIFIED_AT => 'datetime',
+        Attributes::USER_ID => CastingTypes::INTEGER,
+        Attributes::COUNTRY_CODE => CastingTypes::INTEGER,
+        Attributes::GENDER => CastingTypes::STRING,
+        Attributes::BIRTH_DATE => CastingTypes::STRING,
+        Attributes::PROVIDE => CastingTypes::STRING,
+        Attributes::AVATAR => CastingTypes::STRING,
+        Attributes::PAST_EXPERIENCE => CastingTypes::STRING,
+        Attributes::FAMILY_ID => CastingTypes::INTEGER,
     ];
 }

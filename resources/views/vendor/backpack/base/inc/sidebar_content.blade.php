@@ -15,3 +15,5 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('session-package') }}'><i class='nav-icon la la-hands-helping'></i>Session Package</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('social-media') }}'><i class='nav-icon la la-hands-helping'></i>Social Media</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sections') }}'><i class='nav-icon la la-hands-helping'></i>Sections</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('users') }}'><i class='nav-icon la la-hands-helping'></i>Users</a></li>
+
