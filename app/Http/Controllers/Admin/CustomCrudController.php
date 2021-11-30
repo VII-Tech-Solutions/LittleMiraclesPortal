@@ -504,7 +504,7 @@ class CustomCrudController extends CrudController
     /**
      * Add Type Filter Field
      */
-    function addTypeFilter($statuses = null, $column_name = Attributes::TYPE, $label = "Package Type")
+    function addPackageTypeFilter($statuses = null, $column_name = Attributes::TYPE, $label = "Package Type")
     {
         if (is_null($statuses)) {
             $statuses = SessionPackageTypes::all();
@@ -1110,7 +1110,7 @@ class CustomCrudController extends CrudController
      * @param null $tab_name
      * @param false $allow_null
      */
-    function addTypeField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    function addPackageTypeField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
     {
         if (is_null($statuses)) {
             $statuses = SessionPackageTypes::all();

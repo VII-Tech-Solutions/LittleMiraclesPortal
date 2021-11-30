@@ -44,7 +44,7 @@ class SessionPackageCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Filter: Session Package Type Filter
-        $this->addTypeFilter(SessionPackageTypes::all(), Attributes::TYPE,"Package Type");
+        $this->addPackageTypeFilter(SessionPackageTypes::all(), Attributes::TYPE,"Package Type");
 
         // Filter: Is Popular Filter
         $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
@@ -120,7 +120,7 @@ class SessionPackageCrudController extends CustomCrudController
         $this->addIsPopularField(IsPopular::all(),Attributes::IS_POPULAR,"Is Popular");
 
         // Field: Type
-        $this->addTypeField(SessionPackageTypes::all(), Attributes::TYPE, "Type");
+        $this->addPackageTypeField(SessionPackageTypes::all(), Attributes::TYPE, "Type");
 
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
