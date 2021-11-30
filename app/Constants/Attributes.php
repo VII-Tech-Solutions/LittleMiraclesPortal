@@ -87,5 +87,8 @@ class Attributes extends CustomEnum
     const CUSTOM_CAKE = "custom_cake";
     const COMMENTS = "COMMENTS";
     const SESSION_STATUS_NAME = "session_status_name";
+    const QUESTION = "question";
+    const ANSWER = "answer";
+    const SLUG = "slug";
 
 }

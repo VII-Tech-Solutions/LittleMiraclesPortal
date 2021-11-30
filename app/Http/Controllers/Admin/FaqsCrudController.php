@@ -5,16 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
+use App\Http\Requests\FaqRequest;
 use App\Http\Requests\OnboardingRequest;
+use App\Models\Faq;
 use App\Models\Onboarding;
 use Exception;
 
-/**
- * Onboarding CRUD Controller
- */
-class OnboardingCrudController extends CustomCrudController
+class FaqsCrudController extends CustomCrudController
 {
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -23,9 +21,9 @@ class OnboardingCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Onboarding::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/onboardings');
-        $this->crud->setEntityNameStrings('Onboarding', 'Onboardings');
+        $this->crud->setModel(Faq::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/faqs');
+        $this->crud->setEntityNameStrings('Faq', 'Faqs');
     }
 
     /**
@@ -41,16 +39,10 @@ class OnboardingCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Column: Name
-        $this->addNameColumn("Title", 1, Attributes::TITLE);
+        $this->addQuestionColumn("Question", 1, Attributes::QUESTION);
 
         // Column: Content
-        $this->addContentColumn();
-
-        // Column: Image
-        $this->addImageColumn();
-
-        // Column: Order
-        $this->addOrder();
+        $this->addAnswerColumn();
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -78,19 +70,13 @@ class OnboardingCrudController extends CustomCrudController
     {
 
         // Validation
-        $this->crud->setValidation(OnboardingRequest::class);
+        $this->crud->setValidation(FaqRequest::class);
 
         // Field: Name
-        $this->addNameField(Attributes::TITLE);
+        $this->addQuestionField(Attributes::QUESTION);
 
         // Field: Description
-        $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
-
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
-
-        // Field: Order
-        $this->addOrderField();
+        $this->addAnswerField(Attributes::ANSWER, Attributes::ANSWER, null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Status
         $this->addStatusField(Status::all());

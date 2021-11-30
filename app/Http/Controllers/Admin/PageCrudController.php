@@ -4,17 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
-use App\Constants\Status;
-use App\Http\Requests\OnboardingRequest;
-use App\Models\Onboarding;
-use Exception;
+use App\Http\Requests\PageRequest;
+use App\Models\Page;
 
-/**
- * Onboarding CRUD Controller
- */
-class OnboardingCrudController extends CustomCrudController
+class PageCrudController extends CustomCrudController
 {
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -23,9 +17,9 @@ class OnboardingCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Onboarding::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/onboardings');
-        $this->crud->setEntityNameStrings('Onboarding', 'Onboardings');
+        $this->crud->setModel(Page::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/pages');
+        $this->crud->setEntityNameStrings('Page', 'Pages');
     }
 
     /**
@@ -37,23 +31,14 @@ class OnboardingCrudController extends CustomCrudController
     protected function setupListOperation()
     {
 
-        // Filter: Status
-        $this->addStatusFilter(Status::all());
-
-        // Column: Name
+        // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Content
         $this->addContentColumn();
 
-        // Column: Image
-        $this->addImageColumn();
-
-        // Column: Order
-        $this->addOrder();
-
-        // Column: Status
-        $this->addStatusColumn(Attributes::STATUS_NAME);
+        // Column: Slug
+        $this->addNameColumn("Slug",2,Attributes::SLUG);
 
     }
 
@@ -78,21 +63,16 @@ class OnboardingCrudController extends CustomCrudController
     {
 
         // Validation
-        $this->crud->setValidation(OnboardingRequest::class);
+        $this->crud->setValidation(PageRequest::class);
 
-        // Field: Name
+        // Field: Title
         $this->addNameField(Attributes::TITLE);
 
-        // Field: Description
+        // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+        // Field: Slug
+        $this->addNameField(Attributes::SLUG,'Slug',null,Attributes::LTR,[],true);
 
-        // Field: Order
-        $this->addOrderField();
-
-        // Field: Status
-        $this->addStatusField(Status::all());
     }
 }

@@ -54,6 +54,39 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+
+
+    /**
+     * Add Name Field
+     * @param string|null $field_name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param array $limit
+     * @param bool $disabled
+     */
+    function addQuestionField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::QUESTION;
+        }
+        if (is_null($label)) {
+            $label = "Question";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+        ]);
+    }
+
     /**
      * Add Description Field
      * @param string|null $name
@@ -136,6 +169,51 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+
+
+    /**
+     * Add Description Field
+     * @param string|null $name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param string $field_type
+     * @param int $rows
+     * @param integer|array $limit
+     */
+    function addAnswerField($name = null, $label = null, $tab_name = null, $field_type = FieldTypes::TEXTAREA, $rows = 5, $limit = [], $hint = null)
+    {
+        if (is_null($name)) {
+            $name = Attributes::ANSWER;
+        }
+        if (is_null($label)) {
+            $label = ucwords(Attributes::ANSWER);
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $name,
+            Attributes::TYPE => $field_type,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                Attributes::ROWS => $rows,
+            ], $limit),
+            Attributes::TAB => $tab_name,
+            Attributes::HINT => $hint,
+            'options'       => [
+                Attributes::DIR => Attributes::LTR,
+                "language" => 'en',
+//                'removePlugins' => 'embed,Embed',
+//                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
+            ]
+
+        ]);
+    }
+
+
+
 
     /**
      * Add Custom Cake AND custom Backdrop Field
@@ -406,6 +484,23 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Name Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addQuestionColumn($label = null, $priority = 1, $column_name = Attributes::QUESTION)
+    {
+        if (is_null($label)) {
+            $label = "Question";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
     /**
      * Add Image Column
@@ -643,6 +738,27 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
+
+    /**
+     * Add Content Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addAnswerColumn($label = null, $priority = 1, $column_name = Attributes::ANSWER)
+    {
+        if (is_null($label)) {
+            $label = "Answer";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+
 
     /**
      * Add Comments Column
