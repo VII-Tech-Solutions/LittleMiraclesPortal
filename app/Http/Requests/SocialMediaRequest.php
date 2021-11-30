@@ -1,9 +1,10 @@
 <?php
 
+
 namespace App\Http\Requests;
 
 use App\Constants\Attributes;
-use Dingo\Api\Http\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SocialMediaRequest extends FormRequest
 {
