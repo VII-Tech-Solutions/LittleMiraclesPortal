@@ -82,5 +82,6 @@ class Attributes extends CustomEnum
     const COMMENT = "comment";
     const QUESTION = "question";
     const ANSWER = "answer";
+    const SLUG = "slug";
 
 }
