@@ -14,3 +14,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pages') }}'><i class='nav-icon la la-hands-helping'></i>Pages</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('social-media') }}'><i class='nav-icon la la-hands-helping'></i>Social Media</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sections') }}'><i class='nav-icon la la-hands-helping'></i>Sections</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-metadata') }}'><i class='nav-icon la la-hands-helping'></i>Studio</a></li>

@@ -30,5 +30,6 @@ Route::group([
     Route::crud('pages', 'PageCrudController');
     Route::crud('social-media', 'SocialMediaCrudController');
     Route::crud('sections', 'SectionCrudController');
+    Route::crud('studio-metadata', 'StudioMetadataCrudController');
 
 }); // this should be the absolute last line of this file

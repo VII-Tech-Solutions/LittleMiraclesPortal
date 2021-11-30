@@ -7,6 +7,7 @@ use App\Constants\FieldTypes;
 use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Constants\SessionStatus;
+use App\Constants\StudioCategory;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -453,6 +454,20 @@ class CustomCrudController extends CrudController
         });
     }
 
+    function addCategoryFilter($statuses = null, $column_name = Attributes::CATEGORY, $label = "Category")
+    {
+        if (is_null($statuses)) {
+            $statuses = StudioCategory::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $statuses, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
     function addTypeFilter($statuses = null, $column_name = Attributes::TYPE, $label = "Type")
     {
         if (is_null($statuses)) {
@@ -524,6 +539,36 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
         ]);
     }
+
+    /**
+     * Add Studio Metadata Category Field
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addCategoryField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($statuses)) {
+            $statuses = StudioCategory::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::CATEGORY;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::CATEGORY);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $statuses,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
 
 
     /**
@@ -899,6 +944,20 @@ class CustomCrudController extends CrudController
         $this->crud->addColumn([
             Attributes::NAME => $attribute,
             Attributes::LABEL => "Type",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Status Column
+     * @param string $attribute
+     * @param int $priority
+     */
+    function addStudioMetadataColumn($attribute = Attributes::CATEGORY, $priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => "Category",
             Attributes::PRIORITY => $priority
         ]);
     }

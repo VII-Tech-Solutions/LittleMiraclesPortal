@@ -94,5 +94,6 @@ class Attributes extends CustomEnum
     const LINK = "link";
     const ACTION_TEXT = "action_text";
     const VALID_UNTIL = "valid_until";
+    const CATEGORY_NAME = "category_name";
 
 }

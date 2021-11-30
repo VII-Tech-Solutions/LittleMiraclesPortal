@@ -22,4 +22,5 @@ class Tables extends CustomEnum
     const PAGES = "pages";
     const SOCIAL_MEDIA = "social_media";
     const SECTIONS = "sections";
+    const STUDIO_METADATA = "studio_metadata";
 }
