@@ -90,10 +90,20 @@ class Attributes extends CustomEnum
     const QUESTION = "question";
     const ANSWER = "answer";
     const SLUG = "slug";
+    const TAG = "tag";
+    const IS_POPULAR = "is_popular";
+    const LOCATION_TEXT = "location_text";
+    const LOCATION_LINK = "location_link";
+    const IS_POPULAR_NAME = "is_popular_name";
     const ICON = "icon";
     const LINK = "link";
     const ACTION_TEXT = "action_text";
     const VALID_UNTIL = "valid_until";
+    const COUNTRY_CODE = "country_code";
+    const BIRTH_DATE = "birth_date";
+    const PROVIDE = "PROVIDE";
+    const AVATAR = "avatar";
+    const PAST_EXPERIENCE = "past_experience";
     const CATEGORY_NAME = "category_name";
 
 }

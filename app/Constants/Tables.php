@@ -20,7 +20,9 @@ class Tables extends CustomEnum
     const SESSIONS = "sessions";
     const FAQS = "faqs";
     const PAGES = "pages";
+    const SESSION_PACKAGES = "session_packages";
     const SOCIAL_MEDIA = "social_media";
     const SECTIONS = "sections";
     const STUDIO_METADATA = "studio_metadata";
+
 }

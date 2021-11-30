@@ -10,8 +10,10 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('workshops') }}'><i class='nav-icon la la-hands-helping'></i>Workshops</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('reviews') }}'><i class='nav-icon la la-hands-helping'></i>Reviews</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sessions') }}'><i class='nav-icon la la-hands-helping'></i>Sessions</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('faqs') }}'><i class='nav-icon la la-hands-helping'></i>FAQs</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('faqs') }}'><i class='nav-icon la la-hands-helping'></i>Faqs</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('pages') }}'><i class='nav-icon la la-hands-helping'></i>Pages</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('session-package') }}'><i class='nav-icon la la-hands-helping'></i>Session Package</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('social-media') }}'><i class='nav-icon la la-hands-helping'></i>Social Media</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sections') }}'><i class='nav-icon la la-hands-helping'></i>Sections</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('users') }}'><i class='nav-icon la la-hands-helping'></i>Users</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-metadata') }}'><i class='nav-icon la la-hands-helping'></i>Studio</a></li>

@@ -196,5 +196,14 @@ class Helpers
 
         return Media::where(Attributes::URL, $image)->first();
     }
+    public static function ReadableBoolean($bool= null)
+    {
+        if($bool === true){
+            return "Yes";
+        }
+        else{
+            return "No";
+        }
+    }
 
 }
