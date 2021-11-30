@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\IsPopular;
+use App\Constants\SessionPackageTypes;
 use App\Constants\Status;
 use App\Constants\SessionStatus;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -88,6 +90,35 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Tags Field
+     * @param string|null $tab_name
+     */
+    function addTagField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::TAG;
+        }
+        if (is_null($label)) {
+            $label = "Tags";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+        ]);
+    }
+
+
+
+    /**
      * Add Description Field
      * @param string|null $name
      * @param string|null $label
@@ -130,7 +161,7 @@ class CustomCrudController extends CrudController
 
 
     /**
-    * Add Description Field
+    * Add Content Field
      * @param string|null $name
      * @param string|null $label
      * @param string|null $tab_name
@@ -422,10 +453,47 @@ class CustomCrudController extends CrudController
             Attributes::ATTRIBUTES => $this->disabled($is_disabled),
         ]);
     }
+    /**
+     * Add Status Filter Field
+     */
     function addStatusFilter($statuses = null, $column_name = Attributes::STATUS, $label = "Status")
     {
         if (is_null($statuses)) {
             $statuses = Status::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $statuses, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
+    /**
+     * Add Type Filter Field
+     */
+    function addTypeFilter($statuses = null, $column_name = Attributes::TYPE, $label = "Package Type")
+    {
+        if (is_null($statuses)) {
+            $statuses = SessionPackageTypes::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $statuses, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
+    /**
+     * Add Is Popular Filter Field
+     */
+    function addIsPopularFilter($statuses = null, $column_name = Attributes::IS_POPULAR, $label = "Is Popular")
+    {
+        if (is_null($statuses)) {
+            $statuses = IsPopular::all();
         }
         $this->crud->addFilter([
             Attributes::TYPE => FieldTypes::DROPDOWN,
@@ -476,6 +544,45 @@ class CustomCrudController extends CrudController
     {
         if (is_null($label)) {
             $label = "Title";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Tag Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addTagColumn($label = null, $priority = 1, $column_name = Attributes::TAG)
+    {
+        if (is_null($label)) {
+            $label = "Tag";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Tag Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addIsPopularColumn($label = null, $priority = 1, $column_name = Attributes::IS_POPULAR)
+    {
+        if (is_null($label)) {
+            $label = "Is Popular";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::IS_POPULAR;
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -720,6 +827,41 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Location Text Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addLocationTextColumn($label = null, $priority = 1, $column_name = Attributes::LOCATION_TEXT)
+    {
+        if (is_null($label)) {
+            $label = "Location Text";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Location link Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addLocationLinkColumn($label = null, $priority = 1, $column_name = Attributes::LOCATION_LINK)
+    {
+        if (is_null($label)) {
+            $label = "Location Link";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
    /**
      * Add Content Column
@@ -741,7 +883,7 @@ class CustomCrudController extends CrudController
 
 
     /**
-     * Add Content Column
+     * Add Answer Column
      * @param string|null $label
      * @param int $priority
      * @param string $column_name
@@ -816,6 +958,20 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Type Column For Session Packages
+     * @param string $attribute
+     * @param int $priority
+     */
+    function addTypeColumn($attribute = Attributes::TYPE, $priority = 1,$label = Attributes::TYPE)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
      * Add Status Column
      * @param string $attribute
      * @param int $priority
@@ -869,6 +1025,95 @@ class CustomCrudController extends CrudController
             Attributes::LABEL => ucwords($label),
             Attributes::ATTRIBUTES => array_merge($limit) + $this->disabled($disabled),
 
+        ]);
+    }
+
+    /**
+     * Add Type Field for session package
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addTypeField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($statuses)) {
+            $statuses = SessionPackageTypes::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::TYPE;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::TYPE);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $statuses,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
+    /**
+     * Add Is Popular Field for session package
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addIsPopularField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($statuses)) {
+            $statuses = IsPopular::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::IS_POPULAR;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::IS_POPULAR);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $statuses,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
+    /**
+     * Add Location Field for text and link
+     * @param string|null $field_name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param array $limit
+     * @param bool $disabled
+     */
+    function addLocationField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::LOCATION_TEXT;
+        }
+        if (is_null($label)) {
+            $label = "Location Text";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
         ]);
     }
 

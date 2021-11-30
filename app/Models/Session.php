@@ -72,16 +72,5 @@ class Session extends CustomModel
         return Helpers::readableText($text);
     }
 
-    /**
-     * Get image Attribute
-     * @param $value
-     * @return string|null
-     */
-    function getImageAttribute($value){
-        if(empty($value)){
-            return null;
-        }
-        return url($value);
-    }
 
 }

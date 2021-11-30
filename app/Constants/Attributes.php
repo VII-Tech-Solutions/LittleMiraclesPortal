@@ -90,5 +90,11 @@ class Attributes extends CustomEnum
     const QUESTION = "question";
     const ANSWER = "answer";
     const SLUG = "slug";
+    const TAG = "tag";
+    const IS_POPULAR = "is_popular";
+    const LOCATION_TEXT = "location_text";
+    const LOCATION_LINK = "location_link";
+    const IS_POPULAR_NAME = "is_popular_name";
+
 
 }
