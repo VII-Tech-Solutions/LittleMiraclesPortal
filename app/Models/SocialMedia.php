@@ -8,18 +8,16 @@ use App\Constants\Tables;
 use App\Helpers;
 
 /**
- * Pages
+ * SocialMedia
  *
  * @property string title
- * @property string content
- * @property string slug
+ * @property string icon
+ * @property string link
  * @property int status
-
  */
-
-class Page extends CustomModel
+class SocialMedia extends CustomModel
 {
-    protected $table = Tables::PAGES;
+    protected $table = Tables::SOCIAL_MEDIA;
 
     protected $guarded = [
         Attributes::ID
@@ -27,8 +25,8 @@ class Page extends CustomModel
 
     protected $fillable = [
         Attributes::TITLE,
-        Attributes::CONTENT,
-        Attributes::SLUG,
+        Attributes::ICON,
+        Attributes::LINK,
         Attributes::STATUS,
     ];
 

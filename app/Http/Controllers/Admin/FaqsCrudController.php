@@ -6,9 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Http\Requests\FaqRequest;
-use App\Http\Requests\OnboardingRequest;
 use App\Models\Faq;
-use App\Models\Onboarding;
 use Exception;
 
 class FaqsCrudController extends CustomCrudController

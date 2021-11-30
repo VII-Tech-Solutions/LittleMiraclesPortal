@@ -83,5 +83,7 @@ class Attributes extends CustomEnum
     const QUESTION = "question";
     const ANSWER = "answer";
     const SLUG = "slug";
+    const ICON = "icon";
+    const LINK = "link";
 
 }

@@ -27,5 +27,6 @@ Route::group([
     Route::crud('reviews', 'ReviewCrudController');
     Route::crud('faqs', 'FaqsCrudController');
     Route::crud('pages', 'PageCrudController');
+    Route::crud('social-media', 'SocialMediaCrudController');
 
 }); // this should be the absolute last line of this file
