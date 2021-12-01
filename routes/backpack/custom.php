@@ -34,4 +34,6 @@ Route::group([
     Route::crud('users', 'UserCrudController');
     Route::crud('studio-metadata', 'StudioMetadataCrudController');
     Route::crud('family-members', 'FamilyMemberCrudController');
+    Route::crud('family-info', 'FamilyInfoCrudController');
+
 }); // this should be the absolute last line of this file

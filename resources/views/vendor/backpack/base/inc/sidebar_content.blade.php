@@ -18,3 +18,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('users') }}'><i class='nav-icon la la-hands-helping'></i>Users</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-metadata') }}'><i class='nav-icon la la-hands-helping'></i>Studio</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-members') }}'><i class='nav-icon la la-hands-helping'></i>Family Members</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-info') }}'><i class='nav-icon la la-hands-helping'></i>Family Information</a></li>

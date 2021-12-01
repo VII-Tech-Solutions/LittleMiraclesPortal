@@ -1,17 +1,15 @@
 <?php
 
 use App\Constants\Attributes;
-use App\Constants\Relationship;
 use App\Constants\Status;
 use App\Constants\Tables;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-
-class CreateFamilyMembersTable extends Migration
+class CreateFamilyInfoTable extends Migration
 {
-    protected $table = Tables::FAMILY_MEMBERS;
+    protected $table = Tables::FAMILY_INFO;
     /**
      * Run the migrations.
      *
@@ -24,11 +22,8 @@ class CreateFamilyMembersTable extends Migration
                 $table->bigIncrements(Attributes::ID);
                 $table->bigInteger(Attributes::USER_ID)->nullable();
                 $table->bigInteger(Attributes::FAMILY_ID)->nullable();
-                $table->string(Attributes::FIRST_NAME)->nullable();
-                $table->string(Attributes::LAST_NAME)->nullable();
-                $table->integer(Attributes::GENDER)->nullable();
-                $table->date(Attributes::BIRTH_DATE)->nullable();
-                $table->integer(Attributes::RELATIONSHIP)->nullable();
+                $table->bigInteger(Attributes::QUESTION_ID)->nullable();
+                $table->string(Attributes::ANSWER)->nullable();
                 $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
                 $table->timestamps();
                 $table->softDeletes();
