@@ -40,8 +40,8 @@ class SocialMediaCrudController extends CustomCrudController
         // Column: Link
         $this->addNameColumn("Link", 1, Attributes::LINK);
 
-        // Column: Icon
-        $this->addNameColumn("Icon", 1, Attributes::ICON);
+        // Column: Image
+        $this->addImageColumn("Image");
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -77,8 +77,8 @@ class SocialMediaCrudController extends CustomCrudController
         // Field: Link
         $this->addNameField(Attributes::LINK, Attributes::LINK);
 
-        // Field: Icon
-        $this->addNameField(Attributes::ICON , Attributes::ICON);
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
         // Field: Status
         $this->addStatusField(Status::all());

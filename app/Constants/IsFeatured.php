@@ -4,6 +4,6 @@ namespace App\Constants;
 
 class IsFeatured extends CustomEnum
 {
-    const NO = 0;
-    const YES = 1;
+    const FALSE = 0;
+    const TRUE = 1;
 }

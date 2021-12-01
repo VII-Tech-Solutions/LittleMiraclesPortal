@@ -34,6 +34,7 @@ trait ImageTrait
     public function setImage($value)
     {
         if(Str::startsWith($value, "http")){
+            $this->attributes[Attributes::IMAGE] = $value;
             return;
         }
         if(!is_null($value)){
