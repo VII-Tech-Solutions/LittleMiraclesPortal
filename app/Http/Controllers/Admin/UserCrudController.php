@@ -9,11 +9,10 @@ use App\Constants\Status;
 use App\Constants\Gender;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use App\Models\Workshop;
 use Exception;
 
 /**
- * Workshop CRUD Controller
+ * User CRUD Controller
 
  */
 class UserCrudController extends CustomCrudController
