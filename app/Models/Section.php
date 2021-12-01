@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Constants\Attributes;
 use App\Constants\SectionTypes;
-use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
+use App\Traits\ImageTrait;
+use App\Traits\ModelTrait;
 
 /**
  * Class Notification
@@ -24,10 +25,10 @@ use App\Helpers;
 class Section extends CustomModel
 {
 
-    protected $table = Tables::SECTIONS;
+    use ModelTrait, ImageTrait;
+
     public const DIRECTORY = "uploads/sections";
-
-
+    protected $table = Tables::SECTIONS;
     protected $guarded = [
         Attributes::ID
     ];
@@ -54,8 +55,7 @@ class Section extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        $text = Status::getKey($this->status);
-        return Helpers::readableText($text);
+        return $this->getStatusName($value);
     }
 
     /**
@@ -63,11 +63,9 @@ class Section extends CustomModel
      * @param $value
      * @return string|null
      */
-    function getImageAttribute($value){
-        if(empty($value)){
-            return null;
-        }
-        return url($value);
+    function getImageAttribute($value)
+    {
+        return $this->getImage($value);
     }
 
     /**
@@ -76,12 +74,7 @@ class Section extends CustomModel
      */
     public function setImageAttribute($value)
     {
-        if(!is_null($value)){
-            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, self::DIRECTORY, true, false, true);
-            $this->attributes[Attributes::IMAGE] = "storage/" . $path;
-        }else{
-            $this->attributes[Attributes::IMAGE] = null;
-        }
+        $this->setImage($value);
     }
 
     /**

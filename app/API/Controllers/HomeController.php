@@ -109,6 +109,9 @@ class HomeController extends CustomController
         // TODO get packages
         // TODO get studio metadata
         // TODO get user info
+        // TODO get faq
+        // TODO get social media
+        // TODO get pages
 
         // get last updated items
         if(!is_null($this->last_update)){

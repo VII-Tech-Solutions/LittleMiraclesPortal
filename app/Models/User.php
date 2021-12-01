@@ -16,6 +16,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use VIITech\Helpers\Constants\CastingTypes;
 
+/**
+ * User
+ */
 class User extends CustomModel implements
     AuthenticatableContract,
     AuthorizableContract,
