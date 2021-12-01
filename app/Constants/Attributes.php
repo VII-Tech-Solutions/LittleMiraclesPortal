@@ -30,6 +30,7 @@ class Attributes extends CustomEnum
     const GO_TO = "go_to";
     const ITEM_ID = "item_id";
     const DAILY_TIPS = "daily_tips";
+    const SECTIONS = "sections";
     const CAKES = "cakes";
     const NAME = "name";
     const BACKDROPS = "backdrops";
