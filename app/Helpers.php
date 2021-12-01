@@ -21,6 +21,9 @@ use VIITech\Helpers\GlobalHelpers;
 use function Sentry\captureException;
 use function Sentry\configureScope;
 
+/**
+ * Helpers
+ */
 class Helpers
 {
 
@@ -114,6 +117,11 @@ class Helpers
         }
     }
 
+    /**
+     * Readable Text
+     * @param $text
+     * @return string
+     */
     static function readableText($text){
         return ucwords(strtolower(str_replace("_", " ", $text)));
     }
@@ -196,12 +204,17 @@ class Helpers
 
         return Media::where(Attributes::URL, $image)->first();
     }
-    public static function ReadableBoolean($bool= null)
+
+    /**
+     * Readable Boolean
+     * @param boolean $boolean
+     * @return string
+     */
+    public static function readableBoolean($boolean)
     {
-        if($bool === true){
+        if($boolean === true || $boolean === 1){
             return "Yes";
-        }
-        else{
+        } else{
             return "No";
         }
     }

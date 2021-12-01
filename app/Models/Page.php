@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
+use App\Traits\ModelTrait;
 
 /**
  * Pages
@@ -14,11 +15,11 @@ use App\Helpers;
  * @property string content
  * @property string slug
  * @property int status
-
  */
-
 class Page extends CustomModel
 {
+    use ModelTrait;
+
     protected $table = Tables::PAGES;
 
     protected $guarded = [
@@ -43,7 +44,6 @@ class Page extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        $text = Status::getKey($this->status);
-        return Helpers::readableText($text);
+        return $this->getStatusName($value);
     }
 }

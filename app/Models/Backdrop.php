@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
+use App\Traits\ImageTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -14,10 +15,10 @@ use VIITech\Helpers\Constants\CastingTypes;
 class Backdrop extends CustomModel
 {
 
-    protected $table = Tables::BACKDROP;
+    use ImageTrait;
+
     public const DIRECTORY = "uploads/backdrops";
-
-
+    protected $table = Tables::BACKDROP;
     protected $guarded = [
         Attributes::ID
     ];
@@ -55,11 +56,9 @@ class Backdrop extends CustomModel
      * @param $value
      * @return string|null
      */
-    function getImageAttribute($value){
-        if(empty($value)){
-            return null;
-        }
-        return url($value);
+    function getImageAttribute($value)
+    {
+        return $this->getImage($value);
     }
 
     /**
@@ -68,11 +67,6 @@ class Backdrop extends CustomModel
      */
     public function setImageAttribute($value)
     {
-        if(!is_null($value)){
-            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, self::DIRECTORY, true, false, true);
-            $this->attributes[Attributes::IMAGE] = "storage/" . $path;
-        }else{
-            $this->attributes[Attributes::IMAGE] = null;
-        }
+        $this->setImage($value);
     }
 }

@@ -16,6 +16,7 @@ class ListOnboardingTransformer extends CustomTransformer
         Attributes::CONTENT,
         Attributes::IMAGE,
         Attributes::ORDER,
-        Attributes::UPDATED_AT
+        Attributes::UPDATED_AT,
+        Attributes::DELETED_AT,
     ];
 }

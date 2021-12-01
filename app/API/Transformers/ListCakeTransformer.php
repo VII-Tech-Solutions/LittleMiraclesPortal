@@ -16,6 +16,7 @@ class ListCakeTransformer extends CustomTransformer
         Attributes::CATEGORY,
         Attributes::IMAGE,
         Attributes::STATUS,
-        Attributes::UPDATED_AT
+        Attributes::UPDATED_AT,
+        Attributes::DELETED_AT,
     ];
 }

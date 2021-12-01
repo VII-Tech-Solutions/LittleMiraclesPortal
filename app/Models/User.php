@@ -31,7 +31,6 @@ class User extends CustomModel implements
 {
     use Notifiable, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasApiTokens, CrudTrait;
 
-
     protected $table = Tables::USERS;
     public const DIRECTORY = "uploads/users";
     /**
@@ -49,6 +48,7 @@ class User extends CustomModel implements
         Attributes::GENDER,
         Attributes::USER_ID,
         Attributes::COUNTRY_CODE,
+        Attributes::GENDER,
         Attributes::BIRTH_DATE,
         Attributes::PROVIDER,
         Attributes::AVATAR,
