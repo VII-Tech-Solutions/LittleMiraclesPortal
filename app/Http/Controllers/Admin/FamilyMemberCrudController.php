@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\Relationship;
 use App\Constants\Status;
 use App\Constants\Gender;
+use App\Http\Requests\FamilyMemberRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\FamilyMember;
 use App\Models\User;
 use Exception;
 
 /**
- * User CRUD Controller
+ * Family Member CRUD Controller
 
  */
-class UserCrudController extends CustomCrudController
+class FamilyMemberCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -25,9 +28,9 @@ class UserCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(User::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/users');
-        $this->crud->setEntityNameStrings('User', 'Users');
+        $this->crud->setModel(FamilyMember::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/family-members');
+        $this->crud->setEntityNameStrings('Family Member', 'Family Members');
     }
 
     /**
@@ -45,8 +48,11 @@ class UserCrudController extends CustomCrudController
         // Filter: Gender
         $this->addGenderFilter(Gender::all());
 
-        // column: User ID
-        $this->addIDColumn("User ID", 1, Attributes::ID);
+        // Filter: Relationship
+        $this->addRelationshipFilter(Relationship::all());
+
+        // column: ID
+        $this->addIDColumn("ID", 1, Attributes::ID);
 
         // Column: First Name
         $this->addNameColumn("First Name", 1, Attributes::FIRST_NAME);
@@ -60,23 +66,11 @@ class UserCrudController extends CustomCrudController
         // column: Birth Date
         $this->addDateColumn("Birth Date", 1 ,  Attributes::BIRTH_DATE);
 
-        // column: Email
-        $this->addEmailColumn("Email", 1 , Attributes::EMAIL);
+        //column: Relationship
+        $this->addRelationshipColumn("Relationship" , 1 , Attributes::RELATIONSHIP_NAME);
 
-        // column: Country Code
-        $this->addNameColumn("Country Code", 1, Attributes::COUNTRY_CODE);
-
-        // column: Phone Number
-        $this->addNumberColumn("Phone Number", 1 , Attributes::PHONE_NUMBER);
-
-        // column: Provider
-        $this->addProviderColumn("Provider", 1, Attributes::PROVIDER);
-
-        // column: Avatar
-        $this->addImageColumn("Avatar",1 , Attributes::AVATAR);
-
-        // column: Past Experience
-        $this->addPastExperienceColumn("Past Experience", 1, Attributes::PAST_EXPERIENCE);
+        // column: User ID
+        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
 
         // Column: Family ID
         $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
@@ -106,39 +100,26 @@ class UserCrudController extends CustomCrudController
     protected function setupCreateOperation()
     {
         // Validation
-        $this->crud->setValidation(UserRequest::class);
+        $this->crud->setValidation(FamilyMemberRequest::class);
 
         // Field: First Name
         $this->addNameField(Attributes::FIRST_NAME, "First Name");
 
         // Field: Last Name
         $this->addNameField(Attributes::LAST_NAME, "Last Name");
+
         // Field: Gender
         $this->addGenderField(Gender::all(),Attributes::GENDER,"Gender");
 
         // Field: Birth Date
         $this->addDateField(Attributes::BIRTH_DATE,"Birth Date");
 
-        // Field: Email
-        $this->addEmailField(Attributes::EMAIL,"Email");
-
-        // Field: Country Code
-        $this->addNumberField(Attributes::COUNTRY_CODE, "Country Code", null, 4);
-
-        // Field: Phone Number
-        $this->addNumberField(Attributes::PHONE_NUMBER, "Phone Number", null, 12);
-
-        // Field: Provider
-        $this->addTextField(Attributes::PROVIDER,"Provider");
-
-        // Field: Avatar
-        $this->addFeaturedImageField(Attributes::AVATAR, "Avatar", true);
-
-        // Field: Past Experience
-        $this->addTextField(Attributes::PAST_EXPERIENCE,"Past Experience");
+        // Field: Relationship
+        $this->addRelationshipField(Relationship::all(),Attributes::RELATIONSHIP,"Relationship");
 
         // Field: Status
         $this->addStatusField(Status::all());
 
     }
+
 }

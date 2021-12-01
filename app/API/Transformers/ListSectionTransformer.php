@@ -18,6 +18,7 @@ class ListSectionTransformer extends CustomTransformer
         Attributes::TYPE,
         Attributes::ACTION_TEXT,
         Attributes::GO_TO,
+        Attributes::IS_FEATURED,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
