@@ -83,7 +83,7 @@ class WorkshopCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(WorkshopRequest::class);
 
-        // Field: Name
+        // Field: Title
         $this->addNameField(Attributes::TITLE, "Title");
 
         // Field: Image

@@ -101,9 +101,10 @@ class Attributes extends CustomEnum
     const VALID_UNTIL = "valid_until";
     const COUNTRY_CODE = "country_code";
     const BIRTH_DATE = "birth_date";
-    const PROVIDE = "PROVIDE";
+    const PROVIDER = "PROVIDER";
     const AVATAR = "avatar";
     const PAST_EXPERIENCE = "past_experience";
     const CATEGORY_NAME = "category_name";
+    const GENDER_NAME = "gender_name";
 
 }

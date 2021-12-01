@@ -30,10 +30,10 @@ class AddUserFieldsToUsers extends Migration
                     $table->integer(Attributes::GENDER)->nullable();
                 }
                 if(!Schema::hasColumn($this->table , Attributes::BIRTH_DATE)){
-                    $table->string(Attributes::BIRTH_DATE)->nullable();
+                    $table->date(Attributes::BIRTH_DATE)->nullable();
                 }
-                if(!Schema::hasColumn($this->table , Attributes::PROVIDE)){
-                    $table->string(Attributes::PROVIDE)->nullable();
+                if(!Schema::hasColumn($this->table , Attributes::PROVIDER)){
+                    $table->string(Attributes::PROVIDER)->nullable();
                 }
                 if(!Schema::hasColumn($this->table , Attributes::AVATAR)){
                     $table->string(Attributes::AVATAR)->nullable();
