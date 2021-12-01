@@ -108,7 +108,7 @@ class HomeController extends CustomController
 
         // TODO get packages
         // TODO get studio metadata
-        // TODO User Info
+        // TODO get user info
 
         // get last updated items
         if(!is_null($this->last_update)){
@@ -119,6 +119,7 @@ class HomeController extends CustomController
             $daily_tips = Helpers::getLatestOnlyInCollection($daily_tips, $this->last_update);
             $promotions = Helpers::getLatestOnlyInCollection($promotions, $this->last_update);
             $workshops = Helpers::getLatestOnlyInCollection($workshops, $this->last_update);
+            $sections = Helpers::getLatestOnlyInCollection($sections, $this->last_update);
         }
 
         // return response
