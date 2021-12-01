@@ -18,6 +18,7 @@ class Attributes extends CustomEnum
     const LAST_NAME = "last_name";
     const TOKEN = "token";
     const LTR = "ltr";
+    const PROMO_CODE = "promo_code";
     const FIRST_NAME = "first_name";
     const MESSAGE = "message";
     const PASSWORD = "password";

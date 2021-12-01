@@ -9,7 +9,6 @@ use App\Constants\Status;
 use App\Http\Requests\PromotionRequest;
 use App\Models\Promotion;
 use Exception;
-use Lcobucci\JWT\Validation\Constraint\ValidAt;
 
 /**
  * Promotions CRUD Controller
@@ -63,7 +62,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addPostedAtColumn("Valid Until",1, Attributes::VALID_UNTIL);
 
         // Column: Promo Code
-        $this->addPromotionCodeColumn("Promo Code", 1, Attributes::CODE);
+        $this->addPromotionCodeColumn("Promo Code", 1, Attributes::PROMO_CODE);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);

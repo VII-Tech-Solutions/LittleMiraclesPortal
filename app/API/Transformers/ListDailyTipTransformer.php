@@ -17,6 +17,7 @@ class ListDailyTipTransformer extends CustomTransformer
         Attributes::POSTED_AT,
         Attributes::CONTENT,
         Attributes::STATUS,
-        Attributes::UPDATED_AT
+        Attributes::UPDATED_AT,
+        Attributes::DELETED_AT,
     ];
 }

@@ -15,11 +15,13 @@ class ListPromotionTransformer extends CustomTransformer
         Attributes::TITLE,
         Attributes::OFFER,
         Attributes::TYPE,
-        Attributes::DATE,
+        Attributes::POSTED_AT,
+        Attributes::VALID_UNTIL,
         Attributes::CONTENT,
-        Attributes::CODE,
+        Attributes::PROMO_CODE,
         Attributes::IMAGE,
         Attributes::STATUS,
-        Attributes::UPDATED_AT
+        Attributes::UPDATED_AT,
+        Attributes::DELETED_AT,
     ];
 }
