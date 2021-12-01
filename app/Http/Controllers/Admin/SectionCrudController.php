@@ -9,6 +9,7 @@ use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Http\Requests\SectionRequest;
 use App\Models\Section;
+use Exception;
 
 class SectionCrudController extends CustomCrudController
 {
@@ -59,14 +60,15 @@ class SectionCrudController extends CustomCrudController
         // Column: Go To
         $this->addNameColumn("Go To", 1, Attributes::GO_TO);
 
-        // Column: Status
-        $this->addStatusColumn(Attributes::STATUS_NAME);
-
         // Column: Type
         $this->addSectionTypeColumn(Attributes::TYPE_NAME);
 
         // Column: Is Featured
         $this->addIsPopularColumn("Is Featured", 1, Attributes::IS_FEATURED_NAME);
+
+        // Column: Status
+        $this->addStatusColumn(Attributes::STATUS_NAME);
+
 
     }
 
@@ -105,7 +107,7 @@ class SectionCrudController extends CustomCrudController
         // Field: Link
         $this->addNameField(Attributes::ACTION_TEXT, 'Action Text');
 
-        // Field: Icon
+        // Field: Go To
         $this->addNameField(Attributes::GO_TO , 'Go To');
 
         // Field: Status
