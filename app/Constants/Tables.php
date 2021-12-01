@@ -26,5 +26,6 @@ class Tables extends CustomEnum
     const STUDIO_METADATA = "studio_metadata";
     const FAMILY_MEMBERS = "family_members";
     const TAGS = "tags";
+    const FAMILY_INFO = "family_info";
 
 }

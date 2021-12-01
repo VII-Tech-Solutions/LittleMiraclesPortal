@@ -7,6 +7,7 @@ use App\Constants\Gender;
 use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
+use App\Traits\ImageTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -16,6 +17,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -29,7 +31,7 @@ class User extends CustomModel implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Notifiable, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasApiTokens, CrudTrait;
+    use Notifiable, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasApiTokens, CrudTrait,ImageTrait;
 
     protected $table = Tables::USERS;
     public const DIRECTORY = "uploads/users";
@@ -116,10 +118,7 @@ class User extends CustomModel implements
      * @return string|null
      */
     function getAvatarAttribute($value){
-        if(empty($value)){
-            return null;
-        }
-        return url($value);
+        return $this->getImage($value);
     }
 
     /**
@@ -128,6 +127,10 @@ class User extends CustomModel implements
      */
     public function setAvatarAttribute($value)
     {
+        if(Str::startsWith($value, "http")){
+            $this->attributes[Attributes::AVATAR] = $value;
+            return;
+        }
         if(!is_null($value)){
             $path = Helpers::uploadFile($this, $value, Attributes::AVATAR, self::DIRECTORY, true, false, true);
             $this->attributes[Attributes::AVATAR] = "storage/" . $path;
