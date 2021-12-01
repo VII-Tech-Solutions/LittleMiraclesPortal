@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\Attributes;
+use App\Constants\SectionTypes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -26,7 +27,7 @@ class CreateSectionTable extends Migration
                 $table->string(Attributes::TITLE)->nullable();
                 $table->string(Attributes::CONTENT)->nullable();
                 $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
-                $table->integer(Attributes::TYPE)->default(\App\Constants\SectionTypes::HEADER);
+                $table->integer(Attributes::TYPE)->default(SectionTypes::HEADER);
                 $table->string(Attributes::ACTION_TEXT)->nullable();
                 $table->string(Attributes::GO_TO)->nullable();
                 $table->timestamps();

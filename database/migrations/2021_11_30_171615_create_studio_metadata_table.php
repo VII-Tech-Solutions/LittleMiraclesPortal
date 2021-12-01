@@ -27,7 +27,7 @@ class CreateStudioMetadataTable extends Migration
                 $table->string(Attributes::DESCRIPTION)->nullable();
                 $table->string(Attributes::IMAGE)->nullable();
                 $table->integer(Attributes::STATUS)->default(Status::ACTIVE);
-                $table->integer(Attributes::CATEGORY)->default(StudioCategory::ALBUM_SPECS);
+                $table->integer(Attributes::CATEGORY)->default(StudioCategory::ALBUM_SIZE);
                 $table->timestamps();
                 $table->softDeletes();
             });
