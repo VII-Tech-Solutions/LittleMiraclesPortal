@@ -108,5 +108,7 @@ class Attributes extends CustomEnum
     const PAST_EXPERIENCE = "past_experience";
     const CATEGORY_NAME = "category_name";
     const GENDER_NAME = "gender_name";
+    const IS_FEATURED = "is_featured";
+    const IS_FEATURED_NAME = "is_featured_name";
 
 }

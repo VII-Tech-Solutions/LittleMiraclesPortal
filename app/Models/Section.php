@@ -41,11 +41,13 @@ class Section extends CustomModel
         Attributes::ACTION_TEXT,
         Attributes::GO_TO,
         Attributes::STATUS,
+        Attributes::IS_FEATURED,
     ];
 
     protected $appends = [
         Attributes::TYPE_NAME,
-        Attributes::STATUS_NAME
+        Attributes::STATUS_NAME,
+        Attributes::IS_FEATURED_NAME,
     ];
 
     /**

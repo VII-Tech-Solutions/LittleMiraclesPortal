@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\IsFeatured;
 use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Http\Requests\SectionRequest;
@@ -39,6 +40,9 @@ class SectionCrudController extends CustomCrudController
         // Filter: Status
         $this->addTypeFilter(SectionTypes::all());
 
+        // Filter: Is Popular Filter
+        $this->addIsPopularFilter(IsFeatured::all(), Attributes::IS_FEATURED,"Is Featured");
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
@@ -60,6 +64,9 @@ class SectionCrudController extends CustomCrudController
 
         // Column: Type
         $this->addSectionTypeColumn(Attributes::TYPE_NAME);
+
+        // Column: Is Featured
+        $this->addIsPopularColumn("Is Featured", 1, Attributes::IS_FEATURED_NAME);
 
     }
 
@@ -86,8 +93,6 @@ class SectionCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(SectionRequest::class);
 
-
-
         // Field: Title
         $this->addNameField(Attributes::TITLE);
 
@@ -106,7 +111,10 @@ class SectionCrudController extends CustomCrudController
         // Field: Status
         $this->addStatusField(Status::all());
 
-        // Field: Status
+        // Field: Is Featured
+        $this->addIsPopularField(IsFeatured::all(),Attributes::IS_FEATURED,"Is Featured");
+
+        // Field: Section Type
         $this->addTypeField(SectionTypes::all());
     }
 }
