@@ -118,5 +118,7 @@ class Attributes extends CustomEnum
     const RELATIONSHIP = "relationship";
     const RELATIONSHIP_NAME = "relationship_name";
     const QUESTION_ID = "question_id";
+    const QUESTION_TYPE = "question_type";
+    const QUESTION_TYPE_NAME = "question_type_name";
 
 }

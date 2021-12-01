@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Gender;
 use App\Constants\IsPopular;
+use App\Constants\QuestionType;
 use App\Constants\Relationship;
 use App\Constants\SessionPackageTypes;
 use App\Constants\SectionTypes;
@@ -547,7 +548,25 @@ class CustomCrudController extends CrudController
             $this->crud->addClause('where', $column_name, $value);
         });
     }
-
+    /**
+     * Add Question Type Filter Field
+     */
+    function addQuestionTypeFilter($Types = null, $column_name = Attributes::QUESTION_TYPE, $label = "Status")
+    {
+        if (is_null($Types)) {
+            $Types = QuestionType::all();
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::QUESTION_TYPE;
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $Types, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
     /**
      * Add Gender Filter Field
      */
@@ -735,6 +754,34 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Question Type Field
+     * @param null $genders
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addQuestionTypeField($genders = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($genders)) {
+            $genders = QuestionType::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::QUESTION_TYPE;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::QUESTION_TYPE);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $genders,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+    /**
      * Add Relationship Field
      * @param null $relationships
      * @param null $attribute_name
@@ -915,6 +962,26 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Question Type Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addQuestionTypeColumn($label = null, $priority = 1, $column_name = Attributes::QUESTION_TYPE)
+    {
+        if (is_null($label)) {
+            $label = "Question Type";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::QUESTION_TYPE;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
     /**
      * Add Relationship Column
      * @param null $label
@@ -1245,6 +1312,26 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Options Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addOptionColumn($label = null, $priority = 1, $column_name = Attributes::OPTIONS)
+    {
+        if (is_null($label)) {
+            $label = "Options";
+        }
+        if (is_null($column_name)) {
+            $column_name =  Attributes::OPTIONS;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
     /**
      * Add Answer Column
