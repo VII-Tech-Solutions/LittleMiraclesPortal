@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\Gender;
 use App\Constants\IsPopular;
+use App\Constants\Relationship;
 use App\Constants\SessionPackageTypes;
 use App\Constants\SectionTypes;
 use App\Constants\Status;
@@ -564,6 +565,26 @@ class CustomCrudController extends CrudController
         });
     }
 
+    /**
+     * Add Relationship Filter Field
+     */
+    function addRelationshipFilter($Relationship = null, $column_name = Attributes::RELATIONSHIP, $label = "Gender")
+    {
+        if (is_null($Relationship)) {
+            $Relationship = Relationship::all();
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::RELATIONSHIP;
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $Relationship, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
     function addCategoryFilter($statuses = null, $column_name = Attributes::CATEGORY, $label = "Category")
     {
         if (is_null($statuses)) {
@@ -657,7 +678,7 @@ class CustomCrudController extends CrudController
 
     /**
      * Add SectionType Field
-     * @param null $statuses
+     * @param null $types
      * @param null $attribute_name
      * @param null $label
      * @param null $tab_name
@@ -686,7 +707,7 @@ class CustomCrudController extends CrudController
 
     /**
      * Add Gender Field
-     * @param null $statuses
+     * @param null $genders
      * @param null $attribute_name
      * @param null $label
      * @param null $tab_name
@@ -713,6 +734,34 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Relationship Field
+     * @param null $relationships
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addRelationshipField($relationships = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($relationships)) {
+            $relationships = Relationship::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::RELATIONSHIP;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::RELATIONSHIP);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $relationships,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
     /**
      * Add Studio Metadata Category Field
      * @param null $statuses
@@ -866,6 +915,26 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Relationship Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addRelationshipColumn($label = null, $priority = 1, $column_name = Attributes::RELATIONSHIP)
+    {
+        if (is_null($label)) {
+            $label = "Relationship";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::RELATIONSHIP;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
     /**
      * Add Phone Number AND COUNTRY CODE Column
      * @param null $label

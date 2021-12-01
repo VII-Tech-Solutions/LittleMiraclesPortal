@@ -115,5 +115,7 @@ class Attributes extends CustomEnum
     const GENDER_NAME = "gender_name";
     const IS_FEATURED = "is_featured";
     const IS_FEATURED_NAME = "is_featured_name";
+    const RELATIONSHIP = "relationship";
+    const RELATIONSHIP_NAME = "relationship_name";
 
 }
