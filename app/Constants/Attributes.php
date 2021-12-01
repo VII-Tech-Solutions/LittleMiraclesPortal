@@ -30,7 +30,12 @@ class Attributes extends CustomEnum
     const GO_TO = "go_to";
     const ITEM_ID = "item_id";
     const DAILY_TIPS = "daily_tips";
+    const SOCIAL_MEDIA = "social_media";
+    const PAGES = "pages";
+    const PACKAGES = "packages";
     const SECTIONS = "sections";
+    const STUDIO_METADATA = "studio_metadata";
+    const FAQS = "faqs";
     const CAKES = "cakes";
     const NAME = "name";
     const BACKDROPS = "backdrops";
@@ -108,5 +113,7 @@ class Attributes extends CustomEnum
     const PAST_EXPERIENCE = "past_experience";
     const CATEGORY_NAME = "category_name";
     const GENDER_NAME = "gender_name";
+    const IS_FEATURED = "is_featured";
+    const IS_FEATURED_NAME = "is_featured_name";
 
 }

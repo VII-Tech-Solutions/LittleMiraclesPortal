@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\IsFeatured;
 use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Http\Requests\SectionRequest;
 use App\Models\Section;
+use Exception;
 
 class SectionCrudController extends CustomCrudController
 {
@@ -39,6 +41,9 @@ class SectionCrudController extends CustomCrudController
         // Filter: Status
         $this->addTypeFilter(SectionTypes::all());
 
+        // Filter: Is Popular Filter
+        $this->addIsPopularFilter(IsFeatured::all(), Attributes::IS_FEATURED,"Is Featured");
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
@@ -55,11 +60,15 @@ class SectionCrudController extends CustomCrudController
         // Column: Go To
         $this->addNameColumn("Go To", 1, Attributes::GO_TO);
 
+        // Column: Type
+        $this->addSectionTypeColumn(Attributes::TYPE_NAME);
+
+        // Column: Is Featured
+        $this->addIsPopularColumn("Is Featured", 1, Attributes::IS_FEATURED_NAME);
+
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
 
-        // Column: Type
-        $this->addSectionTypeColumn(Attributes::TYPE_NAME);
 
     }
 
@@ -86,8 +95,6 @@ class SectionCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(SectionRequest::class);
 
-
-
         // Field: Title
         $this->addNameField(Attributes::TITLE);
 
@@ -100,13 +107,16 @@ class SectionCrudController extends CustomCrudController
         // Field: Link
         $this->addNameField(Attributes::ACTION_TEXT, 'Action Text');
 
-        // Field: Icon
+        // Field: Go To
         $this->addNameField(Attributes::GO_TO , 'Go To');
 
         // Field: Status
         $this->addStatusField(Status::all());
 
-        // Field: Status
+        // Field: Is Featured
+        $this->addIsPopularField(IsFeatured::all(),Attributes::IS_FEATURED,"Is Featured");
+
+        // Field: Section Type
         $this->addTypeField(SectionTypes::all());
     }
 }

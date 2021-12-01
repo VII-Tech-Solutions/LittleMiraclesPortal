@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
@@ -114,7 +113,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addValidUntilField(Attributes::VALID_UNTIL);
 
         // Field: Code
-        $this->addPromotionCodeField(Attributes::CODE, "Promo Code");
+        $this->addPromotionCodeField(Attributes::PROMO_CODE, "Promo Code");
 
         // Field: Status
         $this->addStatusField(Status::all());
