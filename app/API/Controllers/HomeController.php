@@ -8,6 +8,7 @@ use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListOnboardingTransformer;
 use App\API\Transformers\ListPhotographerTransformer;
 use App\API\Transformers\ListPromotionTransformer;
+use App\API\Transformers\ListSectionTransformer;
 use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
 use App\Constants\Headers;
@@ -18,6 +19,7 @@ use App\Models\DailyTip;
 use App\Models\Onboarding;
 use App\Models\Photographer;
 use App\Models\Promotion;
+use App\Models\Section;
 use App\Models\UserDevice;
 use App\Models\Workshop;
 use Illuminate\Http\JsonResponse;
@@ -101,11 +103,15 @@ class HomeController extends CustomController
         // get workshops
         $workshops = Workshop::active()->get();
 
-        // TODO Home Header
-        // TODO Booking Section
-        // TODO Packages List
-        // TODO Studio Section
-        // TODO User Info
+        // get home header
+        $sections = Section::active()->get();
+
+        // TODO get packages
+        // TODO get studio metadata
+        // TODO get user info
+        // TODO get faq
+        // TODO get social media
+        // TODO get pages
 
         // get last updated items
         if(!is_null($this->last_update)){
@@ -116,6 +122,7 @@ class HomeController extends CustomController
             $daily_tips = Helpers::getLatestOnlyInCollection($daily_tips, $this->last_update);
             $promotions = Helpers::getLatestOnlyInCollection($promotions, $this->last_update);
             $workshops = Helpers::getLatestOnlyInCollection($workshops, $this->last_update);
+            $sections = Helpers::getLatestOnlyInCollection($sections, $this->last_update);
         }
 
         // return response
@@ -127,6 +134,7 @@ class HomeController extends CustomController
             Attributes::DAILY_TIPS => DailyTip::returnTransformedItems($daily_tips, ListDailyTipTransformer::class),
             Attributes::PROMOTIONS => Promotion::returnTransformedItems($promotions, ListPromotionTransformer::class),
             Attributes::WORKSHOPS => Workshop::returnTransformedItems($workshops, ListWorkshopTransformer::class),
+            Attributes::SECTIONS => Section::returnTransformedItems($sections, ListSectionTransformer::class),
         ]);
     }
 

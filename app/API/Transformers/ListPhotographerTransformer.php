@@ -15,6 +15,7 @@ class ListPhotographerTransformer extends CustomTransformer
         Attributes::NAME,
         Attributes::IMAGE,
         Attributes::STATUS,
-        Attributes::UPDATED_AT
+        Attributes::UPDATED_AT,
+        Attributes::DELETED_AT,
     ];
 }

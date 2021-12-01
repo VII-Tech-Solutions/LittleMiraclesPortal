@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\Gender;
 use App\Constants\IsPopular;
 use App\Constants\SessionPackageTypes;
 use App\Constants\SectionTypes;
@@ -58,10 +59,68 @@ class CustomCrudController extends CrudController
         ]);
     }
 
-
-
     /**
-     * Add Name Field
+     * Add Email Field
+     * @param string|null $field_name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param array $limit
+     * @param bool $disabled
+     */
+    function addEmailField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::EMAIL;
+        }
+        if (is_null($label)) {
+            $label = "Email";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+        ]);
+    }
+    /**
+     * Add Number Field for phone number and country code
+     * @param string|null $field_name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param array $limit
+     * @param bool $disabled
+     */
+    function addNumberField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::PHONE_NUMBER;
+        }
+        if (is_null($label)) {
+            $label = "Phone Number";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::NUMBER,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+        ]);
+    }
+    /**
+     * Add Question Field
      * @param string|null $field_name
      * @param string|null $label
      * @param string|null $tab_name
@@ -419,7 +478,7 @@ class CustomCrudController extends CrudController
         }
         CRUD::addField([
             Attributes::LABEL => is_null($label) ? "Date" : ucwords($label),
-            Attributes::NAME => Attributes::DATE,
+            Attributes::NAME => $field_name,
             Attributes::TYPE => FieldTypes::DATE_PICKER,
 
         ]);
@@ -484,6 +543,23 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
         ], $statuses, function ($value) use($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
+    /**
+     * Add Gender Filter Field
+     */
+    function addGenderFilter($Genders = null, $column_name = Attributes::GENDER, $label = "Gender")
+    {
+        if (is_null($Genders)) {
+            $Genders = Gender::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $Genders, function ($value) use($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
@@ -587,10 +663,10 @@ class CustomCrudController extends CrudController
      * @param null $tab_name
      * @param false $allow_null
      */
-    function addTypeField($statuses = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    function addTypeField($types = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
     {
-        if (is_null($statuses)) {
-            $statuses = SectionTypes::all();
+        if (is_null($types)) {
+            $types = SectionTypes::all();
         }
         if (is_null($attribute_name)) {
             $attribute_name = Attributes::TYPE;
@@ -603,7 +679,36 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $attribute_name,
             Attributes::ALLOWS_NULL => $allow_null,
             Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
-            Attributes::OPTIONS => $statuses,
+            Attributes::OPTIONS => $types,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
+    /**
+     * Add Gender Field
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addGenderField($genders = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($genders)) {
+            $genders = Gender::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::GENDER;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::GENDER);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $genders,
             Attributes::TAB => $tab_name,
         ]);
     }
@@ -650,6 +755,9 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Title";
         }
+        if (is_null($column_name)) {
+            $column_name = Attributes::NAME;
+        }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
@@ -668,15 +776,57 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Tag";
         }
+        if (is_null($column_name)) {
+            $column_name = Attributes::TAG;
+        }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
             Attributes::PRIORITY => $priority
         ]);
     }
-
     /**
-     * Add Tag Column
+     * Add Email Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addEmailColumn($label = null, $priority = 1, $column_name = Attributes::EMAIL)
+    {
+        if (is_null($label)) {
+            $label = "Email";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::EMAIL;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
+     * Add Provider Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addProviderColumn($label = null, $priority = 1, $column_name = Attributes::PROVIDER)
+    {
+        if (is_null($label)) {
+            $label = "Provider";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::PROVIDER;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
+     * Add Is Popular Column
      * @param null $label
      * @param int $priority
      * @param string $column_name
@@ -695,7 +845,47 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+    /**
+     * Add Gender Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addGenderColumn($label = null, $priority = 1, $column_name = Attributes::GENDER)
+    {
+        if (is_null($label)) {
+            $label = "Gender";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::GENDER;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
+    /**
+     * Add Phone Number AND COUNTRY CODE Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addNumberColumn($label = null, $priority = 1, $column_name = Attributes::PHONE_NUMBER)
+    {
+        if (is_null($label)) {
+            $label = "Phone Number";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::PHONE_NUMBER;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
     /**
      * Add Name Column
      * @param null $label
@@ -1027,6 +1217,27 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Past Experience Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+
+    function addPastExperienceColumn($label = null, $priority = 1, $column_name = Attributes::PAST_EXPERIENCE)
+    {
+        if (is_null($label)) {
+            $label = "Past Experience";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::PAST_EXPERIENCE;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
      * Add Custom Backdrop Column
      * @param string|null $label
      * @param int $priority
@@ -1242,11 +1453,26 @@ class CustomCrudController extends CrudController
         }
         CRUD::addField([
             Attributes::NAME => $field_name,
-            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::TYPE => FieldTypes::URL,
             Attributes::LABEL => ucwords($label),
             Attributes::ATTRIBUTES => array_merge([
                 ], $limit) + $this->disabled($disabled),
             Attributes::TAB => $tab_name
+        ]);
+    }
+    /**
+     * Add Text Field
+     * @param string $label
+     * @param string $name
+     * @param bool $disabled
+     */
+    function addTextField( $name, $label, $disabled = false)
+    {
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::ATTRIBUTES => $this->disabled($disabled),
         ]);
     }
 

@@ -3,20 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Constants\Attributes;
-use Illuminate\Foundation\Http\FormRequest;
 
-class SectionRequest extends FormRequest
+/**
+ * Section Request
+ */
+class SectionRequest extends CustomRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        // only allow updates if the user is logged in
-        return backpack_auth()->check();
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -27,36 +19,10 @@ class SectionRequest extends FormRequest
     {
         return [
             Attributes::IMAGE => 'required',
-            Attributes::TITLE=>'required|min:2|max:255',
+            Attributes::TITLE => 'required|min:2|max:255',
             Attributes::CONTENT => 'required',
-            Attributes::ACTION_TEXT => 'required',
-            Attributes::GO_TO => 'required'
-
-        ];
-    }
-
-    /**
-     * Get the validation attributes that apply to the request.
-     *
-     * @return array
-     */
-    public function attributes()
-    {
-        return [
-            //
-        ];
-    }
-
-    /**
-     * Get the validation messages that apply to the request.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            "image.base64image" => "Image size cannot exceed 1MB.",
-            "image.base64image_ratio" => "Image ratio should be 1:2",
+            Attributes::ACTION_TEXT => 'nullable',
+            Attributes::GO_TO => 'nullable'
         ];
     }
 }

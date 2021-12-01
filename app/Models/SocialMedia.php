@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\Status;
 use App\Constants\Tables;
-use App\Helpers;
+use App\Traits\ModelTrait;
 
 /**
  * SocialMedia
@@ -17,6 +16,8 @@ use App\Helpers;
  */
 class SocialMedia extends CustomModel
 {
+    use ModelTrait;
+
     protected $table = Tables::SOCIAL_MEDIA;
 
     protected $guarded = [
@@ -41,7 +42,6 @@ class SocialMedia extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        $text = Status::getKey($this->status);
-        return Helpers::readableText($text);
+        return $this->getStatusName($value);
     }
 }

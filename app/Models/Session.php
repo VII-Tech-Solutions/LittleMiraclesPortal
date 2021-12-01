@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\Status;
 use App\Constants\SessionStatus;
 use App\Constants\Tables;
 use App\Helpers;
+use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -16,8 +15,10 @@ use VIITech\Helpers\Constants\CastingTypes;
  */
 class Session extends CustomModel
 {
+    use ModelTrait;
+
     protected $table = Tables::SESSIONS;
-    public const DIRECTORY = "uploads/photographers";
+    public const DIRECTORY = "uploads/sessions";
 
     protected $guarded = [
         Attributes::ID
@@ -57,12 +58,11 @@ class Session extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        $text = Status::getKey($this->status);
-        return Helpers::readableText($text);
+        return $this->getStatusName($value);
     }
 
     /**
-     * Get Attribute: session SESSION_STATUS_NAME
+     * Get Attribute: session status name
      * @param $value
      * @return string
      */
@@ -71,6 +71,4 @@ class Session extends CustomModel
         $text = SessionStatus::getKey($this->session_status);
         return Helpers::readableText($text);
     }
-
-
 }

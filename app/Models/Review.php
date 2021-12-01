@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\Status;
 use App\Constants\Tables;
-use App\Helpers;
+use App\Traits\ImageTrait;
+use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -14,9 +13,10 @@ use VIITech\Helpers\Constants\CastingTypes;
  */
 class Review extends CustomModel
 {
-    protected $table = Tables::REVIEWS;
-    public const DIRECTORY = "uploads/photographers";
+    use ModelTrait, ImageTrait;
 
+    public const DIRECTORY = "uploads/photographers";
+    protected $table = Tables::REVIEWS;
     protected $guarded = [
         Attributes::ID
     ];
@@ -52,8 +52,7 @@ class Review extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        $text = Status::getKey($this->status);
-        return Helpers::readableText($text);
+        return $this->getStatusName($value);
     }
 
     /**
@@ -61,11 +60,9 @@ class Review extends CustomModel
      * @param $value
      * @return string|null
      */
-    function getImageAttribute($value){
-        if(empty($value)){
-            return null;
-        }
-        return url($value);
+    function getImageAttribute($value)
+    {
+        return $this->getImage($value);
     }
 
     /**
@@ -74,11 +71,6 @@ class Review extends CustomModel
      */
     public function setImageAttribute($value)
     {
-        if(!is_null($value)){
-            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, self::DIRECTORY, true, false, true);
-            $this->attributes[Attributes::IMAGE] = "storage/" . $path;
-        }else{
-            $this->attributes[Attributes::IMAGE] = null;
-        }
+        $this->setImage($value);
     }
 }

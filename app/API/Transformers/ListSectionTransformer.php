@@ -5,21 +5,19 @@ namespace App\API\Transformers;
 use App\Constants\Attributes;
 
 /**
- * Class ListPromotionTransformer
+ * Class ListSectionTransformer
  * @package App\API\Transformers
  */
-class ListPromotionTransformer extends CustomTransformer
+class ListSectionTransformer extends CustomTransformer
 {
     public $fields = [
         Attributes::ID,
-        Attributes::TITLE,
-        Attributes::OFFER,
-        Attributes::TYPE,
-        Attributes::POSTED_AT,
-        Attributes::VALID_UNTIL,
-        Attributes::CONTENT,
-        Attributes::PROMO_CODE,
         Attributes::IMAGE,
+        Attributes::TITLE,
+        Attributes::CONTENT,
+        Attributes::TYPE,
+        Attributes::ACTION_TEXT,
+        Attributes::GO_TO,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,

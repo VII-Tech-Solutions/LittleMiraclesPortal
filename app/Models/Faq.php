@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\Status;
 use App\Constants\Tables;
-use App\Helpers;
+use App\Traits\ModelTrait;
 
 /**
  * Faqs
@@ -18,6 +17,8 @@ use App\Helpers;
  */
 class Faq extends CustomModel
 {
+    use ModelTrait;
+
     protected $table = Tables::FAQS;
 
     protected $guarded = [
@@ -43,7 +44,6 @@ class Faq extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        $text = Status::getKey($this->status);
-        return Helpers::readableText($text);
+        return $this->getStatusName($value);
     }
 }
