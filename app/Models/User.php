@@ -46,7 +46,6 @@ class User extends CustomModel implements
         Attributes::EMAIL,
         Attributes::PHONE_NUMBER,
         Attributes::GENDER,
-        Attributes::USER_ID,
         Attributes::COUNTRY_CODE,
         Attributes::GENDER,
         Attributes::BIRTH_DATE,

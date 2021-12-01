@@ -20,9 +20,6 @@ class AddUserFieldsToUsers extends Migration
     {
         if (Schema::hasTable($this->table)) {
             Schema::table($this->table , function (Blueprint $table) {
-                if(!Schema::hasColumn($this->table , Attributes::USER_ID)){
-                    $table->integer(Attributes::USER_ID)->nullable();
-                }
                 if(!Schema::hasColumn($this->table , Attributes::COUNTRY_CODE)){
                     $table->integer(Attributes::COUNTRY_CODE)->nullable();
                 }

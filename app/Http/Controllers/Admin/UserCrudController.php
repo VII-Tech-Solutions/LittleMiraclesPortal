@@ -47,7 +47,7 @@ class UserCrudController extends CustomCrudController
         $this->addGenderFilter(Gender::all());
 
         // column: User ID
-        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
+        $this->addIDColumn("User ID", 1, Attributes::ID);
 
         // Column: First Name
         $this->addNameColumn("First Name", 1, Attributes::FIRST_NAME);
