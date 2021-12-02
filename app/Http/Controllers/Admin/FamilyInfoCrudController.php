@@ -51,6 +51,9 @@ class FamilyInfoCrudController  extends CustomCrudController
         // Column: Family ID
         $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
 
+        // Column: Question ID
+        $this->addIDColumn("Question ID", 1, Attributes::QUESTION_ID);
+
         // Column: Answer
         $this->addAnswerColumn("Answer",1, Attributes::ANSWER);
 
