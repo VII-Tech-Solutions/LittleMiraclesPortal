@@ -38,4 +38,5 @@ Route::group([
     Route::crud('family-info-questions', 'FamilyInfoQuestionCrudController');
     Route::crud('tags', 'TagCrudController');
     Route::crud('package-benefits', 'PackageBenefitCrudController');
+    Route::crud('studio-packages', 'StudioPackageCrudController');
 }); // this should be the absolute last line of this file

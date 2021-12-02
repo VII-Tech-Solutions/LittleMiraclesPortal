@@ -43,7 +43,7 @@ class CakeCrudController extends CustomCrudController
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Category
-        $this->addCakeCategoryColumn("Category", 1, Attributes::CATEGORY);
+        $this->addCategoryColumn("Category", 1, Attributes::CATEGORY);
 
         // column: Image
         $this->addImageColumn("Image");
