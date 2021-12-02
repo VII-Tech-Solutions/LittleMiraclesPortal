@@ -1,19 +1,20 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\CakeRequest;
-use App\Models\Cake;
+use App\Http\Requests\UserStudioSpecsRequest;
+use App\Models\UserStudioSpecs;
 use Exception;
 
 /**
- * Cake CRUD Controller
- */
-class CakeCrudController extends CustomCrudController
-{
+ * User Studio Specs CRUD Controller
 
+ */
+class UserStudioSpecsCrudController extends CustomCrudController
+{
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -22,9 +23,11 @@ class CakeCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Cake::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/cakes');
-        $this->crud->setEntityNameStrings('Cake', 'Cakes');
+        $this->crud->setModel(UserStudioSpecs::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/user-studio-specs');
+        $this->crud->setEntityNameStrings('User Studio Specs', 'User Studios Specs');
+
+
     }
 
     /**
@@ -39,14 +42,20 @@ class CakeCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // Column: Title
-        $this->addNameColumn("Title", 1, Attributes::TITLE);
+        // column: ID
+        $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // Column: Category
-        $this->addCategoryColumn("Category", 1, Attributes::CATEGORY);
+        // column: User ID
+        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
 
-        // column: Image
-        $this->addImageColumn("Image");
+        // Column: Family ID
+        $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
+
+        // Column: Studio Package ID
+        $this->addIDColumn("Question ID", 1, Attributes::STUDIO_PACKAGE_ID);
+
+        // Column: Studio Specs ID
+        $this->addIDColumn("Question ID", 1, Attributes::STUDIO_SPECS_ID);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -72,21 +81,12 @@ class CakeCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
-
         // Validation
-        $this->crud->setValidation(CakeRequest::class);
-
-        // Field: Name
-        $this->addNameField(Attributes::TITLE, "Title");
-
-        // Field: Category
-        $this->addTagCategoryField(Attributes::CATEGORY, "Category");
-
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
+        $this->crud->setValidation(UserStudioSpecsRequest::class);
 
         // Field: Status
         $this->addStatusField(Status::all());
 
     }
+
 }

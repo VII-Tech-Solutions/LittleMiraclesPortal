@@ -254,6 +254,88 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Details Field
+     * @param string|null $name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param string $field_type
+     * @param int $rows
+     * @param integer|array $limit
+     */
+    function addDetailsField($name = null, $label = null, $tab_name = null, $field_type = FieldTypes::TEXTAREA, $rows = 5, $limit = [], $hint = null)
+    {
+        if (is_null($name)) {
+            $name = Attributes::DETAILS;
+        }
+        if (is_null($label)) {
+            $label = ucwords(Attributes::DETAILS);
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $name,
+            Attributes::TYPE => $field_type,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                Attributes::ROWS => $rows,
+            ], $limit),
+            Attributes::TAB => $tab_name,
+            Attributes::HINT => $hint,
+            'options'       => [
+                Attributes::DIR => Attributes::LTR,
+                "language" => 'en',
+//                'removePlugins' => 'embed,Embed',
+//                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
+            ]
+
+        ]);
+    }
+
+    /**
+     * Add Example Field
+     * @param string|null $name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param string $field_type
+     * @param int $rows
+     * @param integer|array $limit
+     */
+    function addExampleField($name = null, $label = null, $tab_name = null, $field_type = FieldTypes::TEXTAREA, $rows = 5, $limit = [], $hint = null)
+    {
+        if (is_null($name)) {
+            $name = Attributes::EXAMPLE;
+        }
+        if (is_null($label)) {
+            $label = ucwords(Attributes::EXAMPLE);
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $name,
+            Attributes::TYPE => $field_type,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                Attributes::ROWS => $rows,
+            ], $limit),
+            Attributes::TAB => $tab_name,
+            Attributes::HINT => $hint,
+            'options'       => [
+                Attributes::DIR => Attributes::LTR,
+                "language" => 'en',
+//                'removePlugins' => 'embed,Embed',
+//                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
+            ]
+
+        ]);
+    }
+
 
     /**
     * Add Content Field
@@ -892,6 +974,46 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+    /**
+     * Add Details Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addDetailsColumn($label = null, $priority = 1, $column_name = Attributes::DETAILS)
+    {
+        if (is_null($label)) {
+            $label = "Details";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::DETAILS;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
+     * Add Example Column
+     * @param null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addExampleColumn($label = null, $priority = 1, $column_name = Attributes::EXAMPLE)
+    {
+        if (is_null($label)) {
+            $label = "Examples";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::EXAMPLE;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
     /**
      * Add Tag Column
@@ -1091,12 +1213,12 @@ class CustomCrudController extends CrudController
     }
 
     /**
-     * Add Cake Category Column
+     * Add Category Column
      * @param string|null $label
      * @param int $priority
      * @param string $column_name
      */
-    function addCakeCategoryColumn($label = null, $priority = 1, $column_name = Attributes::IMAGE)
+    function addCategoryColumn($label = null, $priority = 1, $column_name = Attributes::CATEGORY)
     {
         if (is_null($label)) {
             $label ="Category";

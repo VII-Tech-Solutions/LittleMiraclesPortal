@@ -123,5 +123,9 @@ class Attributes extends CustomEnum
     const ICONSET = 'iconset';
     const STUDIO_PRINT_ID = "studio_print_id";
     const STUDIO_PACKAGE_ID = "studio_package_id";
+    const STARTING_PRICE = "starting_price";
+    const DETAILS = "details";
+    const EXAMPLE = "example";
+    const STUDIO_SPECS_ID = "studio_specs_id";
 
 }

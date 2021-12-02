@@ -48,7 +48,7 @@ class SessionPackageCrudController extends CustomCrudController
         // Filter: Is Popular Filter
         $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
 
-        // Column: Title
+        // Column: ID
         $this->addIDColumn("ID",1,Attributes::ID);
 
         // Column: Title
