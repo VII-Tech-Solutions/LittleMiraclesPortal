@@ -21,7 +21,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::MULTIPLE,
             Attributes::OPTIONS =>"Individuals,Siblings Together,Family,Interaction",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
         //Question 2
         FamilyInfoQuestion::createOrUpdate([
@@ -29,7 +31,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::TEXT,
             Attributes::OPTIONS => null,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
         //Question 3
         FamilyInfoQuestion::createOrUpdate([
@@ -37,7 +41,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::MULTIPLE,
             Attributes::OPTIONS => "Color Photos,Black & White Photos",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
         //Question 4
         FamilyInfoQuestion::createOrUpdate([
@@ -45,7 +51,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::MULTIPLE,
             Attributes::OPTIONS => "Large Display Portraits,Wall Galleries With a Series of Portraits,Small Gift Prints (8x10 and Under),Session Album or Book,Custom Cards or Announcements",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
         //Question 5
         FamilyInfoQuestion::createOrUpdate([
@@ -53,7 +61,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::TEXT,
             Attributes::OPTIONS => null,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
         //Question 6
         FamilyInfoQuestion::createOrUpdate([
@@ -61,7 +71,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::TEXT,
             Attributes::OPTIONS => null,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
         //Question 7
         FamilyInfoQuestion::createOrUpdate([
@@ -69,7 +81,9 @@ class FamilyInfoQuestionSeeder  extends Seeder
             Attributes::QUESTION_TYPE =>QuestionType::TEXT,
             Attributes::OPTIONS => null,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::QUESTION]
+        );
 
     }
 }

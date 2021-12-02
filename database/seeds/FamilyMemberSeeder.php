@@ -25,7 +25,10 @@ class FamilyMemberSeeder  extends Seeder
             Attributes::BIRTH_DATE => "1999-12-30",
             Attributes::RELATIONSHIP=> Relationship::PARTNER,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [ Attributes::FIRST_NAME,Attributes::USER_ID,Attributes::RELATIONSHIP]
+        );
+
         FamilyMember::createOrUpdate([
             Attributes::FIRST_NAME =>"Hamad",
             Attributes::LAST_NAME =>"Jumaan",
@@ -35,7 +38,10 @@ class FamilyMemberSeeder  extends Seeder
             Attributes::BIRTH_DATE => "2020-02-20",
             Attributes::RELATIONSHIP=> Relationship::CHILDREN,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [ Attributes::FIRST_NAME,Attributes::USER_ID,Attributes::RELATIONSHIP]
+        );
+
         FamilyMember::createOrUpdate([
             Attributes::FIRST_NAME =>"Haleena",
             Attributes::LAST_NAME =>"Jumaan",
@@ -45,6 +51,8 @@ class FamilyMemberSeeder  extends Seeder
             Attributes::BIRTH_DATE => "2021-11-21",
             Attributes::RELATIONSHIP=> Relationship::CHILDREN,
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [ Attributes::FIRST_NAME,Attributes::USER_ID,Attributes::RELATIONSHIP]
+        );
     }
 }
