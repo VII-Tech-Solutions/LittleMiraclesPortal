@@ -19,7 +19,7 @@ class SessionPackageSeeder  extends Seeder
     {
         //Twinkle Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'images/Twinkle.jpeg',
+            Attributes::IMAGE =>'uploads/packages/Twinkle.jpeg',
             Attributes::TITLE =>"Twinkle",
             Attributes::TAG =>"Portrait Studio Session",
             Attributes::PRICE => 160,
@@ -35,7 +35,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Sparkle Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'images/Sparkle.jpeg',
+            Attributes::IMAGE =>'uploads/packages/Sparkle.jpeg',
             Attributes::TITLE =>"Sparkle",
             Attributes::TAG =>"Family Portrait Studio Session",
             Attributes::PRICE => 260,
@@ -51,7 +51,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Glimmer Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'images/Glimmer.jpeg',
+            Attributes::IMAGE =>'uploads/packages/Glimmer.jpeg',
             Attributes::TITLE =>"Glimmer",
             Attributes::TAG =>"Newborn Studio Session",
             Attributes::PRICE => 360,
@@ -67,7 +67,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Shimmer Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'images/Shimmer.jpeg',
+            Attributes::IMAGE =>'uploads/packages/Shimmer.jpeg',
             Attributes::TITLE =>"Shimmer",
             Attributes::TAG =>"Studio/Outdoor Session",
             Attributes::PRICE => 310,
@@ -83,7 +83,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Baby Plan Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'images/BabyPlan.jpeg',
+            Attributes::IMAGE =>'uploads/packages/BabyPlan.jpeg',
             Attributes::TITLE =>"Baby Plan",
             Attributes::TAG =>"4 memorable milestone sessions",
             Attributes::PRICE => 650,
@@ -99,7 +99,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Mini Session Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'images/MiniSession.jpeg',
+            Attributes::IMAGE =>'uploads/packages/MiniSession.jpeg',
             Attributes::TITLE =>"Mini Session",
             Attributes::TAG =>"Monthly Promotion",
             Attributes::PRICE => 80,
