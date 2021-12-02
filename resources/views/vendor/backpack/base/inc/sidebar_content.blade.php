@@ -23,3 +23,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-info-questions') }}'><i class='nav-icon la la-hands-helping'></i>Family Information Questions</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('package-benefits') }}'><i class='nav-icon la la-hands-helping'></i>Package Benefits</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback') }}'><i class='nav-icon la la-hands-helping'></i>Feedback</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback-questions') }}'><i class='nav-icon la la-hands-helping'></i>Feedback Questions</a></li>

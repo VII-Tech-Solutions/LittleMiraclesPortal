@@ -22,8 +22,9 @@ class CreateFeedbackQuestionTable extends Migration
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
+                $table->string(Attributes::QUESTION)->nullable();
                 $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
-                $table->integer(Attributes::TYPE)->nullable()->default(QuestionType::TEXT);
+                $table->integer(Attributes::QUESTION_TYPE)->nullable()->default(QuestionType::TEXT);
                 $table->string(Attributes::OPTIONS)->nullable();
                 $table->timestamps();
                 $table->softDeletes();
