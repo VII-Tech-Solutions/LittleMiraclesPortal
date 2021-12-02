@@ -19,7 +19,7 @@ class SessionPackageSeeder  extends Seeder
     {
         //Twinkle Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Twinkle.jpeg',
+            Attributes::IMAGE =>'images/Twinkle.jpeg',
             Attributes::TITLE =>"Twinkle",
             Attributes::TAG =>"Portrait Studio Session",
             Attributes::PRICE => 160,
@@ -29,11 +29,13 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_TEXT =>"Villa 2178, Road 4565, Block 545, Saar Central Al Qurayyah",
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::TITLE]
+        );
 
         //Sparkle Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Sparkle.jpeg',
+            Attributes::IMAGE =>'images/Sparkle.jpeg',
             Attributes::TITLE =>"Sparkle",
             Attributes::TAG =>"Family Portrait Studio Session",
             Attributes::PRICE => 260,
@@ -43,11 +45,13 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_TEXT =>"Villa 2178, Road 4565, Block 545, Saar Central Al Qurayyah",
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::TITLE]
+        );
 
         //Glimmer Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Glimmer.jpeg',
+            Attributes::IMAGE =>'images/Glimmer.jpeg',
             Attributes::TITLE =>"Glimmer",
             Attributes::TAG =>"Newborn Studio Session",
             Attributes::PRICE => 360,
@@ -57,11 +61,13 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_TEXT =>"Villa 2178, Road 4565, Block 545, Saar Central Al Qurayyah",
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::TITLE]
+        );
 
         //Shimmer Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Shimmer.jpeg',
+            Attributes::IMAGE =>'images/Shimmer.jpeg',
             Attributes::TITLE =>"Shimmer",
             Attributes::TAG =>"Studio/Outdoor Session",
             Attributes::PRICE => 310,
@@ -71,11 +77,13 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_TEXT =>"Villa 2178, Road 4565, Block 545, Saar Central Al Qurayyah",
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::TITLE]
+        );
 
         //Baby Plan Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/BabyPlan.jpeg',
+            Attributes::IMAGE =>'images/BabyPlan.jpeg',
             Attributes::TITLE =>"Baby Plan",
             Attributes::TAG =>"4 memorable milestone sessions",
             Attributes::PRICE => 650,
@@ -85,11 +93,13 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_TEXT =>"Villa 2178, Road 4565, Block 545, Saar Central Al Qurayyah",
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::TITLE]
+        );
 
         //Mini Session Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/MiniSession.jpeg',
+            Attributes::IMAGE =>'images/MiniSession.jpeg',
             Attributes::TITLE =>"Mini Session",
             Attributes::TAG =>"Monthly Promotion",
             Attributes::PRICE => 80,
@@ -99,7 +109,9 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_TEXT =>"Villa 2178, Road 4565, Block 545, Saar Central Al Qurayyah",
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
-        ]);
+        ],
+            [Attributes::TITLE]
+        );
 
 
     }
