@@ -112,6 +112,24 @@
             margin-right: 10pt;
             cursor: pointer;
         }
+        .pdf-container{
+            margin-top: 44pt;
+            border-color: rgb(208 211 214);
+            border-radius: 10pt;
+            width: 120pt;
+            height: 120pt;
+            font-size: 9pt;
+        }
+        .pdf-text{
+            width: 92pt;
+            height: 26pt;
+            margin-right: auto;
+            margin-left: auto;
+            color: rgb(69 81 93);
+        }
+        a:hover{
+            text-decoration: none;
+        }
 
         </style>
     <body>
@@ -205,15 +223,34 @@
                     <td>
                       <div class="h4" style="margin-top: 64pt;">Follow our Social Media</div>
                     </td>
+                    <td style="text-align: right;" rowspan="3">
+                        <button type="button" class="btn pdf-container">
+                            <div class="pdf-text">20210108_Mini
+                                <br>
+                                Session Invoice.PDF</div>
+                        </button>
+                    </td>
                 </tr>
                 <tr>
                     <td>
-                        <img src="images/iconsSocialInstagram.svg">
-                        <img src="images/iconsSocialFacebook.svg">
-                        <img src="images/iconsSocialSnapchat.svg">
-                        <img src="images/iconsSocialTwitter.svg">
-                        <img src="images/iconsSocialYoutube.svg">
-                        <img src="images/iconsSocialPinterest.svg">
+                        <a href="https://www.instagram.com/littlemiraclesbys/">
+                            <img src="images/iconsSocialInstagram.svg">
+                        </a>
+                        <a href="https://www.facebook.com/littlemiraclesbys/">
+                            <img src="images/iconsSocialFacebook.svg">
+                        </a>
+                        <a href="https://www.snapchat.com/add/little.miracles">
+                            <img src="images/iconsSocialSnapchat.svg">
+                        </a>
+                        <a href="https://twitter.com/littlemiracless">
+                            <img src="images/iconsSocialTwitter.svg">
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCK2M5iUpBDotM7qO329GHHQ">
+                            <img src="images/iconsSocialYoutube.svg">
+                        </a>
+                        <a href="https://www.pinterest.com/littlemiraclesbys/">
+                            <img src="images/iconsSocialPinterest.svg">
+                        </a>
                     </td>
                 </tr>
                 <tr>
