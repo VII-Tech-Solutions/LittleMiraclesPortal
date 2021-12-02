@@ -462,11 +462,11 @@ class CustomCrudController extends CrudController
     function addPromotionCodeField($field_name= NULL, $label = null )
     {
         if (is_null($field_name)) {
-            $field_name = Attributes::CODE;
+            $field_name = Attributes::PROMO_CODE;
         }
         CRUD::addField([
-            Attributes::LABEL => is_null($label) ? "Code" : ucwords($label),
-            Attributes::NAME => Attributes::CODE,
+            Attributes::LABEL => is_null($label) ? "Promo Code" : ucwords($label),
+            Attributes::NAME => Attributes::PROMO_CODE,
             Attributes::TYPE => FieldTypes::TEXT,
 
         ]);

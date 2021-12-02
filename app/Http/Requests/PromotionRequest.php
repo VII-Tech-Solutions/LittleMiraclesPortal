@@ -21,7 +21,7 @@ class PromotionRequest extends CustomRequest
             Attributes::OFFER=>'required',
             Attributes::IMAGE => 'required',
             Attributes::TYPE => 'required',
-            Attributes::CODE => 'required',
+            Attributes::PROMO_CODE => 'required',
             Attributes::POSTED_AT => 'required',
             Attributes::VALID_UNTIL => 'required',
             Attributes::CONTENT => 'required',
