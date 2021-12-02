@@ -25,3 +25,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-packages') }}'><i class='nav-icon la la-hands-helping'></i>Studio Packages</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback') }}'><i class='nav-icon la la-hands-helping'></i>Feedback</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback-questions') }}'><i class='nav-icon la la-hands-helping'></i>Feedback Questions</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('user-studio') }}'><i class='nav-icon la la-hands-helping'></i>User Studio</a></li>
