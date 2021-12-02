@@ -143,6 +143,10 @@
             vertical-align: bottom;
             line-height: unset;
         }
+        .logo{
+            width: 128pt;
+            height: 127pt;
+        }
 
 
         </style>
@@ -152,7 +156,8 @@
             <table style="margin-left: unset; width: 700pt">
             <div >
                 <tr class="top-container">
-                    <td style="border-top-left-radius: 10pt;"><div class="title-text">Little Miracles by Sherin</div></td>
+                    <td style="border-top-left-radius: 10pt; width: 286pt"><div class="title-text">Little Miracles by Sherin</div></td>
+                    <td><img src="images/logo.png" class="logo"></td>
                             <td style="text-align: right; border-top-right-radius: 10pt;" ><div class="header-title">Invoice</div></td></tr>
             </div>
             </table>
