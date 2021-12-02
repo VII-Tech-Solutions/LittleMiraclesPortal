@@ -4,6 +4,13 @@
     <!-- import shared style -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
+          rel="stylesheet">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
+          rel="stylesheet">
+
 {{--    import bootstap--}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -15,6 +22,8 @@
         body{
             font-family: "Manrope";
         }
+
+
         .background{
             background-color: rgb(232 233 235);
             padding-top: 50pt;
@@ -112,6 +121,29 @@
             margin-right: 10pt;
             cursor: pointer;
         }
+        .pdf-container{
+            margin-top: 44pt;
+            border-color: rgb(208 211 214);
+            border-radius: 10pt;
+            width: 120pt;
+            height: 120pt;
+            font-size: 9pt;
+        }
+        .pdf-text{
+            width: 92pt;
+            height: 26pt;
+            margin-right: auto;
+            margin-left: auto;
+            color: rgb(69 81 93);
+        }
+        a:hover{
+            text-decoration: none;
+        }
+        .material-icons-outlined{
+            vertical-align: bottom;
+            line-height: unset;
+        }
+
 
         </style>
     <body>
@@ -161,13 +193,18 @@
                 <tr>
                     <td>
                 <div class="h4" style="margin-top: 12pt">
-                    <i style="color: rgb(141 196 203);font-size: 16pt;margin-right: 8pt;" class="far fa-calendar-day"></i>
+                    <span class="material-icons-outlined " style="color: rgb(141 196 203);margin-right: 8pt; font-size: 24pt">
+                        event
+                    </span>
                     8th, January 2022
                 </div>
                     </td>
                     <td style="text-align: right">
                 <div>
-                    <button type="button" class="btn"><i style="color: rgb(141 196 203);font-size: 16pt;margin-right: 2pt;" class="far fa-calendar-day"></i>
+                    <button type="button" class="btn" style="line-height: 21pt;">
+                        <span class="material-icons-outlined " style="color: rgb(141 196 203);margin-right: 2pt; font-size: 24pt">
+                            event
+                        </span>
                         Add to Calendar</button>
                 </div>
                     </td>
@@ -176,20 +213,28 @@
                 <div class="bottom-container">
                     <tr>
                         <td>
-                <div class="h4"><i style="color: rgb(141 196 203);font-size: 16pt;margin-right: 8pt;" class="far fa-clock"></i>
+                <div class="h4"><span class="material-icons-outlined" style="color: rgb(141 196 203);margin-right: 8pt; font-size: 24pt">
+                                        schedule
+                                </span>
                     04:00 PM</div>
                         </td>
                     </tr>
                 </div>
                 <tr>
                     <td>
-                <div class="h4"><i style="color: rgb(141 196 203);font-size: 16pt;margin-right: 8pt;" class="far fa-user"></i>
+                <div class="h4">
+                    <span class="material-icons-outlined" style="color: rgb(141 196 203);font-size: 24pt;margin-right: 8pt;">
+                        person
+                    </span>
                     1 baby, 2 adult</div>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                <div class="h4"><i style="color: rgb(141 196 203);font-size: 16pt;margin-right: 8pt;" class="far fa-image-polaroid"></i>
+                <div class="h4">
+                    <span class="material-icons-outlined" style="color: rgb(141 196 203);font-size: 24pt;margin-right: 8pt;">
+                        wallpaper
+                    </span>
                     Pastel Rainbow Backdrop</div>
                     </td>
                 </tr>
@@ -205,15 +250,34 @@
                     <td>
                       <div class="h4" style="margin-top: 64pt;">Follow our Social Media</div>
                     </td>
+                    <td style="text-align: right;" rowspan="3">
+                        <button type="button" class="btn pdf-container">
+                            <div class="pdf-text">20210108_Mini
+                                <br>
+                                Session Invoice.PDF</div>
+                        </button>
+                    </td>
                 </tr>
                 <tr>
                     <td>
-                        <img src="images/iconsSocialInstagram.svg">
-                        <img src="images/iconsSocialFacebook.svg">
-                        <img src="images/iconsSocialSnapchat.svg">
-                        <img src="images/iconsSocialTwitter.svg">
-                        <img src="images/iconsSocialYoutube.svg">
-                        <img src="images/iconsSocialPinterest.svg">
+                        <a href="https://www.instagram.com/littlemiraclesbys/">
+                            <img src="images/iconsSocialInstagram.svg">
+                        </a>
+                        <a href="https://www.facebook.com/littlemiraclesbys/">
+                            <img src="images/iconsSocialFacebook.svg">
+                        </a>
+                        <a href="https://www.snapchat.com/add/little.miracles">
+                            <img src="images/iconsSocialSnapchat.svg">
+                        </a>
+                        <a href="https://twitter.com/littlemiracless">
+                            <img src="images/iconsSocialTwitter.svg">
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCK2M5iUpBDotM7qO329GHHQ">
+                            <img src="images/iconsSocialYoutube.svg">
+                        </a>
+                        <a href="https://www.pinterest.com/littlemiraclesbys/">
+                            <img src="images/iconsSocialPinterest.svg">
+                        </a>
                     </td>
                 </tr>
                 <tr>

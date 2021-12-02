@@ -120,5 +120,6 @@ class Attributes extends CustomEnum
     const QUESTION_ID = "question_id";
     const QUESTION_TYPE = "question_type";
     const QUESTION_TYPE_NAME = "question_type_name";
+    const ICONSET = 'iconset';
 
 }

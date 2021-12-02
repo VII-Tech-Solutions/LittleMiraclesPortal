@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\FamilyInfoRequest;
-use App\Models\FamilyInfo;
+use App\Http\Requests\PackageBenefitRequest;
+use App\Models\PackageBenefit;
 use Exception;
 
 /**
- * Family Information CRUD Controller
+ * Package Benefit CRUD Controller
 
  */
-class FamilyInfoCrudController  extends CustomCrudController
+class PackageBenefitCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -23,9 +23,9 @@ class FamilyInfoCrudController  extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(FamilyInfo::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/family-info');
-        $this->crud->setEntityNameStrings('Family Information', 'Family Informations');
+        $this->crud->setModel(PackageBenefit::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/package-benefits');
+        $this->crud->setEntityNameStrings('Package Benefit', 'Package Benefits');
     }
 
     /**
@@ -43,17 +43,11 @@ class FamilyInfoCrudController  extends CustomCrudController
         // column: ID
         $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // column: User ID
-        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
+        // column: Icon
+        $this->addIconColumn("Icon",1,Attributes::ICON);
 
-        // Column: Family ID
-        $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
-
-        // Column: Question ID
-        $this->addIDColumn("Question ID", 1, Attributes::QUESTION_ID);
-
-        // Column: Answer
-        $this->addAnswerColumn("Answer",1, Attributes::ANSWER);
+        // column: Title
+        $this->addNameColumn("Title",1, Attributes::TITLE);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -80,10 +74,13 @@ class FamilyInfoCrudController  extends CustomCrudController
     protected function setupCreateOperation()
     {
         // Validation
-        $this->crud->setValidation(FamilyInfoRequest::class);
+        $this->crud->setValidation(PackageBenefitRequest::class);
 
-        // Field: Answer
-        $this->addAnswerField(Attributes::ANSWER,"Answer");
+        // Field: Title
+        $this->addNameField(Attributes::TITLE,"Title");
+        $this->addIconField(Attributes::ICON,"Icon");
+
+
 
         // Field: Status
         $this->addStatusField(Status::all());

@@ -48,7 +48,7 @@ class FamilyMemberSeeder  extends Seeder
             Attributes::GENDER =>Gender::FEMALE,
             Attributes::USER_ID => 1,
             Attributes::FAMILY_ID => 1,
-            Attributes::BIRTH_DATE => "2021-11-21",
+            Attributes::BIRTH_DATE => "2022-11-21",
             Attributes::RELATIONSHIP=> Relationship::CHILDREN,
             Attributes::STATUS => Status::ACTIVE,
         ],

@@ -1,50 +1,45 @@
 <?php
 
+
 namespace App\Models;
 
 use App\Constants\Attributes;
 use App\Constants\Tables;
-use App\Traits\ImageTrait;
+use App\Helpers;
 use App\Traits\ModelTrait;
+use App\Traits\ImageTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
- * Promotion
+ * Family Information
+ * @property int session_status
+ * @property int gender
+ * @property int relationship
  */
-class Promotion extends CustomModel
+class PackageBenefit extends CustomModel
 {
+    use ModelTrait, ImageTrait;
 
-    use ImageTrait, ModelTrait;
+    protected $table = Tables::PACKAGE_BENEFITS;
 
-    public const DIRECTORY = "uploads/promotions";
-    protected $table = Tables::PROMOTIONS;
     protected $guarded = [
         Attributes::ID
     ];
 
     protected $fillable = [
+        Attributes::ICON,
         Attributes::TITLE,
-        Attributes::OFFER,
-        Attributes::TYPE,
-        Attributes::POSTED_AT,
-        Attributes::VALID_UNTIL,
-        Attributes::CONTENT,
-        Attributes::PROMO_CODE,
-        Attributes::IMAGE,
-        Attributes::STATUS,
+        Attributes::STATUS
     ];
 
+
     protected $casts = [
-        Attributes::TITLE => CastingTypes::STRING,
-        Attributes::OFFER => CastingTypes::STRING,
-        Attributes::TYPE => CastingTypes::STRING,
-        Attributes::CODE => CastingTypes::STRING,
-        Attributes::CONTENT => CastingTypes::STRING,
-        Attributes::STATUS => CastingTypes::INTEGER,
+        Attributes::ANSWER =>CastingTypes::STRING,
+        Attributes::ICON =>CastingTypes::STRING,
     ];
 
     protected $appends = [
-        Attributes::STATUS_NAME
+        Attributes::STATUS_NAME,
     ];
 
     /**
@@ -75,4 +70,7 @@ class Promotion extends CustomModel
     {
         $this->setImage($value);
     }
+
 }
+
+
