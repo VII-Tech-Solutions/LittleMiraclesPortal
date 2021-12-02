@@ -52,6 +52,7 @@ class User extends CustomModel implements
         Attributes::BIRTH_DATE,
         Attributes::PROVIDER,
         Attributes::AVATAR,
+        Attributes::FAMILY_ID,
         Attributes::PAST_EXPERIENCE,
         Attributes::STATUS
     ];

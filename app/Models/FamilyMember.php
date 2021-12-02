@@ -32,6 +32,8 @@ class FamilyMember extends CustomModel
         Attributes::GENDER,
         Attributes::BIRTH_DATE,
         Attributes::RELATIONSHIP,
+        Attributes::FAMILY_ID,
+        Attributes::USER_ID,
         Attributes::STATUS
     ];
 
