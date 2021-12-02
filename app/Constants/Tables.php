@@ -33,5 +33,6 @@ class Tables extends CustomEnum
     const FEEDBACK_QUESTION = "feedback_question";
     const FEEDBACK = "feedback";
     const USER_STUDIO = "user_studio";
+    const USER_STUDIO_SPECS = "user_studio_specs";
 
 }

@@ -15,11 +15,11 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int gender
  * @property int relationship
  */
-class UserStudio extends CustomModel
+class UserStudioSpecs extends CustomModel
 {
     use ModelTrait;
 
-    protected $table = Tables::USER_STUDIO;
+    protected $table = Tables::USER_STUDIO_SPECS;
 
     protected $guarded = [
         Attributes::ID
@@ -29,6 +29,7 @@ class UserStudio extends CustomModel
         Attributes::USER_ID,
         Attributes::FAMILY_ID,
         Attributes::STUDIO_PACKAGE_ID,
+        Attributes::STUDIO_SPECS_ID,
         Attributes::STATUS
     ];
 

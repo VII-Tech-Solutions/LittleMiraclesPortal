@@ -42,4 +42,5 @@ Route::group([
     Route::crud('feedback', 'FeedbackCrudController');
     Route::crud('feedback-questions', 'FeedbackQuestionCrudController');
     Route::crud('user-studio', 'UserStudioCrudController');
+    Route::crud('user-studio-specs', 'UserStudioSpecsCrudController');
 }); // this should be the absolute last line of this file
