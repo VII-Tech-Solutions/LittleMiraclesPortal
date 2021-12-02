@@ -1587,7 +1587,7 @@ class CustomCrudController extends CrudController
     }
 
     /**
-     * Add Location Field for text and link
+     * Add Location Link Field
      * @param string|null $field_name
      * @param string|null $label
      * @param string|null $tab_name
@@ -1595,6 +1595,37 @@ class CustomCrudController extends CrudController
      * @param bool $disabled
      */
     function addLocationField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::LOCATION_LINK;
+        }
+        if (is_null($label)) {
+            $label = "Location Link";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::URL,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+        ]);
+    }
+
+    /**
+     * Add Location Text Field
+     * @param string|null $field_name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param array $limit
+     * @param bool $disabled
+     */
+    function addLocationTextField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::LOCATION_TEXT;
@@ -1609,7 +1640,7 @@ class CustomCrudController extends CrudController
         }
         CRUD::addField([
             Attributes::NAME => $field_name,
-            Attributes::TYPE => FieldTypes::URL,
+            Attributes::TYPE => FieldTypes::TEXT,
             Attributes::LABEL => ucwords($label),
             Attributes::ATTRIBUTES => array_merge([
                 ], $limit) + $this->disabled($disabled),

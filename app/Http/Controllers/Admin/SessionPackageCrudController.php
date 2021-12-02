@@ -125,7 +125,7 @@ class SessionPackageCrudController extends CustomCrudController
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Location Text
-        $this->addLocationField(Attributes::LOCATION_TEXT,"Location Text");
+        $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");
 
         // Field: Location link
         $this->addLocationField(Attributes::LOCATION_LINK, "Location Link");

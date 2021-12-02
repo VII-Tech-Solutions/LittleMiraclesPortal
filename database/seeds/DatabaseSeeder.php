@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
          $this->call(FamilyMemberSeeder::class);
          $this->call(FamilyInfoQuestionSeeder::class);
          $this->call(FamilyInfoSeeder::class);
+         $this->call(SessionPackageSeeder::class);
 
     }
 }
