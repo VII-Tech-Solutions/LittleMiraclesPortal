@@ -4,10 +4,10 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\SessionStatus;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
+use App\Traits\ImageTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -16,24 +16,26 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int gender
  * @property int relationship
  */
-class FamilyInfo extends CustomModel
+class PackageBenefit extends CustomModel
 {
-    use ModelTrait;
+    use ModelTrait, ImageTrait;
 
-    protected $table = Tables::FAMILY_INFO;
+    protected $table = Tables::PACKAGE_BENEFITS;
 
     protected $guarded = [
         Attributes::ID
     ];
 
     protected $fillable = [
-        Attributes::ANSWER,
+        Attributes::ICON,
+        Attributes::TITLE,
         Attributes::STATUS
     ];
 
 
     protected $casts = [
         Attributes::ANSWER =>CastingTypes::STRING,
+        Attributes::ICON =>CastingTypes::STRING,
     ];
 
     protected $appends = [
@@ -50,7 +52,24 @@ class FamilyInfo extends CustomModel
         return $this->getStatusName($value);
     }
 
+    /**
+     * Get image Attribute
+     * @param $value
+     * @return string|null
+     */
+    function getImageAttribute($value)
+    {
+        return $this->getImage($value);
+    }
 
+    /**
+     * Set Attribute: Image
+     * @param $value
+     */
+    public function setImageAttribute($value)
+    {
+        $this->setImage($value);
+    }
 
 }
 

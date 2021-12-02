@@ -28,5 +28,6 @@ class Tables extends CustomEnum
     const TAGS = "tags";
     const FAMILY_INFO = "family_info";
     const FAMILY_INFO_QUESTIONS = "family_info_questions";
+    const PACKAGE_BENEFITS = "package_benefits";
 
 }

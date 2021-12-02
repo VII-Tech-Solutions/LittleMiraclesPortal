@@ -62,6 +62,38 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Icon Field
+     * @param string|null $field_name
+     * @param string|null $label
+     * @param string|null $tab_name
+     * @param array $limit
+     * @param bool $disabled
+     */
+    function addIconField($field_name = null, $label = null, $tab_name = null, $limit = [], $disabled = false)
+    {
+        if (is_null($field_name)) {
+            $field_name = Attributes::ICON;
+        }
+        if (is_null($label)) {
+            $label = "Icon";
+        }
+        if(!is_array($limit)){
+            $limit = [
+                Attributes::MAXLENGTH => $limit
+            ];
+        }
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::ICON_PICKER,
+            Attributes::LABEL => ucwords($label),
+            Attributes::ICONSET => "materialdesign",
+            Attributes::ATTRIBUTES => array_merge([
+                ], $limit) + $this->disabled($disabled),
+            Attributes::TAB => $tab_name
+
+        ]);
+    }
+    /**
      * Add Email Field
      * @param string|null $field_name
      * @param string|null $label
@@ -1351,6 +1383,26 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Icon Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addIconColumn($label = null, $priority = 1, $column_name = Attributes::ICON)
+    {
+        if (is_null($label)) {
+            $label = "Icon";
+        }
+        if (is_null($column_name)) {
+            $column_name = Attributes::ICON;
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
 
     /**
