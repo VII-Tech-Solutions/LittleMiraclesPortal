@@ -9,6 +9,8 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use VIITech\Helpers\Constants\CastingTypes;
+use function GuzzleHttp\Psr7\str;
 
 /**
  * Class Notification
@@ -52,6 +54,9 @@ class Section extends CustomModel
         Attributes::IS_FEATURED_NAME,
     ];
 
+    protected $casts = [
+        Attributes::IS_FEATURED => CastingTypes::BOOLEAN,
+    ];
     /**
      * Get Attribute: status_name
      * @param $value
@@ -97,7 +102,6 @@ class Section extends CustomModel
      */
     public function getIsFeaturedNameAttribute($value)
     {
-        return Helpers::readableText(IsFeatured::getKey($this->is_featured));
-//        return Helpers::readableBoolean($this->is_featured);
+        return Helpers::readableBoolean($this->is_featured);
     }
 }
