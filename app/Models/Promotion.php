@@ -29,7 +29,7 @@ class Promotion extends CustomModel
         Attributes::POSTED_AT,
         Attributes::VALID_UNTIL,
         Attributes::CONTENT,
-        Attributes::CODE,
+        Attributes::PROMO_CODE,
         Attributes::IMAGE,
         Attributes::STATUS,
     ];
