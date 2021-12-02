@@ -113,6 +113,5 @@ class SessionPackageSeeder  extends Seeder
             [Attributes::TITLE]
         );
 
-
     }
 }
