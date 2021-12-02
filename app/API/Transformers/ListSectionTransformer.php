@@ -3,6 +3,7 @@
 namespace App\API\Transformers;
 
 use App\Constants\Attributes;
+use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Class ListSectionTransformer
@@ -23,4 +24,5 @@ class ListSectionTransformer extends CustomTransformer
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
     ];
+
 }
