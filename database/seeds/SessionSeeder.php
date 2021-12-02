@@ -8,7 +8,7 @@ use App\Models\SessionPackage;
 
 use Illuminate\Database\Seeder;
 
-class SessionPackageSeeder  extends Seeder
+class SessionSeeder  extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class SessionPackageSeeder  extends Seeder
     {
         //Twinkle Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Twinkle.jpeg',
+            Attributes::IMAGE => null,//"resources/images",
             Attributes::TITLE =>"Twinkle",
             Attributes::TAG =>"Portrait Studio Session",
             Attributes::PRICE => 160,
@@ -33,7 +33,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Sparkle Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Sparkle.jpeg',
+            Attributes::IMAGE =>null,//"resources/images",
             Attributes::TITLE =>"Sparkle",
             Attributes::TAG =>"Family Portrait Studio Session",
             Attributes::PRICE => 260,
@@ -47,7 +47,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Glimmer Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Glimmer.jpeg',
+            Attributes::IMAGE =>null,//"resources/images",
             Attributes::TITLE =>"Glimmer",
             Attributes::TAG =>"Newborn Studio Session",
             Attributes::PRICE => 360,
@@ -61,7 +61,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Shimmer Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/Shimmer.jpeg',
+            Attributes::IMAGE =>null,//"resources/images",
             Attributes::TITLE =>"Shimmer",
             Attributes::TAG =>"Studio/Outdoor Session",
             Attributes::PRICE => 310,
@@ -75,7 +75,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Baby Plan Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/BabyPlan.jpeg',
+            Attributes::IMAGE =>null,//"resources/images",
             Attributes::TITLE =>"Baby Plan",
             Attributes::TAG =>"4 memorable milestone sessions",
             Attributes::PRICE => 650,
@@ -89,7 +89,7 @@ class SessionPackageSeeder  extends Seeder
 
         //Mini Session Package
         SessionPackage::createOrUpdate([
-            Attributes::IMAGE =>'resources/images/MiniSession.jpeg',
+            Attributes::IMAGE =>null,//"resources/images",
             Attributes::TITLE =>"Mini Session",
             Attributes::TAG =>"Monthly Promotion",
             Attributes::PRICE => 80,
@@ -100,7 +100,6 @@ class SessionPackageSeeder  extends Seeder
             Attributes::LOCATION_LINK =>"https://goo.gl/maps/hsnjmaH44YCbHQceA",
             Attributes::STATUS => Status::ACTIVE,
         ]);
-
 
     }
 }
