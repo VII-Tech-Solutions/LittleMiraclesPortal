@@ -1,1 +1,12 @@
-//
+// font awesome
+@import "../css/font-awesome.css";
+
+// fonts
+@font-face {
+    font-family: "Manrope";
+    src: local('Serif'), local('serif'), url("../fonts/Manrope-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
