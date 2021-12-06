@@ -152,6 +152,8 @@ class Helpers
                 $extension = $image->extension();
             } else if (is_a($image, \Intervention\Image\Image::class)) {
                 $extension = $image->extension;
+            }else if(Str::contains($image, "data:image/png;base64")){
+                $extension = "png";
             }
             if (!in_array($extension, $allowed_types)) {
                 return null;
