@@ -2,6 +2,7 @@
 
 namespace App\API\Controllers;
 
+use App\API\Requests\RegistrationRequest;
 use App\API\Requests\SocialLoginRequest;
 use App\Constants\Attributes;
 use App\Constants\LoginProvider;
@@ -161,6 +162,24 @@ class AuthenticationController extends CustomController
             ]);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_UNAUTHORIZED);
+    }
+
+
+    /**
+     * Registration
+     * @return JsonResponse
+     */
+    public function register()
+    {
+
+        // validate request
+        $validation_response = GlobalHelpers::validateRequest(new RegistrationRequest(), $this->request);
+        if (GlobalHelpers::isValidObject($validation_response, JsonResponse::class)) {
+            return $validation_response;
+        }
+
+
+
     }
 
 }
