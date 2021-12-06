@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\IsFeatured;
+use App\Constants\GoToAction;
 use App\Constants\SectionTypes;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
-use function GuzzleHttp\Psr7\str;
 
 /**
  * Class Notification
@@ -25,6 +24,7 @@ use function GuzzleHttp\Psr7\str;
  * @property integer action_text
  * @property integer go_to
  * @property integer status
+ * @property string go_to_name
  */
 class Section extends CustomModel
 {
@@ -52,6 +52,7 @@ class Section extends CustomModel
         Attributes::TYPE_NAME,
         Attributes::STATUS_NAME,
         Attributes::IS_FEATURED_NAME,
+        Attributes::GO_TO_NAME
     ];
 
     protected $casts = [
@@ -103,5 +104,16 @@ class Section extends CustomModel
     public function getIsFeaturedNameAttribute($value)
     {
         return Helpers::readableBoolean($this->is_featured);
+    }
+
+    /**
+     * Get Attribute: go_to_name
+     * @param $value
+     * @return string
+     */
+    public function getGoToNameAttribute($value)
+    {
+        $text = GoToAction::getKey($this->go_to);
+        return Helpers::readableText($text);
     }
 }

@@ -58,7 +58,7 @@ class SectionCrudController extends CustomCrudController
         $this->addNameColumn("Action Text", 1, Attributes::ACTION_TEXT);
 
         // Column: Go To
-        $this->addNameColumn("Go To", 1, Attributes::GO_TO);
+        $this->addNameColumn("Go To", 1, Attributes::GO_TO_NAME);
 
         // Column: Type
         $this->addSectionTypeColumn(Attributes::TYPE_NAME);

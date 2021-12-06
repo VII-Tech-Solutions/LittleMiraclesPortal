@@ -20,6 +20,7 @@ class Attributes extends CustomEnum
     const LTR = "ltr";
     const PROMO_CODE = "promo_code";
     const FIRST_NAME = "first_name";
+    const GO_TO_NAME = "go_to_name";
     const MESSAGE = "message";
     const PASSWORD = "password";
     const CREATED_AT = "created_at";
