@@ -3,7 +3,6 @@
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\StudioCategory;
-use App\Models\BackpackUser;
 use App\Models\StudioMetadata;
 use Illuminate\Database\Seeder;
 

@@ -20,7 +20,7 @@ class SocialMediaRequest extends CustomRequest
         return [
             Attributes::TITLE => 'required|min:1|max:255',
             Attributes::LINK => 'required',
-            Attributes::ICON => 'required|min:1|max:255'
+            Attributes::IMAGE => 'required'
         ];
     }
 }

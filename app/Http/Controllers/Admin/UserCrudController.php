@@ -9,11 +9,10 @@ use App\Constants\Status;
 use App\Constants\Gender;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use App\Models\Workshop;
 use Exception;
 
 /**
- * Workshop CRUD Controller
+ * User CRUD Controller
 
  */
 class UserCrudController extends CustomCrudController
@@ -47,7 +46,7 @@ class UserCrudController extends CustomCrudController
         $this->addGenderFilter(Gender::all());
 
         // column: User ID
-        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
+        $this->addIDColumn("User ID", 1, Attributes::ID);
 
         // Column: First Name
         $this->addNameColumn("First Name", 1, Attributes::FIRST_NAME);

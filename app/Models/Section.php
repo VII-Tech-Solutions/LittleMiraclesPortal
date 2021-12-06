@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\IsFeatured;
 use App\Constants\SectionTypes;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use VIITech\Helpers\Constants\CastingTypes;
+use function GuzzleHttp\Psr7\str;
 
 /**
  * Class Notification
@@ -18,6 +21,7 @@ use App\Traits\ModelTrait;
  * @property integer title
  * @property integer content
  * @property string type
+ * @property string is_featured
  * @property integer action_text
  * @property integer go_to
  * @property integer status
@@ -50,6 +54,9 @@ class Section extends CustomModel
         Attributes::IS_FEATURED_NAME,
     ];
 
+    protected $casts = [
+        Attributes::IS_FEATURED => CastingTypes::BOOLEAN,
+    ];
     /**
      * Get Attribute: status_name
      * @param $value
@@ -86,5 +93,15 @@ class Section extends CustomModel
     function getTypeNameAttribute()
     {
         return Helpers::readableText(SectionTypes::getKey($this->type));
+    }
+
+    /**
+     * Get Attribute: is_featured_name
+     * @param $value
+     * @return string
+     */
+    public function getIsFeaturedNameAttribute($value)
+    {
+        return Helpers::readableBoolean($this->is_featured);
     }
 }

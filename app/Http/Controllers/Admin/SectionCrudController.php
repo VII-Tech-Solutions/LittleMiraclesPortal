@@ -42,7 +42,7 @@ class SectionCrudController extends CustomCrudController
         // Filter: Status
         $this->addTypeFilter(SectionTypes::all());
 
-        // Filter: Is Popular Filter
+        // Filter: Is Featured Filter
         $this->addIsPopularFilter(IsFeatured::all(), Attributes::IS_FEATURED,"Is Featured");
 
         // Column: Title
@@ -52,8 +52,7 @@ class SectionCrudController extends CustomCrudController
         $this->addContentColumn();
 
         // Column: Image
-        $this->addImageColumn("Image", 1, Attributes::IMAGE);
-
+        $this->addImageColumn("Image");
 
         // Column: Action Text
         $this->addNameColumn("Action Text", 1, Attributes::ACTION_TEXT);

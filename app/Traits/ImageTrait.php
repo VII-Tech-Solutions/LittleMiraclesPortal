@@ -33,11 +33,14 @@ trait ImageTrait
      */
     public function setImage($value)
     {
-        if(Str::startsWith($value, "http")){
+        $image = trim($value);
+
+        if(Str::startsWith($image, "http")){
+            $this->attributes[Attributes::IMAGE] = $image;
             return;
         }
-        if(!is_null($value)){
-            $path = Helpers::uploadFile($this, $value, Attributes::IMAGE, self::DIRECTORY, true, false, true);
+        if(!empty($image)){
+            $path = Helpers::uploadFile($this, $image, Attributes::IMAGE, self::DIRECTORY, true, false, true);
             $this->attributes[Attributes::IMAGE] = "storage/" . $path;
         }else{
             $this->attributes[Attributes::IMAGE] = null;

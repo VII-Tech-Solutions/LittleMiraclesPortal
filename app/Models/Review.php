@@ -15,7 +15,7 @@ class Review extends CustomModel
 {
     use ModelTrait, ImageTrait;
 
-    public const DIRECTORY = "uploads/photographers";
+    public const DIRECTORY = "uploads/reviews";
     protected $table = Tables::REVIEWS;
     protected $guarded = [
         Attributes::ID

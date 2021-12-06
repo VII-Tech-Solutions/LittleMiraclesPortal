@@ -28,7 +28,7 @@ class CreateSessionPackageTable extends Migration
                 $table->string(Attributes::TITLE)->nullable();
                 $table->string(Attributes::TAG)->nullable();
                 $table->float(Attributes::PRICE)->nullable();
-                $table->boolean(Attributes::IS_POPULAR)->nullable()->default(IsPopular::NO);// NEED CHANGE
+                $table->boolean(Attributes::IS_POPULAR)->nullable()->default(IsPopular::NO);
                 $table->integer(Attributes::TYPE)->nullable()->default(SessionPackageTypes::NORMAL_SESSION);
                 $table->string(Attributes::CONTENT)->nullable();
                 $table->string(Attributes::LOCATION_TEXT)->nullable();

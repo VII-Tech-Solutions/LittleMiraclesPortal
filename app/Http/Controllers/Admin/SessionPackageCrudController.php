@@ -48,6 +48,9 @@ class SessionPackageCrudController extends CustomCrudController
         // Filter: Is Popular Filter
         $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
 
+        // Column: ID
+        $this->addIDColumn("ID",1,Attributes::ID);
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
@@ -125,7 +128,7 @@ class SessionPackageCrudController extends CustomCrudController
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Location Text
-        $this->addLocationField(Attributes::LOCATION_TEXT,"Location Text");
+        $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");
 
         // Field: Location link
         $this->addLocationField(Attributes::LOCATION_LINK, "Location Link");

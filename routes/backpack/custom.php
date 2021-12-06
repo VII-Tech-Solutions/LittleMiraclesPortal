@@ -33,5 +33,15 @@ Route::group([
     Route::crud('sections', 'SectionCrudController');
     Route::crud('users', 'UserCrudController');
     Route::crud('studio-metadata', 'StudioMetadataCrudController');
-
+    Route::crud('family-members', 'FamilyMemberCrudController');
+    Route::crud('family-info', 'FamilyInfoCrudController');
+    Route::crud('family-info-questions', 'FamilyInfoQuestionCrudController');
+    Route::crud('tags', 'TagCrudController');
+    Route::crud('package-benefits', 'PackageBenefitCrudController');
+    Route::crud('studio-packages', 'StudioPackageCrudController');
+    Route::crud('feedback', 'FeedbackCrudController');
+    Route::crud('feedback-questions', 'FeedbackQuestionCrudController');
+    Route::crud('studio-specs', 'StudioSpecsCrudController');
+    Route::crud('user-studio', 'UserStudioCrudController');
+    Route::crud('user-studio-specs', 'UserStudioSpecsCrudController');
 }); // this should be the absolute last line of this file

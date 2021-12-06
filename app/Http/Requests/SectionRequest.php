@@ -21,8 +21,8 @@ class SectionRequest extends CustomRequest
             Attributes::IMAGE => 'required',
             Attributes::TITLE => 'required|min:2|max:255',
             Attributes::CONTENT => 'required',
-            Attributes::ACTION_TEXT => 'nullable',
-            Attributes::GO_TO => 'nullable'
+            Attributes::ACTION_TEXT => 'required',
+            Attributes::GO_TO => 'required'
         ];
     }
 }

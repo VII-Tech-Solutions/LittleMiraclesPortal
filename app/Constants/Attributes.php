@@ -115,5 +115,17 @@ class Attributes extends CustomEnum
     const GENDER_NAME = "gender_name";
     const IS_FEATURED = "is_featured";
     const IS_FEATURED_NAME = "is_featured_name";
+    const RELATIONSHIP = "relationship";
+    const RELATIONSHIP_NAME = "relationship_name";
+    const QUESTION_ID = "question_id";
+    const QUESTION_TYPE = "question_type";
+    const QUESTION_TYPE_NAME = "question_type_name";
+    const ICONSET = 'iconset';
+    const STUDIO_PRINT_ID = "studio_print_id";
+    const STUDIO_PACKAGE_ID = "studio_package_id";
+    const STARTING_PRICE = "starting_price";
+    const DETAILS = "details";
+    const EXAMPLE = "example";
+    const STUDIO_SPECS_ID = "studio_specs_id";
 
 }
