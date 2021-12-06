@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\GoToAction;
 use App\Constants\IsFeatured;
 use App\Constants\SectionTypes;
 use App\Constants\Status;
@@ -108,7 +109,7 @@ class SectionCrudController extends CustomCrudController
         $this->addNameField(Attributes::ACTION_TEXT, 'Action Text');
 
         // Field: Go To
-        $this->addNameField(Attributes::GO_TO , 'Go To');
+        $this->addTypeField(GoToAction::all(), Attributes::GO_TO, "Go To");
 
         // Field: Status
         $this->addStatusField(Status::all());
