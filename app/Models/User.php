@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\API\Transformers\UserTransformer;
 use App\Constants\Attributes;
-use App\Constants\Gender;
 use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
@@ -23,6 +23,9 @@ use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * User
+ * @property string first_name
+ * @property string last_name
+ * @property string avatar
  * @property int gender
  *
  */
@@ -35,12 +38,13 @@ class User extends CustomModel implements
 
     protected $table = Tables::USERS;
     public const DIRECTORY = "uploads/users";
+    const TRANSFORMER_NAME = UserTransformer::class;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-
     protected $fillable = [
         Attributes::FIRST_NAME,
         Attributes::LAST_NAME,
@@ -53,6 +57,9 @@ class User extends CustomModel implements
         Attributes::PROVIDER,
         Attributes::AVATAR,
         Attributes::FAMILY_ID,
+        Attributes::PROVIDER_ID,
+        Attributes::PROVIDER,
+        Attributes::USERNAME,
         Attributes::PAST_EXPERIENCE,
         Attributes::STATUS
     ];

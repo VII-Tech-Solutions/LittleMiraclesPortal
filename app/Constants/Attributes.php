@@ -15,11 +15,16 @@ class Attributes extends CustomEnum
     const VERIFIED_AT = "verified_at";
     const APP_VERSION = "app_version";
     const PLATFORM = "platform";
+    const PROVIDER_ID = "provider_id";
     const LAST_NAME = "last_name";
     const TOKEN = "token";
     const LTR = "ltr";
     const PROMO_CODE = "promo_code";
+    const EXPIRES = "expires";
+    const TIMESTAMP = "timestamp";
+    const PHOTO_URL = "photo_url";
     const FIRST_NAME = "first_name";
+    const USERNAME = "username";
     const GO_TO_NAME = "go_to_name";
     const MESSAGE = "message";
     const PASSWORD = "password";
@@ -109,7 +114,7 @@ class Attributes extends CustomEnum
     const VALID_UNTIL = "valid_until";
     const COUNTRY_CODE = "country_code";
     const BIRTH_DATE = "birth_date";
-    const PROVIDER = "PROVIDER";
+    const PROVIDER = "provider";
     const AVATAR = "avatar";
     const PAST_EXPERIENCE = "past_experience";
     const CATEGORY_NAME = "category_name";

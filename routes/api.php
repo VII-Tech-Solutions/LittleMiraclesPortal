@@ -35,7 +35,7 @@ $api->version('v1', function ($api) {
         /*******************************
          * Authentication
          *******************************/
-//        $api->post('/login', 'AuthController@login'); // Login
+        $api->post('/login', 'AuthenticationController@socialLogin')->middleware('allowed_user:true'); // Social Login
 
         /*******************************
          * Users
