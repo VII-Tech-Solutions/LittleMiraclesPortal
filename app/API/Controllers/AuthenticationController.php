@@ -123,17 +123,14 @@ class AuthenticationController extends CustomController
 
             }
         } catch (Exception $e) {
-            dd($e);
             Helpers::captureException($e);
         }
 
         // login as
         /** @var User $user */
         if (!is_null($user)) {
-            Auth::loginUsingId($user->id);
+            $user = Auth::loginUsingId($user->id);
         }
-
-        dd($user);
 
         // login and return response
         if (!is_null($user)) {
@@ -142,7 +139,6 @@ class AuthenticationController extends CustomController
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
 
     }
-
 
     /**
      * Log Me In
