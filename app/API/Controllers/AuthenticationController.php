@@ -133,6 +133,8 @@ class AuthenticationController extends CustomController
             Auth::loginUsingId($user->id);
         }
 
+        dd($user);
+
         // login and return response
         if (!is_null($user)) {
             return $this->logMeIn($user);
