@@ -123,6 +123,7 @@ class AuthenticationController extends CustomController
 
             }
         } catch (Exception $e) {
+            dd($e);
             Helpers::captureException($e);
         }
 
