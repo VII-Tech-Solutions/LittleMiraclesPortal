@@ -46,7 +46,7 @@ class AuthenticationController extends CustomController
         // validate provider
         $provider = trim(Str::lower(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PROVIDER, null, CastingTypes::STRING)));
         if (empty($provider) || !LoginProvider::hasValue($provider)) {
-            return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
+            return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROVIDER, null, null, Response::HTTP_BAD_REQUEST);
         }
 
         $user = null;
@@ -80,14 +80,14 @@ class AuthenticationController extends CustomController
             // TODO Snapchat
 
         } else {
-            return GlobalHelpers::formattedJSONResponse(__(Messages::BAD_REQUEST), null, null, Response::HTTP_BAD_REQUEST);
+            return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
         }
 
         /** @var User $user */
         if (is_null($user) && !is_null($email)) {
             $user = User::where(Attributes::EMAIL, $email)->first();
             if (!is_null($user) && $user->provider != $provider) {
-                return GlobalHelpers::formattedJSONResponse(__(Messages::INVALID_CREDENTIALS), null, null, Response::HTTP_BAD_REQUEST);
+                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_BAD_REQUEST);
             }
         }
 
@@ -107,7 +107,7 @@ class AuthenticationController extends CustomController
                     Attributes::EMAIL => $email,
                     Attributes::PROVIDER => $provider,
                     Attributes::PROVIDER_ID => $provider_id,
-                    Attributes::STATUS => Status::ACTIVE,
+                    Attributes::STATUS => Status::INCOMPLETE_PROFILE,
                     Attributes::AVATAR => $avatar,
                     Attributes::USERNAME => $username
                 ]);
@@ -136,7 +136,7 @@ class AuthenticationController extends CustomController
         if (!is_null($user)) {
             return $this->logMeIn($user);
         }
-        return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
 
     }
 
@@ -291,6 +291,10 @@ class AuthenticationController extends CustomController
             }
 
             $family_info_answers = FamilyInfo::where(Attributes::FAMILY_ID, $new_user->family_id)->get();
+
+            // change status
+            $new_user->status = Status::ACTIVE;
+            $new_user->save();
 
         }
 
