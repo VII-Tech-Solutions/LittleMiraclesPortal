@@ -129,8 +129,10 @@ class AuthenticationController extends CustomController
         // login as
         /** @var User $user */
         if (!is_null($user)) {
-            $user = Auth::loginUsingId($user->id);
+            Auth::loginUsingId($user->id);
         }
+
+        dd($user);
 
         // login and return response
         if (!is_null($user)) {
