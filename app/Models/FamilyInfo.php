@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Models;
 
+use App\API\Transformers\FamilyInfoTransformer;
 use App\Constants\Attributes;
-use App\Constants\SessionStatus;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -21,19 +19,23 @@ class FamilyInfo extends CustomModel
     use ModelTrait;
 
     protected $table = Tables::FAMILY_INFO;
+    const TRANSFORMER_NAME = FamilyInfoTransformer::class;
 
     protected $guarded = [
         Attributes::ID
     ];
 
     protected $fillable = [
+        Attributes::FAMILY_ID,
+        Attributes::USER_ID,
+        Attributes::QUESTION_ID,
         Attributes::ANSWER,
         Attributes::STATUS
     ];
 
 
     protected $casts = [
-        Attributes::ANSWER =>CastingTypes::STRING,
+        Attributes::ANSWER => CastingTypes::STRING,
     ];
 
     protected $appends = [
@@ -49,9 +51,6 @@ class FamilyInfo extends CustomModel
     {
         return $this->getStatusName($value);
     }
-
-
-
 }
 
 

@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Models;
 
+use App\API\Transformers\FamilyMemberTransformer;
 use App\Constants\Attributes;
-use App\Constants\SessionStatus;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -21,6 +19,7 @@ class FamilyMember extends CustomModel
     use ModelTrait;
 
     protected $table = Tables::FAMILY_MEMBERS;
+    const TRANSFORMER_NAME = FamilyMemberTransformer::class;
 
     protected $guarded = [
         Attributes::ID
@@ -36,7 +35,6 @@ class FamilyMember extends CustomModel
         Attributes::USER_ID,
         Attributes::STATUS
     ];
-
 
     protected $casts = [
         Attributes::FIRST_NAME =>CastingTypes::STRING,

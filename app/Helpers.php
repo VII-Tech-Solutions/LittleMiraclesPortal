@@ -127,6 +127,34 @@ class Helpers
     }
 
     /**
+     * Get New Family ID
+     * @return int
+     */
+    static function getNewFamilyID(){
+        /** @var User $user */
+        $family_id = 1;
+        $user = User::orderBy(Attributes::FAMILY_ID, "DESC")->take(1)->first();
+        if(!is_null($user)){
+            $family_id = $user->family_id + 1;
+        }
+        return $family_id;
+    }
+
+    /**
+     * Validate Value in Collection
+     * @param $collection
+     * @param $new_collection
+     * @param $field
+     * @return void
+     */
+    public static function validateValueInCollection(&$collection, &$new_collection, $field){
+        $value = $collection->get($field);
+        if(!is_null($value)){
+            $new_collection->put($field, $value);
+        }
+    }
+
+    /**
      * Upload File
      * @param $static
      * @param $image

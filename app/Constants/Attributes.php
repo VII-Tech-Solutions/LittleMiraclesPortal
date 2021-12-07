@@ -26,6 +26,9 @@ class Attributes extends CustomEnum
     const FIRST_NAME = "first_name";
     const USERNAME = "username";
     const GO_TO_NAME = "go_to_name";
+    const PARTNER = "partner";
+    const FAMILY_INFO = "family_info";
+    const CHILDREN = "children";
     const MESSAGE = "message";
     const PASSWORD = "password";
     const CREATED_AT = "created_at";

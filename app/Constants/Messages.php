@@ -11,4 +11,6 @@ class Messages extends CustomEnum
     const INVALID_CREDENTIALS = 'Invalid credentials';
     const ATTRIBUTE_REQUIRED = ":attribute is required";
     const MAX = ":attribute is required";
+    const PROFILE_UPDATED = "Profile updated";
+    const UNABLE_TO_PROCESS = "Unable to process your request";
 }

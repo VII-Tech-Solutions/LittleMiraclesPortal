@@ -25,6 +25,7 @@ class UpdateUsersTable extends Migration
                 $table->string(Attributes::LAST_NAME)->nullable()->change();
                 $table->text(Attributes::AVATAR)->nullable()->change();
                 $table->string(Attributes::USERNAME)->nullable();
+                $table->string(Attributes::BIRTH_DATE)->nullable()->change();
             });
         }
     }
