@@ -20,7 +20,7 @@ class CreateUserStudioTable extends Migration
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
-                $table->bigInteger(Attributes::STUDIO_PACKAGE_ID)->nullable();
+                $table->bigInteger('STUDIO_PACKAGE_ID')->nullable();
                 $table->bigInteger(Attributes::USER_ID)->nullable();
                 $table->bigInteger(Attributes::FAMILY_ID)->nullable();
                 $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
