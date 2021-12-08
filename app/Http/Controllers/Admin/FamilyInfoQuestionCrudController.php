@@ -130,7 +130,7 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
 
         $response = $this->traitUpdate();
 
-        // instead of returning, take a little time to update the post comments too
+        // instead of returning, take a little time to update the question's answers too
         $question_id = $this->crud->entry->id;
         $created_ids = [];
 
@@ -148,7 +148,7 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
 
         });
 
-        // delete removed Comments
+        // delete removed answers
         $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
         $related_items_in_db = $this->crud->getCurrentEntry()->answers;
 

@@ -46,7 +46,7 @@ class QuestionController extends CustomController
         $questions = FamilyInfoQuestion::active()->get()->sortBy(Attributes::ORDER);
 
 
-//        // get last updated items
+        // get last updated items
         if(!is_null($this->last_update)){
             $questions = Helpers::getLatestOnlyInCollection($questions, $this->last_update);
         }

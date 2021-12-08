@@ -3,6 +3,8 @@
 
 namespace App\Models;
 
+use App\API\Transformers\FamilyInfoQuestionOptionTransformer;
+use App\API\Transformers\FamilyInfoQuestionTransformer;
 use App\Constants\Attributes;
 use App\Constants\QuestionType;
 use App\Constants\SessionStatus;
@@ -77,25 +79,14 @@ class FamilyInfoQuestion extends CustomModel
      */
     public function getOptionsArrayAttribute()
     {
-        $options = json_decode($this->options);
+        $options = $this->answers()->get();
 
         if(empty($options) || $this->question_type == QuestionType::TEXT){
             return null;
         }
 
-       $array = [
 
-       [    "id"=> 1,
-        "value"=> "Text"],
-
-           [    "id"=> 2,
-               "value"=> "Text"],
-
-           [    "id"=> 3,
-               "value"=> "Text"]
-       ];
-
-        return $array;
+        return self::returnTransformedItems($options, FamilyInfoQuestionOptionTransformer::class);
 
     }
 
