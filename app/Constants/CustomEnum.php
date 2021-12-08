@@ -43,4 +43,20 @@ class CustomEnum extends Enum
         }
         return $result->toArray();
     }
+
+    /**
+     * To Custom Array
+     * @return array
+     */
+    static function toCustomArray(){
+        $collect = collect();
+        $all = static::toArray();
+        foreach ($all as $value => $key){
+            $collect->add([
+                Attributes::ID => $key,
+                Attributes::VALUE => Helpers::readableText($value)
+            ]);
+        }
+        return $collect->toArray();
+    }
 }

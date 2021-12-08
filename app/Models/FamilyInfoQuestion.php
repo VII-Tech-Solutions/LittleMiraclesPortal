@@ -4,6 +4,7 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\QuestionType;
 use App\Constants\SessionStatus;
 use App\Constants\Tables;
 use App\Helpers;
@@ -41,6 +42,7 @@ class FamilyInfoQuestion extends CustomModel
     protected $appends = [
         Attributes::STATUS_NAME,
         Attributes::QUESTION_TYPE_NAME,
+        Attributes::OPTIONS_ARRAY,
     ];
 
     /**
@@ -66,6 +68,35 @@ class FamilyInfoQuestion extends CustomModel
         else{
             return "Multiple Select";
         }
+    }
+
+    /**
+     * Get Attribute: options array
+     * @param $value
+     * @return array
+     */
+    public function getOptionsArrayAttribute()
+    {
+        $options = json_decode($this->options);
+
+        if(empty($options) || $this->question_type == QuestionType::TEXT){
+            return null;
+        }
+
+       $array = [
+
+       [    "id"=> 1,
+        "value"=> "Text"],
+
+           [    "id"=> 2,
+               "value"=> "Text"],
+
+           [    "id"=> 3,
+               "value"=> "Text"]
+       ];
+
+        return $array;
+
     }
 
 

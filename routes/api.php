@@ -43,6 +43,12 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->post('/users/register', 'UserController@register'); // User Registration
 
+
+        /*******************************
+         * Questions
+         *******************************/
+        $api->get('/questions', 'QuestionController@listAll')->middleware('allowed_user:true'); // List all questions
+
     });
 
 });

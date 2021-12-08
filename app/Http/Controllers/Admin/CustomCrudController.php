@@ -13,6 +13,7 @@ use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Constants\SessionStatus;
 use App\Constants\StudioCategory;
+use App\Models\Item;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -1834,6 +1835,33 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $name,
             Attributes::TYPE => FieldTypes::TEXT,
             Attributes::ATTRIBUTES => $this->disabled($disabled),
+        ]);
+    }
+
+
+    /**
+     * Add Options Field
+     * @param string|null $tab_name
+     */
+    function addOptionsField($tab_name = null)
+    {
+        CRUD::addField([
+            Attributes::TYPE => FieldTypes::REPEATABLE,
+            Attributes::LABEL => "Options",
+            Attributes::NAME => "options",
+            Attributes::TAB => $tab_name,
+            Attributes::FIELDS => [
+                [
+                    Attributes::NAME => Attributes::OPTION,
+                    Attributes::TYPE => FieldTypes::TEXT,
+                    Attributes::LABEL => 'option',
+                    Attributes::WRAPPER => [
+                        Attributes::CLASS => 'form-group col-md-4'
+                    ],
+                ]
+            ],
+            Attributes::INIT_ROWS => 0, // number of empty rows to be initialized, by default 1
+
         ]);
     }
 

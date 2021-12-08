@@ -136,5 +136,13 @@ class Attributes extends CustomEnum
     const DETAILS = "details";
     const EXAMPLE = "example";
     const STUDIO_SPECS_ID = "studio_specs_id";
+    const QUESTIONS = 'questions';
+    const FIELDS = 'fields';
+    const WRAPPER = 'wrapper';
+    const OPTION = 'option';
+    const INIT_ROWS = 'init_rows';
+    const OPTIONS_ARRAY = 'options_array';
+    const TYPES = 'types';
+    const VALUE = 'value';
 
 }
