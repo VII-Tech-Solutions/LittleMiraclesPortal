@@ -144,5 +144,6 @@ class Attributes extends CustomEnum
     const OPTIONS_ARRAY = 'options_array';
     const TYPES = 'types';
     const VALUE = 'value';
+    const HIDDEN = 'hidden';
 
 }

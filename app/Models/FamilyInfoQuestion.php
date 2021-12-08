@@ -99,8 +99,14 @@ class FamilyInfoQuestion extends CustomModel
 
     }
 
-
-
+    /**
+     * Relationships: Answers
+     * @return mixed
+     */
+    public function answers()
+    {
+        return $this->hasMany(FamilyInfoQuestionOption::class, Attributes::QUESTION_ID, Attributes::ID);
+    }
 
 }
 

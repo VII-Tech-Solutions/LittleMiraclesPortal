@@ -8,6 +8,8 @@ use App\Constants\QuestionType;
 use App\Constants\Status;
 use App\Http\Requests\FamilyInfoQuestionRequest;
 use App\Models\FamilyInfoQuestion;
+use App\Models\FamilyInfoQuestionOption;
+use CRUD;
 use Exception;
 
 /**
@@ -16,6 +18,11 @@ use Exception;
  */
 class FamilyInfoQuestionCrudController extends CustomCrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; } //IMPORTANT HERE
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
+
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -83,15 +90,75 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         // Field: Question
         $this->addQuestionField(Attributes::QUESTION,"Question");
 
+
         // Field: Question Type
         $this->addQuestionTypeField(QuestionType::all(),Attributes::QUESTION_TYPE,"Question Type");
 
         // Field: Options
-        $this->addOptionsField();
 
+        $this->addOptionsField();
         // Field: Status
         $this->addStatusField(Status::all());
 
+    }
+
+
+    public function store()
+    {
+        $items = collect(json_decode(request('options'), true));
+
+        // create the main item as usual
+        $response = $this->traitStore();
+
+        // instead of returning, take a little time to create the question options
+        $question_id = $this->crud->entry->id;
+
+
+        // add the post_id to the items collection
+        $items->each(function($item, $key) use ($question_id) {
+            $item[Attributes::QUESTION_ID] = $question_id;
+
+           FamilyInfoQuestionOption::create($item);
+        });
+
+        return $response;
+    }
+
+    public function update()
+    {
+        $items = collect(json_decode(request('options'), true));
+
+        $response = $this->traitUpdate();
+
+        // instead of returning, take a little time to update the post comments too
+        $question_id = $this->crud->entry->id;
+        $created_ids = [];
+
+        $items->each(function($item, $key) use ($question_id, &$created_ids) {
+            $item[Attributes::QUESTION_ID] = $question_id;
+
+            if ($item['id']) {
+                $option = FamilyInfoQuestionOption::find($item['id']);
+                $option->update($item);
+            } else {
+
+                $created_ids[] = FamilyInfoQuestionOption::create($item)->id;
+
+            }
+
+        });
+
+        // delete removed Comments
+        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+        $related_items_in_db = $this->crud->getCurrentEntry()->answers;
+
+        $related_items_in_db->each(function($item, $key) use ($related_items_in_request) {
+            if (!$related_items_in_request->contains($item['id'])) {
+                $item->delete();
+            }
+        });
+
+        return $response;
     }
 
 }

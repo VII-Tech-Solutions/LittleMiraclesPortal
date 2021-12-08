@@ -1847,17 +1847,17 @@ class CustomCrudController extends CrudController
     {
         CRUD::addField([
             Attributes::TYPE => FieldTypes::REPEATABLE,
-            Attributes::LABEL => "Options",
+            Attributes::LABEL => "Answers",
             Attributes::NAME => "options",
             Attributes::TAB => $tab_name,
             Attributes::FIELDS => [
                 [
-                    Attributes::NAME => Attributes::OPTION,
+                    Attributes::NAME =>  Attributes::ID,
+                    Attributes::TYPE =>    Attributes::HIDDEN,
+                ],
+                [
+                    Attributes::NAME => Attributes::VALUE,
                     Attributes::TYPE => FieldTypes::TEXT,
-                    Attributes::LABEL => 'option',
-                    Attributes::WRAPPER => [
-                        Attributes::CLASS => 'form-group col-md-4'
-                    ],
                 ]
             ],
             Attributes::INIT_ROWS => 0, // number of empty rows to be initialized, by default 1
