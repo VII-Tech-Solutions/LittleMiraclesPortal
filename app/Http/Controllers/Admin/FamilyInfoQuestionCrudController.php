@@ -60,6 +60,10 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         // Column: Question Type
         $this->addQuestionTypeColumn("Type", 1, Attributes::QUESTION_TYPE_NAME);
 
+        // Column: Order
+        $this->addOrder();
+
+
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
 
@@ -95,8 +99,11 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         $this->addQuestionTypeField(QuestionType::all(),Attributes::QUESTION_TYPE,"Question Type");
 
         // Field: Options
-
         $this->addOptionsField();
+
+        // Field: Order
+        $this->addOrderField();
+
         // Field: Status
         $this->addStatusField(Status::all());
 

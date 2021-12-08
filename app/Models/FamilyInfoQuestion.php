@@ -32,6 +32,7 @@ class FamilyInfoQuestion extends CustomModel
         Attributes::QUESTION,
         Attributes::QUESTION_TYPE,
         Attributes::OPTIONS,
+        Attributes::ORDER,
         Attributes::STATUS
     ];
 
