@@ -94,25 +94,35 @@ class AuthenticationController extends CustomController
 
         // check if user exists
         try {
-            if (is_null($user)) {
+            // save the  avatar
+            $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
 
-                // save the  avatar
-                $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
-
-                // create a user
+            if (!is_null($user)) {
+                // update a user
                 $user = User::createOrUpdate([
+                    Attributes::ID => $user->id,
                     Attributes::EMAIL => $email,
                     Attributes::PROVIDER => $provider,
                     Attributes::PROVIDER_ID => $provider_id,
                     Attributes::STATUS => Status::INCOMPLETE_PROFILE,
                     Attributes::AVATAR => $avatar,
                     Attributes::USERNAME => $username
-                ]);
+                ],
+                    [Attributes::ID]
+                );
+
 
             } else {
-
-                // update avatar
-                $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
+                // create a user
+                $user = User::createOrUpdate([
+                        Attributes::EMAIL => $email,
+                        Attributes::PROVIDER => $provider,
+                        Attributes::PROVIDER_ID => $provider_id,
+                        Attributes::STATUS => Status::INCOMPLETE_PROFILE,
+                        Attributes::AVATAR => $avatar,
+                        Attributes::USERNAME => $username
+                    ]
+                );
 
             }
         } catch (Exception $e) {
