@@ -96,11 +96,8 @@ class AuthenticationController extends CustomController
         try {
             if (is_null($user)) {
 
-                // download avatar
+                // save the  avatar
                 $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
-                if (!is_null($avatar) && Str::startsWith($avatar, "http")) {
-                    $avatar = base64_encode(file_get_contents($avatar));
-                }
 
                 // create a user
                 $user = User::createOrUpdate([
@@ -116,10 +113,6 @@ class AuthenticationController extends CustomController
 
                 // update avatar
                 $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
-                if (!is_null($avatar) && Str::startsWith($avatar, "http")) {
-                    $avatar = base64_encode(file_get_contents($avatar));
-                    $user->avatar = $avatar;
-                }
 
             }
         } catch (Exception $e) {
