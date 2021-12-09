@@ -14,4 +14,5 @@ class Messages extends CustomEnum
     const MAX = ":attribute is required";
     const PROFILE_UPDATED = "Profile updated";
     const UNABLE_TO_PROCESS = "Unable to process your request";
+    const ACCOUNT_DELETED = "Account has been deleted successfully";
 }
