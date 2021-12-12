@@ -17,6 +17,7 @@ use App\API\Transformers\ListStudioMetadataTransformer;
 use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
 use App\Constants\Headers;
+use App\Constants\PaymentMethod;
 use App\Helpers;
 use App\Models\Backdrop;
 use App\Models\Cake;
@@ -137,6 +138,9 @@ class HomeController extends CustomController
         // get pages
         $pages = Page::active()->get();
 
+        // get payment methods
+        $payment_methods = PaymentMethod::readableArray();
+
         // TODO get user info
         // TODO fetch family if not null
 
@@ -172,6 +176,7 @@ class HomeController extends CustomController
             Attributes::SOCIAL_MEDIA => SocialMedia::returnTransformedItems($social, ListSocialMediaTransformer::class),
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::PAGES => Page::returnTransformedItems($pages, ListPageTransformer::class),
+            Attributes::PAYMENT_METHODS => $payment_methods,
         ]);
     }
 

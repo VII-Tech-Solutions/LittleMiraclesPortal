@@ -30,6 +30,7 @@ class Attributes extends CustomEnum
     const GO_TO_NAME = "go_to_name";
     const BENEFITS = "benefits";
     const PARTNER = "partner";
+    const PAYMENT_METHODS = "payment_methods";
     const FAMILY_INFO = "family_info";
     const BENEFIT_ID = "benefit_id";
     const CHILDREN = "children";
