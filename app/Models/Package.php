@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\API\Transformers\BenefitTransformer;
 use App\Constants\Attributes;
 use App\Constants\SessionPackageTypes;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use phpDocumentor\Reflection\Types\Self_;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -52,7 +54,8 @@ class Package extends CustomModel
     protected $appends = [
         Attributes::STATUS_NAME,
         Attributes::IS_POPULAR_NAME,
-        Attributes::TYPE_NAME
+        Attributes::TYPE_NAME,
+        Attributes::BENEFITS
     ];
 
     /**
@@ -106,6 +109,20 @@ class Package extends CustomModel
     }
 
     /**
+     * Get benefits
+     * @param $value
+     */
+    function getBenefitsAttribute()
+    {
+        $benefits = $this->benefits()->get();
+
+        if($benefits->isNotEmpty()){
+            return self::returnTransformedItems($benefits, BenefitTransformer::class)  ;
+        }
+        return [];
+    }
+
+    /**
      * Relationships: Package Benefits
      * @return mixed
      */
@@ -113,4 +130,6 @@ class Package extends CustomModel
     {
         return $this->belongsToMany(Benefit::class, Tables::PACKAGE_BENEFITS, Attributes::PACKAGE_ID, Attributes::BENEFIT_ID);
     }
+
+
 }

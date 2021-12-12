@@ -36,7 +36,7 @@ Route::group([
     Route::crud('family-info', 'FamilyInfoCrudController');
     Route::crud('family-info-questions', 'FamilyInfoQuestionCrudController');
     Route::crud('tags', 'TagCrudController');
-    Route::crud('benefits', 'PackageBenefitCrudController');
+    Route::crud('benefits', 'BenefitCrudController');
     Route::crud('studio-packages', 'StudioPackageCrudController');
     Route::crud('packages', 'PackageCrudController');
     Route::crud('feedback', 'FeedbackCrudController');

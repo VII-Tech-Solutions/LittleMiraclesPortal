@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\PackageBenefitRequest;
+use App\Models\Benefit;
 use App\Models\PackageBenefit;
 use Exception;
 
@@ -13,7 +14,7 @@ use Exception;
  * Package Benefit CRUD Controller
 
  */
-class PackageBenefitCrudController extends CustomCrudController
+class BenefitCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -23,9 +24,9 @@ class PackageBenefitCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(PackageBenefit::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/package-benefits');
-        $this->crud->setEntityNameStrings('Package Benefit', 'Package Benefits');
+        $this->crud->setModel(Benefit::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/benefits');
+        $this->crud->setEntityNameStrings('Benefit', 'Benefits');
     }
 
     /**
@@ -78,6 +79,10 @@ class PackageBenefitCrudController extends CustomCrudController
 
         // Field: Title
         $this->addNameField(Attributes::TITLE,"Title");
+
+        // Field: Description
+        $this->addNameField(Attributes::DESCRIPTION,"Description");
+
         $this->addIconField(Attributes::ICON,"Icon");
 
 

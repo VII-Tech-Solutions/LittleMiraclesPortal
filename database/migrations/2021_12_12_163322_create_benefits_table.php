@@ -22,6 +22,7 @@ class CreateBenefitsTable extends Migration
                 $table->bigIncrements(Attributes::ID);
                 $table->string(Attributes::ICON)->nullable();
                 $table->string(Attributes::TITLE)->nullable();
+                $table->string(Attributes::DESCRIPTION)->nullable();
                 $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
                 $table->timestamps();
                 $table->softDeletes();
