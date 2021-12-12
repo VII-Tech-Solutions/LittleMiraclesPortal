@@ -20,6 +20,7 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tags') }}'><i class='nav-icon la la-hands-helping'></i>Tags</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-info') }}'><i class='nav-icon la la-hands-helping'></i>Family Information</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('family-info-questions') }}'><i class='nav-icon la la-hands-helping'></i>Family Information Questions</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('packages') }}'><i class='nav-icon la la-hands-helping'></i>Packages</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('package-benefits') }}'><i class='nav-icon la la-hands-helping'></i>Package Benefits</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-packages') }}'><i class='nav-icon la la-hands-helping'></i>Studio Packages</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback') }}'><i class='nav-icon la la-hands-helping'></i>Feedback</a></li>

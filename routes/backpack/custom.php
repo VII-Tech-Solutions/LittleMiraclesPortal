@@ -38,6 +38,7 @@ Route::group([
     Route::crud('tags', 'TagCrudController');
     Route::crud('benefits', 'PackageBenefitCrudController');
     Route::crud('studio-packages', 'StudioPackageCrudController');
+    Route::crud('packages', 'PackageCrudController');
     Route::crud('feedback', 'FeedbackCrudController');
     Route::crud('feedback-questions', 'FeedbackQuestionCrudController');
     Route::crud('studio-specs', 'StudioSpecsCrudController');
