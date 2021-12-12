@@ -13,7 +13,6 @@ use App\Helpers;
 use App\Models\FamilyInfo;
 use App\Models\FamilyMember;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -91,42 +90,25 @@ class AuthenticationController extends CustomController
             }
         }
 
+        // download avatar
+        $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
+        if (!is_null($avatar) && Str::startsWith($avatar, "http")) {
+            $avatar = base64_encode(file_get_contents($avatar));
+        }
 
-        // check if user exists
-        try {
-            // save the  avatar
-            $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
-
-            if (!is_null($user)) {
-                // update a user
-                $user = User::createOrUpdate([
-                    Attributes::ID => $user->id,
-                    Attributes::EMAIL => $email,
-                    Attributes::PROVIDER => $provider,
-                    Attributes::PROVIDER_ID => $provider_id,
-                    Attributes::STATUS => Status::INCOMPLETE_PROFILE,
-                    Attributes::AVATAR => $avatar,
-                    Attributes::USERNAME => $username
-                ],
-                    [Attributes::ID]
-                );
-
-
-            } else {
-                // create a user
-                $user = User::createOrUpdate([
-                        Attributes::EMAIL => $email,
-                        Attributes::PROVIDER => $provider,
-                        Attributes::PROVIDER_ID => $provider_id,
-                        Attributes::STATUS => Status::INCOMPLETE_PROFILE,
-                        Attributes::AVATAR => $avatar,
-                        Attributes::USERNAME => $username
-                    ]
-                );
-
-            }
-        } catch (Exception $e) {
-            Helpers::captureException($e);
+        // create a user
+        if(is_null($user)){
+            $user = User::createOrUpdate([
+                Attributes::EMAIL => $email,
+                Attributes::PROVIDER => $provider,
+                Attributes::PROVIDER_ID => $provider_id,
+                Attributes::STATUS => Status::INCOMPLETE_PROFILE,
+                Attributes::AVATAR => $avatar,
+                Attributes::USERNAME => $username
+            ]);
+        }else{
+            $user->avatar = $avatar;
+            $user->save();
         }
 
         // login as
