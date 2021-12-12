@@ -2,32 +2,31 @@
 
 namespace App\API\Controllers;
 
-use App\API\Transformers\FamilyInfoQuestionTransformer;
+use App\API\Transformers\ListPackageTransformer;
 use App\Constants\Attributes;
 use App\Constants\Messages;
-use App\Constants\QuestionType;
 use App\Helpers;
-use App\Models\FamilyInfoQuestion;
+use App\Models\Package;
 use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\GlobalHelpers;
 
 /**
- * Question Controller
+ * Package Controller
  */
-class QuestionController extends CustomController
+class PackageController extends CustomController
 {
 
     /**
-     * User Registration
+     * List All Packages
      *
      * @return JsonResponse
      *
      * * @OA\GET(
-     *     path="/api/questions",
-     *     tags={"Metadata"},
-     *     description="Questions Metadata",
-     *     @OA\Response(response="200", description="Questions retrived successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     path="/api/packages",
+     *     tags={"Packages"},
+     *     description="List Packages",
+     *     @OA\Response(response="200", description="Packages retrived successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Parameter(name="last_update", in="query", description="Last Update: 2020-10-04", required=false, @OA\Schema(type="string")),
      * )
@@ -41,18 +40,17 @@ class QuestionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        // get questions
-        $questions = FamilyInfoQuestion::active()->get()->sortBy(Attributes::ORDER);
+        // get packages
+        $packages = Package::active()->get();
 
         // get last updated items
         if(!empty($this->last_update)){
-            $questions = Helpers::getLatestOnlyInCollection($questions, $this->last_update);
+            $packages = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
         }
 
         // return response
         return Helpers::returnResponse([
-            Attributes::QUESTIONS => FamilyInfoQuestion::returnTransformedItems($questions, FamilyInfoQuestionTransformer::class),
-            Attributes::TYPES =>  QuestionType::toCustomArray(),
+            Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
         ]);
     }
 

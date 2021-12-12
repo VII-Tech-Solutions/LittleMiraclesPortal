@@ -8,13 +8,13 @@ use App\Constants\IsPopular;
 use App\Constants\Status;
 use App\Constants\SessionPackageTypes;
 use App\Http\Requests\SessionPackageRequest;
-use App\Models\SessionPackage;
+use App\Models\Package;
 use Exception;
 
 /**
- * Session Package CRUD Controller
+ * Package CRUD Controller
  */
-class SessionPackageCrudController extends CustomCrudController
+class PackageCrudController extends CustomCrudController
 {
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -24,9 +24,9 @@ class SessionPackageCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(SessionPackage::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/session-package');
-        $this->crud->setEntityNameStrings('Session Package', 'Session Packages');
+        $this->crud->setModel(Package::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/packages');
+        $this->crud->setEntityNameStrings('Package', 'Packages');
     }
 
     /**
@@ -37,7 +37,6 @@ class SessionPackageCrudController extends CustomCrudController
      */
     protected function setupListOperation()
     {
-        //Attributes::SESSION_STATUS, added need filter
 
         // Filter: Status
         $this->addStatusFilter(Status::all());
@@ -118,7 +117,7 @@ class SessionPackageCrudController extends CustomCrudController
         // Field: Price
         $this->addPriceField(Attributes::PRICE, "Price");
 
-        // Field: IS_POPULAR
+        // Field: Is Popular
         $this->addIsPopularField(IsPopular::all(),Attributes::IS_POPULAR,"Is Popular");
 
         // Field: Type
@@ -126,6 +125,9 @@ class SessionPackageCrudController extends CustomCrudController
 
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
+
+        // Field: Benefits
+        $this->addBenefitsField();
 
         // Field: Location Text
         $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");

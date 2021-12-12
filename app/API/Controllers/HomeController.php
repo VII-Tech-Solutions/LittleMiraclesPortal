@@ -27,7 +27,7 @@ use App\Models\Page;
 use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Section;
-use App\Models\SessionPackage;
+use App\Models\Package;
 use App\Models\SocialMedia;
 use App\Models\StudioMetadata;
 use App\Models\UserDevice;
@@ -132,7 +132,7 @@ class HomeController extends CustomController
         $social = SocialMedia::active()->get();
 
         // get packages
-        $packages = SessionPackage::active()->get();
+        $packages = Package::active()->get();
 
         // get pages
         $pages = Page::active()->get();
@@ -170,7 +170,7 @@ class HomeController extends CustomController
             Attributes::FAQS => Faq::returnTransformedItems($faqs, ListFAQsTransformer::class),
             Attributes::STUDIO_METADATA => StudioMetadata::returnTransformedItems($studio_metadata, ListStudioMetadataTransformer::class),
             Attributes::SOCIAL_MEDIA => SocialMedia::returnTransformedItems($social, ListSocialMediaTransformer::class),
-            Attributes::PACKAGES => SessionPackage::returnTransformedItems($packages, ListPackageTransformer::class),
+            Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::PAGES => Page::returnTransformedItems($pages, ListPageTransformer::class),
         ]);
     }

@@ -3,7 +3,7 @@ use App\Constants\Attributes;
 use App\Constants\IsPopular;
 use App\Constants\SessionPackageTypes;
 use App\Constants\Status;
-use App\Models\SessionPackage;
+use App\Models\Package;
 
 
 use Illuminate\Database\Seeder;
@@ -18,7 +18,7 @@ class SessionPackageSeeder  extends Seeder
     public function run()
     {
         //Twinkle Package
-        SessionPackage::createOrUpdate([
+        Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Twinkle.jpeg',
             Attributes::TITLE =>"Twinkle",
             Attributes::TAG =>"Portrait Studio Session",
@@ -34,7 +34,7 @@ class SessionPackageSeeder  extends Seeder
         );
 
         //Sparkle Package
-        SessionPackage::createOrUpdate([
+        Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Sparkle.jpeg',
             Attributes::TITLE =>"Sparkle",
             Attributes::TAG =>"Family Portrait Studio Session",
@@ -50,7 +50,7 @@ class SessionPackageSeeder  extends Seeder
         );
 
         //Glimmer Package
-        SessionPackage::createOrUpdate([
+        Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Glimmer.jpeg',
             Attributes::TITLE =>"Glimmer",
             Attributes::TAG =>"Newborn Studio Session",
@@ -66,7 +66,7 @@ class SessionPackageSeeder  extends Seeder
         );
 
         //Shimmer Package
-        SessionPackage::createOrUpdate([
+        Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Shimmer.jpeg',
             Attributes::TITLE =>"Shimmer",
             Attributes::TAG =>"Studio/Outdoor Session",
@@ -82,7 +82,7 @@ class SessionPackageSeeder  extends Seeder
         );
 
         //Baby Plan Package
-        SessionPackage::createOrUpdate([
+        Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/BabyPlan.jpeg',
             Attributes::TITLE =>"Baby Plan",
             Attributes::TAG =>"4 memorable milestone sessions",
@@ -98,7 +98,7 @@ class SessionPackageSeeder  extends Seeder
         );
 
         //Mini Session Package
-        SessionPackage::createOrUpdate([
+        Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/MiniSession.jpeg',
             Attributes::TITLE =>"Mini Session",
             Attributes::TAG =>"Monthly Promotion",

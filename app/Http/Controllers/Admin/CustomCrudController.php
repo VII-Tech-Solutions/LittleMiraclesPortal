@@ -14,6 +14,8 @@ use App\Constants\Status;
 use App\Constants\SessionStatus;
 use App\Constants\StudioCategory;
 use App\Models\Item;
+use App\Models\PackageBenefit;
+use App\Models\Tag;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -1619,6 +1621,21 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Benefits Field
+     * @param string|null $tab_name
+     */
+    function addBenefitsField($tab_name = null)
+    {
+        CRUD::addField([
+            Attributes::TYPE => FieldTypes::RELATIONSHIP,
+            Attributes::NAME => Attributes::BENEFITS, // the method on your model that defines the relationship
+            Attributes::AJAX => true,
+            Attributes::INLINE_CREATE => [Attributes::ENTITY => Attributes::BENEFITS], // specify the entity in singular
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
+    /**
      * Add Status Column
      * @param string $attribute
      * @param int $priority
@@ -1878,5 +1895,13 @@ class CustomCrudController extends CrudController
             ];
         }
         return [];
+    }
+
+    /**
+     * Fetch Benefit
+     */
+    protected function fetchBenefit()
+    {
+        return $this->fetch(PackageBenefit::class);
     }
 }

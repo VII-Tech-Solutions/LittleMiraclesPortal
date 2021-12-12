@@ -48,7 +48,13 @@ $api->version('v1', function ($api) {
         /*******************************
          * Questions
          *******************************/
-        $api->get('/questions', 'QuestionController@listAll')->middleware('allowed_user:true'); // List all questions
+        $api->get('/questions', 'QuestionController@listAll')->middleware('allowed_user:true'); // List all Questions
+
+
+        /*******************************
+         * Packages
+         *******************************/
+        $api->get('/packages', 'PackageController@listAll')->middleware('allowed_user:true'); // List all Packages
 
     });
 

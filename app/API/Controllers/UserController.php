@@ -32,8 +32,6 @@ class UserController extends CustomController
 
 
 
-
-
     }
 
 
@@ -55,14 +53,11 @@ class UserController extends CustomController
     {
         // get current user info
         $user = Helpers::resolveUser();
-
         if (is_null($user)) {
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        $delete_user = $user->delete();
-
-        if($delete_user){
+        if($user->delete()){
             return GlobalHelpers::formattedJSONResponse(Messages::ACCOUNT_DELETED, [], null, Response::HTTP_OK);
         }
 

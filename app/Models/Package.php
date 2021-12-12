@@ -14,9 +14,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * Session Package
  * @property int type
  * @property int is_popular
- *
  */
-class SessionPackage extends CustomModel
+class Package extends CustomModel
 {
     use ImageTrait, ModelTrait;
 
@@ -39,7 +38,6 @@ class SessionPackage extends CustomModel
         Attributes::STATUS,
     ];
 
-
     protected $casts = [
         Attributes::IMAGE => CastingTypes::STRING,
         Attributes::TITLE => CastingTypes::STRING,
@@ -55,7 +53,6 @@ class SessionPackage extends CustomModel
         Attributes::STATUS_NAME,
         Attributes::IS_POPULAR_NAME,
         Attributes::TYPE_NAME
-
     ];
 
     /**
@@ -106,5 +103,14 @@ class SessionPackage extends CustomModel
     public function setImageAttribute($value)
     {
         $this->setImage($value);
+    }
+
+    /**
+     * Relationships: Package Benefits
+     * @return mixed
+     */
+    public function benefits()
+    {
+        return $this->belongsToMany(Benefit::class, Tables::PACKAGE_BENEFITS, Attributes::PACKAGE_ID, Attributes::BENEFIT_ID);
     }
 }
