@@ -15,6 +15,7 @@ class Attributes extends CustomEnum
     const VERIFIED_AT = "verified_at";
     const APP_VERSION = "app_version";
     const PLATFORM = "platform";
+    const SESSIONS = "sessions";
     const PROVIDER_ID = "provider_id";
     const LAST_NAME = "last_name";
     const TOKEN = "token";
