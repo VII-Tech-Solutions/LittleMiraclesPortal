@@ -28,7 +28,6 @@ Route::group([
     Route::crud('sessions', 'SessionCrudController');
     Route::crud('faqs', 'FaqsCrudController');
     Route::crud('pages', 'PageCrudController');
-    Route::crud('session-package', 'SessionPackageCrudController');
     Route::crud('social-media', 'SocialMediaCrudController');
     Route::crud('sections', 'SectionCrudController');
     Route::crud('users', 'UserCrudController');
