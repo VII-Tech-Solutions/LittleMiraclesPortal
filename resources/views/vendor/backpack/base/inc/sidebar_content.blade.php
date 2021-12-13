@@ -4,7 +4,9 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('onboardings') }}'><i class='nav-icon la la-hands-helping'></i>Onboardings</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('photographers') }}'><i class='nav-icon la la-hands-helping'></i>Photographers</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('cakes') }}'><i class='nav-icon la la-hands-helping'></i>Cakes</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('cake-categories') }}'><i class='nav-icon la la-hands-helping'></i>Cake Categories</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('backdrops') }}'><i class='nav-icon la la-hands-helping'></i>Backdrop</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('backdrop-categories') }}'><i class='nav-icon la la-hands-helping'></i>Backdrop Categories</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('daily-tips') }}'><i class='nav-icon la la-hands-helping'></i>Daily Tip</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promotions') }}'><i class='nav-icon la la-hands-helping'></i>Promotions</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('workshops') }}'><i class='nav-icon la la-hands-helping'></i>Workshops</a></li>
