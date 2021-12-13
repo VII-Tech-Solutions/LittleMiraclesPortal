@@ -423,6 +423,24 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add cake Category Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+
+    function addCakeCategoryColumn($label = null, $priority = 1, $column_name = Attributes::IMAGE)
+    {
+        if (is_null($label)) {
+            $label ="Category";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
 
 
