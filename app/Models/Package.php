@@ -55,7 +55,7 @@ class Package extends CustomModel
         Attributes::STATUS_NAME,
         Attributes::IS_POPULAR_NAME,
         Attributes::TYPE_NAME,
-        Attributes::BENEFITS
+        Attributes::PACKAGE_BENEFITS
     ];
 
     /**
@@ -110,9 +110,8 @@ class Package extends CustomModel
 
     /**
      * Get benefits
-     * @param $value
      */
-    function getBenefitsAttribute()
+    function getPackageBenefitsAttribute(): array
     {
         $benefits = $this->benefits()->get();
 

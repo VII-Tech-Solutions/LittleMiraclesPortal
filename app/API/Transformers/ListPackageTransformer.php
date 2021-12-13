@@ -21,7 +21,7 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::CONTENT,
         Attributes::LOCATION_TEXT,
         Attributes::LOCATION_LINK,
-        Attributes::BENEFITS,
+        Attributes::PACKAGE_BENEFITS,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,

@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class PackageBenefit extends CustomModel
 {
-    use ModelTrait, ImageTrait;
 
     protected $table = Tables::PACKAGE_BENEFITS;
 
@@ -27,23 +26,6 @@ class PackageBenefit extends CustomModel
         Attributes::STATUS
     ];
 
-
-
-    /**
-     * Relationship: Package
-     * @return BelongsTo
-     */
-    function package(){
-        return $this->belongsTo(Package::class, Attributes::PACKAGE_ID);
-    }
-
-    /**
-     * Relationship: Benefit
-     * @return BelongsTo
-     */
-    function benefit(){
-        return $this->belongsTo(Benefit::class, Attributes::BENEFIT_ID);
-    }
 }
 
 
