@@ -10,12 +10,13 @@ use App\Traits\ImageTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
- * BackdropCategory
+ * CakeCategory
  */
-class BackdropCategory extends CustomModel
+class CakeCategory extends CustomModel
 {
 
-    protected $table = Tables::BACKDROP_CATEGORIES;
+
+    protected $table = Tables::CAKE_CATEGORIES;
     protected $guarded = [
         Attributes::ID
     ];

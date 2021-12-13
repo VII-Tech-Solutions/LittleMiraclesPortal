@@ -15,6 +15,7 @@ use App\Constants\SessionStatus;
 use App\Constants\StudioCategory;
 use App\Models\Backdrop;
 use App\Models\BackdropCategory;
+use App\Models\CakeCategory;
 use App\Models\ImportCategory;
 use App\Models\Item;
 use App\Models\PackageBenefit;
@@ -1916,12 +1917,26 @@ class CustomCrudController extends CrudController
             Attributes::ATTRIBUTE => Attributes::NAME, // foreign key attribute that is shown to user
             Attributes::MODEL => BackdropCategory::class, // foreign key model
             Attributes::DEFAULT => BackdropCategory::first(), // foreign key model
-            Attributes::AJAX => true,
-            Attributes::INLINE_CREATE => [Attributes::ENTITY => 'backdrop-categories'], // specify the entity in singular
         ]);
 
     }
 
+
+    /**
+     * Add Cake Category
+     */
+    function addCakeCategoryField()
+    {
+        CRUD::addField([
+            Attributes::LABEL => 'Category', // Table column heading
+            Attributes::TYPE => FieldTypes::SELECT2,
+            Attributes::NAME => Attributes::CATEGORY_ID, // the column that contains the ID of that connected entity;
+            Attributes::ATTRIBUTE => Attributes::NAME, // foreign key attribute that is shown to user
+            Attributes::MODEL => CakeCategory::class, // foreign key model
+            Attributes::DEFAULT => CakeCategory::first(), // foreign key model
+        ]);
+
+    }
     /**
      * Disabled
      * @param boolean $is_disabled

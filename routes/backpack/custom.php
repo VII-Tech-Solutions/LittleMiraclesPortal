@@ -20,6 +20,7 @@ Route::group([
     Route::crud('onboardings', 'OnboardingCrudController');
     Route::crud('photographers', 'PhotographerCrudController');
     Route::crud('cakes', 'CakeCrudController');
+    Route::crud('cake-categories', 'CakeCategoryCrudController');
     Route::crud('backdrops', 'BackdropCrudController');
     Route::crud('backdrop-categories', 'BackdropCategoryCrudController');
     Route::crud('daily-tips', 'DailyTipCrudController');

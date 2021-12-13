@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Tables;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -66,5 +67,15 @@ class Cake extends CustomModel
     public function setImageAttribute($value)
     {
         $this->setImage($value);
+    }
+
+
+    /**
+     * Relationship: Category
+     * @return BelongsTo
+     */
+    function category(): BelongsTo
+    {
+        return $this->belongsTo(CakeCategory::class, Attributes::CATEGORY_ID);
     }
 }

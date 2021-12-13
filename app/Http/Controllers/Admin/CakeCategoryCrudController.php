@@ -1,19 +1,25 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\CakeRequest;
-use App\Models\Cake;
+use App\Http\Requests\BackdropCategoryRequest;
+use App\Http\Requests\CakeCategoryRequest;
+use App\Http\Requests\PackageBenefitRequest;
+use App\Models\BackdropCategory;
+use App\Models\Benefit;
+use App\Models\CakeCategory;
+use App\Models\PackageBenefit;
 use Exception;
 
 /**
- * Cake CRUD Controller
- */
-class CakeCrudController extends CustomCrudController
-{
+ * Package Benefit CRUD Controller
 
+ */
+class CakeCategoryCrudController extends CustomCrudController
+{
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -22,9 +28,9 @@ class CakeCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Cake::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/cakes');
-        $this->crud->setEntityNameStrings('Cake', 'Cakes');
+        $this->crud->setModel(CakeCategory::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/cake-categories');
+        $this->crud->setEntityNameStrings('Cake Category', 'Cake Categories');
     }
 
     /**
@@ -39,17 +45,12 @@ class CakeCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // Column: Title
-        $this->addNameColumn("Title", 1, Attributes::TITLE);
+        // column: ID
+        $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // Column: Category
-        $this->addCategoryColumn("Category", 1, Attributes::CATEGORY);
+        // column: Name
+        $this->addNameColumn("Name",2, Attributes::NAME);
 
-        // column: Image
-        $this->addImageColumn("Image");
-
-        // Column: Status
-        $this->addStatusColumn(Attributes::STATUS_NAME);
 
     }
 
@@ -72,19 +73,13 @@ class CakeCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
-
         // Validation
-        $this->crud->setValidation(CakeRequest::class);
+        $this->crud->setValidation(CakeCategoryRequest::class);
 
         // Field: Name
-        $this->addNameField(Attributes::TITLE, "Title");
+        $this->addNameField(Attributes::NAME,"Name");
 
 
-        // column: Category
-        $this->addCakeCategoryField();
-
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: Status
         $this->addStatusField(Status::all());
