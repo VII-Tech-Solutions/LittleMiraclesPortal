@@ -21,6 +21,7 @@ Route::group([
     Route::crud('photographers', 'PhotographerCrudController');
     Route::crud('cakes', 'CakeCrudController');
     Route::crud('backdrops', 'BackdropCrudController');
+    Route::crud('backdrop-categories', 'BackdropCategoryCrudController');
     Route::crud('daily-tips', 'DailyTipCrudController');
     Route::crud('promotions', 'PromotionCrudController');
     Route::crud('workshops', 'WorkshopCrudController');

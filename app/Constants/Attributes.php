@@ -157,5 +157,6 @@ class Attributes extends CustomEnum
     const ATTRIBUTE = 'attribute';
     const MODEL = 'model';
     const PACKAGE_BENEFITS = 'package_benefits';
+    const MULTIPLE = 'multiple';
 
 }

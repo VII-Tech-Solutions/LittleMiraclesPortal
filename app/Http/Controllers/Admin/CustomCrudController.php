@@ -13,6 +13,9 @@ use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Constants\SessionStatus;
 use App\Constants\StudioCategory;
+use App\Models\Backdrop;
+use App\Models\BackdropCategory;
+use App\Models\ImportCategory;
 use App\Models\Item;
 use App\Models\PackageBenefit;
 use App\Models\Tag;
@@ -664,6 +667,7 @@ class CustomCrudController extends CrudController
             Attributes::NAME => Attributes::ORDER,
             Attributes::TYPE => FieldTypes::NUMBER,
             Attributes::HINT => $hint,
+            Attributes::DEFAULT => 1,
             Attributes::ATTRIBUTES => $this->disabled($is_disabled),
         ]);
     }
@@ -1640,7 +1644,7 @@ class CustomCrudController extends CrudController
 
     /**
      * Add Benefits Field
-     * @param string|null $tab_name
+     * @param string|null $TAB_NAME
      */
     function addBenefitsField($tab_name = null)
     {
@@ -1898,6 +1902,24 @@ class CustomCrudController extends CrudController
             Attributes::INIT_ROWS => 0, // number of empty rows to be initialized, by default 1
 
         ]);
+    }
+
+    /**
+     * Add Categories
+     */
+    function addCategoriesField()
+    {
+        CRUD::addField([
+            Attributes::LABEL => 'Category', // Table column heading
+            Attributes::TYPE => FieldTypes::SELECT2,
+            Attributes::NAME => Attributes::CATEGORY_ID, // the column that contains the ID of that connected entity;
+            Attributes::ATTRIBUTE => Attributes::NAME, // foreign key attribute that is shown to user
+            Attributes::MODEL => BackdropCategory::class, // foreign key model
+            Attributes::DEFAULT => BackdropCategory::first(), // foreign key model
+            Attributes::AJAX => true,
+            Attributes::INLINE_CREATE => [Attributes::ENTITY => 'backdrop-categories'], // specify the entity in singular
+        ]);
+
     }
 
     /**

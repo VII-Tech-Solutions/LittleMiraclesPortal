@@ -37,5 +37,6 @@ class Tables extends CustomEnum
     const USER_STUDIO = "user_studio";
     const USER_STUDIO_SPECS = "user_studio_specs";
     const FAMILY_INFO_QUESTION_OPTIONS = "family_info_question_options";
+    const BACKDROP_CATEGORIES = 'backdrop_categories';
 
 }

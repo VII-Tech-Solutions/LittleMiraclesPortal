@@ -7,6 +7,7 @@ use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -69,4 +70,17 @@ class Backdrop extends CustomModel
     {
         $this->setImage($value);
     }
+
+
+
+    /**
+     * Relationship: Category
+     * @return BelongsTo
+     */
+    function category(): BelongsTo
+    {
+        return $this->belongsTo(BackdropCategory::class, Attributes::CATEGORY_ID);
+    }
+
+
 }
