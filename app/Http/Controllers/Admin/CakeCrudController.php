@@ -79,8 +79,9 @@ class CakeCrudController extends CustomCrudController
         // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
 
-        // Field: Category
-        $this->addTagCategoryField(Attributes::CATEGORY, "Category");
+
+        // column: Category
+        $this->addCakeCategoryField();
 
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);

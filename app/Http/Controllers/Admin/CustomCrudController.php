@@ -13,6 +13,10 @@ use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Constants\SessionStatus;
 use App\Constants\StudioCategory;
+use App\Models\Backdrop;
+use App\Models\BackdropCategory;
+use App\Models\CakeCategory;
+use App\Models\ImportCategory;
 use App\Models\Item;
 use App\Models\PackageBenefit;
 use App\Models\Tag;
@@ -423,6 +427,24 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add cake Category Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+
+    function addCakeCategoryColumn($label = null, $priority = 1, $column_name = Attributes::IMAGE)
+    {
+        if (is_null($label)) {
+            $label ="Category";
+        }
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority
+        ]);
+    }
 
 
 
@@ -646,6 +668,7 @@ class CustomCrudController extends CrudController
             Attributes::NAME => Attributes::ORDER,
             Attributes::TYPE => FieldTypes::NUMBER,
             Attributes::HINT => $hint,
+            Attributes::DEFAULT => 1,
             Attributes::ATTRIBUTES => $this->disabled($is_disabled),
         ]);
     }
@@ -1622,7 +1645,7 @@ class CustomCrudController extends CrudController
 
     /**
      * Add Benefits Field
-     * @param string|null $tab_name
+     * @param string|null $TAB_NAME
      */
     function addBenefitsField($tab_name = null)
     {
@@ -1882,6 +1905,38 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add Categories
+     */
+    function addCategoriesField()
+    {
+        CRUD::addField([
+            Attributes::LABEL => 'Category', // Table column heading
+            Attributes::TYPE => FieldTypes::SELECT2,
+            Attributes::NAME => Attributes::CATEGORY_ID, // the column that contains the ID of that connected entity;
+            Attributes::ATTRIBUTE => Attributes::NAME, // foreign key attribute that is shown to user
+            Attributes::MODEL => BackdropCategory::class, // foreign key model
+            Attributes::DEFAULT => BackdropCategory::first(), // foreign key model
+        ]);
+
+    }
+
+
+    /**
+     * Add Cake Category
+     */
+    function addCakeCategoryField()
+    {
+        CRUD::addField([
+            Attributes::LABEL => 'Category', // Table column heading
+            Attributes::TYPE => FieldTypes::SELECT2,
+            Attributes::NAME => Attributes::CATEGORY_ID, // the column that contains the ID of that connected entity;
+            Attributes::ATTRIBUTE => Attributes::NAME, // foreign key attribute that is shown to user
+            Attributes::MODEL => CakeCategory::class, // foreign key model
+            Attributes::DEFAULT => CakeCategory::first(), // foreign key model
+        ]);
+
+    }
     /**
      * Disabled
      * @param boolean $is_disabled

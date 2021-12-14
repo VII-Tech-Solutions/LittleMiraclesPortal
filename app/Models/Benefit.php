@@ -28,6 +28,7 @@ class Benefit extends CustomModel
     protected $fillable = [
         Attributes::ICON,
         Attributes::TITLE,
+        Attributes::DESCRIPTION,
         Attributes::STATUS
     ];
 
@@ -67,6 +68,16 @@ class Benefit extends CustomModel
     public function setImageAttribute($value)
     {
         $this->setImage($value);
+    }
+
+
+    /**
+     * Relationships: packages
+     * @return mixed
+     */
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, Tables::PACKAGE_BENEFITS, Attributes::BENEFIT_ID, Attributes::PACKAGE_ID);
     }
 
 }

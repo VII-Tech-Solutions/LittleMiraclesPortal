@@ -31,4 +31,5 @@ class FieldTypes extends CustomEnum
     const ICONSET = "iconset";
     const DATE_RANGE = "date_range";
     const MEDIA = "media";
+    const SELECT2_NESTED = 'select2_nested';
 }

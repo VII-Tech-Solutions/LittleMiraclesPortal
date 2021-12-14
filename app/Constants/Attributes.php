@@ -154,5 +154,10 @@ class Attributes extends CustomEnum
     const TYPES = 'types';
     const VALUE = 'value';
     const HIDDEN = 'hidden';
+    const CATEGORY_ID = 'category_id';
+    const ATTRIBUTE = 'attribute';
+    const MODEL = 'model';
+    const PACKAGE_BENEFITS = 'package_benefits';
+    const MULTIPLE = 'multiple';
 
 }

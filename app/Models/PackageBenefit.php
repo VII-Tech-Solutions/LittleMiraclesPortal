@@ -6,13 +6,13 @@ use App\Constants\Attributes;
 use App\Constants\Tables;
 use App\Traits\ModelTrait;
 use App\Traits\ImageTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Package Benefit
  */
 class PackageBenefit extends CustomModel
 {
-    use ModelTrait, ImageTrait;
 
     protected $table = Tables::PACKAGE_BENEFITS;
 
@@ -25,6 +25,7 @@ class PackageBenefit extends CustomModel
         Attributes::BENEFIT_ID,
         Attributes::STATUS
     ];
+
 }
 
 

@@ -1,19 +1,21 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\Status;
-use App\Http\Requests\BackdropRequest;
-use App\Models\Backdrop;
+use App\Http\Requests\PackageBenefitRequest;
+use App\Models\Benefit;
+use App\Models\PackageBenefit;
 use Exception;
 
 /**
- * Backdrop CRUD Controller
- */
-class BackdropCrudController extends CustomCrudController
-{
+ * Package Benefit CRUD Controller
 
+ */
+class BenefitCrudController extends CustomCrudController
+{
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -22,9 +24,9 @@ class BackdropCrudController extends CustomCrudController
      */
     public function setup()
     {
-        $this->crud->setModel(Backdrop::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/backdrops');
-        $this->crud->setEntityNameStrings('Backdrop', 'Backdrops');
+        $this->crud->setModel(Benefit::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/benefits');
+        $this->crud->setEntityNameStrings('Benefit', 'Benefits');
     }
 
     /**
@@ -39,14 +41,14 @@ class BackdropCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // Column: Name
-        $this->addNameColumn("Title", 1, Attributes::TITLE);
+        // column: ID
+        $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // Column: Category
-        $this->addCakeCategoryColumn("Category", 1, Attributes::CATEGORY);
+        // column: Icon
+        $this->addIconColumn("Icon",1,Attributes::ICON);
 
-        // column: Image
-        $this->addImageColumn("Image");
+        // column: Title
+        $this->addNameColumn("Title",1, Attributes::TITLE);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -73,19 +75,19 @@ class BackdropCrudController extends CustomCrudController
     protected function setupCreateOperation()
     {
         // Validation
-        $this->crud->setValidation(BackdropRequest::class);
+        $this->crud->setValidation(PackageBenefitRequest::class);
 
-        // Field: Name
-        $this->addNameField(Attributes::TITLE, "Title");
+        // Field: Title
+        $this->addNameField(Attributes::TITLE,"Title");
+
+        // Field: Description
+        $this->addNameField(Attributes::DESCRIPTION,"Description");
+
+        $this->addIconField(Attributes::ICON,"Icon");
 
 
-        // column: Category
-        $this->addCategoriesField();
 
-        // Field: Featured Image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
-
-        // Field: status
+        // Field: Status
         $this->addStatusField(Status::all());
 
     }

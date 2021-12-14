@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 use App\Constants\Attributes;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FamilyInfoQuestionRequest extends FormRequest
+class BackdropCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +27,8 @@ class FamilyInfoQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            Attributes::QUESTION_TYPE => 'required',
-            Attributes::QUESTION => 'required',
-            Attributes::ORDER => 'required',
+            Attributes::NAME => 'required',
+            Attributes::STATUS => 'required',
         ];
     }
 

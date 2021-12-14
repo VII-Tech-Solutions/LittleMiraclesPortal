@@ -20,7 +20,9 @@ Route::group([
     Route::crud('onboardings', 'OnboardingCrudController');
     Route::crud('photographers', 'PhotographerCrudController');
     Route::crud('cakes', 'CakeCrudController');
+    Route::crud('cake-categories', 'CakeCategoryCrudController');
     Route::crud('backdrops', 'BackdropCrudController');
+    Route::crud('backdrop-categories', 'BackdropCategoryCrudController');
     Route::crud('daily-tips', 'DailyTipCrudController');
     Route::crud('promotions', 'PromotionCrudController');
     Route::crud('workshops', 'WorkshopCrudController');
@@ -36,7 +38,7 @@ Route::group([
     Route::crud('family-info', 'FamilyInfoCrudController');
     Route::crud('family-info-questions', 'FamilyInfoQuestionCrudController');
     Route::crud('tags', 'TagCrudController');
-    Route::crud('benefits', 'PackageBenefitCrudController');
+    Route::crud('benefits', 'BenefitCrudController');
     Route::crud('studio-packages', 'StudioPackageCrudController');
     Route::crud('packages', 'PackageCrudController');
     Route::crud('feedback', 'FeedbackCrudController');

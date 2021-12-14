@@ -4,12 +4,15 @@ namespace App;
 
 use App\Constants\Attributes;
 use App\Constants\EnvVariables;
+use App\Models\Benefit;
 use App\Models\Media;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -249,5 +252,29 @@ class Helpers
         }
     }
 
+    /**
+     * Get Related benefits
+     * @param $paginator
+     * @param bool $pluck_id
+     * @return Collection
+     */
+    static function getRelatedBenefits($paginator, $pluck_id = false)
+    {
+        if (is_a($paginator, LengthAwarePaginator::class)) {
+            $benefits = collect($paginator->items())->map->benefits;
+        } else if (is_a($paginator, Benefit::class)) {
+            $benefits = $paginator->items->map->benefits();
+        }else if(is_a($paginator, \Illuminate\Database\Eloquent\Collection::class) || is_a($paginator, Collection::class)){
+            $benefits = $paginator->map->benefits;
+        }
+        if(!isset($benefits)){
+            return collect();
+        }
+        $benefits = $benefits->flatten()->unique(Attributes::ID);
+        if ($pluck_id) {
+            return $benefits->pluck(Attributes::ID);
+        }
+        return $benefits;
+    }
 
 }

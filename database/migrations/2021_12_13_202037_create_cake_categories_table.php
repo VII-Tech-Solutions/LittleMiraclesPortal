@@ -7,9 +7,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBenefitsTable extends Migration
+class CreateCakeCategoriesTable extends Migration
 {
-    protected $table = Tables::BENEFITS;
+    protected $table = Tables::CAKE_CATEGORIES;
     /**
      * Run the migrations.
      *
@@ -20,9 +20,7 @@ class CreateBenefitsTable extends Migration
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
-                $table->string(Attributes::ICON)->nullable();
-                $table->string(Attributes::TITLE)->nullable();
-                $table->string(Attributes::DESCRIPTION)->nullable();
+                $table->string(Attributes::NAME)->nullable();
                 $table->integer(Attributes::STATUS)->nullable()->default(Status::ACTIVE);
                 $table->timestamps();
                 $table->softDeletes();
