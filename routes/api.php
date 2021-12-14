@@ -44,17 +44,16 @@ $api->version('v1', function ($api) {
         $api->post('/users/register', 'UserController@register'); // User Registration
         $api->delete('/delete-account', 'UserController@delete')->middleware('allowed_user:true');
 
-
         /*******************************
          * Questions
          *******************************/
         $api->get('/questions', 'QuestionController@listAll')->middleware('allowed_user:true'); // List all Questions
 
-
         /*******************************
          * Packages
          *******************************/
         $api->get('/packages', 'PackageController@listAll')->middleware('allowed_user:true'); // List all Packages
+        $api->get('/packages/{id}', 'PackageController@getInfo')->middleware('allowed_user:true'); // Get Package Info
 
         /*******************************
          * Sessions

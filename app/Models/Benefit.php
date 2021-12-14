@@ -31,7 +31,6 @@ class Benefit extends CustomModel
         Attributes::STATUS
     ];
 
-
     protected $casts = [
         Attributes::ANSWER => CastingTypes::STRING,
         Attributes::ICON => CastingTypes::STRING,

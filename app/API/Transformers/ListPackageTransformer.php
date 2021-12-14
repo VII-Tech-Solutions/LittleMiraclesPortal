@@ -3,6 +3,8 @@
 namespace App\API\Transformers;
 
 use App\Constants\Attributes;
+use App\Constants\Values;
+use League\Fractal\Resource\Collection;
 
 /**
  * Class ListPackageTransformer
@@ -25,4 +27,19 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
     ];
+
+    protected $defaultIncludes = [
+        Attributes::BENEFITS
+    ];
+
+
+    /**
+     * Include Benefits
+     * @param $item
+     * @return Collection
+     */
+    public function includeBenefits($item)
+    {
+        return $this->collection($item->benefits, new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
 }
