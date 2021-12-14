@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\API\Transformers\UserTransformer;
 use App\Constants\Attributes;
+use App\Constants\Relationship;
 use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
@@ -15,6 +16,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -145,5 +147,47 @@ class User extends CustomModel implements
         }else{
             $this->attributes[Attributes::AVATAR] = null;
         }
+    }
+
+    /**
+     * My Partner
+     * @return CustomModel|null
+     */
+    function myPartner(){
+        return FamilyMember::where(Attributes::FAMILY_ID, $this->family_id)->where(Attributes::RELATIONSHIP, Relationship::PARTNER)->first();
+    }
+
+    /**
+     * My Children
+     * @return Collection
+     */
+    function myChildren(){
+        return FamilyMember::where(Attributes::FAMILY_ID, $this->family_id)->where(Attributes::RELATIONSHIP, Relationship::CHILDREN)->get();
+    }
+
+    /**
+     * My Family Info
+     * @return Collection
+     */
+    function myFamilyInfo(){
+        return FamilyInfo::where(Attributes::FAMILY_ID, $this->family_id)->get();
+    }
+
+    /**
+     * Create or Update Item
+     * @param array $data
+     * @param $find_by
+     * @return User|null
+     */
+    public static function createOrUpdate(array $data, $find_by = null)
+    {
+        $fields = collect($data);
+        $find_by = [Attributes::ID];
+        if(!empty($fields->get(Attributes::EMAIL))){
+            $find_by = [Attributes::EMAIL];
+        }else if(empty($fields->get(Attributes::ID))){
+            $find_by = [Attributes::COUNTRY_CODE, Attributes::PHONE_NUMBER];
+        }
+        return parent::createOrUpdate($data, $find_by);
     }
 }

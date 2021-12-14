@@ -105,6 +105,8 @@ class AuthenticationController extends CustomController
                 Attributes::STATUS => Status::INCOMPLETE_PROFILE,
                 Attributes::AVATAR => $avatar,
                 Attributes::USERNAME => $username
+            ], [
+                Attributes::EMAIL
             ]);
         }else{
             $user->avatar = $avatar;
@@ -147,6 +149,9 @@ class AuthenticationController extends CustomController
                 Attributes::TIMESTAMP => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->created_at),
                 Attributes::EXPIRES => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->expires_at),
                 Attributes::USER => User::returnTransformedItems($user),
+                Attributes::PARTNER => FamilyMember::returnTransformedItems($user->myPartner()),
+                Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
+                Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($user->myFamilyInfo()),
             ]);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_UNAUTHORIZED);
@@ -166,21 +171,22 @@ class AuthenticationController extends CustomController
             return $validation_response;
         }
 
-        /** @var User $new_user */
-        /** @var FamilyMember $new_partner */
-        $new_user = null;
-        $new_partner = null;
-        $children = collect();
-        $family_info_answers = collect();
-
         // get current user info
         /** @var User $current_user */
         $current_user = Helpers::resolveUser();
 
-        $user_info = $this->request->get("user");
-        $partner_info = $this->request->get("partner");
-        $children_info = $this->request->get("children");
-        $family_info = $this->request->get("family");
+        /** @var User $new_user */
+        /** @var FamilyMember $new_partner */
+        $new_user = null;
+        $new_partner = null;
+        $user_id = $current_user->id ?? null;
+        $family_id = $current_user->family_id ?? Helpers::getNewFamilyID();
+
+        // get parameters
+        $user_info = $this->request->get(Attributes::USER);
+        $partner_info = $this->request->get(Attributes::PARTNER);
+        $children_info = $this->request->get(Attributes::CHILDREN);
+        $family_info = $this->request->get(Attributes::FAMILY);
 
         // User
         if(!is_null($user_info)){
@@ -196,12 +202,16 @@ class AuthenticationController extends CustomController
             Helpers::validateValueInCollection($user_info, $fields, Attributes::BIRTH_DATE);
             Helpers::validateValueInCollection($user_info, $fields, Attributes::PAST_EXPERIENCE);
 
-            $fields->put(Attributes::ID, $current_user->id ?? null);
-            $fields->put(Attributes::FAMILY_ID, $current_user->family_id ?? Helpers::getNewFamilyID());
+            $fields->put(Attributes::ID, $user_id);
+            $fields->put(Attributes::FAMILY_ID, $family_id);
 
-            $new_user = User::createOrUpdate($fields->toArray(), [
-                Attributes::ID,
-            ]);
+            // create user
+            $new_user = User::createOrUpdate($fields->toArray());
+
+            $user_id = $new_user->id;
+            $family_id = $new_user->family_id;
+            $fields->put(Attributes::ID, $user_id);
+            $fields->put(Attributes::FAMILY_ID, $family_id);
         }
 
         // Partner
@@ -218,8 +228,8 @@ class AuthenticationController extends CustomController
             Helpers::validateValueInCollection($partner_info, $fields, Attributes::BIRTH_DATE);
 
             $fields->put(Attributes::RELATIONSHIP, Relationship::PARTNER);
-            $fields->put(Attributes::USER_ID, $new_user->id ?? null);
-            $fields->put(Attributes::FAMILY_ID, $new_user->family_id ?? null);
+            $fields->put(Attributes::USER_ID, $user_id);
+            $fields->put(Attributes::FAMILY_ID, $family_id);
 
             $new_partner = FamilyMember::createOrUpdate($fields->toArray(), [
                 Attributes::FAMILY_ID, Attributes::RELATIONSHIP
@@ -234,8 +244,8 @@ class AuthenticationController extends CustomController
             $fields = collect();
 
             $fields->put(Attributes::RELATIONSHIP, Relationship::CHILDREN);
-            $fields->put(Attributes::USER_ID, $new_user->id ?? null);
-            $fields->put(Attributes::FAMILY_ID, $new_user->family_id ?? null);
+            $fields->put(Attributes::USER_ID, $user_id);
+            $fields->put(Attributes::FAMILY_ID, $family_id);
 
             foreach ($children_info as $info){
 
@@ -251,8 +261,6 @@ class AuthenticationController extends CustomController
 
             }
 
-            $children = FamilyMember::where(Attributes::FAMILY_ID, $new_user->family_id)->get();
-
         }
 
         // Family Info
@@ -261,8 +269,8 @@ class AuthenticationController extends CustomController
             $family_info = collect($family_info);
             $fields = collect();
 
-            $fields->put(Attributes::USER_ID, $new_user->id ?? null);
-            $fields->put(Attributes::FAMILY_ID, $new_user->family_id ?? null);
+            $fields->put(Attributes::USER_ID, $user_id);
+            $fields->put(Attributes::FAMILY_ID, $family_id);
 
             foreach ($family_info as $info){
 
@@ -274,8 +282,6 @@ class AuthenticationController extends CustomController
                 ]);
 
             }
-
-            $family_info_answers = FamilyInfo::where(Attributes::FAMILY_ID, $new_user->family_id)->get();
 
             // change status
             $new_user->status = Status::ACTIVE;
@@ -289,8 +295,8 @@ class AuthenticationController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATED, [
                 Attributes::USER => User::returnTransformedItems($new_user),
                 Attributes::PARTNER => FamilyMember::returnTransformedItems($new_partner),
-                Attributes::CHILDREN => FamilyMember::returnTransformedItems($children),
-                Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($family_info_answers),
+                Attributes::CHILDREN => FamilyMember::returnTransformedItems($new_user->myChildren()),
+                Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($new_user->myFamilyInfo()),
             ], null, Response::HTTP_OK);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
