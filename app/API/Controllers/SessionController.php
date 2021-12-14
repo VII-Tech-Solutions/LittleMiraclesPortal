@@ -41,17 +41,43 @@ class SessionController extends CustomController
         }
 
         // get sessions
-        $sessions = Session::active()->where(Attributes::USER_ID, $user->id)->get();
+        if(!empty($id)){
+            $sessions = Session::active()->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->get();
+        }else{
+            $sessions = Session::active()->where(Attributes::USER_ID, $user->id)->get();
+        }
 
         // get last updated items
         if(!empty($this->last_update)){
-            $sessions = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
+            $sessions = Helpers::getLatestOnlyInCollection($sessions, $this->last_update);
         }
 
         // return response
         return Helpers::returnResponse([
             Attributes::SESSIONS => Session::returnTransformedItems($sessions, ListSessionTransformer::class),
         ]);
+    }
+
+    /**
+     * Get Session Info
+     *
+     * @return JsonResponse
+     *
+     * * @OA\GET(
+     *     path="/api/sessions/{id}",
+     *     tags={"Sessions"},
+     *     description="Get Session Info",
+     *     @OA\Response(response="200", description="Session retrived successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
+     * )
+     */
+    public function getInfo($id): JsonResponse
+    {
+        $this->request->merge([
+            Attributes::ID => $id
+        ]);
+        return $this->listAll();
     }
 
     /**

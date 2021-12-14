@@ -5,11 +5,9 @@ namespace App\API\Controllers;
 use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\Constants\Attributes;
-use App\Constants\Messages;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Package;
-use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
@@ -37,12 +35,7 @@ class PackageController extends CustomController
     public function listAll(): JsonResponse
     {
 
-        // get current user info
-        $user = Helpers::resolveUser();
-        if (is_null($user)) {
-            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
-        }
-
+        // get parameters
         $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::INTEGER);
 
         // get packages
