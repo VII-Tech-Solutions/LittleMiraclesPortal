@@ -90,9 +90,9 @@ class AuthenticationController extends CustomController
             }
         }
 
-        // download avatar
+        // get avatar
         $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
-        if (!is_null($avatar) && Str::startsWith($avatar, "http")) {
+        if (!is_null($avatar) && !Str::startsWith($avatar, "http")) {
             $avatar = base64_encode(file_get_contents($avatar));
         }
 
@@ -245,7 +245,8 @@ class AuthenticationController extends CustomController
                     Attributes::FAMILY_ID,
                     Attributes::RELATIONSHIP,
                     Attributes::FIRST_NAME,
-                    Attributes::LAST_NAME
+                    Attributes::LAST_NAME,
+                    Attributes::BIRTH_DATE
                 ]);
 
             }
