@@ -83,9 +83,8 @@ class BenefitCrudController extends CustomCrudController
         // Field: Description
         $this->addNameField(Attributes::DESCRIPTION,"Description");
 
-        $this->addIconField(Attributes::ICON,"Icon");
-
-
+        // Field: Icon
+        $this->addNameField(Attributes::ICON,"Icon");
 
         // Field: Status
         $this->addStatusField(Status::all());
