@@ -30,3 +30,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-specs') }}'><i class='nav-icon la la-hands-helping'></i>Studio Specs</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('user-studio') }}'><i class='nav-icon la la-hands-helping'></i>User Studio</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('user-studio-specs') }}'><i class='nav-icon la la-hands-helping'></i>User Studio Specs</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('payment-method') }}'><i class='nav-icon la la-hands-helping'></i>Payment Methods</a></li>
