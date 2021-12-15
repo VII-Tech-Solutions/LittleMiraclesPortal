@@ -2,11 +2,15 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\ListPackageBenefitTransformer;
+use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\ListSessionTransformer;
 use App\Constants\Attributes;
 use App\Constants\Messages;
 use App\Helpers;
+use App\Models\Benefit;
+use App\Models\Package;
 use App\Models\Review;
 use App\Models\Session;
 use Dingo\Api\Http\Response;
@@ -59,10 +63,22 @@ class SessionController extends CustomController
         $reviews = $sessions->map->reviews;
         $reviews = $reviews->flatten()->filter();
 
+        // get related packages
+        $packages = $sessions->map->package;
+        $packages = $packages->flatten()->filter();
+
+        // get package benefits
+        $benefits = $packages->map->benefits;
+        $benefits = $benefits->flatten()->filter();
+
+        // TODO image examples
+
         // return response
         return Helpers::returnResponse([
             Attributes::SESSIONS => Session::returnTransformedItems($sessions, ListSessionTransformer::class),
+            Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
+            Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
         ]);
     }
 

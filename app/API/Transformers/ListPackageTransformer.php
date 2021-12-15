@@ -3,9 +3,6 @@
 namespace App\API\Transformers;
 
 use App\Constants\Attributes;
-use App\Constants\Values;
-use App\Models\Package;
-use League\Fractal\Resource\Collection;
 
 /**
  * Class ListPackageTransformer
@@ -33,24 +30,4 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::BENEFITS,
         Attributes::REVIEWS,
     ];
-
-    /**
-     * Include Benefits
-     * @param Package $item
-     * @return Collection
-     */
-    public function includeBenefits($item)
-    {
-        return $this->collection($item->benefits, new IDTransformer(), Values::NO_RESOURCE_KEY);
-    }
-
-    /**
-     * Include Reviews
-     * @param Package $item
-     * @return Collection
-     */
-    public function includeReviews($item)
-    {
-        return $this->collection($item->reviews, new IDTransformer(), Values::NO_RESOURCE_KEY);
-    }
 }

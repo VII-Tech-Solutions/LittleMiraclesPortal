@@ -95,4 +95,13 @@ class Session extends CustomModel
     public function package(){
         return $this->belongsTo(Package::class, Attributes::PACKAGE_ID);
     }
+
+    /**
+     * Relationships: Reviews
+     * @return mixed
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, Attributes::SESSION_ID);
+    }
 }

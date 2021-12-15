@@ -24,4 +24,8 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT
     ];
+
+    protected $defaultIncludes = [
+        Attributes::REVIEWS,
+    ];
 }
