@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
          $this->call(FeedbackQuestionSeeder::class);
          $this->call(WorkshopSeeder::class);
          $this->call(TagSeeder::class);
+         $this->call(SectionSeeder::class);
     }
 }

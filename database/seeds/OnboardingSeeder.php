@@ -18,7 +18,7 @@ class OnboardingSeeder extends Seeder
             Attributes::TITLE => "Capture Special Moments",
             Attributes::CONTENT => "Get professional portraits and capture those special moments with your little miracles. They’re only little for a little while.",
             Attributes::ORDER => 1,
-            Attributes::IMAGE => "storage/uploads/onboarding/SlnowVqbNksT1Omi.png",
+            Attributes::IMAGE => "storage/uploads/onboarding/xD51Z2hSVJxBalRd.jpg",
             Attributes::STATUS => Status::ACTIVE,
         ]);
 
@@ -26,7 +26,7 @@ class OnboardingSeeder extends Seeder
             Attributes::TITLE => "The right milestones",
             Attributes::CONTENT => "Make every milestone count. From maternity, to welcoming your newborn, to their 1st birthday. Find the right package to capture these milestones.",
             Attributes::ORDER => 2,
-            Attributes::IMAGE => "storage/uploads/onboarding/udBj5Xpi78dgJFQg.png",
+            Attributes::IMAGE => "storage/uploads/onboarding/78S7cvoejRfIhFhs.jpg",
             Attributes::STATUS => Status::ACTIVE,
         ]);
 
@@ -34,7 +34,7 @@ class OnboardingSeeder extends Seeder
             Attributes::TITLE => "Book in seconds",
             Attributes::CONTENT => "We’ll stay in touch with you as your due date approaches to fit you in at the perfect time. Book your session in advance and we’ll take care of the rest.",
             Attributes::ORDER => 3,
-            Attributes::IMAGE => "storage/uploads/onboarding/hfzPBeMzHg3wQmgs.png",
+            Attributes::IMAGE => "storage/uploads/onboarding/5rh9mWr4oT4idBEk.jpg",
             Attributes::STATUS => Status::ACTIVE,
         ]);
     }
