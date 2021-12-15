@@ -22,9 +22,12 @@ class Attributes extends CustomEnum
     const TOKEN = "token";
     const LTR = "ltr";
     const PROMO_CODE = "promo_code";
+    const PACKAGE_NAME = "package_name";
+    const FULL_NAME = "full_name";
     const EXPIRES = "expires";
     const TIMESTAMP = "timestamp";
     const PHOTO_URL = "photo_url";
+    const REVIEWS = "reviews";
     const BENEFIT = "benefit";
     const FIRST_NAME = "first_name";
     const USERNAME = "username";
@@ -110,7 +113,7 @@ class Attributes extends CustomEnum
     const FAMILY_ID = "family_id";
     const CUSTOM_BACKDROP = "custom_backdrop";
     const CUSTOM_CAKE = "custom_cake";
-    const COMMENTS = "COMMENTS";
+    const COMMENTS = "comments";
     const SESSION_STATUS_NAME = "session_status_name";
     const QUESTION = "question";
     const ANSWER = "answer";

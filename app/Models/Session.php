@@ -7,11 +7,20 @@ use App\Constants\SessionStatus;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Session
  * @property int session_status
+ * @property int rating
+ * @property string comment
+ * @property User user
+ * @property string package_name
+ * @property string user_name
+ * @property Package package
+ * @property int package_id
+ * @property int session_id
  */
 class Session extends CustomModel
 {
@@ -48,7 +57,6 @@ class Session extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
-        Attributes::SESSION_STATUS_NAME,
     ];
 
     /**
@@ -58,17 +66,44 @@ class Session extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        return $this->getStatusName($value);
+        $text = SessionStatus::getKey($this->status);
+        return Helpers::readableText($text);
     }
 
     /**
-     * Get Attribute: session status name
-     * @param $value
+     * Attribute: package_name
      * @return string
      */
-    public function getSessionStatusNameAttribute($value)
+    public function getPackageNameAttribute(){
+        $package = $this->package;
+        if(is_null($package)){
+            return "-";
+        }
+        return $package->title;
+    }
+
+    /**
+     * Relationship: User
+     * @return BelongsTo
+     */
+    public function user(){
+        return $this->belongsTo(User::class, Attributes::USER_ID);
+    }
+
+    /**
+     * Relationship: Package
+     * @return BelongsTo
+     */
+    public function package(){
+        return $this->belongsTo(Package::class, Attributes::PACKAGE_ID);
+    }
+
+    /**
+     * Relationships: Reviews
+     * @return mixed
+     */
+    public function reviews()
     {
-        $text = SessionStatus::getKey($this->session_status);
-        return Helpers::readableText($text);
+        return $this->hasMany(Review::class, Attributes::SESSION_ID);
     }
 }

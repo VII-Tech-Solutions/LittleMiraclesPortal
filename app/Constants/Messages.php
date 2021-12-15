@@ -16,5 +16,6 @@ class Messages extends CustomEnum
     const UNABLE_TO_PROCESS = "Unable to process your request";
     const ACCOUNT_DELETED = "Account has been deleted successfully";
     const PROMO_CODE_APPLIED = "Promo code applied";
+    const REVIEW_SUBMITTED = "Review submitted successfully";
     const UNABLE_TO_FIND_SESSION = "Unable to find the session";
 }

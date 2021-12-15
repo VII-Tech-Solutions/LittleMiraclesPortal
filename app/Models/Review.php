@@ -28,7 +28,6 @@ class Review extends CustomModel
         Attributes::STATUS,
     ];
 
-
     protected $casts = [
         Attributes::RATING => CastingTypes::FLOAT,
         Attributes::COMMENT => CastingTypes::STRING,
@@ -38,7 +37,6 @@ class Review extends CustomModel
         Attributes::USER_ID => CastingTypes::INTEGER,
         Attributes::PACKAGE_ID => CastingTypes::INTEGER,
         Attributes::SESSION_ID => CastingTypes::INTEGER,
-
     ];
 
     protected $appends = [

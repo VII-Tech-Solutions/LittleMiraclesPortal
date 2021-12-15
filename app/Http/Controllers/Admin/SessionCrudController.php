@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
@@ -37,13 +36,9 @@ class SessionCrudController extends CustomCrudController
      */
     protected function setupListOperation()
     {
-        //Attributes::SESSION_STATUS, added need filter and get function
 
         // Filter: Status
         $this->addStatusFilter(Status::all());
-
-        // Filter: Session Status
-        $this->addStatusFilter(SessionStatus::all(), Attributes::SESSION_STATUS,"Session Status");
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -61,16 +56,10 @@ class SessionCrudController extends CustomCrudController
         $this->addTotalPriceColumn("Total Price", 1, Attributes::TOTAL_PRICE);
 
         // Column: User ID
-        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
+        $this->addIDColumn("User Name", 1, Attributes::USER_NAME);
 
-        // Column: Package ID
-        $this->addIDColumn("Package ID", 1, Attributes::PACKAGE_ID);
-
-        // Column: Family ID
-        $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
-
-        // Column: Session Status
-        $this->addSessionStatusColumn(Attributes::SESSION_STATUS_NAME);
+        // Column: Package Name
+        $this->addIDColumn("Package Name", 1, Attributes::PACKAGE_NAME);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -100,26 +89,23 @@ class SessionCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(SessionRequest::class);
 
-        // Field: Session Status
-        $this->addStatusField(SessionStatus::all(), Attributes::SESSION_STATUS, "Session Status");
-
         // Field: Title
         $this->addNameField(Attributes::TITLE, "Title");
 
         // Field: Custom Backdrop
-        $this->addCustomField(Attributes::CUSTOM_BACKDROP, Attributes::CUSTOM_BACKDROP, null, FieldTypes::TEXTAREA, 5, 200);
+        $this->addCustomField(Attributes::CUSTOM_BACKDROP, "Custom Backdrops", null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Custom Cake
-        $this->addCustomField(Attributes::CUSTOM_CAKE, Attributes::CUSTOM_CAKE, null, FieldTypes::TEXTAREA, 5, 200);
+        $this->addCustomField(Attributes::CUSTOM_CAKE, "Custom Cake", null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Comments
-        $this->addDescriptionField(Attributes::COMMENTS, Attributes::COMMENTS, null, FieldTypes::TEXTAREA, 5, 200);
+        $this->addDescriptionField(Attributes::COMMENTS, "Comments", null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Total Price
         $this->addPriceField(Attributes::TOTAL_PRICE, "Total Price");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(SessionStatus::all(), Attributes::STATUS, "Status");
 
     }
 

@@ -3,6 +3,8 @@
 namespace App\API\Transformers;
 
 use App\Constants\Attributes;
+use App\Constants\Values;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -54,5 +56,25 @@ class CustomTransformer extends TransformerAbstract
             $item->put(Attributes::ID, intval($item->get(Attributes::ID)));
         }
         return $item->only($this->fields)->toArray();
+    }
+
+    /**
+     * Include Benefits
+     * @param $item
+     * @return Collection
+     */
+    public function includeBenefits($item)
+    {
+        return $this->collection($item->benefits, new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
+
+    /**
+     * Include Reviews
+     * @param $item
+     * @return Collection
+     */
+    public function includeReviews($item)
+    {
+        return $this->collection($item->reviews, new IDTransformer(), Values::NO_RESOURCE_KEY);
     }
 }
