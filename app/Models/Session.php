@@ -19,6 +19,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string package_name
  * @property string user_name
  * @property Package package
+ * @property int package_id
+ * @property int session_id
  */
 class Session extends CustomModel
 {

@@ -166,10 +166,19 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-        $session->rating = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::RATING, null, CastingTypes::INTEGER);
-        $session->comment = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::COMMENT, null, CastingTypes::STRING);
+        // create review
+        $review = Review::createOrUpdate([
+            Attributes::RATING => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::RATING, null, CastingTypes::INTEGER),
+            Attributes::COMMENT => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::COMMENT, null, CastingTypes::STRING),
+            Attributes::USER_ID => $user->id,
+            Attributes::SESSION_ID => $session->id,
+            Attributes::PACKAGE_ID => $session->package_id,
+            Attributes::USER_IMAGE => $user->avatar,
+            Attributes::USER_NAME => $user->full_name,
+        ]);
 
-        if($session->save()){
+        // return response
+        if(is_a($review, Review::class)){
             return GlobalHelpers::formattedJSONResponse(Messages::REVIEW_SUBMITTED, [], null, Response::HTTP_OK);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
