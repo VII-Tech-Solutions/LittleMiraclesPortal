@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
          $this->call(SessionPackageSeeder::class);
          $this->call(SessionSeeder::class);
          $this->call(ReviewSeeder::class);
-
+         $this->call(OnboardingSeeder::class);
+         $this->call(BackdropsSeeder::class);
     }
 }
