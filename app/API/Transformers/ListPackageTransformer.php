@@ -21,13 +21,17 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::CONTENT,
         Attributes::LOCATION_TEXT,
         Attributes::LOCATION_LINK,
+        Attributes::BENEFITS_IDS,
+        Attributes::REVIEWS_IDS,
+        Attributes::MEDIA_IDS,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
     ];
 
-    protected $defaultIncludes = [
-        Attributes::BENEFITS,
-        Attributes::REVIEWS,
+    public $extra_fields = [
+        Attributes::BENEFITS_IDS => Attributes::BENEFITS_IDS,
+        Attributes::REVIEWS_IDS => Attributes::REVIEWS_IDS,
+        Attributes::MEDIA_IDS => Attributes::MEDIA_IDS,
     ];
 }
