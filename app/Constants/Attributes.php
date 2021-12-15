@@ -23,12 +23,16 @@ class Attributes extends CustomEnum
     const LTR = "ltr";
     const PROMO_CODE = "promo_code";
     const PACKAGE_NAME = "package_name";
+    const MEDIA_IDS = "media_ids";
     const FULL_NAME = "full_name";
     const EXPIRES = "expires";
     const TIMESTAMP = "timestamp";
+    const BENEFITS_IDS = "benefits_ids";
+    const REVIEWS_IDS = "reviews_ids";
     const PHOTO_URL = "photo_url";
     const REVIEWS = "reviews";
     const BENEFIT = "benefit";
+    const MEDIA = "media";
     const FIRST_NAME = "first_name";
     const USERNAME = "username";
     const GO_TO_NAME = "go_to_name";

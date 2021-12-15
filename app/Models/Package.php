@@ -9,6 +9,8 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -19,6 +21,10 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int is_popular
  * @property Collection benefits
  * @property Collection reviews
+ * @property Collection media
+ * @property string media_ids
+ * @property string reviews_ids
+ * @property string benefits_ids
  */
 class Package extends CustomModel
 {
@@ -117,7 +123,6 @@ class Package extends CustomModel
     function getPackageBenefitsAttribute(): array
     {
         $benefits = $this->benefits()->get();
-
         if($benefits->isNotEmpty()){
             return self::returnTransformedItems($benefits, BenefitTransformer::class)  ;
         }
@@ -126,7 +131,7 @@ class Package extends CustomModel
 
     /**
      * Relationships: Package Benefits
-     * @return mixed
+     * @return BelongsToMany
      */
     public function benefits()
     {
@@ -135,12 +140,58 @@ class Package extends CustomModel
 
     /**
      * Relationships: Reviews
-     * @return mixed
+     * @return HasMany
      */
     public function reviews()
     {
         return $this->hasMany(Review::class, Attributes::PACKAGE_ID);
     }
 
+    /**
+     * Relationships: Media
+     * @return HasMany
+     */
+    public function media()
+    {
+        return $this->hasMany(Media::class, Attributes::PACKAGE_ID);
+    }
 
+    /**
+     * Attribute: benefits_ids
+     * @return string
+     */
+    public function getBenefitsIdsAttribute(){
+        $array = $this->benefits()->pluck(Tables::BENEFITS . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
+
+    /**
+     * Attribute: reviews_ids
+     * @return string
+     */
+    public function getReviewsIdsAttribute(){
+        $array = $this->reviews()->pluck(Tables::REVIEWS . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
+
+    /**
+     * Attribute: media_ids
+     * @return string
+     */
+    public function getMediaIdsAttribute(){
+        $array = $this->media()->pluck(Tables::MEDIA . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
 }

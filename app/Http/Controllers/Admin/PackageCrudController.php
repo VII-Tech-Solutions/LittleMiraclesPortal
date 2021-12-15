@@ -16,6 +16,7 @@ use Exception;
  */
 class PackageCrudController extends CustomCrudController
 {
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -53,12 +54,6 @@ class PackageCrudController extends CustomCrudController
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
-        // Column: Tag
-        $this->addTagColumn("Tag", 1, Attributes::TAG);
-
-        // column: Image
-        $this->addImageColumn("Image");
-
         // Column: Price
         $this->addPriceColumn("Price", 1, Attributes::PRICE);
 
@@ -66,16 +61,7 @@ class PackageCrudController extends CustomCrudController
         $this->addIsPopularColumn("Is Popular", 1, Attributes::IS_POPULAR_NAME);
 
         // Column: Type
-        $this->addTypeColumn(Attributes::TYPE_NAME , 1,Attributes::TYPE);
-
-        // Column: content
-        $this->addContentColumn();
-
-        // Column: Location Text
-        $this->addLocationTextColumn();
-
-        // Column: Location Link
-        $this->addLocationLinkColumn();
+        $this->addTypeColumn(Attributes::TYPE_NAME , 1,"Type");
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);

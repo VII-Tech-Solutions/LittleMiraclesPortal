@@ -2,12 +2,14 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\ListMediaTransformer;
 use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
 use App\Constants\Attributes;
 use App\Helpers;
 use App\Models\Benefit;
+use App\Models\Media;
 use App\Models\Package;
 use App\Models\Review;
 use Illuminate\Http\JsonResponse;
@@ -60,13 +62,16 @@ class PackageController extends CustomController
         $reviews = $packages->map->reviews;
         $reviews = $reviews->flatten()->filter();
 
-        // TODO get related image examples
+        // get related image examples
+        $media = $packages->map->media;
+        $media = $media->flatten()->filter();
 
         // return response
         return Helpers::returnResponse([
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
+            Attributes::MEDIA => Media::returnTransformedItems($media, ListMediaTransformer::class),
         ]);
     }
 
