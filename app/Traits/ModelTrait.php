@@ -22,4 +22,17 @@ trait ModelTrait
         return Helpers::readableText($text);
     }
 
+    /**
+     * Get Attribute: user_name
+     * @return string
+     */
+    public function getUserNameAttribute()
+    {
+        $user = $this->user;
+        if(is_null($user)){
+            return null;
+        }
+        return $user->full_name;
+    }
+
 }

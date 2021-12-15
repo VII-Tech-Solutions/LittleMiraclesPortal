@@ -14,6 +14,7 @@ use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Session Package
+ * @property string title
  * @property int type
  * @property int is_popular
  * @property Collection benefits

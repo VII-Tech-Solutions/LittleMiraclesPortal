@@ -30,6 +30,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string avatar
  * @property int gender
  * @property int family_id
+ * @property string full_name
  */
 class User extends CustomModel implements
     AuthenticatableContract,
@@ -93,7 +94,7 @@ class User extends CustomModel implements
 
     protected $appends = [
         Attributes::STATUS_NAME,
-        Attributes::GENDER_NAME
+        Attributes::GENDER_NAME,
     ];
 
     /**
@@ -189,5 +190,17 @@ class User extends CustomModel implements
             $find_by = [Attributes::COUNTRY_CODE, Attributes::PHONE_NUMBER];
         }
         return parent::createOrUpdate($data, $find_by);
+    }
+
+    /**
+     * Attribute: full_name
+     * @return string
+     */
+    public function getFullNameAttribute(){
+        $full_name = trim($this->first_name . " " . $this->last_name);
+        if(empty($full_name)){
+            return "-";
+        }
+        return $full_name;
     }
 }
