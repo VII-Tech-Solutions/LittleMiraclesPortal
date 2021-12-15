@@ -4,10 +4,12 @@ namespace App\API\Controllers;
 
 use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
+use App\API\Transformers\ListReviewsTransformer;
 use App\Constants\Attributes;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Package;
+use App\Models\Review;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
@@ -54,10 +56,17 @@ class PackageController extends CustomController
         $benefits = $packages->map->benefits;
         $benefits = $benefits->flatten()->filter();
 
+        // get related reviews
+        $reviews = $packages->map->reviews;
+        $reviews = $reviews->flatten()->filter();
+
+        // TODO get related image examples
+
         // return response
         return Helpers::returnResponse([
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
+            Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
         ]);
     }
 

@@ -9,13 +9,15 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
-use phpDocumentor\Reflection\Types\Self_;
+use Illuminate\Support\Collection;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Session Package
  * @property int type
  * @property int is_popular
+ * @property Collection benefits
+ * @property Collection reviews
  */
 class Package extends CustomModel
 {
@@ -128,6 +130,15 @@ class Package extends CustomModel
     public function benefits()
     {
         return $this->belongsToMany(Benefit::class, Tables::PACKAGE_BENEFITS, Attributes::PACKAGE_ID, Attributes::BENEFIT_ID);
+    }
+
+    /**
+     * Relationships: Reviews
+     * @return mixed
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, Attributes::PACKAGE_ID);
     }
 
 

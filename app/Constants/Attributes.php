@@ -25,6 +25,7 @@ class Attributes extends CustomEnum
     const EXPIRES = "expires";
     const TIMESTAMP = "timestamp";
     const PHOTO_URL = "photo_url";
+    const REVIEWS = "reviews";
     const BENEFIT = "benefit";
     const FIRST_NAME = "first_name";
     const USERNAME = "username";
