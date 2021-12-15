@@ -24,6 +24,12 @@ class DatabaseSeeder extends Seeder
          $this->call(SessionSeeder::class);
          $this->call(ReviewSeeder::class);
          $this->call(OnboardingSeeder::class);
+         $this->call(PhotographerSeeder::class);
+         $this->call(CakeCategorySeeder::class);
+         $this->call(CakeSeeder::class);
+         $this->call(DailyTipSeeder::class);
+         $this->call(BackdropCategorySeeder::class);
          $this->call(BackdropsSeeder::class);
+         $this->call(PromotionSeeder::class);
     }
 }

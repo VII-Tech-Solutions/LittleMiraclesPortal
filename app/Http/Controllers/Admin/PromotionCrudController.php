@@ -110,7 +110,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addPostedAtField(Attributes::POSTED_AT, "Posted At");
 
         // Field: Valid Until
-        $this->addValidUntilField(Attributes::VALID_UNTIL);
+        $this->addValidUntilField(Attributes::VALID_UNTIL , "Valid Until");
 
         // Field: Code
         $this->addPromotionCodeField(Attributes::PROMO_CODE, "Promo Code");

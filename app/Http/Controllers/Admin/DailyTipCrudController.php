@@ -45,7 +45,7 @@ class DailyTipCrudController extends CustomCrudController
         $this->addImageColumn("Featured Image");
 
         // Column: Posted At
-        $this->addPostedAtColumn("Posted At", 3, Attributes::POSTED_AT);
+        $this->addDateColumn("Posted At", 1, Attributes::POSTED_AT);
 
         // Column: Content
         $this->addContentColumn();
@@ -85,7 +85,7 @@ class DailyTipCrudController extends CustomCrudController
         $this->addFeaturedImageField(Attributes::IMAGE, "Featured Image", true);
 
         // Field: Posted At
-        $this->addPostedAtField(Attributes::POSTED_AT, "Posted At");
+        $this->addDateField(Attributes::POSTED_AT, "Posted At");
 
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
