@@ -36,9 +36,6 @@ class StudioPackage extends CustomModel
         Attributes::TITLE,
         Attributes::STARTING_PRICE,
         Attributes::IMAGE,
-        Attributes::DETAILS,
-        Attributes::EXAMPLE,
-        Attributes::CATEGORY,
         Attributes::STATUS,
     ];
 
@@ -46,15 +43,11 @@ class StudioPackage extends CustomModel
         Attributes::TITLE => CastingTypes::STRING,
         Attributes::STARTING_PRICE => 'decimal:3',
         Attributes::IMAGE => CastingTypes::STRING,
-        Attributes::DETAILS => CastingTypes::STRING,
-        Attributes::EXAMPLE => CastingTypes::STRING,
-        Attributes::CATEGORY => CastingTypes::INTEGER,
         Attributes::STATUS => CastingTypes::INTEGER,
     ];
 
     protected $appends = [
         Attributes::STATUS_NAME,
-        Attributes::CATEGORY_NAME,
     ];
 
     /**
@@ -65,16 +58,6 @@ class StudioPackage extends CustomModel
     public function getStatusNameAttribute($value)
     {
         return $this->getStatusName($value);
-    }
-
-    /**
-     * Get Attribute: Studio Package Category
-     * @param $value
-     * @return string
-     */
-    function getCategoryNameAttribute($value)
-    {
-        return Helpers::readableText(StudioCategory::getKey($this->category));
     }
 
     /**

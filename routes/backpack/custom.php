@@ -43,7 +43,6 @@ Route::group([
     Route::crud('packages', 'PackageCrudController');
     Route::crud('feedback', 'FeedbackCrudController');
     Route::crud('feedback-questions', 'FeedbackQuestionCrudController');
-    Route::crud('studio-specs', 'StudioSpecsCrudController');
     Route::crud('user-studio', 'UserStudioCrudController');
     Route::crud('user-studio-specs', 'UserStudioSpecsCrudController');
     Route::crud('payment-method', 'PaymentMethodCrudController');

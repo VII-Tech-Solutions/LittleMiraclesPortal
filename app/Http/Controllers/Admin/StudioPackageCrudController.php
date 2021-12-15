@@ -43,9 +43,6 @@ class StudioPackageCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // Filter: Studio Package Category Filter
-        $this->addPackageTypeFilter(StudioPrintCategory::all(), Attributes::CATEGORY,"Print Category");
-
         // Column: ID
         $this->addIDColumn("ID",1,Attributes::ID);
 
@@ -57,15 +54,6 @@ class StudioPackageCrudController extends CustomCrudController
 
         // column: Starting Price
         $this->addPriceColumn("Starting Price",1, Attributes::STARTING_PRICE);
-
-        // column: Details
-        $this->addDetailsColumn("Details",1, Attributes::DETAILS);
-
-        // column: Examples
-        $this->addExampleColumn("Examples",1, Attributes::EXAMPLE);
-
-        // Column: Category
-        $this->addCategoryColumn("Category", 1, Attributes::CATEGORY);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -91,12 +79,6 @@ class StudioPackageCrudController extends CustomCrudController
      */
     protected function setupCreateOperation()
     {
-//            Attributes::TITLE => 'required',
-//            Attributes::IMAGE => 'required',
-//            Attributes::STARTING_PRICE => 'required',
-//            Attributes::DETAILS => 'required',
-//            Attributes::EXAMPLE => 'required',
-//            Attributes::CATEGORY => 'required',
         // Validation
         $this->crud->setValidation( StudioPackageRequest::class);
 
@@ -108,15 +90,6 @@ class StudioPackageCrudController extends CustomCrudController
 
         // Field: Starting Price
         $this->addPriceField(Attributes::STARTING_PRICE, "Starting Price");
-
-        // Field: Details
-        $this->addDetailsField(Attributes::DETAILS, "Details");
-
-        // Field: Example
-        $this->addExampleField(Attributes::EXAMPLE, "Example");
-
-        // Field: Category
-        $this->addTypeField(StudioPrintCategory::all(),Attributes::CATEGORY,"Category");
 
         // Field: Status
         $this->addStatusField(Status::all());
