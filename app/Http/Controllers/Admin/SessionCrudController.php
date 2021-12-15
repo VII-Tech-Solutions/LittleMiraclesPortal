@@ -61,6 +61,9 @@ class SessionCrudController extends CustomCrudController
         // Column: Package Name
         $this->addIDColumn("Package Name", 1, Attributes::PACKAGE_NAME);
 
+        // Column: Session Status
+        $this->addSessionStatusColumn(Attributes::SESSION_STATUS_NAME);
+
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
 
@@ -104,9 +107,11 @@ class SessionCrudController extends CustomCrudController
         // Field: Total Price
         $this->addPriceField(Attributes::TOTAL_PRICE, "Total Price");
 
-        // Field: Status
-        $this->addStatusField(SessionStatus::all(), Attributes::STATUS, "Status");
+        // Field: Session Status
+        $this->addStatusField(SessionStatus::all(), Attributes::SESSION_STATUS, "Session Status");
 
+        // Field: Status
+        $this->addStatusField(Status::all(), Attributes::STATUS, "Status");
     }
 
 }

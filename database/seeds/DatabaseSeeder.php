@@ -31,5 +31,8 @@ class DatabaseSeeder extends Seeder
          $this->call(BackdropCategorySeeder::class);
          $this->call(BackdropsSeeder::class);
          $this->call(PromotionSeeder::class);
+         $this->call(FeedbackQuestionSeeder::class);
+         $this->call(WorkshopSeeder::class);
+         $this->call(TagSeeder::class);
     }
 }

@@ -57,7 +57,9 @@ class Session extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
+        Attributes::SESSION_STATUS_NAME,
     ];
+
 
     /**
      * Get Attribute: status_name
@@ -65,6 +67,17 @@ class Session extends CustomModel
      * @return string
      */
     public function getStatusNameAttribute($value)
+    {
+        return $this->getStatusName($value);
+    }
+
+
+    /**
+     * Get Attribute: session_status_name
+     * @param $value
+     * @return string
+     */
+    public function getSessionStatusNameAttribute($value)
     {
         $text = SessionStatus::getKey($this->status);
         return Helpers::readableText($text);

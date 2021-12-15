@@ -19,10 +19,10 @@ class SessionSeeder  extends Seeder
     {
 
         Session::createOrUpdate([
-            Attributes::SESSION_STATUS => SessionStatus::BOOKED,
+//            Attributes::SESSION_STATUS => SessionStatus::BOOKED,
             Attributes::TITLE => "Baby Plan",
             Attributes::USER_ID => 1,
-            Attributes::FAMILY_ID =>1,
+            Attributes::FAMILY_ID => 1,
             Attributes::PACKAGE_ID => 5,
             Attributes::CUSTOM_BACKDROP => "Unicorn",
             Attributes::CUSTOM_CAKE => "Unicorn pink color cake ",
