@@ -29,6 +29,8 @@ class SessionSeeder  extends Seeder
             Attributes::COMMENTS => "The session theme should be having only pink and white color for the baby after being born",
             Attributes::TOTAL_PRICE => 650,
             Attributes::STATUS => Status::ACTIVE,
+            Attributes::DATE => null,
+            Attributes::TIME => null,
         ],
             [Attributes::PACKAGE_ID ,Attributes::USER_ID]
         );

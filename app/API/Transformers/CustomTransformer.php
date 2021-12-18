@@ -4,6 +4,7 @@ namespace App\API\Transformers;
 
 use App\Constants\Attributes;
 use App\Constants\Values;
+use App\Helpers;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
@@ -65,7 +66,37 @@ class CustomTransformer extends TransformerAbstract
      */
     public function includeBenefits($item)
     {
-        return $this->collection($item->benefits, new IDTransformer(), Values::NO_RESOURCE_KEY);
+        return $this->collection(Helpers::nullableCollection($item->benefits), new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
+
+    /**
+     * Include Benefits IDs
+     * @param $item
+     * @return Collection
+     */
+    public function includeBenefitsIds($item)
+    {
+        return $this->collection(Helpers::nullableCollection($item->benefits), new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
+
+    /**
+     * Include Reviews IDs
+     * @param $item
+     * @return Collection
+     */
+    public function includeReviewsIds($item)
+    {
+        return $this->collection(Helpers::nullableCollection($item->reviews), new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
+
+    /**
+     * Include Media IDs
+     * @param $item
+     * @return Collection
+     */
+    public function includeMediaIds($item)
+    {
+        return $this->collection(Helpers::nullableCollection($item->media), new IDTransformer(), Values::NO_RESOURCE_KEY);
     }
 
     /**
@@ -75,6 +106,6 @@ class CustomTransformer extends TransformerAbstract
      */
     public function includeReviews($item)
     {
-        return $this->collection($item->reviews, new IDTransformer(), Values::NO_RESOURCE_KEY);
+        return $this->collection(Helpers::nullableCollection($item->reviews), new IDTransformer(), Values::NO_RESOURCE_KEY);
     }
 }

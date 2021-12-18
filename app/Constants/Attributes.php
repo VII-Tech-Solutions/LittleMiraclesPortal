@@ -12,11 +12,16 @@ class Attributes extends CustomEnum
     const PHONE_NUMBER = "phone_number";
     const TYPE_NAME = "type_name";
     const EMAIL = "email";
+    const TIME = "time";
     const VERIFIED_AT = "verified_at";
+    const PEOPLE = "people";
     const APP_VERSION = "app_version";
     const PLATFORM = "platform";
     const FAMILY = "family";
+    const ADDITIONS = "additions";
     const SESSIONS = "sessions";
+    const PHOTOGRAPHER = "photographer";
+    const PAYMENT_METHOD = "payment_method";
     const PROVIDER_ID = "provider_id";
     const LAST_NAME = "last_name";
     const TOKEN = "token";

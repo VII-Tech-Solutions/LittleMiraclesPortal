@@ -8,11 +8,14 @@ use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\ListSessionTransformer;
 use App\Constants\Attributes;
 use App\Constants\Messages;
+use App\Constants\SessionDetailsType;
+use App\Constants\SessionStatus;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Package;
 use App\Models\Review;
 use App\Models\Session;
+use App\Models\SessionDetail;
 use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
@@ -127,12 +130,93 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        // TODO save all details
+        // get all parameters
+        $package_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
+        $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
+        $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
+        $people = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PEOPLE, null, CastingTypes::ARRAY);
+        $backdrops = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BACKDROPS, null, CastingTypes::ARRAY);
+        $cakes = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CAKES, null, CastingTypes::ARRAY);
+        $comments = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::COMMENTS, null, CastingTypes::STRING);
+        $photographer = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
+        $additions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
+        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
 
-        // TODO return response
-        return Helpers::returnResponse([
-            Attributes::SESSIONS => Session::returnTransformedItems($sessions, ListSessionTransformer::class),
+        // TODO calculate total price
+        $total_price = 12;
+
+        // find the package
+        /** @var Package $package */
+        $package = Package::find($package_id);
+        if(is_null($package)){
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
+        }
+
+        // create session
+        $session = Session::createOrUpdate([
+            Attributes::TITLE => $package->title . " on " . $date . " by " . $user->full_name,
+            Attributes::USER_ID => $user->id,
+            Attributes::FAMILY_ID => $user->family_id,
+            Attributes::PACKAGE_ID => $package_id,
+            Attributes::DATE => $date,
+            Attributes::TIME => $time,
+            Attributes::COMMENTS => $comments,
+            Attributes::PAYMENT_METHOD => $payment_method,
+            Attributes::STATUS => SessionStatus::BOOKED,
+            Attributes::TOTAL_PRICE => $total_price,
+            Attributes::PHOTOGRAPHER => $photographer
         ]);
+
+        // save session people
+        foreach ($people as $item){
+            SessionDetail::createOrUpdate([
+                Attributes::TYPE => SessionDetailsType::PEOPLE,
+                Attributes::VALUE => $item,
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::SESSION_ID => $session->id,
+                Attributes::PACKAGE_ID => $session->package_id
+            ]);
+        }
+
+        // save session backdrops
+        foreach ($backdrops as $item){
+            SessionDetail::createOrUpdate([
+                Attributes::TYPE => SessionDetailsType::BACKDROP,
+                Attributes::VALUE => $item,
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::SESSION_ID => $session->id,
+                Attributes::PACKAGE_ID => $session->package_id
+            ]);
+        }
+
+        // save session cakes
+        foreach ($cakes as $item){
+            SessionDetail::createOrUpdate([
+                Attributes::TYPE => SessionDetailsType::CAKE,
+                Attributes::VALUE => $item,
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::SESSION_ID => $session->id,
+                Attributes::PACKAGE_ID => $session->package_id
+            ]);
+        }
+
+        // save session additions
+        foreach ($additions as $item){
+            SessionDetail::createOrUpdate([
+                Attributes::TYPE => SessionDetailsType::ADDITIONS,
+                Attributes::VALUE => $item,
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::SESSION_ID => $session->id,
+                Attributes::PACKAGE_ID => $session->package_id
+            ]);
+        }
+
+        // return response
+        return $this->getInfo($session->id);
     }
 
 

@@ -4,11 +4,13 @@ namespace App;
 
 use App\Constants\Attributes;
 use App\Constants\EnvVariables;
+use App\Constants\Status;
 use App\Models\Benefit;
 use App\Models\Media;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -29,6 +31,32 @@ use function Sentry\configureScope;
  */
 class Helpers
 {
+
+    /**
+     * Default Migration
+     * @param Blueprint $table
+     * @param int $default_status
+     * @return void
+     */
+    static function defaultMigration(Blueprint $table, int $default_status = Status::ACTIVE){
+        $table->bigIncrements(Attributes::ID);
+        $table->integer(Attributes::STATUS)->default($default_status);
+        $table->timestamps();
+        $table->softDeletes();
+    }
+
+    /**
+     * Nullable Collection
+     * @param $collection
+     * @return Collection
+     */
+    static function nullableCollection($collection): Collection
+    {
+        if(is_null($collection)){
+            return collect();
+        }
+        return $collection;
+    }
 
     /**
      * Capture Exception

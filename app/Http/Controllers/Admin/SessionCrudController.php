@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
-use App\Constants\Status;
 use App\Constants\SessionStatus;
 use App\Http\Requests\SessionRequest;
 use App\Models\Session;
@@ -38,19 +37,10 @@ class SessionCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(SessionStatus::all());
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
-
-        // Column: Custom Backdrop
-        $this->addCustomBackdropColumn();
-
-        // Column: Custom Cake
-        $this->addCustomCakeColumn();
-
-        // Column: Comments
-        $this->addCommentsColumn();
 
         // Column: Total Price
         $this->addTotalPriceColumn("Total Price", 1, Attributes::TOTAL_PRICE);
@@ -60,9 +50,6 @@ class SessionCrudController extends CustomCrudController
 
         // Column: Package Name
         $this->addIDColumn("Package Name", 1, Attributes::PACKAGE_NAME);
-
-        // Column: Session Status
-        $this->addSessionStatusColumn(Attributes::SESSION_STATUS_NAME);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -107,11 +94,8 @@ class SessionCrudController extends CustomCrudController
         // Field: Total Price
         $this->addPriceField(Attributes::TOTAL_PRICE, "Total Price");
 
-        // Field: Session Status
-        $this->addStatusField(SessionStatus::all(), Attributes::SESSION_STATUS, "Session Status");
-
         // Field: Status
-        $this->addStatusField(Status::all(), Attributes::STATUS, "Status");
+        $this->addStatusField(SessionStatus::all(), Attributes::STATUS, "Status");
     }
 
 }

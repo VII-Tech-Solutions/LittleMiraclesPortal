@@ -8,6 +8,7 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -34,13 +35,19 @@ class Session extends CustomModel
     ];
 
     protected $fillable = [
-        Attributes::SESSION_STATUS,
         Attributes::TITLE,
         Attributes::CUSTOM_BACKDROP,
         Attributes::CUSTOM_CAKE,
         Attributes::COMMENTS,
         Attributes::TOTAL_PRICE,
         Attributes::STATUS,
+        Attributes::USER_ID,
+        Attributes::FAMILY_ID,
+        Attributes::PACKAGE_ID,
+        Attributes::DATE,
+        Attributes::TIME,
+        Attributes::PAYMENT_METHOD,
+        Attributes::PHOTOGRAPHER,
     ];
 
 
@@ -60,24 +67,26 @@ class Session extends CustomModel
         Attributes::SESSION_STATUS_NAME,
     ];
 
-
     /**
-     * Get Attribute: status_name
-     * @param $value
-     * @return string
+     * Create or Update
+     * @param array $data
+     * @param $find_by
+     * @return Session|null
      */
-    public function getStatusNameAttribute($value)
+    public static function createOrUpdate(array $data, $find_by = null)
     {
-        return $this->getStatusName($value);
+        return parent::createOrUpdate($data, [
+            Attributes::USER_ID, Attributes::PACKAGE_ID,
+            Attributes::DATE, Attributes::TIME, Attributes::STATUS
+        ]);
     }
-
 
     /**
      * Get Attribute: session_status_name
      * @param $value
      * @return string
      */
-    public function getSessionStatusNameAttribute($value)
+    public function getStatusNameAttribute($value)
     {
         $text = SessionStatus::getKey($this->status);
         return Helpers::readableText($text);
@@ -113,7 +122,7 @@ class Session extends CustomModel
 
     /**
      * Relationships: Reviews
-     * @return mixed
+     * @return HasMany
      */
     public function reviews()
     {

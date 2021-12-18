@@ -194,6 +194,7 @@ class AuthenticationController extends CustomController
             $user_info = collect($user_info);
             $fields = collect();
 
+            Helpers::validateValueInCollection($user_info, $fields, Attributes::EMAIL);
             Helpers::validateValueInCollection($user_info, $fields, Attributes::FIRST_NAME);
             Helpers::validateValueInCollection($user_info, $fields, Attributes::LAST_NAME);
             Helpers::validateValueInCollection($user_info, $fields, Attributes::GENDER);

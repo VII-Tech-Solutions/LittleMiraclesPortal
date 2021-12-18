@@ -25,6 +25,7 @@ use Illuminate\Support\Str;
  * @property string updated_at
  * @property string deleted_at
  *
+ * @method static Builder|self find($id)
  * @method static Builder|self where($attribute = null, $operator = null, $value = null)
  * @method static Builder|self active()
  */
