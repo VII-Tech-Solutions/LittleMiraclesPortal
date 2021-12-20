@@ -1,9 +1,12 @@
 <?php
 use App\Constants\Attributes;
 use App\Constants\IsPopular;
+use App\Constants\MediaType;
 use App\Constants\SessionPackageTypes;
 use App\Constants\Status;
 use App\Models\Package;
+use App\Models\Media;
+
 
 
 use Illuminate\Database\Seeder;
@@ -18,7 +21,7 @@ class SessionPackageSeeder  extends Seeder
     public function run()
     {
         //Twinkle Package
-        Package::createOrUpdate([
+        $TwinklePackage=Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Twinkle.jpeg',
             Attributes::TITLE =>"Twinkle",
             Attributes::TAG =>"Portrait Studio Session",
@@ -32,9 +35,11 @@ class SessionPackageSeeder  extends Seeder
         ],
             [Attributes::TITLE]
         );
+        $this->imageExample($TwinklePackage);
+
 
         //Sparkle Package
-        Package::createOrUpdate([
+        $SparklePackage=Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Sparkle.jpeg',
             Attributes::TITLE =>"Sparkle",
             Attributes::TAG =>"Family Portrait Studio Session",
@@ -48,9 +53,11 @@ class SessionPackageSeeder  extends Seeder
         ],
             [Attributes::TITLE]
         );
+        $this->imageExample($SparklePackage);
+
 
         //Glimmer Package
-        Package::createOrUpdate([
+        $GlimmerPackage=Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Glimmer.jpeg',
             Attributes::TITLE =>"Glimmer",
             Attributes::TAG =>"Newborn Studio Session",
@@ -64,9 +71,10 @@ class SessionPackageSeeder  extends Seeder
         ],
             [Attributes::TITLE]
         );
+        $this->imageExample($GlimmerPackage);
 
         //Shimmer Package
-        Package::createOrUpdate([
+        $ShimmerPackage=Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/Shimmer.jpeg',
             Attributes::TITLE =>"Shimmer",
             Attributes::TAG =>"Studio/Outdoor Session",
@@ -80,9 +88,11 @@ class SessionPackageSeeder  extends Seeder
         ],
             [Attributes::TITLE]
         );
+        $this->imageExample($ShimmerPackage);
+
 
         //Baby Plan Package
-        Package::createOrUpdate([
+        $BabyPackage=Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/BabyPlan.jpeg',
             Attributes::TITLE =>"Baby Plan",
             Attributes::TAG =>"4 memorable milestone sessions",
@@ -96,9 +106,11 @@ class SessionPackageSeeder  extends Seeder
         ],
             [Attributes::TITLE]
         );
+        $this->imageExample($BabyPackage);
+
 
         //Mini Session Package
-        Package::createOrUpdate([
+        $Minipackage=Package::createOrUpdate([
             Attributes::IMAGE =>'assets/packages/MiniSession.jpeg',
             Attributes::TITLE =>"Mini Session",
             Attributes::TAG =>"Monthly Promotion",
@@ -113,5 +125,49 @@ class SessionPackageSeeder  extends Seeder
             [Attributes::TITLE]
         );
 
+        $this->imageExample($Minipackage);
+
+
     }
+
+
+    function imageExample($package){
+
+        Media::createOrUpdate([
+            Attributes::URL =>'assets/media/media.jpeg',
+            Attributes::TYPE =>MediaType::IMAGE,
+            Attributes::PACKAGE_ID => $package->id,
+            Attributes::STATUS => Status::ACTIVE,
+        ],
+            [Attributes::URL,Attributes::PACKAGE_ID]
+        );
+
+        Media::createOrUpdate([
+            Attributes::URL =>'assets/media/media2.jpeg',
+            Attributes::TYPE =>MediaType::IMAGE,
+            Attributes::PACKAGE_ID => $package->id,
+            Attributes::STATUS => Status::ACTIVE,
+        ],
+            [Attributes::URL,Attributes::PACKAGE_ID]
+        );
+
+        Media::createOrUpdate([
+            Attributes::URL =>'assets/media/media3.jpeg',
+            Attributes::TYPE =>MediaType::IMAGE,
+            Attributes::PACKAGE_ID => $package->id,
+            Attributes::STATUS => Status::ACTIVE,
+        ],
+            [Attributes::URL,Attributes::PACKAGE_ID]
+        );
+
+        Media::createOrUpdate([
+            Attributes::URL =>'assets/media/media4.jpeg',
+            Attributes::TYPE =>MediaType::IMAGE,
+            Attributes::PACKAGE_ID => $package->id,
+            Attributes::STATUS => Status::ACTIVE,
+        ],
+            [Attributes::URL,Attributes::PACKAGE_ID]
+        );
+    }
+
 }

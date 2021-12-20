@@ -25,7 +25,7 @@ class CreateMediaTable extends Migration
                 $table->softDeletes();
 
                 // Specific Attributes
-                $table->string(Attributes::NAME);
+                $table->string(Attributes::NAME)->nullable();
                 $table->string(Attributes::URL);
                 $table->integer(Attributes::TYPE);
             });
