@@ -15,7 +15,7 @@ class StudioPackageSeeder extends Seeder
     public function run()
     {
         StudioPackage::createOrUpdate([
-            Attributes::TITLE => "photo Albums",
+            Attributes::TITLE => "Photo Albums",
             Attributes::IMAGE => "https://i.picsum.photos/id/684/200/200.jpg?hmac=Al0pymCRQr_mB6OlD9xW3UsgmSKDgnNPq2JLj3_CfUY",
             Attributes::STARTING_PRICE => 100,
             Attributes::STATUS => Status::ACTIVE,

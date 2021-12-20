@@ -12,6 +12,7 @@ use App\Constants\SessionPackageTypes;
 use App\Constants\SectionTypes;
 use App\Constants\Status;
 use App\Constants\StudioCategory;
+use App\Models\Backdrop;
 use App\Models\BackdropCategory;
 use App\Models\CakeCategory;
 use App\Models\PackageBenefit;
@@ -214,6 +215,53 @@ class CustomCrudController extends CrudController
     }
 
 
+    /**
+     * Add Session Detail Field
+     */
+    function addSessionDetailField($name, $label, $item_label, $model, $model_attribute = Attributes::TITLE)
+    {
+
+        CRUD::addField([
+            Attributes::NAME  => $name,
+            Attributes::LABEL => $label,
+            Attributes::TYPE  => 'repeatable',
+            Attributes::FAKE => true,
+            Attributes::FIELDS => [
+                [
+                    Attributes::LABEL => $item_label, // Table column heading
+                    Attributes::TYPE => FieldTypes::SELECT2,
+                    Attributes::NAME => Attributes::ID, // the column that contains the ID of that connected entity;
+                    Attributes::ATTRIBUTE => $model_attribute, // foreign key attribute that is shown to user
+                    Attributes::MODEL => $model, // foreign key model
+                ],
+            ]
+        ]);
+
+    }
+
+    /**
+     * Add Session Detail Field from Array
+     */
+    function addSessionDetailFieldFromArray($name, $label, $item_label, $attribute_name, $options, $allow_null = false)
+    {
+
+        CRUD::addField([
+            Attributes::NAME  => $name,
+            Attributes::LABEL => $label,
+            Attributes::TYPE  => 'repeatable',
+            Attributes::FIELDS => [
+                [
+                    Attributes::LABEL => $item_label,
+                    Attributes::NAME => $attribute_name,
+                    Attributes::ALLOWS_NULL => $allow_null,
+                    Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+                    Attributes::OPTIONS => $options,
+                ],
+            ]
+        ]);
+
+    }
+
 
     /**
      * Add Description Field
@@ -252,7 +300,6 @@ class CustomCrudController extends CrudController
 //                'removePlugins' => 'embed,Embed',
 //                'removeButtons'        => 'Source,Save,Templates,NewPage,ExportPdf,Preview,Print,Cut,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Redo,PasteText,PasteFromWord,About,Maximize,ShowBlocks,BGColor,Styles,TextColor,Format,Font,FontSize,Image,CopyFormatting,NumberedList,Outdent,Blockquote,JustifyLeft,RemoveFormat,Indent,BulletedList,Underline,Strike,Subscript,Superscript,CreateDiv,JustifyCenter,Flash,Table,Anchor,Language,JustifyBlock,JustifyRight,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Italic,Bold',
             ]
-
         ]);
     }
 
@@ -540,7 +587,6 @@ class CustomCrudController extends CrudController
             Attributes::LABEL => is_null($label) ? "Offer" : ucwords($label),
             Attributes::NAME => Attributes::OFFER,
             Attributes::TYPE => FieldTypes::TEXT,
-
         ]);
     }
     /**

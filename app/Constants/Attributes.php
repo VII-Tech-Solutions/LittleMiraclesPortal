@@ -12,9 +12,12 @@ class Attributes extends CustomEnum
     const PHONE_NUMBER = "phone_number";
     const TYPE_NAME = "type_name";
     const EMAIL = "email";
+    const BACKDROP = "backdrop";
     const TIME = "time";
+    const FAKE = "fake";
     const VERIFIED_AT = "verified_at";
     const PEOPLE = "people";
+    const NAME = "name";
     const APP_VERSION = "app_version";
     const PLATFORM = "platform";
     const FAMILY = "family";
@@ -67,7 +70,6 @@ class Attributes extends CustomEnum
     const STUDIO_METADATA = "studio_metadata";
     const FAQS = "faqs";
     const CAKES = "cakes";
-    const NAME = "name";
     const BACKDROPS = "backdrops";
     const LAST_UPDATE = "last_update";
     const GENDER = "gender";

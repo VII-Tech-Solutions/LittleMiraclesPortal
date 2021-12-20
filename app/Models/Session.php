@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -22,6 +24,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property Package package
  * @property int package_id
  * @property int session_id
+ * @property int user_id
+ * @property int family_id
  */
 class Session extends CustomModel
 {
@@ -127,5 +131,46 @@ class Session extends CustomModel
     public function reviews()
     {
         return $this->hasMany(Review::class, Attributes::SESSION_ID);
+    }
+
+    /**
+     * Relationships: Backdrops
+     * @return BelongsToMany
+     */
+    public function backdrops()
+    {
+        return $this->belongsToMany(Backdrop::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
+            ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::BACKDROP);
+    }
+
+    /**
+     * Relationships: People
+     * @return BelongsToMany
+     */
+    public function people()
+    {
+        return $this->belongsToMany(User::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
+            ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::PEOPLE);
+    }
+
+
+    /**
+     * Relationships: Cakes
+     * @return BelongsToMany
+     */
+    public function cakes()
+    {
+        return $this->belongsToMany(Cake::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
+            ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::CAKE);
+    }
+
+    /**
+     * Relationships: Additions
+     * @return BelongsToMany
+     */
+    public function additions()
+    {
+        return $this->belongsToMany(StudioPackage::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
+            ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::ADDITIONS);
     }
 }

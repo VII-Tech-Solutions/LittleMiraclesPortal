@@ -4,16 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
+use App\Helpers;
 use App\Http\Requests\SessionRequest;
+use App\Models\Backdrop;
+use App\Models\Cake;
+use App\Models\Event;
 use App\Models\Session;
+use App\Models\SessionDetail;
+use App\Models\StudioPackage;
+use App\Models\User;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * Session CRUD Controller
  */
 class SessionCrudController extends CustomCrudController
 {
+
+    use CreateOperation {store as traitStore;}
+    use UpdateOperation {update as traitUpdate;}
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -82,6 +97,20 @@ class SessionCrudController extends CustomCrudController
         // Field: Title
         $this->addNameField(Attributes::TITLE, "Title");
 
+        // Field: Backdrops
+        $this->addSessionDetailField(Attributes::BACKDROPS, "Backdrops", "Backdrop", Backdrop::class);
+
+        // Field: Backdrops
+//        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
+
+        // Field: People
+//        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", User::class, Attributes::FULL_NAME);
+
+        // Field: Additions
+//        $this->addSessionDetailField(Attributes::ADDITIONS, "Additions", "Addition", StudioPackage::class, Attributes::TITLE);
+
+        // TODO Field: Guideline
+
         // Field: Custom Backdrop
         $this->addCustomField(Attributes::CUSTOM_BACKDROP, "Custom Backdrops", null, FieldTypes::TEXTAREA, 5, 200);
 
@@ -96,6 +125,70 @@ class SessionCrudController extends CustomCrudController
 
         // Field: Status
         $this->addStatusField(SessionStatus::all(), Attributes::STATUS, "Status");
+    }
+
+    /**
+     * Store
+     * @return Response|RedirectResponse
+     */
+    public function store()
+    {
+
+        // get backdrops
+        $backdrops = $this->crud->getRequest()->get(Attributes::BACKDROPS);
+
+        // create
+        $result = $this->traitStore();
+
+        // return response
+        return $result;
+    }
+
+    /**
+     * Update
+     * @return Response|RedirectResponse
+     */
+    public function update()
+    {
+
+        /** @var Session $session */
+        $session = $this->crud->getCurrentEntry();
+
+        // get backdrops
+        $backdrops = $this->crud->getRequest()->get(Attributes::BACKDROPS);
+        $this->crud->getRequest()->request->remove(Attributes::BACKDROPS);
+        $backdrops = json_decode($backdrops, true);
+        $backdrops = collect($backdrops)->flatten()->filter();
+        if($backdrops->isNotEmpty()){
+            foreach ($backdrops as $item){
+
+                $item_exists = SessionDetail::where(Attributes::SESSION_ID, $session->id)
+                    ->where(Attributes::TYPE, SessionDetailsType::BACKDROP)
+                    ->where(Attributes::VALUE, $item)->exists();
+
+                if(!$item_exists){
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::BACKDROP,
+                        Attributes::VALUE => $item,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id,
+                        Attributes::USER_ID => $session->user_id,
+                        Attributes::FAMILY_ID => $session->family_id
+                    ]);
+                }
+            }
+
+            // delete remaining
+//            SessionDetail::where(Attributes::SESSION_ID, $session->id)
+//                ->where(Attributes::TYPE, SessionDetailsType::BACKDROP)
+//                ->whereNotIn(Attributes::VALUE, $backdrops)->delete();
+        }
+
+        // update and return response
+        $result = $this->traitUpdate();
+
+        // return response
+        return $result;
     }
 
 }

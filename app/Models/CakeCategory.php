@@ -6,15 +6,12 @@ use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
-use App\Traits\ImageTrait;
-use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * CakeCategory
  */
 class CakeCategory extends CustomModel
 {
-
 
     protected $table = Tables::CAKE_CATEGORIES;
     protected $guarded = [
@@ -41,8 +38,4 @@ class CakeCategory extends CustomModel
         $text = Status::getKey($this->status);
         return Helpers::readableText($text);
     }
-
-
-
-
 }
