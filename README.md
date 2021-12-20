@@ -14,3 +14,4 @@ npm run prod
 
 ## Commands
 - Generate API Docs `php artisan l5-swagger:generate`
+- Fresh Install `php artisan migrate:fresh && php artisan db:seed && php artisan passport:install`

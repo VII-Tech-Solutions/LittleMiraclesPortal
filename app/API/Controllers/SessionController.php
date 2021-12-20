@@ -263,7 +263,9 @@ class SessionController extends CustomController
 
         // return response
         if(is_a($review, Review::class)){
-            return GlobalHelpers::formattedJSONResponse(Messages::REVIEW_SUBMITTED, [], null, Response::HTTP_OK);
+            return GlobalHelpers::formattedJSONResponse(Messages::REVIEW_SUBMITTED, [
+                Attributes::REVIEWS => Review::returnTransformedItems($session->reviews, ListReviewsTransformer::class),
+            ], null, Response::HTTP_OK);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
 

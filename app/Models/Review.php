@@ -24,7 +24,11 @@ class Review extends CustomModel
     protected $fillable = [
         Attributes::RATING,
         Attributes::COMMENT,
-        Attributes::POSTED_AT,
+        Attributes::USER_ID,
+        Attributes::SESSION_ID,
+        Attributes::PACKAGE_ID,
+        Attributes::USER_IMAGE,
+        Attributes::USER_NAME,
         Attributes::STATUS,
     ];
 
@@ -42,6 +46,19 @@ class Review extends CustomModel
     protected $appends = [
         Attributes::STATUS_NAME
     ];
+
+    /**
+     * Create or Update Item
+     * @param array $data
+     * @param $find_by
+     * @return Review|null
+     */
+    public static function createOrUpdate(array $data, $find_by = null)
+    {
+        return parent::createOrUpdate($data, [
+            Attributes::SESSION_ID, Attributes::USER_ID, Attributes::PACKAGE_ID
+        ]);
+    }
 
     /**
      * Get Attribute: status_name

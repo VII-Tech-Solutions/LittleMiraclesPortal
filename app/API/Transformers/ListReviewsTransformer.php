@@ -19,7 +19,6 @@ class ListReviewsTransformer extends CustomTransformer
         Attributes::PACKAGE_ID,
         Attributes::SESSION_ID,
         Attributes::COMMENT,
-        Attributes::POSTED_AT,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT

@@ -11,6 +11,7 @@ use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -26,6 +27,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int session_id
  * @property int user_id
  * @property int family_id
+ * @property Collection reviews
  */
 class Session extends CustomModel
 {
@@ -68,7 +70,6 @@ class Session extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
-        Attributes::SESSION_STATUS_NAME,
     ];
 
     /**
@@ -130,7 +131,7 @@ class Session extends CustomModel
      */
     public function reviews()
     {
-        return $this->hasMany(Review::class, Attributes::SESSION_ID);
+        return $this->hasMany(Review::class, Attributes::SESSION_ID, Attributes::ID);
     }
 
     /**
