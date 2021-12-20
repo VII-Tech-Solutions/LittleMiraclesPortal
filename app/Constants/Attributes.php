@@ -24,6 +24,7 @@ class Attributes extends CustomEnum
     const ADDITIONS = "additions";
     const SESSIONS = "sessions";
     const PHOTOGRAPHER = "photographer";
+    const TOTAL_REVIEWS = "total_reviews";
     const PAYMENT_METHOD = "payment_method";
     const PROVIDER_ID = "provider_id";
     const LAST_NAME = "last_name";
