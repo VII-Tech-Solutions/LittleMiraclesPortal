@@ -26,7 +26,6 @@ class ReviewSeeder  extends Seeder
             Attributes::PACKAGE_ID => 5,
             Attributes::SESSION_ID => 1,
             Attributes::COMMENT => "My wife's maternity shoot was amazing, cant wait for the rest sessions",
-            Attributes::POSTED_AT => "2022-10-20",
             Attributes::STATUS => Status::ACTIVE,
         ],
             [Attributes::USER_ID ,Attributes::SESSION_ID]

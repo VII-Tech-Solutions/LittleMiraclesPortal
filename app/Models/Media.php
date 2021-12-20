@@ -30,6 +30,7 @@ class Media extends CustomModel
         Attributes::STATUS_NAME,
         Attributes::TYPE,
         Attributes::THUMBNAIL,
+        Attributes::PACKAGE_ID,
         Attributes::IS_COMPRESSED,
         Attributes::STATUS,
     ];
