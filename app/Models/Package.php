@@ -64,8 +64,35 @@ class Package extends CustomModel
         Attributes::STATUS_NAME,
         Attributes::IS_POPULAR_NAME,
         Attributes::TYPE_NAME,
-        Attributes::PACKAGE_BENEFITS
+        Attributes::PACKAGE_BENEFITS,
+        Attributes::TOTAL_REVIEWS,
+        Attributes::RATING,
     ];
+
+    /**
+     * Attribute: rating
+     * @return int
+     */
+    function getRatingAttribute(){
+        $avg = $this->reviews()->pluck(Attributes::RATING)->filter()->avg();
+        if(is_null($avg)){
+            return 0;
+        }
+        return $avg;
+    }
+
+
+    /**
+     * Attribute: total_reviews
+     * @return int
+     */
+    function getTotalReviewsAttribute(){
+        $sum = $this->reviews()->pluck(Attributes::ID)->count();
+        if(is_null($sum)){
+            return 0;
+        }
+        return $sum;
+    }
 
     /**
      * Get Attribute: status_name
