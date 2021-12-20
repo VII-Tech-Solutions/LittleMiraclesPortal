@@ -2,6 +2,7 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\ListMediaTransformer;
 use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
@@ -74,7 +75,9 @@ class SessionController extends CustomController
         $benefits = $packages->map->benefits;
         $benefits = $benefits->flatten()->filter();
 
-        // TODO image examples
+        // image examples
+        $media = $sessions->map->media;
+        $media = $media->flatten()->filter();
 
         // return response
         return Helpers::returnResponse([
@@ -82,6 +85,7 @@ class SessionController extends CustomController
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
+            Attributes::MEDIA => Benefit::returnTransformedItems($media, ListMediaTransformer::class),
         ]);
     }
 
