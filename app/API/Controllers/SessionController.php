@@ -14,6 +14,7 @@ use App\Constants\SessionStatus;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Package;
+use App\Models\Promotion;
 use App\Models\Review;
 use App\Models\Session;
 use App\Models\SessionDetail;
@@ -21,6 +22,7 @@ use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
+use Carbon\Carbon;
 
 /**
  * Session Controller
@@ -303,6 +305,30 @@ class SessionController extends CustomController
         if (is_null($session)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
+
+        $promp = $session->promo_id;
+
+        $promotion = Promotion::where(Attributes::ID, $promp)->first();
+
+        if($promotion){
+            $valid=$promotion->valid_until;
+
+            $date = Carbon::now();
+            dd($date);
+            //Get date.
+            $date->toDateTimeString();
+            if($valid->gte($date)){
+                //calculate
+                $offer = $promotion->get(Attributes::OFFER);
+                $price= $session->price * ($offer % 100);
+            }else{
+                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+            }
+
+        }else{
+            return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
 
         // TODO validate promo code
 

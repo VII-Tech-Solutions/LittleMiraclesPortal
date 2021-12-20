@@ -19,4 +19,6 @@ class Messages extends CustomEnum
     const REVIEW_SUBMITTED = "Review submitted successfully";
     const UNABLE_TO_FIND_SESSION = "Unable to find the session";
     const UNABLE_TO_FIND_PACKAGE = "Unable to find the package";
+    const INVALID_PROMOTION_CODE = "invalid_promotion_code";
+    const PROMOTION_CODE_EXPIRED = "promotion_code_expired";
 }

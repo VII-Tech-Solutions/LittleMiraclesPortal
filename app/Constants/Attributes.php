@@ -173,5 +173,8 @@ class Attributes extends CustomEnum
     const MODEL = 'model';
     const PACKAGE_BENEFITS = 'package_benefits';
     const MULTIPLE = 'multiple';
+    const BACKDROP_ALLOWED = "backdrop_allowed";
+    const CAKE_ALLOWED = "cake_allowed";
+    const PROMO_ID = "promo_id";
 
 }
