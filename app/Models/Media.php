@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Constants\Attributes;
 use App\Constants\Tables;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Str;
 
 /**
@@ -20,6 +21,9 @@ use Illuminate\Support\Str;
  */
 class Media extends CustomModel
 {
+
+    use ImageTrait;
+
     protected $table = Tables::MEDIA;
     protected $guarded = [
         Attributes::ID
@@ -73,4 +77,13 @@ class Media extends CustomModel
         return Str::replaceFirst(".$extension", '', basename($url));
     }
 
+    /**
+     * Get url Attribute
+     * @param $value
+     * @return string|null
+     */
+    function getUrlAttribute($value)
+    {
+        return $this->getImage($value);
+    }
 }
