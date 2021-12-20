@@ -306,28 +306,36 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-        $promp = $session->promo_id;
+        $code=GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
 
-        $promotion = Promotion::where(Attributes::ID, $promp)->first();
 
-        if($promotion){
-            $valid=$promotion->valid_until;
+        if(!is_null($code)){
 
-            $date = Carbon::now();
-            dd($date);
-            //Get date.
-            $date->toDateTimeString();
-            if($valid->gte($date)){
-                //calculate
-                $offer = $promotion->get(Attributes::OFFER);
-                $price= $session->price * ($offer % 100);
-            }else{
-                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+            $promotion = Promotion::where(Attributes::PROMO_CODE, $code)->first();
+            $session = Session::where(Attributes::PROMO_ID, $promotion->id)->first();
+            if($session){
+                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAVE_A_PROMOTION_CODE, null, null, Response::HTTP_UNAUTHORIZED);
             }
+            //dd($session);
+            if($promotion){
+                $valid=$promotion->valid_until;
+                $v= Carbon::parse($valid);
 
-        }else{
-            return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
+                if(Carbon::parse($valid)->gte(Carbon::now())){
+                    //calculate
+                    $offer = $promotion->offer;
+                    $price= $session->total_price * ($offer/100);
+                    dd($price);
+
+                }else{
+                    return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+                }
+
+            }else{
+                return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
+            }
         }
+
 
 
         // TODO validate promo code
