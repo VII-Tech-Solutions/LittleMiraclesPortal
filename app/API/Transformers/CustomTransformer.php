@@ -90,6 +90,16 @@ class CustomTransformer extends TransformerAbstract
     }
 
     /**
+     * Include Hours
+     * @param $item
+     * @return Collection
+     */
+    public function includeHours($item)
+    {
+        return $this->collection(Helpers::nullableCollection($item->hours), new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
+
+    /**
      * Include Media IDs
      * @param $item
      * @return Collection

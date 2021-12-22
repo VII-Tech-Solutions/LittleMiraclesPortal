@@ -18,6 +18,8 @@ class Tables extends CustomEnum
     const NOTIFICATIONS = "notifications";
     const WORKSHOPS = "workshops";
     const REVIEWS = "reviews";
+    const OPENING_HOURS = "opening_hours";
+    const AVAILABLE_DATES = "available_dates";
     const USER_DEVICES = "user_devices";
     const SESSIONS = "sessions";
     const FAQS = "faqs";

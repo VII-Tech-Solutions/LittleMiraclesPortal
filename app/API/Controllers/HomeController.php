@@ -2,6 +2,8 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\AvailableDateTransformer;
+use App\API\Transformers\AvailableHourTransformer;
 use App\API\Transformers\ListBackdropTransformer;
 use App\API\Transformers\ListCakeTransformer;
 use App\API\Transformers\ListDailyTipTransformer;
@@ -16,9 +18,11 @@ use App\API\Transformers\ListSocialMediaTransformer;
 use App\API\Transformers\ListStudioMetadataTransformer;
 use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
+use App\Constants\AvailableDateType;
 use App\Constants\Headers;
 use App\Constants\PaymentMethod;
 use App\Helpers;
+use App\Models\AvailableDate;
 use App\Models\Backdrop;
 use App\Models\Cake;
 use App\Models\DailyTip;
@@ -36,6 +40,8 @@ use App\Models\Workshop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use VIITech\Helpers\Constants\CastingTypes;
+use VIITech\Helpers\GlobalHelpers;
 
 /**
  * Home Controller
@@ -177,6 +183,59 @@ class HomeController extends CustomController
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::PAGES => Page::returnTransformedItems($pages, ListPageTransformer::class),
             Attributes::PAYMENT_METHODS => $payment_methods,
+        ]);
+    }
+
+    /**
+     * List All Available Hours
+     *
+     * @return JsonResponse
+     *
+     * * @OA\GET(
+     *     path="/api/available-hours",
+     *     tags={"Home"},
+     *     description="List of Available Hours",
+     *     @OA\Response(response="200", description="Available hours retrived successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="last_update", in="query", description="Last Update: 2020-10-04", required=false, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="date", in="query", description="Date: 2020-10-04", required=false, @OA\Schema(type="string")),
+     * )
+     */
+    public function availableHours(): JsonResponse
+    {
+
+        // get parameters
+        $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
+
+        // build available dates query
+        $available_dates = AvailableDate::active()->where(Attributes::TYPE, AvailableDateType::INCLUDE);
+
+        // filter by date
+        if(!empty($date)){
+            $available_dates = $available_dates->where(Attributes::START_DATE, $date);
+        }
+
+        // TODO exclude by type
+
+        // TODO exclude if reserved
+
+        // get available dates
+        $available_dates = $available_dates->get();
+
+        // get available hours
+        $available_hours = $available_dates->map->hours;
+        $available_hours = $available_hours->flatten()->filter();
+
+        // filter by last update
+        if(!is_null($this->last_update)) {
+            $available_dates = Helpers::getLatestOnlyInCollection($available_dates, $this->last_update);
+            $available_hours = Helpers::getLatestOnlyInCollection($available_hours, $this->last_update);
+        }
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::DATES => AvailableDate::returnTransformedItems($available_dates, AvailableDateTransformer::class),
+            Attributes::HOURS => AvailableDate::returnTransformedItems($available_hours, AvailableHourTransformer::class),
         ]);
     }
 

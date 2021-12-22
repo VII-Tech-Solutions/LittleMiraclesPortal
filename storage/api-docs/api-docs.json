@@ -61,6 +61,432 @@
                     }
                 }
             }
+        },
+        "/api/available-hours": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "List All Available Hours",
+                "description": "List of Available Hours",
+                "operationId": "2a4ff53b9427a4ba5a33f1ccf5aab1bf",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Date: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Available hours retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/packages": {
+            "get": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "List All Packages",
+                "description": "List Packages",
+                "operationId": "af6db2ce01a21d573b1377f8204a9eeb",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Packages retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/packages/{id}": {
+            "get": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "Get Package Info",
+                "description": "Get Package Info",
+                "operationId": "ce0c0341a7371db808e3b62ccd003f88",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Package ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Packages retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/questions": {
+            "get": {
+                "tags": [
+                    "Metadata"
+                ],
+                "summary": "User Registration",
+                "description": "Questions Metadata",
+                "operationId": "6969c43e4feaa7acbd13a046ef7c48c5",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sessions": {
+            "get": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "List All Sessions",
+                "description": "List Sessions",
+                "operationId": "eacd24a0a13a50736a9dfef5b4777420",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sessions retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Book a Session",
+                "description": "Book a Session",
+                "operationId": "e12de71a0ad131107d747c0e385116f1",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sessions saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sessions/{id}": {
+            "get": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Get Session Info",
+                "description": "Get Session Info",
+                "operationId": "d36a9b4d6b5c9a88ede33d92aca3a0af",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Session ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Session retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sessions/{id}/review": {
+            "post": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Submit a Review",
+                "description": "Submit a Review",
+                "operationId": "465ea85a236516670a72f6b41824ab7a",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Review submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sessions/{id}/promotion": {
+            "post": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Apply Promo Code",
+                "description": "Apply Promo Code",
+                "operationId": "590ad750846070a523aca7c71fd869ba",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Promo code applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/delete-account": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user account",
+                "description": "User Registration",
+                "operationId": "3c7e39cc96fa48c24df6dd7cb798d946",
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

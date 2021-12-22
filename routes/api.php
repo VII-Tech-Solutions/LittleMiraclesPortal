@@ -31,6 +31,7 @@ $api->version('v1', function ($api) {
          * Generic
          *******************************/
         $api->get('/data', 'HomeController@data')->middleware('allowed_user:true');
+        $api->get('/available-hours', 'HomeController@availableHours')->middleware('allowed_user:true');
 
         /*******************************
          * Authentication

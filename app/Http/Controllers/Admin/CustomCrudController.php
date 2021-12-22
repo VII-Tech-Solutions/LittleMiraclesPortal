@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
+use App\Constants\Days;
 use App\Constants\FieldTypes;
 use App\Constants\Gender;
 use App\Constants\IsPopular;
 use App\Constants\QuestionType;
 use App\Constants\Relationship;
-use App\Constants\SessionPackageTypes;
 use App\Constants\SectionTypes;
+use App\Constants\SessionPackageTypes;
 use App\Constants\Status;
 use App\Constants\StudioCategory;
-use App\Models\Backdrop;
 use App\Models\BackdropCategory;
 use App\Models\CakeCategory;
 use App\Models\PackageBenefit;
@@ -49,7 +49,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Title";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -80,7 +80,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Icon";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -96,6 +96,7 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+
     /**
      * Add Email Field
      * @param string|null $field_name
@@ -112,7 +113,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Email";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -126,6 +127,7 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name
         ]);
     }
+
     /**
      * Add Number Field
      * @param string|null $field_name
@@ -142,7 +144,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Phone Number";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -155,6 +157,7 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name
         ]);
     }
+
     /**
      * Add Question Field
      * @param string|null $field_name
@@ -171,7 +174,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Question";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -198,7 +201,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Tags";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -221,9 +224,9 @@ class CustomCrudController extends CrudController
     {
 
         CRUD::addField([
-            Attributes::NAME  => $name,
+            Attributes::NAME => $name,
             Attributes::LABEL => $label,
-            Attributes::TYPE  => 'repeatable',
+            Attributes::TYPE => 'repeatable',
             Attributes::FAKE => true,
             Attributes::FIELDS => [
                 [
@@ -245,9 +248,9 @@ class CustomCrudController extends CrudController
     {
 
         CRUD::addField([
-            Attributes::NAME  => $name,
+            Attributes::NAME => $name,
             Attributes::LABEL => $label,
-            Attributes::TYPE  => 'repeatable',
+            Attributes::TYPE => 'repeatable',
             Attributes::FIELDS => [
                 [
                     Attributes::LABEL => $item_label,
@@ -279,7 +282,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = ucwords(Attributes::DESCRIPTION);
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -293,7 +296,7 @@ class CustomCrudController extends CrudController
             ], $limit),
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
-            'options'       => [
+            'options' => [
                 Attributes::DIR => Attributes::LTR,
                 "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
@@ -319,7 +322,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = ucwords(Attributes::DETAILS);
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -333,7 +336,7 @@ class CustomCrudController extends CrudController
             ], $limit),
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
-            'options'       => [
+            'options' => [
                 Attributes::DIR => Attributes::LTR,
                 "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
@@ -360,7 +363,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = ucwords(Attributes::EXAMPLE);
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -374,7 +377,7 @@ class CustomCrudController extends CrudController
             ], $limit),
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
-            'options'       => [
+            'options' => [
                 Attributes::DIR => Attributes::LTR,
                 "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
@@ -386,7 +389,7 @@ class CustomCrudController extends CrudController
 
 
     /**
-    * Add Content Field
+     * Add Content Field
      * @param string|null $name
      * @param string|null $label
      * @param string|null $tab_name
@@ -402,7 +405,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = ucwords(Attributes::CONTENT);
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -416,7 +419,7 @@ class CustomCrudController extends CrudController
             ], $limit),
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
-            'options'       => [
+            'options' => [
                 Attributes::DIR => Attributes::LTR,
                 "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
@@ -444,7 +447,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = ucwords(Attributes::ANSWER);
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -458,7 +461,7 @@ class CustomCrudController extends CrudController
             ], $limit),
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
-            'options'       => [
+            'options' => [
                 Attributes::DIR => Attributes::LTR,
                 "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
@@ -478,7 +481,7 @@ class CustomCrudController extends CrudController
     function addCakeCategoryColumn($label = null, $priority = 1, $column_name = Attributes::IMAGE)
     {
         if (is_null($label)) {
-            $label ="Category";
+            $label = "Category";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -486,7 +489,6 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
-
 
 
     /**
@@ -506,7 +508,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = ucwords(Attributes::CUSTOM_CAKE);
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -520,7 +522,7 @@ class CustomCrudController extends CrudController
             ], $limit),
             Attributes::TAB => $tab_name,
             Attributes::HINT => $hint,
-            'options'       => [
+            'options' => [
                 Attributes::DIR => Attributes::LTR,
                 "language" => 'en',
 //                'removePlugins' => 'embed,Embed',
@@ -562,7 +564,7 @@ class CustomCrudController extends CrudController
     /**
      * Add Tag Category Field
      */
-    function addTagCategoryField($field_name= NULL, $label = null )
+    function addTagCategoryField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::CATEGORY;
@@ -574,10 +576,11 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+
     /**
      * Add Offer Field
      */
-    function addOfferField($field_name= NULL, $label = null )
+    function addOfferField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::OFFER;
@@ -588,10 +591,11 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::TEXT,
         ]);
     }
+
     /**
      * Add Promotion Type Field
      */
-    function addPromotionTypeField($field_name= NULL, $label = null )
+    function addPromotionTypeField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::TYPE;
@@ -603,10 +607,11 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+
     /**
      * Add Promotion Code Field
      */
-    function addPromotionCodeField($field_name= NULL, $label = null )
+    function addPromotionCodeField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::PROMO_CODE;
@@ -618,10 +623,11 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+
     /**
      * Add Price Field for workshop
      */
-    function addPriceField($field_name= NULL, $label = null )
+    function addPriceField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::PRICE;
@@ -634,10 +640,11 @@ class CustomCrudController extends CrudController
             Attributes::PREFIX => "BHD",
         ]);
     }
+
     /**
      * Add Rating Field for Review table
      */
-    function addRatingField($field_name= NULL, $label = null )
+    function addRatingField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::RATING;
@@ -649,10 +656,11 @@ class CustomCrudController extends CrudController
             Attributes::ATTRIBUTES => ["step" => "any"], // allow decimals
         ]);
     }
+
     /**
      * Add Promotion Date Field
      */
-    function addDateField($field_name= NULL, $label = null )
+    function addDateField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::DATE;
@@ -664,10 +672,11 @@ class CustomCrudController extends CrudController
 
         ]);
     }
+
     /**
      * Add Tag Posted At Field
      */
-    function addPostedAtField($field_name= NULL, $label = null )
+    function addPostedAtField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::POSTED_AT;
@@ -683,7 +692,7 @@ class CustomCrudController extends CrudController
     /**
      * Add Tag Posted At Field
      */
-    function addValidUntilField($field_name= NULL, $label = null )
+    function addValidUntilField($field_name = null, $label = null)
     {
         if (is_null($field_name)) {
             $field_name = Attributes::VALID_UNTIL;
@@ -695,7 +704,6 @@ class CustomCrudController extends CrudController
 
         ]);
     }
-
 
 
     /**
@@ -712,6 +720,7 @@ class CustomCrudController extends CrudController
             Attributes::ATTRIBUTES => $this->disabled($is_disabled),
         ]);
     }
+
     /**
      * Add Status Filter Field
      */
@@ -724,10 +733,11 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $statuses, function ($value) use($column_name) {
+        ], $statuses, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
+
     /**
      * Add Question Type Filter Field
      */
@@ -743,10 +753,11 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $Types, function ($value) use($column_name) {
+        ], $Types, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
+
     /**
      * Add Gender Filter Field
      */
@@ -759,7 +770,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $Genders, function ($value) use($column_name) {
+        ], $Genders, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
@@ -779,7 +790,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $Relationship, function ($value) use($column_name) {
+        ], $Relationship, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
@@ -793,7 +804,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $statuses, function ($value) use($column_name) {
+        ], $statuses, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
@@ -807,7 +818,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $statuses, function ($value) use($column_name) {
+        ], $statuses, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
@@ -824,7 +835,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $statuses, function ($value) use($column_name) {
+        ], $statuses, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }
@@ -841,9 +852,48 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
-        ], $statuses, function ($value) use($column_name) {
+        ], $statuses, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
+    }
+
+    /**
+     * Add Repeatable Days Field
+     */
+    function addRepeatableDaysField()
+    {
+
+        CRUD::addField([
+            Attributes::LABEL => 'Hours',
+            Attributes::NAME => Attributes::HOURS,
+            'type'  => 'repeatable',
+            'fields' => [
+                [
+                    Attributes::LABEL => "Day",
+                    Attributes::NAME => Attributes::DAY_ID,
+                    Attributes::ALLOWS_NULL => false,
+                    Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+                    Attributes::OPTIONS => Days::all(),
+                ],
+                [
+                    Attributes::NAME => Attributes::FROM,
+                    Attributes::TYPE => FieldTypes::TIME,
+                    Attributes::LABEL => 'From',
+                ],
+                [
+                    Attributes::NAME => Attributes::TO,
+                    Attributes::TYPE => FieldTypes::TIME,
+                    Attributes::LABEL => 'To',
+                ],
+            ],
+
+            // optional
+            'new_item_label'  => 'Add Day', // customize the text of the button
+            'init_rows' => 1, // number of empty rows to be initialized, by default 1
+            'min_rows' => 1, // minimum rows allowed, when reached the "delete" buttons will be hidden
+
+        ]);
+
     }
 
     /**
@@ -961,6 +1011,7 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
         ]);
     }
+
     /**
      * Add Relationship Field
      * @param null $relationships
@@ -989,6 +1040,7 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
         ]);
     }
+
     /**
      * Add Studio Metadata Category Field
      * @param null $statuses
@@ -1019,7 +1071,6 @@ class CustomCrudController extends CrudController
     }
 
 
-
     /**
      * Add Name Column
      * @param null $label
@@ -1040,6 +1091,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Details Column
      * @param null $label
@@ -1060,6 +1112,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Example Column
      * @param null $label
@@ -1101,6 +1154,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Email Column
      * @param null $label
@@ -1121,6 +1175,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Provider Column
      * @param null $label
@@ -1141,6 +1196,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Is Popular Column
      * @param null $label
@@ -1161,6 +1217,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Gender Column
      * @param null $label
@@ -1202,6 +1259,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Relationship Column
      * @param null $label
@@ -1222,6 +1280,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Phone Number AND COUNTRY CODE Column
      * @param null $label
@@ -1242,6 +1301,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Name Column
      * @param null $label
@@ -1287,7 +1347,7 @@ class CustomCrudController extends CrudController
     function addCategoryColumn($label = null, $priority = 1, $column_name = Attributes::CATEGORY)
     {
         if (is_null($label)) {
-            $label ="Category";
+            $label = "Category";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1306,7 +1366,7 @@ class CustomCrudController extends CrudController
     function addOfferColumn($label = null, $priority = 1, $column_name = Attributes::OFFER)
     {
         if (is_null($label)) {
-            $label ="Offer";
+            $label = "Offer";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1324,7 +1384,7 @@ class CustomCrudController extends CrudController
     function addPromotionTypeColumn($label = null, $priority = 1, $column_name = Attributes::TYPE)
     {
         if (is_null($label)) {
-            $label ="Type";
+            $label = "Type";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1332,6 +1392,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Promotion AND Workshop Date Column
      * @param string|null $label
@@ -1341,7 +1402,7 @@ class CustomCrudController extends CrudController
     function addDateColumn($label = null, $priority = 1, $column_name = Attributes::DATE)
     {
         if (is_null($label)) {
-            $label ="Date";
+            $label = "Date";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1365,7 +1426,7 @@ class CustomCrudController extends CrudController
     function addPromotionCodeColumn($label = null, $priority = 1, $column_name = Attributes::CODE)
     {
         if (is_null($label)) {
-            $label ="Code";
+            $label = "Code";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1373,6 +1434,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority,
         ]);
     }
+
     /**
      * Add Price  Column for Workshop
      * @param string|null $label
@@ -1382,7 +1444,7 @@ class CustomCrudController extends CrudController
     function addPriceColumn($label = null, $priority = 1, $column_name = Attributes::PRICE)
     {
         if (is_null($label)) {
-            $label ="Price";
+            $label = "Price";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1400,7 +1462,7 @@ class CustomCrudController extends CrudController
     function addTotalPriceColumn($label = null, $priority = 1, $column_name = Attributes::TOTAL_PRICE)
     {
         if (is_null($label)) {
-            $label ="Total Price";
+            $label = "Total Price";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1408,6 +1470,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority,
         ]);
     }
+
     /**
      * Add ID  Column for Review table
      * @param string|null $label
@@ -1417,7 +1480,7 @@ class CustomCrudController extends CrudController
     function addIDColumn($label = null, $priority = 1, $column_name = Attributes::USER_ID)
     {
         if (is_null($label)) {
-            $label ="User ID";
+            $label = "User ID";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1425,6 +1488,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority,
         ]);
     }
+
     /**
      * Add rating  Column for Review
      * @param string|null $label
@@ -1434,7 +1498,7 @@ class CustomCrudController extends CrudController
     function addRatingColumn($label = null, $priority = 1, $column_name = Attributes::RATING)
     {
         if (is_null($label)) {
-            $label ="Rating";
+            $label = "Rating";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1442,6 +1506,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority,
         ]);
     }
+
     /**
      * Add Posted At Column
      * @param string|null $label
@@ -1451,7 +1516,7 @@ class CustomCrudController extends CrudController
     function addPostedAtColumn($label = null, $priority = 1, $column_name = Attributes::POSTED_AT)
     {
         if (is_null($label)) {
-            $label ="Posted At";
+            $label = "Posted At";
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1514,7 +1579,7 @@ class CustomCrudController extends CrudController
         ]);
     }
 
-   /**
+    /**
      * Add Content Column
      * @param string|null $label
      * @param int $priority
@@ -1544,7 +1609,7 @@ class CustomCrudController extends CrudController
             $label = "Options";
         }
         if (is_null($column_name)) {
-            $column_name =  Attributes::OPTIONS;
+            $column_name = Attributes::OPTIONS;
         }
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
@@ -1633,6 +1698,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Custom Backdrop Column
      * @param string|null $label
@@ -1674,7 +1740,7 @@ class CustomCrudController extends CrudController
      * @param string $attribute
      * @param int $priority
      */
-    function addTypeColumn($attribute = Attributes::TYPE, $priority = 1,$label = Attributes::TYPE)
+    function addTypeColumn($attribute = Attributes::TYPE, $priority = 1, $label = Attributes::TYPE)
     {
         $this->crud->addColumn([
             Attributes::NAME => $attribute,
@@ -1769,7 +1835,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Title";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -1857,7 +1923,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Location Link";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -1888,7 +1954,7 @@ class CustomCrudController extends CrudController
         if (is_null($label)) {
             $label = "Location Text";
         }
-        if(!is_array($limit)){
+        if (!is_array($limit)) {
             $limit = [
                 Attributes::MAXLENGTH => $limit
             ];
@@ -1902,13 +1968,14 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name
         ]);
     }
+
     /**
      * Add Text Field
      * @param string $label
      * @param string $name
      * @param bool $disabled
      */
-    function addTextField( $name, $label, $disabled = false)
+    function addTextField($name, $label, $disabled = false)
     {
         CRUD::addField([
             Attributes::LABEL => $label,
@@ -1932,8 +1999,8 @@ class CustomCrudController extends CrudController
             Attributes::TAB => $tab_name,
             Attributes::FIELDS => [
                 [
-                    Attributes::NAME =>  Attributes::ID,
-                    Attributes::TYPE =>    Attributes::HIDDEN,
+                    Attributes::NAME => Attributes::ID,
+                    Attributes::TYPE => Attributes::HIDDEN,
                 ],
                 [
                     Attributes::NAME => Attributes::VALUE,
@@ -1977,13 +2044,15 @@ class CustomCrudController extends CrudController
         ]);
 
     }
+
     /**
      * Disabled
      * @param boolean $is_disabled
      * @return array
      */
-    function disabled($is_disabled = false){
-        if($is_disabled){
+    function disabled($is_disabled = false)
+    {
+        if ($is_disabled) {
             return [
                 'readonly' => 'readonly',
                 'disabled' => 'disabled',
