@@ -16,6 +16,7 @@ class Attributes extends CustomEnum
     const TIME = "time";
     const FAKE = "fake";
     const VERIFIED_AT = "verified_at";
+    const INCLUDE_ME = "include_me";
     const PEOPLE = "people";
     const NAME = "name";
     const APP_VERSION = "app_version";

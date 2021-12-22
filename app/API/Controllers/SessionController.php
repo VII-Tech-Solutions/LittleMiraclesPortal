@@ -147,6 +147,7 @@ class SessionController extends CustomController
         $photographer = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
         $additions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
+        $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
 
         // TODO calculate total price
         $total_price = 12;
@@ -170,7 +171,8 @@ class SessionController extends CustomController
             Attributes::PAYMENT_METHOD => $payment_method,
             Attributes::STATUS => SessionStatus::BOOKED,
             Attributes::TOTAL_PRICE => $total_price,
-            Attributes::PHOTOGRAPHER => $photographer
+            Attributes::PHOTOGRAPHER => $photographer,
+            Attributes::INCLUDE_ME => $include_me
         ]);
 
         // save session people

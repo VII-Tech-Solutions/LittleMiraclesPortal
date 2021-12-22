@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPromoIdColumnToSessionTable extends Migration
+class AddIncludemeToSessionsTable extends Migration
 {
     protected $table = Tables::SESSIONS;
 
@@ -19,8 +19,8 @@ class AddPromoIdColumnToSessionTable extends Migration
     {
         if (Schema::hasTable($this->table)) {
             Schema::table($this->table, function (Blueprint $table) {
-                if (!Schema::hasColumn($this->table, Attributes::PROMO_ID)) {
-                    $table->integer(Attributes::PROMO_ID)->nullable();
+                if (!Schema::hasColumn($this->table, Attributes::INCLUDE_ME)) {
+                    $table->boolean(Attributes::INCLUDE_ME)->default(true)->nullable();
                 }
             });
         }
@@ -35,8 +35,8 @@ class AddPromoIdColumnToSessionTable extends Migration
     {
         if (Schema::hasTable($this->table)) {
             Schema::table($this->table, function (Blueprint $table) {
-                if (Schema::hasColumn($this->table, Attributes::PROMO_ID)) {
-                    $table->dropColumn(Attributes::PROMO_ID);
+                if (Schema::hasColumn($this->table, Attributes::INCLUDE_ME)) {
+                    $table->dropColumn(Attributes::INCLUDE_ME);
                 }
             });
         }

@@ -33,9 +33,8 @@ class Session extends CustomModel
 {
     use ModelTrait;
 
-    protected $table = Tables::SESSIONS;
     public const DIRECTORY = "uploads/sessions";
-
+    protected $table = Tables::SESSIONS;
     protected $guarded = [
         Attributes::ID
     ];
@@ -54,18 +53,19 @@ class Session extends CustomModel
         Attributes::TIME,
         Attributes::PAYMENT_METHOD,
         Attributes::PHOTOGRAPHER,
+        Attributes::INCLUDE_ME,
     ];
 
-
     protected $casts = [
-        Attributes::TITLE =>CastingTypes::STRING,
+        Attributes::TITLE => CastingTypes::STRING,
         Attributes::USER_ID => CastingTypes::INTEGER,
         Attributes::PACKAGE_ID => CastingTypes::INTEGER,
         Attributes::FAMILY_ID => CastingTypes::INTEGER,
-        Attributes::CUSTOM_BACKDROP =>CastingTypes::STRING,
-        Attributes::CUSTOM_CAKE =>CastingTypes::STRING,
-        Attributes::COMMENTS =>CastingTypes::STRING,
+        Attributes::CUSTOM_BACKDROP => CastingTypes::STRING,
+        Attributes::CUSTOM_CAKE => CastingTypes::STRING,
+        Attributes::COMMENTS => CastingTypes::STRING,
         Attributes::TOTAL_PRICE => 'decimal:3',
+        Attributes::INCLUDE_ME => CastingTypes::BOOLEAN
     ];
 
     protected $appends = [
@@ -101,9 +101,10 @@ class Session extends CustomModel
      * Attribute: package_name
      * @return string
      */
-    public function getPackageNameAttribute(){
+    public function getPackageNameAttribute()
+    {
         $package = $this->package;
-        if(is_null($package)){
+        if (is_null($package)) {
             return "-";
         }
         return $package->title;
@@ -113,7 +114,8 @@ class Session extends CustomModel
      * Relationship: User
      * @return BelongsTo
      */
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, Attributes::USER_ID);
     }
 
@@ -121,7 +123,8 @@ class Session extends CustomModel
      * Relationship: Package
      * @return BelongsTo
      */
-    public function package(){
+    public function package()
+    {
         return $this->belongsTo(Package::class, Attributes::PACKAGE_ID);
     }
 
