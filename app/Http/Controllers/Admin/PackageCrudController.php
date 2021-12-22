@@ -115,6 +115,12 @@ class PackageCrudController extends CustomCrudController
         // Field: Benefits
         $this->addBenefitsField();
 
+        // Field: Backdrops Allowed
+        $this->addNumberField(Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
+
+        // Field: Cakes Allowed
+        $this->addNumberField(Attributes::CAKE_ALLOWED, "Cakes Allowed");
+
         // Field: Location Text
         $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");
 

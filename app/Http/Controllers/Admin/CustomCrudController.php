@@ -127,7 +127,7 @@ class CustomCrudController extends CrudController
         ]);
     }
     /**
-     * Add Number Field for phone number and country code
+     * Add Number Field
      * @param string|null $field_name
      * @param string|null $label
      * @param string|null $tab_name
@@ -151,8 +151,7 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $field_name,
             Attributes::TYPE => FieldTypes::NUMBER,
             Attributes::LABEL => ucwords($label),
-            Attributes::ATTRIBUTES => array_merge([
-                ], $limit) + $this->disabled($disabled),
+            Attributes::ATTRIBUTES => array_merge([], $limit) + $this->disabled($disabled),
             Attributes::TAB => $tab_name
         ]);
     }

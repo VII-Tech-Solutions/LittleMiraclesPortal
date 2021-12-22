@@ -26,6 +26,8 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::MEDIA_IDS,
         Attributes::TOTAL_REVIEWS,
         Attributes::RATING,
+        Attributes::BACKDROP_ALLOWED,
+        Attributes::CAKE_ALLOWED,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,

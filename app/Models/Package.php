@@ -47,6 +47,8 @@ class Package extends CustomModel
         Attributes::LOCATION_TEXT,
         Attributes::LOCATION_LINK,
         Attributes::STATUS,
+        Attributes::CAKE_ALLOWED,
+        Attributes::BACKDROP_ALLOWED
     ];
 
     protected $casts = [
@@ -57,7 +59,10 @@ class Package extends CustomModel
         Attributes::LOCATION_TEXT => CastingTypes::STRING,
         Attributes::LOCATION_LINK => CastingTypes::STRING,
         Attributes::PRICE => 'decimal:3',
+        Attributes::RATING => 'decimal:1',
         Attributes::IS_POPULAR => CastingTypes::BOOLEAN,
+        Attributes::CAKE_ALLOWED => CastingTypes::INTEGER,
+        Attributes::BACKDROP_ALLOWED => CastingTypes::INTEGER,
     ];
 
     protected $appends = [
@@ -76,7 +81,7 @@ class Package extends CustomModel
     function getRatingAttribute(){
         $avg = $this->reviews()->pluck(Attributes::RATING)->filter()->avg();
         if(is_null($avg)){
-            return 0;
+            return "0.0";
         }
         return $avg;
     }
