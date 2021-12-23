@@ -149,9 +149,17 @@ class SessionController extends CustomController
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
         $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
 
-        // TODO calculate total price
-        $total_price = 12;
 
+        // Get package then validate
+        $package = Package::where(Attributes::ID, $package_id)->first();
+        if (is_null($package)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        $total_price = $package->price;
+
+        // TODO calculate total price
+        
         // find the package
         /** @var Package $package */
         $package = Package::find($package_id);
