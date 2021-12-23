@@ -15,6 +15,7 @@ class Attributes extends CustomEnum
     const TYPE_NAME = "type_name";
     const HOURS = "hours";
     const EMAIL = "email";
+    const CAKE_CATEGORIES = "cake_categories";
     const BACKDROP = "backdrop";
     const TIME = "time";
     const FAKE = "fake";
@@ -30,6 +31,7 @@ class Attributes extends CustomEnum
     const FAMILY = "family";
     const DAY_ID = "day_id";
     const DATES = "dates";
+    const BACKDROP_CATEGORIES = "backdrop_categories";
     const ADDITIONS = "additions";
     const FROM = "from";
     const SESSIONS = "sessions";

@@ -25,14 +25,14 @@ class Cake extends CustomModel
 
     protected $fillable = [
         Attributes::TITLE,
-        Attributes::CATEGORY,
+        Attributes::CATEGORY_ID,
         Attributes::IMAGE,
         Attributes::STATUS,
     ];
 
     protected $casts = [
         Attributes::TITLE => CastingTypes::STRING,
-        Attributes::CATEGORY => CastingTypes::STRING,
+        Attributes::CATEGORY_ID => CastingTypes::INTEGER,
         Attributes::STATUS => CastingTypes::INTEGER,
     ];
 
@@ -68,7 +68,6 @@ class Cake extends CustomModel
     {
         $this->setImage($value);
     }
-
 
     /**
      * Relationship: Category

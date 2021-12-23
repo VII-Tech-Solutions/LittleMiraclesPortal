@@ -78,7 +78,6 @@ class BackdropCrudController extends CustomCrudController
         // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
 
-
         // column: Category
         $this->addCategoriesField();
 
