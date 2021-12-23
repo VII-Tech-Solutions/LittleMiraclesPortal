@@ -54,6 +54,7 @@ class Session extends CustomModel
         Attributes::PAYMENT_METHOD,
         Attributes::PHOTOGRAPHER,
         Attributes::INCLUDE_ME,
+        Attributes::PROMO_ID,
     ];
 
     protected $casts = [

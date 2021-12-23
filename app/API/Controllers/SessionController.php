@@ -314,20 +314,35 @@ class SessionController extends CustomController
         if(!is_null($code)){
 
             $promotion = Promotion::where(Attributes::PROMO_CODE, $code)->first();
-            $session = Session::where(Attributes::PROMO_ID, $promotion->id)->first();
-            if($session){
+            $session_code = $session->promo_id;
+
+            if(!is_null($session_code)){
                 return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAVE_A_PROMOTION_CODE, null, null, Response::HTTP_UNAUTHORIZED);
             }
-            //dd($session);
             if($promotion){
                 $valid=$promotion->valid_until;
-                $v= Carbon::parse($valid);
 
                 if(Carbon::parse($valid)->gte(Carbon::now())){
                     //calculate
                     $offer = $promotion->offer;
                     $price= $session->total_price * ($offer/100);
-                    dd($price);
+
+                    // add promotion ID and update the total price
+                    $booked_session = Session::createOrUpdate([
+                        Attributes::ID => $session->id,
+                        Attributes::USER_ID => $session->user_id,
+                        Attributes::PACKAGE_ID => $session->package_id,
+                        Attributes::DATE => $session->date,
+                        Attributes::TIME => $session->time,
+                        Attributes::STATUS => $session->status,
+                        Attributes::TOTAL_PRICE => $price,
+                        Attributes::PROMO_ID => $promotion->id,
+                    ]);
+
+                    // return response
+                    if(is_a($booked_session, Session::class)){
+                        return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, null, null, Response::HTTP_OK);
+                    }
 
                 }else{
                     return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
