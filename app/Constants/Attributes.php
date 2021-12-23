@@ -15,10 +15,12 @@ class Attributes extends CustomEnum
     const TYPE_NAME = "type_name";
     const HOURS = "hours";
     const EMAIL = "email";
+    const TIMINGS = "timings";
     const CAKE_CATEGORIES = "cake_categories";
     const BACKDROP = "backdrop";
     const TIME = "time";
     const FAKE = "fake";
+    const FULL_DATE = "full_date";
     const VERIFIED_AT = "verified_at";
     const INCLUDE_ME = "include_me";
     const PEOPLE = "people";

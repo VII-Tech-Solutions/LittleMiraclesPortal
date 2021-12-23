@@ -12,15 +12,9 @@ class AvailableDateTransformer extends CustomTransformer
 {
     public $fields = [
         Attributes::ID,
-        Attributes::START_DATE,
-        Attributes::END_DATE,
-        Attributes::TYPE,
-        Attributes::STATUS,
+        Attributes::DATE,
+        Attributes::TIMINGS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT
-    ];
-
-    protected $defaultIncludes = [
-        Attributes::HOURS
     ];
 }

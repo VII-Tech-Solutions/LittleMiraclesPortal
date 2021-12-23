@@ -11,14 +11,9 @@ use App\Constants\Attributes;
 class AvailableHourTransformer extends CustomTransformer
 {
     public $fields = [
-        Attributes::ID,
-        Attributes::AVAILABLE_DATE_ID,
         Attributes::DAY,
         Attributes::DAY_ID,
         Attributes::FROM,
         Attributes::TO,
-        Attributes::STATUS,
-        Attributes::UPDATED_AT,
-        Attributes::DELETED_AT
     ];
 }

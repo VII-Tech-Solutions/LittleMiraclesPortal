@@ -153,11 +153,11 @@ class HomeController extends CustomController
 
         // fetch backdrop categories
         $backdrop_categories = $backdrops->map->category;
-        $backdrop_categories = $backdrop_categories->flatten()->filter();
+        $backdrop_categories = $backdrop_categories->flatten()->filter()->unique(Attributes::ID);;
 
         // fetch cake categories
         $cake_categories = $cakes->map->category;
-        $cake_categories = $cake_categories->flatten()->filter();
+        $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);;
 
         // get last updated items
         if(!is_null($this->last_update)){
@@ -230,28 +230,19 @@ class HomeController extends CustomController
 
         // TODO exclude by type
 
-        // TODO exclude if reserved
+        // TODO exclude if booked
 
         // get available dates
         $available_dates = $available_dates->get();
 
-        // get available hours
-        $available_hours = $available_dates->map->hours;
-        $available_hours = $available_hours->flatten()->filter();
-
         // filter by last update
         if(!is_null($this->last_update)) {
             $available_dates = Helpers::getLatestOnlyInCollection($available_dates, $this->last_update);
-            $available_hours = Helpers::getLatestOnlyInCollection($available_hours, $this->last_update);
         }
-
-
-
 
         // return response
         return Helpers::returnResponse([
             Attributes::DATES => AvailableDate::returnTransformedItems($available_dates, AvailableDateTransformer::class),
-            Attributes::HOURS => AvailableDate::returnTransformedItems($available_hours, AvailableHourTransformer::class),
         ]);
     }
 

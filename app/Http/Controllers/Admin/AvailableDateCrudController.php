@@ -55,7 +55,7 @@ class AvailableDateCrudController extends CustomCrudController
         $this->addStatusFilter(AvailableDateType::all(), Attributes::TYPE, "Type");
 
         // Column: Date
-        $this->addNameColumn("Date", 1, Attributes::DATE);
+        $this->addNameColumn("Date", 1, Attributes::FULL_DATE);
 
         // Column: Type
         $this->addNameColumn("Type", 1, Attributes::TYPE_NAME);

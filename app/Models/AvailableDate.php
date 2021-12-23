@@ -7,7 +7,9 @@ use App\Constants\AvailableDateType;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * Available Date
@@ -18,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string type
  * @property-read string type_name
  * @property-read string status_name
+ * @property Collection hours
  */
 class AvailableDate extends CustomModel
 {
@@ -37,6 +40,11 @@ class AvailableDate extends CustomModel
         Attributes::STATUS,
     ];
 
+    protected $appends = [
+        Attributes::DATE,
+        Attributes::TIMINGS
+    ];
+
     /**
      * Relationships: Hours
      * @return HasMany
@@ -50,11 +58,29 @@ class AvailableDate extends CustomModel
 
 
     /**
+     * Get full_date Attribute
+     * @return string
+     */
+    function getFullDateAttribute(){
+        return "From " . $this->start_date . " To " . $this->end_date;
+    }
+
+    /**
      * Get date Attribute
      * @return string
      */
     function getDateAttribute(){
-        return "From " . $this->start_date . " To " . $this->end_date;
+        return $this->start_date;
+    }
+
+    /**
+     * Get timings Attribute
+     * @return Collection
+     */
+    function getTimingsAttribute(){
+        return $this->hours->pluck(Attributes::FROM)->map(function ($item){
+            return Carbon::parse($item)->format("g:i A");
+        })->sort();
     }
 
     /**
