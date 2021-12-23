@@ -4,7 +4,9 @@ namespace App\API\Controllers;
 
 use App\API\Transformers\AvailableDateTransformer;
 use App\API\Transformers\AvailableHourTransformer;
+use App\API\Transformers\ListBackdropCategoryTransformer;
 use App\API\Transformers\ListBackdropTransformer;
+use App\API\Transformers\ListCakeCategoryTransformer;
 use App\API\Transformers\ListCakeTransformer;
 use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListFAQsTransformer;
@@ -24,7 +26,9 @@ use App\Constants\PaymentMethod;
 use App\Helpers;
 use App\Models\AvailableDate;
 use App\Models\Backdrop;
+use App\Models\BackdropCategory;
 use App\Models\Cake;
+use App\Models\CakeCategory;
 use App\Models\DailyTip;
 use App\Models\Faq;
 use App\Models\Onboarding;
@@ -147,8 +151,13 @@ class HomeController extends CustomController
         // get payment methods
         $payment_methods = PaymentMethod::readableArray();
 
-        // TODO get user info
-        // TODO fetch family if not null
+        // fetch backdrop categories
+        $backdrop_categories = $backdrops->map->category;
+        $backdrop_categories = $backdrop_categories->flatten()->filter();
+
+        // fetch cake categories
+        $cake_categories = $cakes->map->category;
+        $cake_categories = $cake_categories->flatten()->filter();
 
         // get last updated items
         if(!is_null($this->last_update)){
@@ -165,6 +174,8 @@ class HomeController extends CustomController
             $social = Helpers::getLatestOnlyInCollection($social, $this->last_update);
             $packages = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
             $pages = Helpers::getLatestOnlyInCollection($pages, $this->last_update);
+            $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
+            $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
         }
 
         // return response
@@ -183,6 +194,8 @@ class HomeController extends CustomController
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::PAGES => Page::returnTransformedItems($pages, ListPageTransformer::class),
             Attributes::PAYMENT_METHODS => $payment_methods,
+            Attributes::BACKDROP_CATEGORIES => BackdropCategory::returnTransformedItems($backdrop_categories, ListBackdropCategoryTransformer::class),
+            Attributes::CAKE_CATEGORIES => CakeCategory::returnTransformedItems($cake_categories, ListCakeCategoryTransformer::class),
         ]);
     }
 
@@ -231,6 +244,9 @@ class HomeController extends CustomController
             $available_dates = Helpers::getLatestOnlyInCollection($available_dates, $this->last_update);
             $available_hours = Helpers::getLatestOnlyInCollection($available_hours, $this->last_update);
         }
+
+
+
 
         // return response
         return Helpers::returnResponse([

@@ -26,14 +26,14 @@ class Backdrop extends CustomModel
 
     protected $fillable = [
         Attributes::TITLE,
-        Attributes::CATEGORY,
+        Attributes::CATEGORY_ID,
         Attributes::IMAGE,
         Attributes::STATUS,
     ];
 
     protected $casts = [
         Attributes::TITLE => CastingTypes::STRING,
-        Attributes::CATEGORY => CastingTypes::STRING,
+        Attributes::CATEGORY_ID => CastingTypes::INTEGER,
         Attributes::STATUS => CastingTypes::INTEGER,
     ];
 
@@ -71,8 +71,6 @@ class Backdrop extends CustomModel
         $this->setImage($value);
     }
 
-
-
     /**
      * Relationship: Category
      * @return BelongsTo
@@ -81,6 +79,4 @@ class Backdrop extends CustomModel
     {
         return $this->belongsTo(BackdropCategory::class, Attributes::CATEGORY_ID);
     }
-
-
 }

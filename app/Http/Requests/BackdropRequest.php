@@ -19,8 +19,7 @@ class BackdropRequest extends CustomRequest
     {
         return [
             Attributes::TITLE => 'required|min:2|max:255',
-            Attributes::CATEGORY_ID=>'required |min:1|max:255',
-            Attributes::IMAGE => 'required',
+            Attributes::CATEGORY_ID => 'required |min:1|max:255',
         ];
     }
 }

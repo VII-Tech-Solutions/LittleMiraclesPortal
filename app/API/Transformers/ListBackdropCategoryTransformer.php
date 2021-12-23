@@ -5,16 +5,14 @@ namespace App\API\Transformers;
 use App\Constants\Attributes;
 
 /**
- * Class ListCakeTransformer
+ * Class ListBackdropCategoryTransformer
  * @package App\API\Transformers
  */
-class ListCakeTransformer extends CustomTransformer
+class ListBackdropCategoryTransformer extends CustomTransformer
 {
     public $fields = [
         Attributes::ID,
-        Attributes::TITLE,
-        Attributes::CATEGORY_ID,
-        Attributes::IMAGE,
+        Attributes::NAME,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
