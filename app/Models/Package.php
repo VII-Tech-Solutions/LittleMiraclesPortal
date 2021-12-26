@@ -84,7 +84,7 @@ class Package extends CustomModel
         if(is_null($avg)){
             return "0.0";
         }
-        return sprintf('%0.1f', $avg);
+        return Helpers::formattedPrice($avg);
     }
 
 

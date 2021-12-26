@@ -35,6 +35,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property boolean include_me
  * @property string formatted_cake
  * @property string formatted_backdrop
+ * @property int promo_id
+ * @property int total_price
  */
 class Session extends CustomModel
 {

@@ -42,7 +42,8 @@ class CustomModel extends Model
         Attributes::CREATED_AT,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
-        Attributes::POSTED_AT
+        Attributes::POSTED_AT,
+        Attributes::VALID_UNTIL,
     ];
 
     /**

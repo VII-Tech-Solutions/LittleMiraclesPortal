@@ -46,6 +46,16 @@ class Helpers
     }
 
     /**
+     * Formatted Price
+     * @param $price
+     * @param string $format
+     * @return string
+     */
+    static function formattedPrice($price, $format = '%0.1f'){
+        return sprintf($format, $price);
+    }
+
+    /**
      * Nullable Collection
      * @param $collection
      * @return Collection

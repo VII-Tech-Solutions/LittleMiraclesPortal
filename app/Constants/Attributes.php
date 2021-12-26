@@ -28,6 +28,7 @@ class Attributes extends CustomEnum
     const FORMATTED_BACKDROP = "formatted_backdrop";
     const FORMATTED_CAKE = "formatted_cake";
     const NAME = "name";
+    const DISCOUNT_PRICE = "discount_price";
     const FORMATTED_DATE = "formatted_date";
     const APP_VERSION = "app_version";
     const START_DATE = "start_date";
