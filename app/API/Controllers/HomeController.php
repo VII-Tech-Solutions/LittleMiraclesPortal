@@ -18,6 +18,7 @@ use App\API\Transformers\ListPromotionTransformer;
 use App\API\Transformers\ListSectionTransformer;
 use App\API\Transformers\ListSocialMediaTransformer;
 use App\API\Transformers\ListStudioMetadataTransformer;
+use App\API\Transformers\ListStudioPackageTransformer;
 use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
 use App\Constants\AvailableDateType;
@@ -39,6 +40,7 @@ use App\Models\Section;
 use App\Models\Package;
 use App\Models\SocialMedia;
 use App\Models\StudioMetadata;
+use App\Models\StudioPackage;
 use App\Models\UserDevice;
 use App\Models\Workshop;
 use Illuminate\Http\JsonResponse;
@@ -148,6 +150,9 @@ class HomeController extends CustomController
         // get pages
         $pages = Page::active()->get();
 
+        // studio packages
+        $studio_packages = StudioPackage::active()->get();
+
         // get payment methods
         $payment_methods = PaymentMethod::readableArray();
 
@@ -157,7 +162,9 @@ class HomeController extends CustomController
 
         // fetch cake categories
         $cake_categories = $cakes->map->category;
-        $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);;
+        $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);
+
+
 
         // get last updated items
         if(!is_null($this->last_update)){
@@ -196,6 +203,7 @@ class HomeController extends CustomController
             Attributes::PAYMENT_METHODS => $payment_methods,
             Attributes::BACKDROP_CATEGORIES => BackdropCategory::returnTransformedItems($backdrop_categories, ListBackdropCategoryTransformer::class),
             Attributes::CAKE_CATEGORIES => CakeCategory::returnTransformedItems($cake_categories, ListCakeCategoryTransformer::class),
+            Attributes::STUDIO_PACKAGES => StudioPackage::returnTransformedItems($studio_packages, ListStudioPackageTransformer::class),
         ]);
     }
 

@@ -28,6 +28,7 @@ class Attributes extends CustomEnum
     const APP_VERSION = "app_version";
     const START_DATE = "start_date";
     const END_DATE = "end_date";
+    const STUDIO_PACKAGES = "studio_packages";
     const DAY = "day";
     const PLATFORM = "platform";
     const FAMILY = "family";
