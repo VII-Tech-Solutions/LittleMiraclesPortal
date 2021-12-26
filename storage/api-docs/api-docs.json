@@ -423,10 +423,10 @@
                 "operationId": "590ad750846070a523aca7c71fd869ba",
                 "parameters": [
                     {
-                        "name": "last_update",
+                        "name": "code",
                         "in": "query",
-                        "description": "Last Update: 2020-10-04",
-                        "required": false,
+                        "description": "Promo Code",
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }

@@ -11,6 +11,7 @@ use App\Constants\Attributes;
 use App\Constants\Messages;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
+use App\Constants\Values;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Package;
@@ -297,7 +298,7 @@ class SessionController extends CustomController
      *     description="Apply Promo Code",
      *     @OA\Response(response="200", description="Promo code applied successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
-     *     @OA\Parameter(name="last_update", in="query", description="Last Update: 2020-10-04", required=false, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="code", in="query", description="Promo Code", required=true, @OA\Schema(type="string")),
      * )
      */
     public function applyPromoCode($id): JsonResponse
@@ -316,25 +317,29 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
+        // get parameters
         $code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
 
+        // validate code
         if (!is_null($code)) {
 
-            $promotion = Promotion::where(Attributes::PROMO_CODE, $code)->first();
-            $session_code = $session->promo_id;
-
-            if (!is_null($session_code)) {
+            // promo used in session
+            if (!is_null($session->promo_id)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAVE_A_PROMOTION_CODE, null, null, Response::HTTP_UNAUTHORIZED);
             }
 
+            // get promotion
+            /** @var Promotion $promotion */
+            $promotion = Promotion::where(Attributes::PROMO_CODE, $code)->active()->first();
             if (!is_null($promotion)) {
 
-                if (Carbon::parse($promotion->valid_until)->gte(Carbon::now())) {
+                if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
 
                     // calculate
+                    $original_price = $session->total_price;
                     $offer = $promotion->offer;
-                    $price = $session->total_price * ($offer / 100);
-                    $discount_price = $session->total_price - $price;
+                    $price = $original_price * ($offer / 100);
+                    $discount_price = $original_price - $price;
 
                     // add promotion ID and update the total price
                     $booked_session = Session::createOrUpdate([
@@ -351,6 +356,7 @@ class SessionController extends CustomController
                     // return response
                     if (is_a($booked_session, Session::class)) {
                         return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
+                            Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
                             Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_price),
                             Attributes::TOTAL_PRICE => Helpers::formattedPrice($price)
                         ], null, Response::HTTP_OK);

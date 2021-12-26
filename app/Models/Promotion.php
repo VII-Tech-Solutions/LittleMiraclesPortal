@@ -10,6 +10,9 @@ use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Promotion
+ *
+ * @property string offer
+ * @property string valid_until
  */
 class Promotion extends CustomModel
 {

@@ -45,6 +45,7 @@ class Attributes extends CustomEnum
     const FROM = "from";
     const SESSIONS = "sessions";
     const PHOTOGRAPHER = "photographer";
+    const ORIGINAL_PRICE = "original_price";
     const TOTAL_REVIEWS = "total_reviews";
     const PAYMENT_METHOD = "payment_method";
     const PROVIDER_ID = "provider_id";
