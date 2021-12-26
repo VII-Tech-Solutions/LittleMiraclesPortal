@@ -260,19 +260,35 @@ class HomeController extends CustomController
 
             $count = 0;
             $date_range = CarbonPeriod::create($start_date, $end_date)->setTimezone(Values::DEFAULT_TIMEZONE);
+
             foreach ($date_range as $date) {
                 /** @var $date Carbon */
 
+                $timings_collection = collect();
+
                 $day_of_week = $date->dayOfWeek + 1;
 
-                $timings = $hours->where(Attributes::DAY_ID, $day_of_week)->pluck(Attributes::FROM)->map(function ($item){
-                    return Carbon::parse($item)->format(Values::CARBON_HOUR_FORMAT);
-                })->sort();
+                $timings = $hours->where(Attributes::DAY_ID, $day_of_week);
 
                 if($timings->isNotEmpty()){
-                    $item[Attributes::TIMINGS] = $timings->toArray();
-                    $item[Attributes::DATE] = Carbon::parse($start_date, Values::DEFAULT_TIMEZONE)->addDays($count)->format(Values::CARBON_DATE_FORMAT);
-                    $available_dates_collection->add($item->toArray());
+
+                    foreach ($timings as $time){
+
+                        $interval = CarbonPeriod::since($time->from)->hours(1)->until($time->to)->toArray();
+
+                        foreach ($interval as $time_from_to){
+
+                            $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
+
+                        }
+
+                        $item[Attributes::TIMINGS] = $timings_collection->toArray();
+                        $item[Attributes::DATE] = Carbon::parse($start_date, Values::DEFAULT_TIMEZONE)->addDays($count)->format(Values::CARBON_DATE_FORMAT);
+                        $available_dates_collection->add($item->toArray());
+
+                    }
+
+
                 }
 
                 $count++;
