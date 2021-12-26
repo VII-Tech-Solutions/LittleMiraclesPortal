@@ -153,7 +153,7 @@ class HomeController extends CustomController
 
         // fetch backdrop categories
         $backdrop_categories = $backdrops->map->category;
-        $backdrop_categories = $backdrop_categories->flatten()->filter()->unique(Attributes::ID);;
+        $backdrop_categories = $backdrop_categories->flatten()->filter()->unique(Attributes::ID);
 
         // fetch cake categories
         $cake_categories = $cakes->map->category;

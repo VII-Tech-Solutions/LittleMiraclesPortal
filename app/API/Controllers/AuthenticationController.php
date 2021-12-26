@@ -149,7 +149,7 @@ class AuthenticationController extends CustomController
                 Attributes::TIMESTAMP => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->created_at),
                 Attributes::EXPIRES => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->expires_at),
                 Attributes::USER => User::returnTransformedItems($user),
-                Attributes::PARTNER => FamilyMember::returnTransformedItems($user->myPartner()),
+                Attributes::PARTNER => $user->myPartner() ? FamilyMember::returnTransformedItems($user->myPartner()) : null,
                 Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
                 Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($user->myFamilyInfo()),
             ]);
@@ -295,7 +295,7 @@ class AuthenticationController extends CustomController
         if (is_a($new_user, User::class)) {
             return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATED, [
                 Attributes::USER => User::returnTransformedItems($new_user),
-                Attributes::PARTNER => FamilyMember::returnTransformedItems($new_partner),
+                Attributes::PARTNER => $new_partner ? FamilyMember::returnTransformedItems($new_partner) : null,
                 Attributes::CHILDREN => FamilyMember::returnTransformedItems($new_user->myChildren()),
                 Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($new_user->myFamilyInfo()),
             ], null, Response::HTTP_OK);
