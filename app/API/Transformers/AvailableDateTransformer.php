@@ -11,7 +11,6 @@ use App\Constants\Attributes;
 class AvailableDateTransformer extends CustomTransformer
 {
     public $fields = [
-        Attributes::ID,
         Attributes::DATE,
         Attributes::TIMINGS,
         Attributes::UPDATED_AT,

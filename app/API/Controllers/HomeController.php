@@ -24,6 +24,7 @@ use App\Constants\Attributes;
 use App\Constants\AvailableDateType;
 use App\Constants\Headers;
 use App\Constants\PaymentMethod;
+use App\Constants\Values;
 use App\Helpers;
 use App\Models\AvailableDate;
 use App\Models\Backdrop;
@@ -43,6 +44,8 @@ use App\Models\StudioMetadata;
 use App\Models\StudioPackage;
 use App\Models\UserDevice;
 use App\Models\Workshop;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -164,8 +167,6 @@ class HomeController extends CustomController
         $cake_categories = $cakes->map->category;
         $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);
 
-
-
         // get last updated items
         if(!is_null($this->last_update)){
             $onboardings = Helpers::getLatestOnlyInCollection($onboardings, $this->last_update);
@@ -248,9 +249,40 @@ class HomeController extends CustomController
             $available_dates = Helpers::getLatestOnlyInCollection($available_dates, $this->last_update);
         }
 
+        $available_dates_collection = collect();
+
+        $available_dates->each(function ($item) use(&$available_dates_collection){
+
+            /** @var AvailableDate $item */
+            $start_date = $item->start_date;
+            $end_date = $item->end_date;
+            $hours = $item->hours;
+
+            $count = 0;
+            $date_range = CarbonPeriod::create($start_date, $end_date)->setTimezone(Values::DEFAULT_TIMEZONE);
+            foreach ($date_range as $date) {
+                /** @var $date Carbon */
+
+                $day_of_week = $date->dayOfWeek + 1;
+
+                $timings = $hours->where(Attributes::DAY_ID, $day_of_week)->pluck(Attributes::FROM)->map(function ($item){
+                    return Carbon::parse($item)->format(Values::CARBON_HOUR_FORMAT);
+                })->sort();
+
+                if($timings->isNotEmpty()){
+                    $item[Attributes::TIMINGS] = $timings->toArray();
+                    $item[Attributes::DATE] = Carbon::parse($start_date, Values::DEFAULT_TIMEZONE)->addDays($count)->format(Values::CARBON_DATE_FORMAT);
+                    $available_dates_collection->add($item->toArray());
+                }
+
+                $count++;
+
+            }
+        });
+
         // return response
         return Helpers::returnResponse([
-            Attributes::DATES => AvailableDate::returnTransformedItems($available_dates, AvailableDateTransformer::class),
+            Attributes::DATES => AvailableDate::returnTransformedItems($available_dates_collection, AvailableDateTransformer::class),
         ]);
     }
 

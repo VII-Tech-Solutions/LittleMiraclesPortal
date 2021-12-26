@@ -7,7 +7,6 @@ use App\Constants\AvailableDateType;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -41,8 +40,7 @@ class AvailableDate extends CustomModel
     ];
 
     protected $appends = [
-        Attributes::DATE,
-        Attributes::TIMINGS
+
     ];
 
     /**
@@ -53,7 +51,7 @@ class AvailableDate extends CustomModel
     {
         return $this->hasMany(OpeningHour::class, Attributes::AVAILABLE_DATE_ID)
             ->orderBy(Attributes::DAY_ID)->orderBy(Attributes::FROM)
-            ->whereNull(Tables::OPENING_HOURS.".".Attributes::DELETED_AT);
+            ->whereNull(Tables::OPENING_HOURS . "." . Attributes::DELETED_AT);
     }
 
 
@@ -63,24 +61,6 @@ class AvailableDate extends CustomModel
      */
     function getFullDateAttribute(){
         return "From " . $this->start_date . " To " . $this->end_date;
-    }
-
-    /**
-     * Get date Attribute
-     * @return string
-     */
-    function getDateAttribute(){
-        return $this->start_date;
-    }
-
-    /**
-     * Get timings Attribute
-     * @return Collection
-     */
-    function getTimingsAttribute(){
-        return $this->hours->pluck(Attributes::FROM)->map(function ($item){
-            return Carbon::parse($item)->format("g:i A");
-        })->sort();
     }
 
     /**
