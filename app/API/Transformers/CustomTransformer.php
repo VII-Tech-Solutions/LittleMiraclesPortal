@@ -3,8 +3,10 @@
 namespace App\API\Transformers;
 
 use App\Constants\Attributes;
+use App\Constants\Tables;
 use App\Constants\Values;
 use App\Helpers;
+use App\Models\Session;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
@@ -107,6 +109,16 @@ class CustomTransformer extends TransformerAbstract
     public function includeMediaIds($item)
     {
         return $this->collection(Helpers::nullableCollection($item->media), new IDTransformer(), Values::NO_RESOURCE_KEY);
+    }
+
+    /**
+     * Include People IDs
+     * @param $item
+     * @return Collection
+     */
+    public function includePeopleIds($item)
+    {
+        return $this->collection(Helpers::nullableCollection($item->people), new IDTransformer(), Values::NO_RESOURCE_KEY);
     }
 
     /**

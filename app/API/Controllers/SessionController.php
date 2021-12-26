@@ -151,15 +151,15 @@ class SessionController extends CustomController
 
 
         // Get package then validate
+        /** @var Package $package */
         $package = Package::where(Attributes::ID, $package_id)->first();
         if (is_null($package)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
         }
 
+        // calculate package price
         $total_price = $package->price;
 
-        // TODO calculate total price
-        
         // find the package
         /** @var Package $package */
         $package = Package::find($package_id);

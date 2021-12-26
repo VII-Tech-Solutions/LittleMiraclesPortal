@@ -9,6 +9,8 @@ use App\Helpers;
 
 /**
  * CakeCategory
+ *
+ * @property string name
  */
 class CakeCategory extends CustomModel
 {

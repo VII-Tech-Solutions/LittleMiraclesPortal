@@ -25,6 +25,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string media_ids
  * @property string reviews_ids
  * @property string benefits_ids
+ * @property float price
  */
 class Package extends CustomModel
 {

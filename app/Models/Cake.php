@@ -11,6 +11,9 @@ use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Cake
+ *
+ * @property CakeCategory category
+ * @property string category_name
  */
 class Cake extends CustomModel
 {
@@ -37,7 +40,8 @@ class Cake extends CustomModel
     ];
 
     protected $appends = [
-        Attributes::STATUS_NAME
+        Attributes::STATUS_NAME,
+        Attributes::CATEGORY_NAME
     ];
 
     /**
@@ -48,6 +52,19 @@ class Cake extends CustomModel
     public function getStatusNameAttribute($value)
     {
         return $this->getStatusName($value);
+    }
+
+    /**
+     * Get Attribute: category_name
+     * @return string
+     */
+    public function getCategoryNameAttribute()
+    {
+        $category = $this->category;
+        if(is_null($category)){
+            return null;
+        }
+        return $category->name;
     }
 
     /**

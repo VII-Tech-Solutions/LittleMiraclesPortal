@@ -14,6 +14,7 @@ class Attributes extends CustomEnum
     const AVAILABLE_DATE_ID = "available_date_id";
     const TYPE_NAME = "type_name";
     const HOURS = "hours";
+    const FORMATTED_PEOPLE = "formatted_people";
     const EMAIL = "email";
     const TIMINGS = "timings";
     const CAKE_CATEGORIES = "cake_categories";
@@ -24,11 +25,15 @@ class Attributes extends CustomEnum
     const VERIFIED_AT = "verified_at";
     const INCLUDE_ME = "include_me";
     const PEOPLE = "people";
+    const FORMATTED_BACKDROP = "formatted_backdrop";
+    const FORMATTED_CAKE = "formatted_cake";
     const NAME = "name";
+    const FORMATTED_DATE = "formatted_date";
     const APP_VERSION = "app_version";
     const START_DATE = "start_date";
     const END_DATE = "end_date";
     const STUDIO_PACKAGES = "studio_packages";
+    const PEOPLE_IDS = "people_ids";
     const DAY = "day";
     const PLATFORM = "platform";
     const FAMILY = "family";

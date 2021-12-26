@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,6 +30,11 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int user_id
  * @property int family_id
  * @property Collection reviews
+ * @property string date
+ * @property string time
+ * @property boolean include_me
+ * @property string formatted_cake
+ * @property string formatted_backdrop
  */
 class Session extends CustomModel
 {
@@ -71,6 +78,10 @@ class Session extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
+        Attributes::FORMATTED_DATE,
+        Attributes::FORMATTED_PEOPLE,
+        Attributes::FORMATTED_BACKDROP,
+        Attributes::FORMATTED_CAKE,
     ];
 
     /**
@@ -96,6 +107,95 @@ class Session extends CustomModel
     {
         $text = SessionStatus::getKey($this->status);
         return Helpers::readableText($text);
+    }
+
+    /**
+     * Attribute: formatted_date
+     * @return string
+     */
+    public function getFormattedDateAttribute()
+    {
+        $date = $this->date;
+        if(is_null($date)){
+            return null;
+        }
+        return Carbon::parse($date)->format("jS, F Y");
+    }
+
+    /**
+     * Attribute: formatted_people
+     * @return string
+     */
+    public function getFormattedPeopleAttribute()
+    {
+        $include_me = $this->include_me;
+        $people = $this->people()->get([Attributes::RELATIONSHIP]);
+        $adults = 0;
+        if($include_me){
+            $adults = $adults + 1;
+        }
+        $adults = $adults + $people->where(Attributes::RELATIONSHIP, Relationship::PARTNER)->count();
+        $children = $people->where(Attributes::RELATIONSHIP, Relationship::CHILDREN)->count();
+        if($adults == 1){
+            $adults = $adults . " adult";
+        }else {
+            $adults = $adults . " adults";
+        }
+        if($children == 1){
+            $children = $children . " baby";
+        }else {
+            $children = $children . " babies";
+        }
+        return "$children, $adults";
+    }
+
+    /**
+     * Attribute: people_ids
+     * @return string
+     */
+    public function getPeopleIdsAttribute(){
+        $array = $this->people()->pluck(Tables::FAMILY_MEMBERS . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
+
+    /**
+     * Attribute: formatted_cake
+     * @return string
+     */
+    public function getFormattedCakeAttribute()
+    {
+        $cakes = $this->cakes()->get();
+        $array = null;
+        foreach ($cakes as $cake){
+            $array[] = $cake->category_name . " " . $cake->title;
+        }
+        $array = implode(", ", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
+
+    /**
+     * Attribute: formatted_backdrop
+     * @return string
+     */
+    public function getFormattedBackdropAttribute()
+    {
+        $backdrops = $this->backdrops()->get();
+        $array = null;
+        foreach ($backdrops as $backdrop){
+            $array[] = $backdrop->category_name . " " . $backdrop->title;
+        }
+        $array = implode(", ", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
     }
 
     /**
@@ -154,10 +254,9 @@ class Session extends CustomModel
      */
     public function people()
     {
-        return $this->belongsToMany(User::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
+        return $this->belongsToMany(FamilyMember::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
             ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::PEOPLE);
     }
-
 
     /**
      * Relationships: Cakes

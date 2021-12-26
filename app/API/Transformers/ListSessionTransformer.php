@@ -24,6 +24,12 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::REVIEWS_IDS,
         Attributes::MEDIA_IDS,
         Attributes::INCLUDE_ME,
+        Attributes::DATE,
+        Attributes::FORMATTED_DATE,
+        Attributes::TIME,
+        Attributes::FORMATTED_PEOPLE,
+        Attributes::FORMATTED_BACKDROP,
+        Attributes::FORMATTED_CAKE,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT

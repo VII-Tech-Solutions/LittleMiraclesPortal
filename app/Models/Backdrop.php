@@ -12,6 +12,8 @@ use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Backdrop
+ *
+ * @property BackdropCategory category
  */
 class Backdrop extends CustomModel
 {
@@ -38,7 +40,8 @@ class Backdrop extends CustomModel
     ];
 
     protected $appends = [
-        Attributes::STATUS_NAME
+        Attributes::STATUS_NAME,
+        Attributes::CATEGORY_NAME,
     ];
 
     /**
@@ -50,6 +53,19 @@ class Backdrop extends CustomModel
     {
         $text = Status::getKey($this->status);
         return Helpers::readableText($text);
+    }
+
+    /**
+     * Get Attribute: category_name
+     * @return string
+     */
+    public function getCategoryNameAttribute()
+    {
+        $category = $this->category;
+        if(is_null($category)){
+            return null;
+        }
+        return $category->name;
     }
 
     /**
