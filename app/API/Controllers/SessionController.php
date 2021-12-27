@@ -9,6 +9,7 @@ use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\ListSessionTransformer;
 use App\Constants\Attributes;
 use App\Constants\Messages;
+use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Values;
@@ -328,9 +329,94 @@ class SessionController extends CustomController
         if (is_null($session)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
+        $children_count= 0;
+        $children_count2= 0;
+        $children_name= [];
+        $name = [];
+        $children = $session->people()->get()->where(Attributes::RELATIONSHIP,Relationship::CHILDREN);
+
+        foreach ($children as $child){
+        $children_count ++;
+        $gender_type = $child->gender;
+        $children_name[$children_count]= $child->first_name;
+        }
+        if($children_count > 1)
+        {
+            foreach($children_name as $names){
+                $name[$children_count2] = $names.",";
+                $children_count2 ++;
+            }
+            $name[count($name) -1] = str_replace(',', "", $name[count($name) -1]);
+            $object = "their";
+                $object2 = "they";
+                $object3 = "them";
+                $baby = "babies";
+                $had = "have";
+                $is = "are";
+        }
+        else
+        {
+            foreach($children_name as $names)
+            {
+                $name[$children_count2] = $names;
+            }
+             if($gender_type == 1 )
+             {
+                 $object = "his";
+                 $object2 = "he";
+                 $object3 = "him";
+             }
+             else{
+                 $object = "her";
+                 $object3 = "her";
+                 $object2 = "she";
+             }
+            $baby ="baby";
+            $had = "had";
+            $is = "is";
+        }
 
         // TODO generate text
-        $text = null;
+        $text = "Hi mommy $user->first_name!
+
+Congratulations!! 😊
+
+As for preparing your little miracle ".implode($name)." for $object  photography debut, here is a guide that will help you get $object3 ready for the session:
+
+90 minutes before you have to leave the house, wake $object3 up.  You do this by giving $object3 a bath.  Give $object3 a nice warm bath (for at least 15 minutes).  But not warm enough $object2'll fall back to sleep..
+
+Then, give $object3 a nice BIG feed.  Make sure to burp $object3! (we don’t want gas to settle into $object tummy and upset $object3 during the session). 
+
+When you dress $object3, only put on clothes that I do not have to take off over their head.  Please dress $baby in a zipper up sleeper with no undershirt. Anything that does up but does NOT have to be pulled up and over $object head.  This way if $object3 $is sleeping –$object2'll stay asleep when I undress $object3 😊 
+
+If $object2 $had been introduced to a bottle, I ask that you pump and bring a few bottles for the session. $object2'll eat faster, therefore sleep quickly and we will get more poses from $object3 :)  We want $object3 sleeping – not because it’s cute, but because it’s SAFE.  I don’t put babies in props if they are awake (safety first).  Plus if $object3 choose to cluster feed this day due to growing, $object2 will get much fuller much faster which will give us a very happy, full, content and sleeping $baby.
+
+I will do family shots for you, so keep your clothes light for the family picture (depending on where you want to put family pictures in your home) you have the option of light colors, or dark – you can wear black and we can do the family pictures on black.  A much different look so depends on your vision.  Wear black, or light colors - the choice is yours.
+
+Please have a soother/ pacifier.  This could save the session if $object2 $is rooting a lot.  I touch $object cheeks quite a bit during sessions, so $object2 tend to root around even if $object2 $is"."n't hungry…
+
+Other info:
+The place should be warm around 30 degrees. This is to keep naked baby happy. Please dress lightly. Husbands are welcome to stay. Please note that they need to be aware of the length and temperature of sessions. If husbands are restless, I feel rushed. This is not a benefit to either of us. Some husbands will come and get everyone settled and then leave to run errands etc.
+
+I am not a photographer that likes to use many busy “props”. If you have something that is sentimental, and an absolute must, i will try to work it in. Keep in mind, I do not use anything that might be an unsafe prop for your newborn. If baby is not sleeping well, I may not use the item if it is at all risky. I ask that you please keep it limited to ONE item, and please let me know before session day, so that I can plan ahead for it.
+
+If you, your wife or other children are being photographed and are looking for ideas of clothing choice/colours, this is what I recommend:
+
+Neutrals, beiges, creams, white, greys, browns, or pastel colours. Nothing loud, bright, or any writing on shirts. I personally like skin to skin if dad is willing to go shirtless. I also like moms in tank tops if comfortable. Easiest is white or black tshirt for dad, and white or black tank top for mom. For little girls a simple soft coloured or white sundress is perfect. For boys jeans and either shirtless or plain soft coloured tshirt works well. This is my opinion, and these are your images, so in the end, wear what represents you the best. 
+
+Please keep makeup natural, and no bright nail polish, or watches. These images will be from the waist up. 
+
+Please do not schedule any other appointments for session day. This will cause extra stress for you and baby will sense it. 
+
+Occasionally I have had a baby that just does not sleep, or is extremely fussy during the session. If this is the case, and I have assessed how the session is going, I may ask you to return a different day. This has only happened a couple of times, but is always a possibility.
+
+I want you come in, sit back and relax! Let me take care of it all and enjoy your little ones first photo shoot! If you have any questions, please let me know.  
+
+This session is amazing and you will love the images! 
+
+See you soon! 😊
+
+xox";
 
         // return response
         if (!is_null($text)) {
