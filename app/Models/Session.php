@@ -37,6 +37,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string formatted_backdrop
  * @property int promo_id
  * @property int total_price
+ * @property int photographer
+ * @property string photographer_name
  */
 class Session extends CustomModel
 {
@@ -64,6 +66,9 @@ class Session extends CustomModel
         Attributes::PHOTOGRAPHER,
         Attributes::INCLUDE_ME,
         Attributes::PROMO_ID,
+        Attributes::LOCATION_LINK,
+        Attributes::LOCATION_TEXT,
+        Attributes::IS_OUTDOOR
     ];
 
     protected $casts = [
@@ -75,7 +80,10 @@ class Session extends CustomModel
         Attributes::CUSTOM_CAKE => CastingTypes::STRING,
         Attributes::COMMENTS => CastingTypes::STRING,
         Attributes::TOTAL_PRICE => 'decimal:3',
-        Attributes::INCLUDE_ME => CastingTypes::BOOLEAN
+        Attributes::INCLUDE_ME => CastingTypes::BOOLEAN,
+        Attributes::IS_OUTDOOR => CastingTypes::BOOLEAN,
+        Attributes::LOCATION_LINK => CastingTypes::STRING,
+        Attributes::LOCATION_TEXT => CastingTypes::STRING,
     ];
 
     protected $appends = [
@@ -84,6 +92,7 @@ class Session extends CustomModel
         Attributes::FORMATTED_PEOPLE,
         Attributes::FORMATTED_BACKDROP,
         Attributes::FORMATTED_CAKE,
+        Attributes::PHOTOGRAPHER_NAME,
     ];
 
     /**
@@ -122,6 +131,19 @@ class Session extends CustomModel
             return null;
         }
         return Carbon::parse($date)->format("jS, F Y");
+    }
+
+    /**
+     * Attribute: photographer_name
+     * @return string
+     */
+    public function getPhotographerNameAttribute()
+    {
+        $photographer = Photographer::find($this->photographer);
+        if(is_null($photographer)){
+            return null;
+        }
+        return $photographer->name;
     }
 
     /**

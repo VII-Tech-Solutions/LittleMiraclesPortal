@@ -30,6 +30,10 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::FORMATTED_PEOPLE,
         Attributes::FORMATTED_BACKDROP,
         Attributes::FORMATTED_CAKE,
+        Attributes::LOCATION_TEXT,
+        Attributes::LOCATION_LINK,
+        Attributes::IS_OUTDOOR,
+        Attributes::PHOTOGRAPHER_NAME,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT

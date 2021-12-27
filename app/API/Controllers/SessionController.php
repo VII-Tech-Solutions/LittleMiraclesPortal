@@ -66,7 +66,7 @@ class SessionController extends CustomController
         $additions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
         $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
-
+        $location_link = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
 
         // Get package then validate
         /** @var Package $package */
@@ -85,6 +85,16 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
         }
 
+        // location
+        $is_outdoor = false;
+        if(!is_null($location_link)){
+            $is_outdoor = true;
+            $location_text = "Outdoor";
+        }else{
+            $location_text = $package->location_text;
+            $location_link = $package->location_link;
+        }
+
         // create session
         $session = Session::createOrUpdate([
             Attributes::TITLE => $package->title . " on " . $date . " by " . $user->full_name,
@@ -98,7 +108,10 @@ class SessionController extends CustomController
             Attributes::STATUS => SessionStatus::BOOKED,
             Attributes::TOTAL_PRICE => $total_price,
             Attributes::PHOTOGRAPHER => $photographer,
-            Attributes::INCLUDE_ME => $include_me
+            Attributes::INCLUDE_ME => $include_me,
+            Attributes::LOCATION_LINK => $location_link,
+            Attributes::LOCATION_TEXT => $location_text,
+            Attributes::IS_OUTDOOR => $is_outdoor,
         ]);
 
         // save session people

@@ -16,8 +16,10 @@ class Attributes extends CustomEnum
     const HOURS = "hours";
     const FORMATTED_PEOPLE = "formatted_people";
     const EMAIL = "email";
+    const PHOTOGRAPHER_NAME = "photographer_name";
     const TIMINGS = "timings";
     const CAKE_CATEGORIES = "cake_categories";
+    const IS_OUTDOOR = "is_outdoor";
     const BACKDROP = "backdrop";
     const TIME = "time";
     const FAKE = "fake";
