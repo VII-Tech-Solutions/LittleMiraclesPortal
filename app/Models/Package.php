@@ -51,7 +51,8 @@ class Package extends CustomModel
         Attributes::LOCATION_LINK,
         Attributes::STATUS,
         Attributes::CAKE_ALLOWED,
-        Attributes::BACKDROP_ALLOWED
+        Attributes::BACKDROP_ALLOWED,
+        Attributes::OUTDOOR_ALLOWED
     ];
 
     protected $casts = [

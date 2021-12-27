@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants\AllowedOutdoor;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\IsPopular;
@@ -48,6 +49,9 @@ class PackageCrudController extends CustomCrudController
         // Filter: Is Popular Filter
         $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
 
+        // Filter: Outdoor Allowed Filter
+        $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::OUTDOOR_ALLOWED,"Outdoor Allowed");
+
         // Column: ID
         $this->addIDColumn("ID",1,Attributes::ID);
 
@@ -59,6 +63,9 @@ class PackageCrudController extends CustomCrudController
 
         // Column: Is Popular
         $this->addIsPopularColumn("Is Popular", 1, Attributes::IS_POPULAR_NAME);
+
+        // Column: Outdoor Allowed
+        $this->addIsPopularColumn("Outdoor Allowed", 1, Attributes::OUTDOOR_ALLOWED);
 
         // Column: Type
         $this->addTypeColumn(Attributes::TYPE_NAME , 1,"Type");
@@ -117,6 +124,9 @@ class PackageCrudController extends CustomCrudController
 
         // Field: Backdrops Allowed
         $this->addNumberField(Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
+
+        // Field: Outdoor Allowed
+        $this->addNumberField(Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
 
         // Field: Cakes Allowed
         $this->addNumberField(Attributes::CAKE_ALLOWED, "Cakes Allowed");
