@@ -301,6 +301,49 @@ class SessionController extends CustomController
     }
 
     /**
+     * Show Guideline
+     *
+     * @return JsonResponse
+     *
+     * * @OA\GET(
+     *     path="/api/sessions/{id}/guideline",
+     *     tags={"Sessions"},
+     *     description="Show Session Guideline",
+     *     @OA\Response(response="200", description="Guideline generated successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     * )
+     */
+    public function showGuideline($id): JsonResponse
+    {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // validate session
+        /** @var Session $session */
+        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        if (is_null($session)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // TODO generate text
+        $text = null;
+
+        // return response
+        if (!is_null($text)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::GUIDELINE_GENERATED_SUCCESSFULLY, [
+                Attributes::GUIDELINE => $text,
+            ], null, Response::HTTP_OK);
+        }
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+
+    }
+
+
+    /**
      * Apply Promo Code
      *
      * @return JsonResponse

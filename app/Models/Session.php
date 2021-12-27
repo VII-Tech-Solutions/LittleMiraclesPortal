@@ -93,6 +93,7 @@ class Session extends CustomModel
         Attributes::FORMATTED_BACKDROP,
         Attributes::FORMATTED_CAKE,
         Attributes::PHOTOGRAPHER_NAME,
+        Attributes::HAS_GUIDELINE,
     ];
 
     /**
@@ -107,6 +108,14 @@ class Session extends CustomModel
             Attributes::USER_ID, Attributes::PACKAGE_ID,
             Attributes::DATE, Attributes::TIME, Attributes::STATUS
         ]);
+    }
+
+    /**
+     * Attribute: has_guideline
+     * @return boolean
+     */
+    function getHasGuidelineAttribute(){
+        return false;
     }
 
     /**
@@ -195,7 +204,7 @@ class Session extends CustomModel
         $cakes = $this->cakes()->get();
         $array = null;
         foreach ($cakes as $cake){
-            $array[] = $cake->category_name . " " . $cake->title;
+            $array[] = $cake->category_name . " - " . $cake->title;
         }
         $array = implode(", ", $array);
         if(empty($array)){
@@ -213,7 +222,7 @@ class Session extends CustomModel
         $backdrops = $this->backdrops()->get();
         $array = null;
         foreach ($backdrops as $backdrop){
-            $array[] = $backdrop->category_name . " " . $backdrop->title;
+            $array[] = $backdrop->title . " backdrop";
         }
         $array = implode(", ", $array);
         if(empty($array)){

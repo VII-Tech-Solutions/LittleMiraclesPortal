@@ -13,6 +13,7 @@ class Attributes extends CustomEnum
     const PHONE_NUMBER = "phone_number";
     const AVAILABLE_DATE_ID = "available_date_id";
     const TYPE_NAME = "type_name";
+    const HAS_GUIDELINE = "has_guideline";
     const HOURS = "hours";
     const FORMATTED_PEOPLE = "formatted_people";
     const EMAIL = "email";
@@ -20,6 +21,7 @@ class Attributes extends CustomEnum
     const TIMINGS = "timings";
     const CAKE_CATEGORIES = "cake_categories";
     const IS_OUTDOOR = "is_outdoor";
+    const GUIDELINE = "guideline";
     const BACKDROP = "backdrop";
     const TIME = "time";
     const FAKE = "fake";

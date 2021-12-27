@@ -26,6 +26,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string reviews_ids
  * @property string benefits_ids
  * @property float price
+ * @property string location_text
+ * @property string location_link
  */
 class Package extends CustomModel
 {

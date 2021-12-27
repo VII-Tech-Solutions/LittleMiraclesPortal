@@ -17,6 +17,7 @@ class Messages extends CustomEnum
     const ACCOUNT_DELETED = "Account has been deleted successfully";
     const PROMO_CODE_APPLIED = "Promo code applied";
     const REVIEW_SUBMITTED = "Review submitted successfully";
+    const GUIDELINE_GENERATED_SUCCESSFULLY = "Guideline generated successfully";
     const UNABLE_TO_FIND_SESSION = "Unable to find the session";
     const UNABLE_TO_FIND_PACKAGE = "Unable to find the package";
     const INVALID_PROMOTION_CODE = "Invalid promotion code";
