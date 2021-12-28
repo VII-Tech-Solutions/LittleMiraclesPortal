@@ -128,16 +128,18 @@ class PackageCrudController extends CustomCrudController
         $this->addBenefitsField();
 
         // Field: Backdrops Allowed
-        $this->addIsPopularField(AllowedSelection::all(),Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
+        $this->addDropdownField(AllowedSelection::all(),Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
+
+        // Field: Cakes Allowed
+        $this->addDropdownField(AllowedSelection::all(),Attributes::CAKE_ALLOWED, "Cakes Allowed");
 
         // Field: Outdoor Allowed
-        $this->addIsPopularField(AllowedOutdoor::all(),Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
+        $this->addDropdownField(AllowedOutdoor::all(),Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
 
         // Field: Has Guideline
         $this->addIsPopularField(Guidline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
 
-        // Field: Cakes Allowed
-        $this->addNumberField(Attributes::CAKE_ALLOWED, "Cakes Allowed");
+
 
         // Field: Location Text
         $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");

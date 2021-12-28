@@ -72,6 +72,7 @@ class Package extends CustomModel
         Attributes::CAKE_ALLOWED => CastingTypes::INTEGER,
         Attributes::BACKDROP_ALLOWED => CastingTypes::INTEGER,
         Attributes::OUTDOOR_ALLOWED => CastingTypes::INTEGER,
+        Attributes::HAS_GUIDELINE => CastingTypes::BOOLEAN,
     ];
 
     protected $appends = [

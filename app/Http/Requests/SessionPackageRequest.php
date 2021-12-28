@@ -22,7 +22,7 @@ class SessionPackageRequest extends CustomRequest
             Attributes::TITLE => 'required',
             Attributes::TAG => 'required',
             Attributes::PRICE => 'required',
-            Attributes::CONTENT => 'required',
+            //Attributes::CONTENT => 'required',
             Attributes::LOCATION_TEXT => 'required',
             Attributes::LOCATION_LINK => 'required',
         ];

@@ -1910,6 +1910,36 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Is Popular Field for session package
+     * @param null $statuses
+     * @param null $attribute_name
+     * @param null $label
+     * @param null $tab_name
+     * @param false $allow_null
+     */
+    function addDropdownField($constant = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    {
+        if (is_null($constant)) {
+            $constant = IsPopular::all();
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::IS_POPULAR;
+        }
+        if (is_null($label)) {
+            $label = ucfirst(Attributes::IS_POPULAR);
+        }
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $attribute_name,
+            Attributes::ALLOWS_NULL => $allow_null,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $constant,
+            Attributes::TAB => $tab_name,
+            Attributes::DEFAULT => Guidline::NO,
+        ]);
+    }
+
+    /**
      * Add Location Link Field
      * @param string|null $field_name
      * @param string|null $label

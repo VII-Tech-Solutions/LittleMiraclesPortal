@@ -5,5 +5,5 @@ namespace App\Constants;
 class Guidline extends CustomEnum
 {
     const YES = 1;
-    const NO = 2;
+    const NO = 0;
 }
