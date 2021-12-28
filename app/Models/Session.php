@@ -115,7 +115,7 @@ class Session extends CustomModel
      * @return boolean
      */
     function getHasGuidelineAttribute(){
-        return false;
+        return $this->package->has_guideline;
     }
 
     /**

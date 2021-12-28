@@ -29,6 +29,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property float price
  * @property string location_text
  * @property string location_link
+ * @property boolean has_guideline
  */
 class Package extends CustomModel
 {

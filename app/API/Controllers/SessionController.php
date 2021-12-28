@@ -8,6 +8,7 @@ use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\ListSessionTransformer;
 use App\Constants\Attributes;
+use App\Constants\Gender;
 use App\Constants\Messages;
 use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
@@ -88,10 +89,10 @@ class SessionController extends CustomController
 
         // location
         $is_outdoor = false;
-        if(!is_null($location_link)){
+        if (!is_null($location_link)) {
             $is_outdoor = true;
             $location_text = "Outdoor";
-        }else{
+        } else {
             $location_text = $package->location_text;
             $location_link = $package->location_link;
         }
@@ -116,7 +117,7 @@ class SessionController extends CustomController
         ]);
 
         // save session people
-        if(!is_null($people) && count($people) > 0){
+        if (!is_null($people) && count($people) > 0) {
             foreach ($people as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::PEOPLE,
@@ -130,7 +131,7 @@ class SessionController extends CustomController
         }
 
         // save session backdrops
-        if(!is_null($backdrops) && count($backdrops) > 0) {
+        if (!is_null($backdrops) && count($backdrops) > 0) {
             foreach ($backdrops as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::BACKDROP,
@@ -144,7 +145,7 @@ class SessionController extends CustomController
         }
 
         // save session cakes
-        if(!is_null($cakes) && count($cakes) > 0) {
+        if (!is_null($cakes) && count($cakes) > 0) {
             foreach ($cakes as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::CAKE,
@@ -158,7 +159,7 @@ class SessionController extends CustomController
         }
 
         // save session additions
-        if(!is_null($additions) && count($additions) > 0) {
+        if (!is_null($additions) && count($additions) > 0) {
             foreach ($additions as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::ADDITIONS,
@@ -221,6 +222,7 @@ class SessionController extends CustomController
         }
 
         // get sessions
+        $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
         if (!empty($id)) {
             $sessions = Session::active()->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->get();
         } else {
@@ -337,59 +339,56 @@ class SessionController extends CustomController
         if (is_null($session)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
-        $children_count= 0;
-        $children_count2= 0;
-        $children_name= [];
-        $name = [];
-        $children = $session->people()->get()->where(Attributes::RELATIONSHIP,Relationship::CHILDREN);
 
-        foreach ($children as $child){
-        $children_count ++;
-        $gender_type = $child->gender;
-        $children_name[$children_count]= $child->first_name;
+        $gender_type = null;
+        $children_count = 0;
+        $children_count2 = 0;
+        $children_name = [];
+        $name = [];
+        $children = $session->people()->get()->where(Attributes::RELATIONSHIP, Relationship::CHILDREN);
+
+        foreach ($children as $child) {
+            $children_count++;
+            $gender_type = $child->gender;
+            $children_name[$children_count] = $child->first_name;
         }
-        if($children_count > 1)
-        {
-            foreach($children_name as $names){
-                $name[$children_count2] = $names.",";
-                $children_count2 ++;
+
+        if ($children_count > 1) {
+            foreach ($children_name as $names) {
+                $name[$children_count2] = $names . ",";
+                $children_count2++;
             }
-            $name[count($name) -1] = str_replace(',', "", $name[count($name) -1]);
+            $name[count($name) - 1] = str_replace(',', "", $name[count($name) - 1]);
             $object = "their";
-                $object2 = "they";
-                $object3 = "them";
-                $baby = "babies";
-                $had = "have";
-                $is = "are";
-        }
-        else
-        {
-            foreach($children_name as $names)
-            {
+            $object2 = "they";
+            $object3 = "them";
+            $baby = "babies";
+            $had = "have";
+            $is = "are";
+        } else {
+            foreach ($children_name as $names) {
                 $name[$children_count2] = $names;
             }
-             if($gender_type == 1 )
-             {
-                 $object = "his";
-                 $object2 = "he";
-                 $object3 = "him";
-             }
-             else{
-                 $object = "her";
-                 $object3 = "her";
-                 $object2 = "she";
-             }
-            $baby ="baby";
+            if ($gender_type == Gender::MALE) {
+                $object = "his";
+                $object2 = "he";
+                $object3 = "him";
+            } else if ($gender_type == Gender::FEMALE) {
+                $object = "her";
+                $object3 = "her";
+                $object2 = "she";
+            }
+            $baby = "baby";
             $had = "had";
             $is = "is";
         }
 
-        // TODO generate text
+        // generate text
         $text = "Hi mommy $user->first_name!
 
 Congratulations!! 😊
 
-As for preparing your little miracle ".implode($name)." for $object  photography debut, here is a guide that will help you get $object3 ready for the session:
+As for preparing your little miracle " . implode($name) . " for $object  photography debut, here is a guide that will help you get $object3 ready for the session:
 
 90 minutes before you have to leave the house, wake $object3 up.  You do this by giving $object3 a bath.  Give $object3 a nice warm bath (for at least 15 minutes).  But not warm enough $object2'll fall back to sleep..
 
@@ -401,7 +400,7 @@ If $object2 $had been introduced to a bottle, I ask that you pump and bring a fe
 
 I will do family shots for you, so keep your clothes light for the family picture (depending on where you want to put family pictures in your home) you have the option of light colors, or dark – you can wear black and we can do the family pictures on black.  A much different look so depends on your vision.  Wear black, or light colors - the choice is yours.
 
-Please have a soother/ pacifier.  This could save the session if $object2 $is rooting a lot.  I touch $object cheeks quite a bit during sessions, so $object2 tend to root around even if $object2 $is"."n't hungry…
+Please have a soother/ pacifier.  This could save the session if $object2 $is rooting a lot.  I touch $object cheeks quite a bit during sessions, so $object2 tend to root around even if $object2 $is" . "n't hungry…
 
 Other info:
 The place should be warm around 30 degrees. This is to keep naked baby happy. Please dress lightly. Husbands are welcome to stay. Please note that they need to be aware of the length and temperature of sessions. If husbands are restless, I feel rushed. This is not a benefit to either of us. Some husbands will come and get everyone settled and then leave to run errands etc.
@@ -427,7 +426,7 @@ See you soon! 😊
 xox";
 
         // return response
-        if (!is_null($text)) {
+        if (!empty($text)) {
             return GlobalHelpers::formattedJSONResponse(Messages::GUIDELINE_GENERATED_SUCCESSFULLY, [
                 Attributes::GUIDELINE => $text,
             ], null, Response::HTTP_OK);
@@ -435,7 +434,6 @@ xox";
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
 
     }
-
 
     /**
      * Apply Promo Code
