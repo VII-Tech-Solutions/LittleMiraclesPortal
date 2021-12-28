@@ -116,7 +116,7 @@ class SessionController extends CustomController
         ]);
 
         // save session people
-        if(count($people) > 0){
+        if(!is_null($people) && count($people) > 0){
             foreach ($people as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::PEOPLE,
@@ -130,7 +130,7 @@ class SessionController extends CustomController
         }
 
         // save session backdrops
-        if(count($backdrops) > 0) {
+        if(!is_null($backdrops) && count($backdrops) > 0) {
             foreach ($backdrops as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::BACKDROP,
@@ -144,7 +144,7 @@ class SessionController extends CustomController
         }
 
         // save session cakes
-        if(count($cakes) > 0) {
+        if(!is_null($cakes) && count($cakes) > 0) {
             foreach ($cakes as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::CAKE,
@@ -158,7 +158,7 @@ class SessionController extends CustomController
         }
 
         // save session additions
-        if(count($additions) > 0) {
+        if(!is_null($additions) && count($additions) > 0) {
             foreach ($additions as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::ADDITIONS,
