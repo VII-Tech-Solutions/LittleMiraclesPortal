@@ -116,51 +116,59 @@ class SessionController extends CustomController
         ]);
 
         // save session people
-        foreach ($people as $item) {
-            SessionDetail::createOrUpdate([
-                Attributes::TYPE => SessionDetailsType::PEOPLE,
-                Attributes::VALUE => $item,
-                Attributes::USER_ID => $user->id,
-                Attributes::FAMILY_ID => $user->family_id,
-                Attributes::SESSION_ID => $session->id,
-                Attributes::PACKAGE_ID => $session->package_id
-            ]);
+        if(count($people) > 0){
+            foreach ($people as $item) {
+                SessionDetail::createOrUpdate([
+                    Attributes::TYPE => SessionDetailsType::PEOPLE,
+                    Attributes::VALUE => $item,
+                    Attributes::USER_ID => $user->id,
+                    Attributes::FAMILY_ID => $user->family_id,
+                    Attributes::SESSION_ID => $session->id,
+                    Attributes::PACKAGE_ID => $session->package_id
+                ]);
+            }
         }
 
         // save session backdrops
-        foreach ($backdrops as $item) {
-            SessionDetail::createOrUpdate([
-                Attributes::TYPE => SessionDetailsType::BACKDROP,
-                Attributes::VALUE => $item,
-                Attributes::USER_ID => $user->id,
-                Attributes::FAMILY_ID => $user->family_id,
-                Attributes::SESSION_ID => $session->id,
-                Attributes::PACKAGE_ID => $session->package_id
-            ]);
+        if(count($backdrops) > 0) {
+            foreach ($backdrops as $item) {
+                SessionDetail::createOrUpdate([
+                    Attributes::TYPE => SessionDetailsType::BACKDROP,
+                    Attributes::VALUE => $item,
+                    Attributes::USER_ID => $user->id,
+                    Attributes::FAMILY_ID => $user->family_id,
+                    Attributes::SESSION_ID => $session->id,
+                    Attributes::PACKAGE_ID => $session->package_id
+                ]);
+            }
         }
 
         // save session cakes
-        foreach ($cakes as $item) {
-            SessionDetail::createOrUpdate([
-                Attributes::TYPE => SessionDetailsType::CAKE,
-                Attributes::VALUE => $item,
-                Attributes::USER_ID => $user->id,
-                Attributes::FAMILY_ID => $user->family_id,
-                Attributes::SESSION_ID => $session->id,
-                Attributes::PACKAGE_ID => $session->package_id
-            ]);
+        if(count($cakes) > 0) {
+            foreach ($cakes as $item) {
+                SessionDetail::createOrUpdate([
+                    Attributes::TYPE => SessionDetailsType::CAKE,
+                    Attributes::VALUE => $item,
+                    Attributes::USER_ID => $user->id,
+                    Attributes::FAMILY_ID => $user->family_id,
+                    Attributes::SESSION_ID => $session->id,
+                    Attributes::PACKAGE_ID => $session->package_id
+                ]);
+            }
         }
 
         // save session additions
-        foreach ($additions as $item) {
-            SessionDetail::createOrUpdate([
-                Attributes::TYPE => SessionDetailsType::ADDITIONS,
-                Attributes::VALUE => $item,
-                Attributes::USER_ID => $user->id,
-                Attributes::FAMILY_ID => $user->family_id,
-                Attributes::SESSION_ID => $session->id,
-                Attributes::PACKAGE_ID => $session->package_id
-            ]);
+        if(count($additions) > 0) {
+            foreach ($additions as $item) {
+                SessionDetail::createOrUpdate([
+                    Attributes::TYPE => SessionDetailsType::ADDITIONS,
+                    Attributes::VALUE => $item,
+                    Attributes::USER_ID => $user->id,
+                    Attributes::FAMILY_ID => $user->family_id,
+                    Attributes::SESSION_ID => $session->id,
+                    Attributes::PACKAGE_ID => $session->package_id
+                ]);
+            }
         }
 
         // return response
