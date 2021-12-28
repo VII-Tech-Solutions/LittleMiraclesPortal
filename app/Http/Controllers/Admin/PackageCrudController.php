@@ -6,6 +6,7 @@ use App\Constants\AllowedOutdoor;
 use App\Constants\AllowedSelection;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\Guidline;
 use App\Constants\IsPopular;
 use App\Constants\Status;
 use App\Constants\SessionPackageTypes;
@@ -68,6 +69,9 @@ class PackageCrudController extends CustomCrudController
         // Column: Outdoor Allowed
         $this->addIsPopularColumn("Outdoor Allowed", 1, Attributes::OUTDOOR_ALLOWED_NAME);
 
+        // Column: Has Guideline
+        $this->addIsPopularColumn("Has Guideline", 1, Attributes::HAS_GUIDELINE_NAME);
+
         // Column: Type
         $this->addTypeColumn(Attributes::TYPE_NAME , 1,"Type");
 
@@ -128,6 +132,9 @@ class PackageCrudController extends CustomCrudController
 
         // Field: Outdoor Allowed
         $this->addIsPopularField(AllowedOutdoor::all(),Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
+
+        // Field: Has Guideline
+        $this->addIsPopularField(Guidline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
 
         // Field: Cakes Allowed
         $this->addNumberField(Attributes::CAKE_ALLOWED, "Cakes Allowed");

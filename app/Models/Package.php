@@ -54,7 +54,9 @@ class Package extends CustomModel
         Attributes::STATUS,
         Attributes::CAKE_ALLOWED,
         Attributes::BACKDROP_ALLOWED,
-        Attributes::OUTDOOR_ALLOWED
+        Attributes::OUTDOOR_ALLOWED,
+        Attributes::HAS_GUIDELINE,
+
     ];
 
     protected $casts = [
@@ -136,6 +138,16 @@ class Package extends CustomModel
     public function getIsPopularNameAttribute($value)
     {
         return Helpers::readableBoolean($this->is_popular);
+    }
+
+    /**
+     * Get Attribute: is_popular_name
+     * @param $value
+     * @return string
+     */
+    public function getHasGuidelineNameAttribute($value)
+    {
+        return Helpers::readableBoolean($this->has_guideline);
     }
 
     /**

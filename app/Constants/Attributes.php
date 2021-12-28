@@ -205,5 +205,6 @@ class Attributes extends CustomEnum
     const PROMO_ID = "promo_id";
     const OUTDOOR_ALLOWED = "outdoor_allowed";
     const OUTDOOR_ALLOWED_NAME = "outdoor_allowed_name";
+    const HAS_GUIDELINE_NAME = "has_guideline_name";
 
 }
