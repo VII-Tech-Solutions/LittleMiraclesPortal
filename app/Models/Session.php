@@ -188,11 +188,10 @@ class Session extends CustomModel
      */
     public function getPeopleIdsAttribute(){
         $array = $this->people()->pluck(Tables::FAMILY_MEMBERS . "." . Attributes::ID)->toArray();
-        $array = implode(",", $array);
         if(empty($array)){
             return null;
         }
-        return $array;
+        return implode(", ", $array);
     }
 
     /**
@@ -206,11 +205,10 @@ class Session extends CustomModel
         foreach ($cakes as $cake){
             $array[] = $cake->category_name . " - " . $cake->title;
         }
-        $array = implode(", ", $array);
         if(empty($array)){
             return null;
         }
-        return $array;
+        return implode(", ", $array);
     }
 
     /**
@@ -221,14 +219,13 @@ class Session extends CustomModel
     {
         $backdrops = $this->backdrops()->get();
         $array = null;
-        foreach ($backdrops as $backdrop){
+        foreach ($backdrops as $backdrop) {
             $array[] = $backdrop->title . " backdrop";
         }
-        $array = implode(", ", $array);
         if(empty($array)){
             return null;
         }
-        return $array;
+        return implode(", ", $array);
     }
 
     /**
