@@ -19,6 +19,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string title
  * @property int type
  * @property int is_popular
+ * @property int outdoor_allowed
  * @property Collection benefits
  * @property Collection reviews
  * @property Collection media
@@ -67,11 +68,13 @@ class Package extends CustomModel
         Attributes::IS_POPULAR => CastingTypes::BOOLEAN,
         Attributes::CAKE_ALLOWED => CastingTypes::INTEGER,
         Attributes::BACKDROP_ALLOWED => CastingTypes::INTEGER,
+        Attributes::OUTDOOR_ALLOWED => CastingTypes::INTEGER,
     ];
 
     protected $appends = [
         Attributes::STATUS_NAME,
         Attributes::IS_POPULAR_NAME,
+        Attributes::OUTDOOR_ALLOWED_NAME,
         Attributes::TYPE_NAME,
         Attributes::PACKAGE_BENEFITS,
         Attributes::TOTAL_REVIEWS,
@@ -132,6 +135,16 @@ class Package extends CustomModel
     public function getIsPopularNameAttribute($value)
     {
         return Helpers::readableBoolean($this->is_popular);
+    }
+
+    /**
+     * Get Attribute: outdoor_allowed_name
+     * @param $value
+     * @return string
+     */
+    public function getOutdoorAllowedNameAttribute($value)
+    {
+        return Helpers::readableBoolean($this->outdoor_allowed);
     }
 
     /**
@@ -231,3 +244,4 @@ class Package extends CustomModel
         return $array;
     }
 }
+
