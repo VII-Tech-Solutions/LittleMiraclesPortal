@@ -6,7 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Days;
 use App\Constants\FieldTypes;
 use App\Constants\Gender;
-use App\Constants\Guidline;
+use App\Constants\Guideline;
 use App\Constants\IsPopular;
 use App\Constants\QuestionType;
 use App\Constants\Relationship;
@@ -1905,7 +1905,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
             Attributes::OPTIONS => $statuses,
             Attributes::TAB => $tab_name,
-            Attributes::DEFAULT => Guidline::NO,
+            Attributes::DEFAULT => Guideline::NO,
         ]);
     }
 
@@ -1935,7 +1935,7 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
             Attributes::OPTIONS => $constant,
             Attributes::TAB => $tab_name,
-            Attributes::DEFAULT => Guidline::NO,
+            Attributes::DEFAULT => Guideline::NO,
         ]);
     }
 

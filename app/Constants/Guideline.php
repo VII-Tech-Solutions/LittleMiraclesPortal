@@ -2,8 +2,8 @@
 
 namespace App\Constants;
 
-class Guidline extends CustomEnum
+class Guideline extends CustomEnum
 {
-    const YES = 1;
     const NO = 0;
+    const YES = 1;
 }

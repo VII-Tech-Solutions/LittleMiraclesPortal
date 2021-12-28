@@ -6,7 +6,7 @@ use App\Constants\AllowedOutdoor;
 use App\Constants\AllowedSelection;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
-use App\Constants\Guidline;
+use App\Constants\Guideline;
 use App\Constants\IsPopular;
 use App\Constants\Status;
 use App\Constants\SessionPackageTypes;
@@ -51,6 +51,9 @@ class PackageCrudController extends CustomCrudController
         // Filter: Is Popular Filter
         $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
 
+        // Filter: Has Guideline Filter
+        $this->addIsPopularFilter(Guideline::all(), Attributes::HAS_GUIDELINE,"Has Guideline");
+
         // Filter: Outdoor Allowed Filter
         $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::OUTDOOR_ALLOWED,"Outdoor Allowed");
 
@@ -62,15 +65,6 @@ class PackageCrudController extends CustomCrudController
 
         // Column: Price
         $this->addPriceColumn("Price", 1, Attributes::PRICE);
-
-        // Column: Is Popular
-        $this->addIsPopularColumn("Is Popular", 1, Attributes::IS_POPULAR_NAME);
-
-        // Column: Outdoor Allowed
-        $this->addIsPopularColumn("Outdoor Allowed", 1, Attributes::OUTDOOR_ALLOWED_NAME);
-
-        // Column: Has Guideline
-        $this->addIsPopularColumn("Has Guideline", 1, Attributes::HAS_GUIDELINE_NAME);
 
         // Column: Type
         $this->addTypeColumn(Attributes::TYPE_NAME , 1,"Type");
@@ -137,9 +131,7 @@ class PackageCrudController extends CustomCrudController
         $this->addDropdownField(AllowedOutdoor::all(),Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
 
         // Field: Has Guideline
-        $this->addIsPopularField(Guidline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
-
-
+        $this->addIsPopularField(Guideline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
 
         // Field: Location Text
         $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");

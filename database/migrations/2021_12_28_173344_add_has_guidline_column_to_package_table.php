@@ -5,7 +5,7 @@ use App\Constants\Tables;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Constants\Guidline;
+use App\Constants\Guideline;
 
 class AddHasGuidlineColumnToPackageTable extends Migration
 {
@@ -20,7 +20,7 @@ class AddHasGuidlineColumnToPackageTable extends Migration
         if (Schema::hasTable($this->table)) {
             Schema::table($this->table, function (Blueprint $table) {
                 if (!Schema::hasColumn($this->table, Attributes::HAS_GUIDELINE)) {
-                    $table->integer(Attributes::HAS_GUIDELINE)->nullable()->default(Guidline::NO);
+                    $table->integer(Attributes::HAS_GUIDELINE)->nullable()->default(Guideline::NO);
                 }
             });
         }
