@@ -10,6 +10,8 @@ use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Photographer
+ *
+ * @property string name
  */
 class Photographer extends CustomModel
 {

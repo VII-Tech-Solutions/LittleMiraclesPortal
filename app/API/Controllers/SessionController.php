@@ -114,6 +114,8 @@ class SessionController extends CustomController
             Attributes::LOCATION_LINK => $location_link,
             Attributes::LOCATION_TEXT => $location_text,
             Attributes::IS_OUTDOOR => $is_outdoor,
+        ],[
+            Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
 
         // save session people
@@ -126,6 +128,8 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
+                ], [
+                    Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
         }
@@ -140,6 +144,8 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
+                ],[
+                    Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
         }
@@ -154,6 +160,8 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
+                ],[
+                    Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
         }
@@ -168,6 +176,8 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
+                ],[
+                    Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
         }

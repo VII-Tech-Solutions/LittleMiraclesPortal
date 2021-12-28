@@ -39,10 +39,4 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT
     ];
-
-    protected $defaultIncludes = [
-        Attributes::BENEFITS_IDS => Attributes::BENEFITS_IDS,
-        Attributes::REVIEWS_IDS => Attributes::REVIEWS_IDS,
-        Attributes::MEDIA_IDS => Attributes::MEDIA_IDS,
-    ];
 }

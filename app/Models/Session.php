@@ -39,6 +39,9 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int total_price
  * @property int photographer
  * @property string photographer_name
+ * @property array benefits_ids
+ * @property array media_ids
+ * @property array reviews_ids
  */
 class Session extends CustomModel
 {
@@ -94,6 +97,9 @@ class Session extends CustomModel
         Attributes::FORMATTED_CAKE,
         Attributes::PHOTOGRAPHER_NAME,
         Attributes::HAS_GUIDELINE,
+        Attributes::REVIEWS_IDS,
+        Attributes::MEDIA_IDS,
+        Attributes::BENEFITS_IDS,
     ];
 
     /**
@@ -195,6 +201,38 @@ class Session extends CustomModel
     }
 
     /**
+     * Attribute: media_ids
+     * @return string
+     */
+    public function getMediaIdsAttribute(){
+        $array = $this->media()->pluck(Attributes::ID)->toArray();
+        if(empty($array)){
+            return null;
+        }
+        return implode(", ", $array);
+    }
+
+    /**
+     * Attribute: benefits_ids
+     * @return string
+     */
+    public function getBenefitsIdsAttribute(){
+        return $this->package->benefits_ids;
+    }
+
+    /**
+     * Attribute: reviews_ids
+     * @return string
+     */
+    public function getReviewsIdsAttribute(){
+        $array = $this->reviews()->pluck(Attributes::ID)->toArray();
+        if(empty($array)){
+            return null;
+        }
+        return implode(", ", $array);
+    }
+
+    /**
      * Attribute: formatted_cake
      * @return string
      */
@@ -266,6 +304,15 @@ class Session extends CustomModel
     public function reviews()
     {
         return $this->hasMany(Review::class, Attributes::SESSION_ID, Attributes::ID);
+    }
+
+    /**
+     * Relationships: Media
+     * @return HasMany
+     */
+    public function media()
+    {
+        return $this->hasMany(Media::class, Attributes::SESSION_ID, Attributes::ID);
     }
 
     /**
