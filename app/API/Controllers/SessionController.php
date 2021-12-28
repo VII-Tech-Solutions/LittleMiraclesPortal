@@ -473,7 +473,7 @@ xox";
 
             // promo used in session
             if (!is_null($session->promo_id)) {
-                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAVE_A_PROMOTION_CODE, null, null, Response::HTTP_UNAUTHORIZED);
+                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAS_A_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
             }
 
             // get promotion
@@ -489,26 +489,12 @@ xox";
                     $price = $original_price * ($offer / 100);
                     $discount_price = $original_price - $price;
 
-                    // add promotion ID and update the total price
-                    $booked_session = Session::createOrUpdate([
-                        Attributes::ID => $session->id,
-                        Attributes::USER_ID => $session->user_id,
-                        Attributes::PACKAGE_ID => $session->package_id,
-                        Attributes::DATE => $session->date,
-                        Attributes::TIME => $session->time,
-                        Attributes::STATUS => $session->status,
-                        Attributes::TOTAL_PRICE => $price,
-                        Attributes::PROMO_ID => $promotion->id,
-                    ]);
-
                     // return response
-                    if (is_a($booked_session, Session::class)) {
-                        return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
-                            Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
-                            Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_price),
-                            Attributes::TOTAL_PRICE => Helpers::formattedPrice($price)
-                        ], null, Response::HTTP_OK);
-                    }
+                    return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
+                        Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
+                        Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_price),
+                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($price)
+                    ], null, Response::HTTP_OK);
 
                 } else {
                     return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);

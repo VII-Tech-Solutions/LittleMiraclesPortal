@@ -22,5 +22,5 @@ class Messages extends CustomEnum
     const UNABLE_TO_FIND_PACKAGE = "Unable to find the package";
     const INVALID_PROMOTION_CODE = "Invalid promotion code";
     const PROMOTION_CODE_EXPIRED = "Promotion code expired";
-    const SESSION_HAVE_A_PROMOTION_CODE = "Promotion code is used previously";
+    const SESSION_HAS_A_PROMOTION_CODE = "Promotion code is used previously";
 }
