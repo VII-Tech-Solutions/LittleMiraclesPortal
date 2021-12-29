@@ -93,13 +93,13 @@ class SessionController extends CustomController
             $is_outdoor = true;
             $location_text = "Outdoor";
         } else {
-            $location_text = $package->location_text;
-            $location_link = $package->location_link;
+            $location_text = "Studio";
+            $location_link = null;
         }
 
         // create session
         $session = Session::createOrUpdate([
-            Attributes::TITLE => $package->title . " on " . $date . " by " . $user->full_name,
+            Attributes::TITLE => $package->title . " " . $package->tag,
             Attributes::USER_ID => $user->id,
             Attributes::FAMILY_ID => $user->family_id,
             Attributes::PACKAGE_ID => $package_id,

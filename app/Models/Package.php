@@ -17,6 +17,7 @@ use VIITech\Helpers\Constants\CastingTypes;
 /**
  * Session Package
  * @property string title
+ * @property string tag
  * @property int type
  * @property int is_popular
  * @property int outdoor_allowed
