@@ -71,7 +71,7 @@ class Package extends CustomModel
         Attributes::IS_POPULAR => CastingTypes::BOOLEAN,
         Attributes::CAKE_ALLOWED => CastingTypes::INTEGER,
         Attributes::BACKDROP_ALLOWED => CastingTypes::INTEGER,
-        Attributes::OUTDOOR_ALLOWED => CastingTypes::INTEGER,
+        Attributes::OUTDOOR_ALLOWED => CastingTypes::BOOLEAN,
         Attributes::HAS_GUIDELINE => CastingTypes::BOOLEAN,
     ];
 
