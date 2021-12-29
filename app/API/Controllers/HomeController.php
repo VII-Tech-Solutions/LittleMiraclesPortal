@@ -258,6 +258,10 @@ class HomeController extends CustomController
             $end_date = $item->end_date;
             $hours = $item->hours;
 
+            if(Carbon::parse($start_date, Values::DEFAULT_TIMEZONE)->isPast()){
+                return;
+            }
+
             $count = 0;
             $date_range = CarbonPeriod::create($start_date, $end_date)->setTimezone(Values::DEFAULT_TIMEZONE);
 
