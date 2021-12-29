@@ -28,6 +28,7 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::RATING,
         Attributes::BACKDROP_ALLOWED,
         Attributes::CAKE_ALLOWED,
+        Attributes::OUTDOOR_ALLOWED,
         Attributes::HAS_GUIDELINE,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
