@@ -13,11 +13,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
  * Session
+ *
  * @property int session_status
  * @property int rating
  * @property string comment
@@ -42,6 +44,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property array benefits_ids
  * @property array media_ids
  * @property array reviews_ids
+ *
+ * @method static Builder sortByLatest()
  */
 class Session extends CustomModel
 {
@@ -277,6 +281,15 @@ class Session extends CustomModel
             return "-";
         }
         return $package->title;
+    }
+
+    /**
+     * Scope: Sort By Latest
+     * @param Builder $q
+     * @return Builder
+     */
+    public function scopeSortByLatest($q){
+        return $q->orderBy(Attributes::DATE)->orderBy(Attributes::TIME);
     }
 
     /**

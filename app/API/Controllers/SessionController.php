@@ -234,9 +234,9 @@ class SessionController extends CustomController
         // get sessions
         $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
         if (!empty($id)) {
-            $sessions = Session::active()->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->get();
+            $sessions = Session::active()->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         } else {
-            $sessions = Session::active()->where(Attributes::USER_ID, $user->id)->get();
+            $sessions = Session::active()->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }
 
         // get last updated items
