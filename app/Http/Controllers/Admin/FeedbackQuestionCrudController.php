@@ -7,6 +7,7 @@ use App\Constants\QuestionType;
 use App\Constants\Status;
 use App\Http\Requests\FeedbackQuestionRequest;
 use App\Models\FeedbackQuestion;
+use Exception;
 
 class FeedbackQuestionCrudController extends CustomCrudController
 {
@@ -36,18 +37,18 @@ class FeedbackQuestionCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Filter: Question Type
-        $this->addQuestionTypeFilter(QuestionType::all());
+        $this->addQuestionTypeFilter(QuestionType::all(), Attributes::QUESTION_TYPE, "Type");
 
-        // column: ID
+        // Column: ID
         $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // column: Question
+        // Column: Question
         $this->addQuestionColumn("Question", 1, Attributes::QUESTION);
 
         // Column: Question Type
         $this->addQuestionTypeColumn("Type", 1, Attributes::QUESTION_TYPE_NAME);
 
-        // column: Options
+        // Column: Options
         $this->addOptionColumn( "Options" , 1 , Attributes::OPTIONS);
 
         // Column: Status

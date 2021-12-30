@@ -114,6 +114,92 @@
                 }
             }
         },
+        "/api/family-questions": {
+            "get": {
+                "tags": [
+                    "Metadata"
+                ],
+                "summary": "List All Family Info Questions",
+                "description": "Questions Metadata",
+                "operationId": "89be850b814b3a72682a22a564521015",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback-questions": {
+            "get": {
+                "tags": [
+                    "Metadata"
+                ],
+                "summary": "List All Feedback Questions",
+                "description": "Feedback Questions",
+                "operationId": "6f067cf65215a95d9824b11be6bb90a6",
+                "parameters": [
+                    {
+                        "name": "last_update",
+                        "in": "query",
+                        "description": "Last Update: 2020-10-04",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions retrived successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/packages": {
             "get": {
                 "tags": [
@@ -179,49 +265,6 @@
                 "responses": {
                     "200": {
                         "description": "Packages retrived successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CustomJsonResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CustomJsonResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/questions": {
-            "get": {
-                "tags": [
-                    "Metadata"
-                ],
-                "summary": "User Registration",
-                "description": "Questions Metadata",
-                "operationId": "6969c43e4feaa7acbd13a046ef7c48c5",
-                "parameters": [
-                    {
-                        "name": "last_update",
-                        "in": "query",
-                        "description": "Last Update: 2020-10-04",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Questions retrived successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -387,11 +430,63 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Session ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Review submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sessions/{id}/guideline": {
+            "get": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Show Guideline",
+                "description": "Show Session Guideline",
+                "operationId": "07931c5e63f6f2cb412f21a967ad4c3f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Session ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Guideline generated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -423,6 +518,15 @@
                 "operationId": "590ad750846070a523aca7c71fd869ba",
                 "parameters": [
                     {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Session ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
                         "name": "code",
                         "in": "query",
                         "description": "Promo Code",
@@ -435,6 +539,49 @@
                 "responses": {
                     "200": {
                         "description": "Promo code applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback": {
+            "post": {
+                "tags": [
+                    "Metadata"
+                ],
+                "summary": "Submit Feedback",
+                "description": "Submit Feedback",
+                "operationId": "26cbe332d5f9a8990c3a8b86e9a0edbb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Session ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feedback submitted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {

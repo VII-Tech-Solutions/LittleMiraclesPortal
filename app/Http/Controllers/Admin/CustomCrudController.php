@@ -59,8 +59,7 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $field_name,
             Attributes::TYPE => FieldTypes::TEXT,
             Attributes::LABEL => ucwords($label),
-            Attributes::ATTRIBUTES => array_merge([
-                ], $limit) + $this->disabled($disabled),
+            Attributes::ATTRIBUTES => array_merge([], $limit) + $this->disabled($disabled),
             Attributes::TAB => $tab_name
         ]);
     }

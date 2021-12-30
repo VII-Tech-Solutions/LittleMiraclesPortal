@@ -35,23 +35,17 @@ class FeedbackCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // column: ID
+        // Column: ID
         $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // column: User ID
-        $this->addIDColumn("User ID", 1, Attributes::USER_ID);
+        // Column: User Name
+        $this->addIDColumn("User Name", 1, Attributes::USER_NAME);
 
-        // Column: Family ID
-        $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
+        // Column: Session Name
+        $this->addIDColumn("Session Name", 1, Attributes::SESSION_NAME);
 
-        // Column: Question ID
-        $this->addIDColumn("Question ID", 1, Attributes::QUESTION_ID);
-
-        // Column: Answer
-        $this->addAnswerColumn("Answer",1, Attributes::ANSWER);
-
-        // Column: Status
-        $this->addStatusColumn(Attributes::STATUS_NAME);
+        // Column: Submitted At
+        $this->addIDColumn("Submitted At", 1, Attributes::CREATED_AT);
 
     }
 
@@ -77,11 +71,17 @@ class FeedbackCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(FeedbackRequest::class);
 
+        // Field: User Name
+        $this->addNameField(Attributes::USER_NAME, "User Name", null, [], true);
+
+        // Field: Session Name
+        $this->addNameField(Attributes::SESSION_NAME, "Session Name", null, [], true);
+
         // Field: Answer
         $this->addAnswerField(Attributes::ANSWER,"Answer");
 
-        // Field: Status
-        $this->addStatusField(Status::all());
+        // Field: Submitted At
+        $this->addNameField(Attributes::CREATED_AT, "Submitted At", null, [], true);
 
     }
 }

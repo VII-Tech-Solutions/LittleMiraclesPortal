@@ -31,6 +31,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string location_text
  * @property string location_link
  * @property boolean has_guideline
+ * @property string image
  */
 class Package extends CustomModel
 {

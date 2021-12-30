@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\QuestionType;
 use App\Constants\Tables;
+use App\Helpers;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
- * Feedback Info Questions
+ * Feedback Questions
+ * @property string question
  * @property int session_status
  * @property int question_type
  */
@@ -31,8 +34,8 @@ class FeedbackQuestion extends CustomModel
 
 
     protected $casts = [
-        Attributes::QUESTION =>CastingTypes::STRING,
-        Attributes::OPTIONS =>CastingTypes::STRING,
+        Attributes::QUESTION => CastingTypes::STRING,
+        Attributes::OPTIONS => CastingTypes::STRING,
     ];
 
     protected $appends = [
@@ -51,17 +54,12 @@ class FeedbackQuestion extends CustomModel
     }
 
     /**
-     * Get Attribute: question_type
-     * @param $value
+     * Get Attribute: question_type_name
      * @return string
      */
-    public function getQuestionTypeNameAttribute($value)
+    public function getQuestionTypeNameAttribute()
     {
-        if($this->question_type === 1){
-            return "Text";
-        }
-        else{
-            return "Multiple Select";
-        }
+        $text = QuestionType::getKey($this->question_type);
+        return Helpers::readableText($text);
     }
 }

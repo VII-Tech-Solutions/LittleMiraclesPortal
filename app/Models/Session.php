@@ -20,6 +20,7 @@ use VIITech\Helpers\Constants\CastingTypes;
 /**
  * Session
  *
+ * @property string title
  * @property int session_status
  * @property int rating
  * @property string comment
@@ -44,6 +45,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property array benefits_ids
  * @property array media_ids
  * @property array reviews_ids
+ * @property string featured_image
  *
  * @method static Builder sortByLatest()
  */
@@ -104,6 +106,7 @@ class Session extends CustomModel
         Attributes::REVIEWS_IDS,
         Attributes::MEDIA_IDS,
         Attributes::BENEFITS_IDS,
+        Attributes::FEATURED_IMAGE,
     ];
 
     /**
@@ -118,6 +121,14 @@ class Session extends CustomModel
             Attributes::USER_ID, Attributes::PACKAGE_ID,
             Attributes::DATE, Attributes::TIME, Attributes::STATUS
         ]);
+    }
+
+    /**
+     * Attribute: featured_image
+     * @return string
+     */
+    function getFeaturedImageAttribute(){
+        return $this->package->image;
     }
 
     /**

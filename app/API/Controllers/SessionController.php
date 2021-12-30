@@ -16,6 +16,8 @@ use App\Constants\SessionStatus;
 use App\Constants\Values;
 use App\Helpers;
 use App\Models\Benefit;
+use App\Models\Feedback;
+use App\Models\FeedbackQuestion;
 use App\Models\Package;
 use App\Models\Promotion;
 use App\Models\Review;
@@ -282,6 +284,7 @@ class SessionController extends CustomController
      *     @OA\Response(response="200", description="Review submitted successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Parameter(name="last_update", in="query", description="Last Update: 2020-10-04", required=false, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
      * )
      */
     public function submitReview($id): JsonResponse
@@ -332,6 +335,7 @@ class SessionController extends CustomController
      *     description="Show Session Guideline",
      *     @OA\Response(response="200", description="Guideline generated successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
      * )
      */
     public function showGuideline($id): JsonResponse
@@ -456,6 +460,7 @@ xox";
      *     description="Apply Promo Code",
      *     @OA\Response(response="200", description="Promo code applied successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
      *     @OA\Parameter(name="code", in="query", description="Promo Code", required=true, @OA\Schema(type="string")),
      * )
      */
@@ -515,5 +520,75 @@ xox";
             }
         }
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Submit Feedback
+     *
+     * @return JsonResponse
+     *
+     * * @OA\POST(
+     *     path="/api/feedback",
+     *     tags={"Metadata"},
+     *     description="Submit Feedback",
+     *     @OA\Response(response="200", description="Feedback submitted successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
+     * )
+     */
+    public function submitFeedback($id): JsonResponse
+    {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // validate session
+        /** @var Session $session */
+        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        if (is_null($session)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        $full_answer = null;
+
+        $data = $this->request->all();
+        foreach ($data as $item){
+
+            $question_id = $item[Attributes::QUESTION_ID] ?? null;
+            $answer = $item[Attributes::ANSWER] ?? null;
+
+            if(!empty($question_id) && !empty($answer)){
+
+                /** @var FeedbackQuestion $question */
+                $question = FeedbackQuestion::find($question_id);
+                if(!is_null($question)){
+
+                    $full_answer = $full_answer . "- " . $question->question . "\n" . $answer . "\n\n";
+
+                }
+
+            }
+
+        }
+
+        // create feedback
+        $feedback = Feedback::createOrUpdate([
+            Attributes::USER_ID => $user->id,
+            Attributes::FAMILY_ID => $user->family_id,
+            Attributes::SESSION_ID => $session->id,
+            Attributes::PACKAGE_ID => $session->package_id,
+            Attributes::ANSWER => rtrim($full_answer),
+        ],[
+            Attributes::USER_ID, Attributes::SESSION_ID
+        ]);
+
+        // return response
+        if (is_a($feedback, Feedback::class)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::FEEDBACK_SUBMITTED, [], null, Response::HTTP_OK);
+        }
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }
 }

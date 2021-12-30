@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
@@ -9,8 +8,12 @@ use App\Constants\Status;
 use App\Http\Requests\FamilyInfoQuestionRequest;
 use App\Models\FamilyInfoQuestion;
 use App\Models\FamilyInfoQuestionOption;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use CRUD;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 /**
  * Family Information Questions CRUD Controller
@@ -19,9 +22,8 @@ use Exception;
 class FamilyInfoQuestionCrudController extends CustomCrudController
 {
 
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; } //IMPORTANT HERE
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
-
+    use CreateOperation { store as traitStore; } //IMPORTANT HERE
+    use UpdateOperation { update as traitUpdate; } //IMPORTANT HERE
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -49,12 +51,12 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         $this->addStatusFilter(Status::all());
 
         // Filter: Question Type
-        $this->addQuestionTypeFilter(QuestionType::all());
+        $this->addQuestionTypeFilter(QuestionType::all(), Attributes::QUESTION_TYPE, "Type");
 
-        // column: ID
+        // Column: ID
         $this->addIDColumn("ID", 1, Attributes::ID);
 
-        // column: Question
+        // Column: Question
         $this->addQuestionColumn("Question", 1, Attributes::QUESTION);
 
         // Column: Question Type
@@ -62,7 +64,6 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
 
         // Column: Order
         $this->addOrder();
-
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -94,7 +95,6 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         // Field: Question
         $this->addQuestionField(Attributes::QUESTION,"Question");
 
-
         // Field: Question Type
         $this->addQuestionTypeField(QuestionType::all(),Attributes::QUESTION_TYPE,"Question Type");
 
@@ -110,6 +110,10 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
     }
 
 
+    /**
+     * Store
+     * @return RedirectResponse
+     */
     public function store()
     {
         $items = collect(json_decode(request('options'), true));
@@ -120,17 +124,19 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         // instead of returning, take a little time to create the question options
         $question_id = $this->crud->entry->id;
 
-
         // add the post_id to the items collection
         $items->each(function($item, $key) use ($question_id) {
             $item[Attributes::QUESTION_ID] = $question_id;
-
-           FamilyInfoQuestionOption::create($item);
+            FamilyInfoQuestionOption::create($item);
         });
 
         return $response;
     }
 
+    /**
+     * Update
+     * @return Response
+     */
     public function update()
     {
         $items = collect(json_decode(request('options'), true));
@@ -144,23 +150,20 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         $items->each(function($item, $key) use ($question_id, &$created_ids) {
             $item[Attributes::QUESTION_ID] = $question_id;
 
-            if ($item['id']) {
-                $option = FamilyInfoQuestionOption::find($item['id']);
+            if ($item[Attributes::ID]) {
+                $option = FamilyInfoQuestionOption::find($item[Attributes::ID]);
                 $option->update($item);
             } else {
-
                 $created_ids[] = FamilyInfoQuestionOption::create($item)->id;
-
             }
-
         });
 
         // delete removed answers
-        $related_items_in_request = collect(array_merge($items->where('id', '!=', '')->pluck('id')->toArray(), $created_ids));
+        $related_items_in_request = collect(array_merge($items->where(Attributes::ID, '!=', '')->pluck('id')->toArray(), $created_ids));
         $related_items_in_db = $this->crud->getCurrentEntry()->answers;
 
         $related_items_in_db->each(function($item, $key) use ($related_items_in_request) {
-            if (!$related_items_in_request->contains($item['id'])) {
+            if (!$related_items_in_request->contains($item[Attributes::ID])) {
                 $item->delete();
             }
         });

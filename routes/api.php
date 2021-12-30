@@ -48,7 +48,8 @@ $api->version('v1', function ($api) {
         /*******************************
          * Questions
          *******************************/
-        $api->get('/questions', 'QuestionController@listAll')->middleware('allowed_user:true'); // List all Questions
+        $api->get('/family-questions', 'MetadataController@listAllFamilyInfoQuestions')->middleware('allowed_user:true'); // List All Family Info Questions
+        $api->get('/feedback-questions', 'MetadataController@listAllFeedbackQuestions')->middleware('allowed_user:true'); // List All Feedback Questions
 
         /*******************************
          * Packages
@@ -65,6 +66,7 @@ $api->version('v1', function ($api) {
         $api->post('/sessions/{id}/promotion', 'SessionController@applyPromoCode')->middleware('allowed_user:true'); // Apply Promo Code to Session
         $api->post('/sessions/{id}/review', 'SessionController@submitReview')->middleware('allowed_user:true'); // Submit a Review
         $api->get('/sessions/{id}/guideline', 'SessionController@showGuideline')->middleware('allowed_user:true'); // Show Session Guideline
+        $api->post('/sessions/{id}/feedback', 'SessionController@submitFeedback')->middleware('allowed_user:true'); // Submit Session Feedback
 
     });
 
