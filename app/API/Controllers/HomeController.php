@@ -24,6 +24,7 @@ use App\Constants\Attributes;
 use App\Constants\AvailableDateType;
 use App\Constants\Headers;
 use App\Constants\PaymentMethod;
+use App\Constants\PromotionType;
 use App\Constants\Values;
 use App\Helpers;
 use App\Models\AvailableDate;
@@ -130,7 +131,7 @@ class HomeController extends CustomController
         $daily_tips = DailyTip::active()->get();
 
         // get promotions
-        $promotions = Promotion::active()->get();
+        $promotions = Promotion::active()->where(Attributes::TYPE, PromotionType::PUBLIC)->get();
 
         // get workshops
         $workshops = Workshop::active()->get();

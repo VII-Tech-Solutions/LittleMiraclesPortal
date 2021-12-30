@@ -23,7 +23,7 @@ class CreateSessionTable extends Migration
         if (!Schema::hasTable($this->table)) {
             Schema::create($this->table, function (Blueprint $table) {
                 $table->bigIncrements(Attributes::ID);
-                $table->integer(Attributes::SESSION_STATUS)->nullable()->default(SessionStatus::BOOKED);
+                $table->integer(Attributes::SESSION_STATUS)->nullable()->default(SessionStatus::UNPAID);
                 $table->string(Attributes::TITLE)->nullable();
                 $table->bigInteger(Attributes::USER_ID)->nullable();
                 $table->bigInteger(Attributes::FAMILY_ID)->nullable();

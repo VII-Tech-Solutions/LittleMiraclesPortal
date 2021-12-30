@@ -109,7 +109,7 @@ class SessionController extends CustomController
             Attributes::TIME => $time,
             Attributes::COMMENTS => $comments,
             Attributes::PAYMENT_METHOD => $payment_method,
-            Attributes::STATUS => SessionStatus::BOOKED,
+            Attributes::STATUS => SessionStatus::UNPAID,
             Attributes::TOTAL_PRICE => $total_price,
             Attributes::PHOTOGRAPHER => $photographer,
             Attributes::INCLUDE_ME => $include_me,
@@ -528,7 +528,7 @@ xox";
      * @return JsonResponse
      *
      * * @OA\POST(
-     *     path="/api/feedback",
+     *     path="/api/sessions/{id}/feedback",
      *     tags={"Metadata"},
      *     description="Submit Feedback",
      *     @OA\Response(response="200", description="Feedback submitted successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),

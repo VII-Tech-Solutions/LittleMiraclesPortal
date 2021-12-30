@@ -588,7 +588,7 @@ class CustomCrudController extends CrudController
         CRUD::addField([
             Attributes::LABEL => is_null($label) ? "Offer" : ucwords($label),
             Attributes::NAME => Attributes::OFFER,
-            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::TYPE => FieldTypes::NUMBER,
         ]);
     }
 

@@ -46,6 +46,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property array media_ids
  * @property array reviews_ids
  * @property string featured_image
+ * @property boolean gift_claimed
  *
  * @method static Builder sortByLatest()
  */
@@ -77,7 +78,8 @@ class Session extends CustomModel
         Attributes::PROMO_ID,
         Attributes::LOCATION_LINK,
         Attributes::LOCATION_TEXT,
-        Attributes::IS_OUTDOOR
+        Attributes::IS_OUTDOOR,
+        Attributes::GIFT_CLAIMED
     ];
 
     protected $casts = [
@@ -93,6 +95,7 @@ class Session extends CustomModel
         Attributes::IS_OUTDOOR => CastingTypes::BOOLEAN,
         Attributes::LOCATION_LINK => CastingTypes::STRING,
         Attributes::LOCATION_TEXT => CastingTypes::STRING,
+        Attributes::GIFT_CLAIMED => CastingTypes::STRING,
     ];
 
     protected $appends = [

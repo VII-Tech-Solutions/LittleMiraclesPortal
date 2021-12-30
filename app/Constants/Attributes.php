@@ -15,6 +15,7 @@ class Attributes extends CustomEnum
     const TYPE_NAME = "type_name";
     const HAS_GUIDELINE = "has_guideline";
     const HOURS = "hours";
+    const FIVE_SESSIONS_GIFT = "five_sessions_gift";
     const FORMATTED_PEOPLE = "formatted_people";
     const EMAIL = "email";
     const PHOTOGRAPHER_NAME = "photographer_name";
@@ -23,9 +24,11 @@ class Attributes extends CustomEnum
     const CAKE_CATEGORIES = "cake_categories";
     const IS_OUTDOOR = "is_outdoor";
     const GUIDELINE = "guideline";
+    const GIFT_CLAIMED = "gift_claimed";
     const BACKDROP = "backdrop";
     const TIME = "time";
     const FAKE = "fake";
+    const GIFTS = "gifts";
     const FULL_DATE = "full_date";
     const VERIFIED_AT = "verified_at";
     const INCLUDE_ME = "include_me";

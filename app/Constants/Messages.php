@@ -24,4 +24,5 @@ class Messages extends CustomEnum
     const INVALID_PROMOTION_CODE = "Invalid promotion code";
     const PROMOTION_CODE_EXPIRED = "Promotion code expired";
     const SESSION_HAS_A_PROMOTION_CODE = "Promotion code is used previously";
+    const GIFT_CLAIMED = "Gift claimed successfully";
 }

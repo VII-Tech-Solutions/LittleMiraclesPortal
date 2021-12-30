@@ -51,6 +51,9 @@ class PackageCrudController extends CustomCrudController
         // Filter: Is Popular Filter
         $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
 
+        // Filter: Five Sessions Gift
+        $this->addIsPopularFilter(IsPopular::all(), Attributes::FIVE_SESSIONS_GIFT,"Five Sessions Gift");
+
         // Filter: Has Guideline Filter
         $this->addIsPopularFilter(Guideline::all(), Attributes::HAS_GUIDELINE,"Has Guideline");
 
@@ -132,6 +135,9 @@ class PackageCrudController extends CustomCrudController
 
         // Field: Has Guideline
         $this->addIsPopularField(Guideline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
+
+        // Field: Five Sessions Gift
+        $this->addDropdownField(AllowedOutdoor::all(),Attributes::FIVE_SESSIONS_GIFT, "Five Sessions Gift");
 
         // Field: Location Text
         $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");

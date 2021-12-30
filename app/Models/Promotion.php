@@ -35,15 +35,21 @@ class Promotion extends CustomModel
         Attributes::PROMO_CODE,
         Attributes::IMAGE,
         Attributes::STATUS,
+        Attributes::USER_ID,
+        Attributes::PACKAGE_ID,
+        Attributes::SESSION_ID,
     ];
 
     protected $casts = [
         Attributes::TITLE => CastingTypes::STRING,
         Attributes::OFFER => CastingTypes::STRING,
-        Attributes::TYPE => CastingTypes::STRING,
+        Attributes::TYPE => CastingTypes::INTEGER,
         Attributes::CODE => CastingTypes::STRING,
         Attributes::CONTENT => CastingTypes::STRING,
         Attributes::STATUS => CastingTypes::INTEGER,
+        Attributes::PACKAGE_ID => CastingTypes::INTEGER,
+        Attributes::SESSION_ID => CastingTypes::INTEGER,
+        Attributes::USER_ID => CastingTypes::INTEGER,
     ];
 
     protected $appends = [

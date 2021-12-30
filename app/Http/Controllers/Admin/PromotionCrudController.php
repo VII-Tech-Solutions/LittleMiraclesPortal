@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\PromotionType;
 use App\Constants\Status;
 use App\Http\Requests\PromotionRequest;
 use App\Models\Promotion;
@@ -49,7 +50,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addContentColumn();
 
         // Column: Offer
-        $this->addOfferColumn("Offer", 1, Attributes::OFFER);
+        $this->addOfferColumn("Offer Percentage", 1, Attributes::OFFER);
 
         // Column: Type
         $this->addPromotionTypeColumn("Type", 1, Attributes::TYPE);
@@ -101,10 +102,10 @@ class PromotionCrudController extends CustomCrudController
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
 
         // Field: Offer
-        $this->addOfferField(Attributes::CATEGORY, "Offer");
+        $this->addOfferField(Attributes::OFFER, "Offer Percentage");
 
         // Field: Type
-        $this->addPromotionTypeField(Attributes::CATEGORY, "Type");
+        $this->addStatusField(PromotionType::all(), Attributes::TYPE, "Type");
 
         // Field: Posted At
         $this->addPostedAtField(Attributes::POSTED_AT, "Posted At");
@@ -112,7 +113,7 @@ class PromotionCrudController extends CustomCrudController
         // Field: Valid Until
         $this->addValidUntilField(Attributes::VALID_UNTIL , "Valid Until");
 
-        // Field: Code
+        // Field: Promo Code
         $this->addPromotionCodeField(Attributes::PROMO_CODE, "Promo Code");
 
         // Field: Status

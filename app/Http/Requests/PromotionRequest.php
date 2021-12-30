@@ -18,14 +18,13 @@ class PromotionRequest extends CustomRequest
     {
         return [
             Attributes::TITLE => 'required|min:2|max:255',
-            Attributes::OFFER=>'required',
+            Attributes::OFFER => 'required',
             Attributes::IMAGE => 'required',
             Attributes::TYPE => 'required',
             Attributes::PROMO_CODE => 'required',
             Attributes::POSTED_AT => 'required',
             Attributes::VALID_UNTIL => 'required',
             Attributes::CONTENT => 'required',
-
         ];
     }
 }

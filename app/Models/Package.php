@@ -32,6 +32,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string location_link
  * @property boolean has_guideline
  * @property string image
+ * @property boolean five_sessions_gift
  */
 class Package extends CustomModel
 {
@@ -58,7 +59,7 @@ class Package extends CustomModel
         Attributes::BACKDROP_ALLOWED,
         Attributes::OUTDOOR_ALLOWED,
         Attributes::HAS_GUIDELINE,
-
+        Attributes::FIVE_SESSIONS_GIFT,
     ];
 
     protected $casts = [
@@ -75,6 +76,7 @@ class Package extends CustomModel
         Attributes::BACKDROP_ALLOWED => CastingTypes::INTEGER,
         Attributes::OUTDOOR_ALLOWED => CastingTypes::BOOLEAN,
         Attributes::HAS_GUIDELINE => CastingTypes::BOOLEAN,
+        Attributes::FIVE_SESSIONS_GIFT => CastingTypes::BOOLEAN,
     ];
 
     protected $appends = [

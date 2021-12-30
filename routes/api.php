@@ -68,6 +68,12 @@ $api->version('v1', function ($api) {
         $api->get('/sessions/{id}/guideline', 'SessionController@showGuideline')->middleware('allowed_user:true'); // Show Session Guideline
         $api->post('/sessions/{id}/feedback', 'SessionController@submitFeedback')->middleware('allowed_user:true'); // Submit Session Feedback
 
+        /*******************************
+         * Gifts
+         *******************************/
+        $api->get('/gifts', 'GiftController@listAll')->middleware('allowed_user:true'); // List All Gifts
+        $api->post('/gifts/claim', 'GiftController@claim')->middleware('allowed_user:true'); // Claim Gift
+
     });
 
 });
