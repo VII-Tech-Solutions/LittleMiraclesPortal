@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
+use App\Constants\Status;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ModelTrait;
@@ -49,6 +50,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property boolean gift_claimed
  *
  * @method static Builder sortByLatest()
+ * @method static \Illuminate\Database\Eloquent\Builder|self paid()
+
  */
 class Session extends CustomModel
 {
@@ -380,5 +383,16 @@ class Session extends CustomModel
     {
         return $this->belongsToMany(StudioPackage::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
             ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::ADDITIONS);
+    }
+
+
+
+    /**
+     * Scope: Paid
+     * @param $q
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    function scopePaid($q){
+        return $q->where(Attributes::STATUS, '!=', SessionStatus::UNPAID);
     }
 }
