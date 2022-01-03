@@ -93,9 +93,9 @@ class Session extends CustomModel
         Attributes::TOTAL_PRICE => 'decimal:3',
         Attributes::INCLUDE_ME => CastingTypes::BOOLEAN,
         Attributes::IS_OUTDOOR => CastingTypes::BOOLEAN,
+        Attributes::GIFT_CLAIMED => CastingTypes::BOOLEAN,
         Attributes::LOCATION_LINK => CastingTypes::STRING,
         Attributes::LOCATION_TEXT => CastingTypes::STRING,
-        Attributes::GIFT_CLAIMED => CastingTypes::STRING,
     ];
 
     protected $appends = [
