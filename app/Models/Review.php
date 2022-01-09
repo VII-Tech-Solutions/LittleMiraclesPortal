@@ -81,6 +81,19 @@ class Review extends CustomModel
     }
 
     /**
+     * Get image Attribute
+     * @param $value
+     * @return string|null
+     */
+    function getUserNameAttribute($value)
+    {
+        if(empty($value)){
+            return null;
+        }
+        return $value;
+    }
+
+    /**
      * Set Attribute: Image
      * @param $value
      */
