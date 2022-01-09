@@ -25,4 +25,7 @@ class Messages extends CustomEnum
     const PROMOTION_CODE_EXPIRED = "Promotion code expired";
     const SESSION_HAS_A_PROMOTION_CODE = "Promotion code is used previously";
     const GIFT_CLAIMED = "Gift claimed successfully";
+    const SESSION_ALREADY_CONFIRMED = "This session has been already confirmed before";
+    const SESSION_CONFIRMED = "Session confirmed successfully";
+
 }

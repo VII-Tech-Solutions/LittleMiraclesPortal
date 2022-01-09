@@ -591,4 +591,54 @@ xox";
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }
+
+
+    /**
+     * Confirm the session
+     *
+     * @return JsonResponse
+     *
+     * * @OA\POST(
+     *     path="/api/sessions/{id}/confirm",
+     *     tags={"Sessions"},
+     *     description="Apply Promo Code",
+     *     @OA\Response(response="200", description="Session has been confirmed successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
+     * )
+     */
+    public function confirm($id): JsonResponse
+    {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // validate session
+        /** @var Session $session */
+        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        if (is_null($session)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+
+        if($session->status == SessionStatus::UNPAID){
+            $session->status = SessionStatus::BOOKED;
+            $save_session = $session->save();
+            if($save_session){
+                if (is_a($session, Session::class)) {
+                    return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
+                        Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
+                    ], null, Response::HTTP_OK);
+                }
+            }
+        }else{
+            return GlobalHelpers::formattedJSONResponse(Messages::SESSION_ALREADY_CONFIRMED, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+    }
+
 }
