@@ -59,18 +59,13 @@ class FamilyInfoQuestion extends CustomModel
     }
 
     /**
-     * Get Attribute: question_type
-     * @param $value
+     * Get Attribute: question_type_name
      * @return string
      */
-    public function getQuestionTypeNameAttribute($value)
+    public function getQuestionTypeNameAttribute()
     {
-        if($this->question_type === 1){
-            return "Text";
-        }
-        else{
-            return "Multiple Select";
-        }
+        $text = QuestionType::getKey($this->question_type);
+        return Helpers::readableText($text);
     }
 
     /**

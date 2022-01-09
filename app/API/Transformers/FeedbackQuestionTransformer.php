@@ -14,7 +14,7 @@ class FeedbackQuestionTransformer extends CustomTransformer
         Attributes::ID,
         Attributes::QUESTION,
         Attributes::QUESTION_TYPE,
-        Attributes::OPTIONS,
+        Attributes::OPTIONS_ARRAY,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT

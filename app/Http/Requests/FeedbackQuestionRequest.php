@@ -28,6 +28,7 @@ class FeedbackQuestionRequest extends FormRequest
         return [
             Attributes::QUESTION_TYPE => 'required',
             Attributes::QUESTION => 'required',
+            Attributes::ORDER => 'required',
         ];
     }
 

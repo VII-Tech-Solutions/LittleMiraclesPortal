@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\API\Transformers\FamilyInfoQuestionOptionTransformer;
+use App\API\Transformers\FeedbackQuestionOptionTransformer;
 use App\Constants\Attributes;
 use App\Constants\QuestionType;
 use App\Constants\Tables;
@@ -41,6 +43,7 @@ class FeedbackQuestion extends CustomModel
     protected $appends = [
         Attributes::STATUS_NAME,
         Attributes::QUESTION_TYPE_NAME,
+        Attributes::OPTIONS_ARRAY,
     ];
 
     /**
@@ -61,5 +64,32 @@ class FeedbackQuestion extends CustomModel
     {
         $text = QuestionType::getKey($this->question_type);
         return Helpers::readableText($text);
+    }
+
+    /**
+     * Get Attribute: options array
+     * @param $value
+     * @return array
+     */
+    public function getOptionsArrayAttribute()
+    {
+        $options = $this->answers()->get();
+
+        if(empty($options) || $this->question_type == QuestionType::TEXT){
+            return null;
+        }
+
+
+        return self::returnTransformedItems($options, FeedbackQuestionOptionTransformer::class);
+
+    }
+
+    /**
+     * Relationships: Answers
+     * @return mixed
+     */
+    public function answers()
+    {
+        return $this->hasMany(FeedbackQuestionOption::class, Attributes::QUESTION_ID, Attributes::ID);
     }
 }

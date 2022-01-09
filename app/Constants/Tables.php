@@ -43,5 +43,6 @@ class Tables extends CustomEnum
     const BACKDROP_CATEGORIES = 'backdrop_categories';
     const CAKE_CATEGORIES = 'cake_categories';
     const PAYMENT_METHOD = "payment_method";
+    const FEEDBACK_QUESTION_OPTIONS = 'feedback_question_options';
 
 }
