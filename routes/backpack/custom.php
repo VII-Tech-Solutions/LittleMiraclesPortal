@@ -41,6 +41,7 @@ Route::group([
     Route::crud('benefits', 'BenefitCrudController');
     Route::crud('studio-packages', 'StudioPackageCrudController');
     Route::crud('packages', 'PackageCrudController');
+    Route::crud('sub-packages', 'SubPackageCrudController');
     Route::crud('feedback', 'FeedbackCrudController');
     Route::crud('feedback-questions', 'FeedbackQuestionCrudController');
     Route::crud('user-studio', 'UserStudioCrudController');

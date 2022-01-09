@@ -39,7 +39,7 @@ class Package extends CustomModel
     use ImageTrait, ModelTrait;
 
     public const DIRECTORY = "uploads/packages";
-    protected $table = Tables::SESSION_PACKAGES;
+    protected $table = Tables::PACKAGES;
     protected $guarded = [
         Attributes::ID
     ];
@@ -221,6 +221,15 @@ class Package extends CustomModel
     public function media()
     {
         return $this->hasMany(Media::class, Attributes::PACKAGE_ID);
+    }
+
+    /**
+     * Relationships: sub_package
+     * @return HasMany
+     */
+    public function subpackages()
+    {
+        return $this->belongsToMany(SubPackage::class, Tables::PACKAGE_SUB_PACKAGES, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID);
     }
 
     /**

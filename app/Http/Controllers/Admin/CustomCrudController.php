@@ -1765,6 +1765,21 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Sub Packages Field
+     * @param string|null $TAB_NAME
+     */
+    function addSubPackagesField($tab_name = null)
+    {
+        // Field: Sub Package
+        CRUD::addField([
+            Attributes::TYPE => FieldTypes::RELATIONSHIP,
+            Attributes::NAME => 'subpackages', // the method on your model that defines the relationship
+            Attributes::LABEL => 'Sub Packages', // the method on your model that defines the relationship
+            Attributes::AJAX => true,
+            Attributes::INLINE_CREATE => [Attributes::ENTITY => 'sub-packages'], // specify the entity in singular
+        ]);
+    }
+    /**
      * Add Status Column
      * @param string $attribute
      * @param int $priority

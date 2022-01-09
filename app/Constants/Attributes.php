@@ -210,5 +210,8 @@ class Attributes extends CustomEnum
     const OUTDOOR_ALLOWED = "outdoor_allowed";
     const OUTDOOR_ALLOWED_NAME = "outdoor_allowed_name";
     const HAS_GUIDELINE_NAME = "has_guideline_name";
+    const SUB_CATEGORY = 'sub_category';
+    const SUB_CATEGORY_ID = 'sub_category_id';
+    const SUB_PACKAGE_ID = 'sub_package_id';
 
 }

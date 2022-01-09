@@ -44,5 +44,8 @@ class Tables extends CustomEnum
     const CAKE_CATEGORIES = 'cake_categories';
     const PAYMENT_METHOD = "payment_method";
     const FEEDBACK_QUESTION_OPTIONS = 'feedback_question_options';
+    const PACKAGES = 'packages';
+    const SUB_PACKAGES = 'sub_packages';
+    const PACKAGE_SUB_PACKAGES = 'package_sub_packages';
 
 }

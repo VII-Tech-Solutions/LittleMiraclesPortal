@@ -12,6 +12,7 @@ use App\Constants\Status;
 use App\Constants\SessionPackageTypes;
 use App\Http\Requests\SessionPackageRequest;
 use App\Models\Package;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
 
 /**
@@ -121,6 +122,11 @@ class PackageCrudController extends CustomCrudController
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
 
+
+        // Field: Sub Category
+        $this->addSubPackagesField();
+
+
         // Field: Benefits
         $this->addBenefitsField();
 
@@ -149,4 +155,5 @@ class PackageCrudController extends CustomCrudController
         $this->addStatusField(Status::all());
 
     }
+
 }
