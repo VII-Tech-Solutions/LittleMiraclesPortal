@@ -121,11 +121,9 @@ class PackageCrudController extends CustomCrudController
 
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
-
-
-        // Field: Sub Category
+        
+        // Field: Sub Package
         $this->addSubPackagesField();
-
 
         // Field: Benefits
         $this->addBenefitsField();

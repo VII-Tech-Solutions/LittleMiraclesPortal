@@ -6,12 +6,14 @@ use App\API\Transformers\ListMediaTransformer;
 use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
+use App\API\Transformers\SubPackagesTransformer;
 use App\Constants\Attributes;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Media;
 use App\Models\Package;
 use App\Models\Review;
+use App\Models\SubPackage;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
@@ -58,6 +60,11 @@ class PackageController extends CustomController
         $benefits = $packages->map->benefits;
         $benefits = $benefits->flatten()->filter();
 
+        // get related sub categories
+        $sub_categories = $packages->map->subpackages;
+
+        $sub_categories = $sub_categories->flatten()->filter();
+
         // get related reviews
         $reviews = $packages->map->reviews;
         $reviews = $reviews->flatten()->filter();
@@ -72,6 +79,7 @@ class PackageController extends CustomController
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
             Attributes::MEDIA => Media::returnTransformedItems($media, ListMediaTransformer::class),
+            Attributes::SUB_PACKAGES => SubPackage::returnTransformedItems($sub_categories, SubPackagesTransformer::class),
         ]);
     }
 

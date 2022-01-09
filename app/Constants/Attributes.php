@@ -213,5 +213,7 @@ class Attributes extends CustomEnum
     const SUB_CATEGORY = 'sub_category';
     const SUB_CATEGORY_ID = 'sub_category_id';
     const SUB_PACKAGE_ID = 'sub_package_id';
+    const SUB_PACKAGES = 'sub_packages';
+    const SUB_PACKAGES_IDS = 'sub_packages_ids';
 
 }

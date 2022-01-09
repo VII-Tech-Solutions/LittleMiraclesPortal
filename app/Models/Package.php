@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\API\Transformers\BenefitTransformer;
+use App\API\Transformers\SubPackagesTransformer;
 use App\Constants\Attributes;
 use App\Constants\SessionPackageTypes;
 use App\Constants\Tables;
@@ -193,6 +194,7 @@ class Package extends CustomModel
         if($benefits->isNotEmpty()){
             return self::returnTransformedItems($benefits, BenefitTransformer::class)  ;
         }
+
         return [];
     }
 
@@ -225,7 +227,7 @@ class Package extends CustomModel
 
     /**
      * Relationships: sub_package
-     * @return HasMany
+     * @return BelongsToMany
      */
     public function subpackages()
     {
@@ -238,6 +240,19 @@ class Package extends CustomModel
      */
     public function getBenefitsIdsAttribute(){
         $array = $this->benefits()->pluck(Tables::BENEFITS . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
+
+    /**
+     * Attribute: sub_packages_ids
+     * @return string
+     */
+    public function getSubPackagesIdsAttribute(){
+        $array = $this->subpackages()->pluck(Tables::SUB_PACKAGES . "." . Attributes::ID)->toArray();
         $array = implode(",", $array);
         if(empty($array)){
             return null;
