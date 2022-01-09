@@ -15,6 +15,7 @@ class ListPackageBenefitTransformer extends CustomTransformer
         Attributes::ID,
         Attributes::TITLE,
         Attributes::ICON,
+        Attributes::DESCRIPTION,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
