@@ -601,7 +601,7 @@ xox";
      * * @OA\POST(
      *     path="/api/sessions/{id}/confirm",
      *     tags={"Sessions"},
-     *     description="Apply Promo Code",
+     *     description="Confirm the session",
      *     @OA\Response(response="200", description="Session has been confirmed successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
@@ -636,6 +636,63 @@ xox";
             }
         }else{
             return GlobalHelpers::formattedJSONResponse(Messages::SESSION_ALREADY_CONFIRMED, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+    }
+
+
+    /**
+     * Confirm the session
+     *
+     * @return JsonResponse
+     *
+     * * @OA\POST(
+     *     path="/api/sessions/{id}/reschedule",
+     *     tags={"Sessions"},
+     *     description="Confirm the session",
+     *     @OA\Response(response="200", description="Session has been rescheduled successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="date", in="query", description="Date", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="time", in="query", description="time", required=true, @OA\Schema(type="string")),
+     * )
+     */
+    public function reschedule($id): JsonResponse
+    {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get parameters
+        $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
+        $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
+
+        if(empty($date) || empty($time)){
+            return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PARAMETERS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // validate session
+        /** @var Session $session */
+        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        if (is_null($session)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // update session
+        $session->time = $time;
+        $session->date = $date;
+        $save_session = $session->save();
+
+        if($save_session){
+            if (is_a($session, Session::class)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
+                    Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
+                ], null, Response::HTTP_OK);
+            }
         }
 
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);

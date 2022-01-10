@@ -65,6 +65,7 @@ $api->version('v1', function ($api) {
         $api->post('/sessions', 'SessionController@bookSession')->middleware('allowed_user:true'); // Book a Session
         $api->post('/sessions/{id}/promotion', 'SessionController@applyPromoCode')->middleware('allowed_user:true'); // Apply Promo Code to Session
         $api->post('/sessions/{id}/confirm', 'SessionController@confirm')->middleware('allowed_user:true'); // Confirm the Session
+        $api->post('/sessions/{id}/reschedule', 'SessionController@reschedule')->middleware('allowed_user:true'); // Reschedule the Session
         $api->post('/sessions/{id}/review', 'SessionController@submitReview')->middleware('allowed_user:true'); // Submit a Review
         $api->get('/sessions/{id}/guideline', 'SessionController@showGuideline')->middleware('allowed_user:true'); // Show Session Guideline
         $api->post('/sessions/{id}/feedback', 'SessionController@submitFeedback')->middleware('allowed_user:true'); // Submit Session Feedback
