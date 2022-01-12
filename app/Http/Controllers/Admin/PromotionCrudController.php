@@ -26,6 +26,11 @@ class PromotionCrudController extends CustomCrudController
         $this->crud->setModel(Promotion::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/promotions');
         $this->crud->setEntityNameStrings('Promotion', 'Promotions');
+
+//        $this->crud->addClause('where',function ($q){
+//           return $q->where(Attributes::USER_ID, null);
+//        });
+
     }
 
     /**

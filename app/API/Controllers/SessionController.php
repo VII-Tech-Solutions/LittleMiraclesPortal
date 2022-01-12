@@ -10,9 +10,11 @@ use App\API\Transformers\ListSessionTransformer;
 use App\Constants\Attributes;
 use App\Constants\Gender;
 use App\Constants\Messages;
+use App\Constants\PromotionStatus;
 use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
+use App\Constants\Status;
 use App\Constants\Values;
 use App\Helpers;
 use App\Models\Benefit;
@@ -605,6 +607,7 @@ xox";
      *     @OA\Response(response="200", description="Session has been confirmed successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="promo_code", in="query", description="Promo Code", required=true, @OA\Schema(type="string")),
      * )
      */
     public function confirm($id): JsonResponse
@@ -623,11 +626,40 @@ xox";
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
+        // get parameters
+        $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PROMO_CODE, null, CastingTypes::STRING);
+
 
         if($session->status == SessionStatus::UNPAID){
             $session->status = SessionStatus::BOOKED;
             $save_session = $session->save();
             if($save_session){
+
+                //check promo code
+                if(!is_null($promo_code)){
+                    // get promotion
+                    /** @var Promotion $promotion */
+                    $promotion = Promotion::where(Attributes::PROMO_CODE, $promo_code)->active()->first();
+                    if (!is_null($promotion)) {
+
+                        if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
+
+                            // create feedback
+                            $promo_code_update = Promotion::createOrUpdate([
+                                Attributes::USER_ID => $user->id,
+                                Attributes::SESSION_ID => $session->id,
+                                Attributes::STATUS => PromotionStatus::INACTIVE,
+                            ],[
+                                Attributes::USER_ID,
+                                Attributes::PROMO_CODE,
+                            ]);
+                            if(!$promo_code_update){
+                                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+                            }
+                        }
+                    }
+
+                }
                 if (is_a($session, Session::class)) {
                     return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                         Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
