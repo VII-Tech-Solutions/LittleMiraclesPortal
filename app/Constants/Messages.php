@@ -21,6 +21,7 @@ class Messages extends CustomEnum
     const GUIDELINE_GENERATED_SUCCESSFULLY = "Guideline generated successfully";
     const UNABLE_TO_FIND_SESSION = "Unable to find the session";
     const UNABLE_TO_FIND_PACKAGE = "Unable to find the package";
+    const UNABLE_TO_FIND_SUB_PACKAGE = "Unable to find sub-package";
     const INVALID_PROMOTION_CODE = "Invalid promotion code";
     const PROMOTION_CODE_EXPIRED = "Promotion code expired";
     const SESSION_HAS_A_PROMOTION_CODE = "Promotion code is used previously";

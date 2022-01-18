@@ -82,7 +82,8 @@ class Session extends CustomModel
         Attributes::LOCATION_LINK,
         Attributes::LOCATION_TEXT,
         Attributes::IS_OUTDOOR,
-        Attributes::GIFT_CLAIMED
+        Attributes::GIFT_CLAIMED,
+        Attributes::SUB_PACKAGE_ID
     ];
 
     protected $casts = [

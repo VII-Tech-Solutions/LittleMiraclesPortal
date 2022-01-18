@@ -215,7 +215,12 @@ class SessionController extends CustomController
 
         // get all parameters
         $sessions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SESSIONS, null, CastingTypes::ARRAY);
+        if(!is_array($sessions)){
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
         $ids = collect();
+
         foreach ($sessions as $session){
             $package_id = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
             $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
@@ -237,10 +242,7 @@ class SessionController extends CustomController
             if (is_null($package)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
             }
-            
 
-            // calculate package price
-            $total_price = $package->price;
 
             // find the package
             /** @var Package $package */
@@ -248,6 +250,13 @@ class SessionController extends CustomController
             if (is_null($package)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
             }
+
+            $sub_packages = $package->subpackages->where(Attributes::ID, $sub_package_id)->first();
+
+            if (is_null($sub_packages)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SUB_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
+            }
+
 
             // location
             $is_outdoor = false;
@@ -258,6 +267,9 @@ class SessionController extends CustomController
                 $location_text = "Studio";
                 $location_link = null;
             }
+
+            // calculate package price
+            $total_price = $package->price;
 
             // create session
             $session = Session::createOrUpdate([
@@ -278,7 +290,7 @@ class SessionController extends CustomController
                 Attributes::LOCATION_TEXT => $location_text,
                 Attributes::IS_OUTDOOR => $is_outdoor,
             ],[
-                Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
+                Attributes::PACKAGE_ID,Attributes::SUB_PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
             ]);
 
             // add the session id to the ids collection to filter the list all later

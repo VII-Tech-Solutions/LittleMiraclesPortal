@@ -16,6 +16,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::USER_ID,
         Attributes::FAMILY_ID,
         Attributes::PACKAGE_ID,
+        Attributes::SUB_PACKAGE_ID,
         Attributes::FEATURED_IMAGE,
         Attributes::CUSTOM_BACKDROP,
         Attributes::CUSTOM_CAKE,
