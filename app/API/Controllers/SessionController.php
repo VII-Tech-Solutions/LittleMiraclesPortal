@@ -290,7 +290,7 @@ class SessionController extends CustomController
 
             // create session
             $sub_session = Session::createOrUpdate([
-                Attributes::TITLE => $sub_package->title,
+                Attributes::TITLE => $sub_package->title . " " . 'Session',
                 Attributes::USER_ID => $user->id,
                 Attributes::FAMILY_ID => $user->family_id,
                 Attributes::PACKAGE_ID => $package_id,
