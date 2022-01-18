@@ -251,9 +251,7 @@ class SessionController extends CustomController
         ],[
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
-
-        $sub_sessions = collect();
-
+        
         foreach ($sub_sessions as $sub_session){
 
             $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
@@ -311,10 +309,6 @@ class SessionController extends CustomController
             ],[
                 Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
             ]);
-
-
-            // add the session id to the ids collection to filter the list all later
-            $ids->add($sub_session->id);
 
             // save session people
             if (!is_null($people) && count($people) > 0) {
@@ -386,10 +380,10 @@ class SessionController extends CustomController
 
         // return response
         $this->request->merge([
-            Attributes::IDS => $ids->toArray()
+            Attributes::ID => $session->id
         ]);
 
-        if(!empty($ids)){
+        if(!empty($session->id)){
             return $this->listAll();
         }
 
