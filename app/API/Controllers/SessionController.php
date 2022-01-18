@@ -215,46 +215,64 @@ class SessionController extends CustomController
         }
 
         // get all parameters
-        $sessions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SESSIONS, null, CastingTypes::ARRAY);
-        if(!is_array($sessions)){
+        $package_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
+        $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
+        $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
+        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
+        $sub_sessions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SUB_SESSIONS, null, CastingTypes::ARRAY);
+
+
+        // find the package
+        /** @var Package $package */
+        $package = Package::find($package_id);
+        if (is_null($package)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
+        }
+
+        if(!is_array($sub_sessions)){
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-        $ids = collect();
 
-        foreach ($sessions as $session){
-            $package_id = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
-            $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
-            $date = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::DATE, null, CastingTypes::STRING);
-            $time = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::TIME, null, CastingTypes::STRING);
-            $people = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PEOPLE, null, CastingTypes::ARRAY);
-            $backdrops = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::BACKDROPS, null, CastingTypes::ARRAY);
-            $cakes = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::CAKES, null, CastingTypes::ARRAY);
-            $comments = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::COMMENTS, null, CastingTypes::STRING);
-            $photographer = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
-            $additions = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
-            $payment_method = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
-            $include_me = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
-            $location_link = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
+        // calculate package price
+        $total_price = $package->price;
 
-            // Get package then validate
-            /** @var Package $package */
-            $package = Package::where(Attributes::ID, $package_id)->first();
-            if (is_null($package)) {
-                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
-            }
+        // create or update the session
+        $session = Session::createOrUpdate([
+            Attributes::TITLE => $package->title . " " . $package->tag,
+            Attributes::USER_ID => $user->id,
+            Attributes::FAMILY_ID => $user->family_id,
+            Attributes::PACKAGE_ID => $package_id,
+            Attributes::DATE => $date,
+            Attributes::TIME => $time,
+            Attributes::PAYMENT_METHOD => $payment_method,
+            Attributes::STATUS => SessionStatus::UNPAID,
+            Attributes::TOTAL_PRICE => $total_price,
+        ],[
+            Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
+        ]);
+
+        $sub_sessions = collect();
+
+        foreach ($sub_sessions as $sub_session){
+
+            $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
+            $date = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::DATE, null, CastingTypes::STRING);
+            $time = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::TIME, null, CastingTypes::STRING);
+            $people = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::PEOPLE, null, CastingTypes::ARRAY);
+            $backdrops = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::BACKDROPS, null, CastingTypes::ARRAY);
+            $cakes = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::CAKES, null, CastingTypes::ARRAY);
+            $comments = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::COMMENTS, null, CastingTypes::STRING);
+            $photographer = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
+            $additions = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
+            $include_me = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
+            $location_link = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
 
 
-            // find the package
-            /** @var Package $package */
-            $package = Package::find($package_id);
-            if (is_null($package)) {
-                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
-            }
+            // check sub package
+            $sub_package = $package->subpackages->where(Attributes::ID, $sub_package_id)->first();
 
-            $sub_packages = $package->subpackages->where(Attributes::ID, $sub_package_id)->first();
-
-            if (is_null($sub_packages)) {
+            if (is_null($sub_package)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SUB_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
             }
 
@@ -273,29 +291,30 @@ class SessionController extends CustomController
             $total_price = $package->price;
 
             // create session
-            $session = Session::createOrUpdate([
-                Attributes::TITLE => $package->title . " " . $package->tag,
+            $sub_session = Session::createOrUpdate([
+                Attributes::TITLE => $sub_package->title,
                 Attributes::USER_ID => $user->id,
                 Attributes::FAMILY_ID => $user->family_id,
                 Attributes::PACKAGE_ID => $package_id,
+                Attributes::SESSION_ID => $session->id,
                 Attributes::SUB_PACKAGE_ID => $sub_package_id,
                 Attributes::DATE => $date,
                 Attributes::TIME => $time,
                 Attributes::COMMENTS => $comments,
-                Attributes::PAYMENT_METHOD => $payment_method,
                 Attributes::STATUS => SessionStatus::UNPAID,
-                Attributes::TOTAL_PRICE => $total_price,
+                Attributes::PAYMENT_METHOD => $payment_method,
                 Attributes::PHOTOGRAPHER => $photographer,
                 Attributes::INCLUDE_ME => $include_me,
                 Attributes::LOCATION_LINK => $location_link,
                 Attributes::LOCATION_TEXT => $location_text,
                 Attributes::IS_OUTDOOR => $is_outdoor,
             ],[
-                Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
+                Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
             ]);
 
+
             // add the session id to the ids collection to filter the list all later
-            $ids->add($session->id);
+            $ids->add($sub_session->id);
 
             // save session people
             if (!is_null($people) && count($people) > 0) {

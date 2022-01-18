@@ -83,6 +83,7 @@ class Session extends CustomModel
         Attributes::LOCATION_TEXT,
         Attributes::IS_OUTDOOR,
         Attributes::GIFT_CLAIMED,
+        Attributes::SESSION_ID,
         Attributes::SUB_PACKAGE_ID
     ];
 
@@ -116,19 +117,6 @@ class Session extends CustomModel
         Attributes::FEATURED_IMAGE,
     ];
 
-    /**
-     * Create or Update
-     * @param array $data
-     * @param $find_by
-     * @return Session|null
-     */
-    public static function createOrUpdate(array $data, $find_by = null)
-    {
-        return parent::createOrUpdate($data, [
-            Attributes::USER_ID, Attributes::PACKAGE_ID, Attributes::SUB_PACKAGE_ID,
-            Attributes::DATE, Attributes::TIME, Attributes::STATUS
-        ]);
-    }
 
     /**
      * Attribute: featured_image

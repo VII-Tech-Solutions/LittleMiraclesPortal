@@ -216,5 +216,7 @@ class Attributes extends CustomEnum
     const SUB_PACKAGES = 'sub_packages';
     const SUB_PACKAGES_IDS = 'sub_packages_ids';
     const IDS = 'ids';
+    const SUB_SESSIONS = 'sub_sessions';
+    const SUB_SESSION_ID = 'sub_session_id';
 
 }
