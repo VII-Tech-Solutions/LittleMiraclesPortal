@@ -307,7 +307,7 @@ class SessionController extends CustomController
                 Attributes::LOCATION_TEXT => $location_text,
                 Attributes::IS_OUTDOOR => $is_outdoor,
             ],[
-                Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
+                Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID
             ]);
 
             // save session people
