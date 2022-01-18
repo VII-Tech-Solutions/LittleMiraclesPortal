@@ -441,6 +441,9 @@ class SessionController extends CustomController
         // get sessions
         $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
         $ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IDS, null, CastingTypes::ARRAY);
+
+        //only get sessions and not sub_sessions
+        $sessions = Session::sessions();
         if (!empty($id)) {
             $sessions = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }elseif (!empty($ids)) {

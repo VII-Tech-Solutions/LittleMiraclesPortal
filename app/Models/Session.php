@@ -51,6 +51,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  *
  * @method static Builder sortByLatest()
  * @method static \Illuminate\Database\Eloquent\Builder|self paid()
+ * @method static \Illuminate\Database\Eloquent\Builder|self sessions()
 
  */
 class Session extends CustomModel
@@ -403,5 +404,14 @@ class Session extends CustomModel
      */
     function scopePaid($q){
         return $q->where(Attributes::STATUS, '!=', SessionStatus::UNPAID);
+    }
+
+    /**
+     * Scope: Sessions
+     * @param $q
+     * @return bool
+     */
+    function scopeSessions($q){
+        return $q->whereNull(Attributes::SESSION_ID)->whereNull(Attributes::SUB_PACKAGE_ID);
     }
 }
