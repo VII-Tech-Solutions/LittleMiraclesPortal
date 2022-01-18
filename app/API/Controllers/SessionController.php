@@ -835,7 +835,7 @@ xox";
 
         // validate session
         /** @var Session $session */
-        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        $session = Session::sessions()->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
         if (is_null($session)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
@@ -844,16 +844,27 @@ xox";
         $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PROMO_CODE, null, CastingTypes::STRING);
 
 
+
         if($session->status == SessionStatus::UNPAID){
             $session->status = SessionStatus::BOOKED;
             $save_session = $session->save();
             if($save_session){
 
+                //get all sub_sessions and confirm them
+                $sub_sessions = $session->subSessions()->get();
+                foreach ($sub_sessions as $sub_session){
+                    $sub_session->status = SessionStatus::BOOKED;
+                    $save_sub_session = $sub_session->save();
+                    if(!$save_sub_session){
+                        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_UPDATE_STATUS, null, null, Response::HTTP_BAD_REQUEST);
+                    }
+                }
+
                 //check promo code
                 if(!is_null($promo_code)){
                     // get promotion
                     /** @var Promotion $promotion */
-                    $promotion = Promotion::where(Attributes::PROMO_CODE, $promo_code)->active()->first();
+                    $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
                     if (!is_null($promotion)) {
 
                         if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
@@ -863,10 +874,13 @@ xox";
                                 Attributes::USER_ID => $user->id,
                                 Attributes::SESSION_ID => $session->id,
                                 Attributes::STATUS => PromotionStatus::INACTIVE,
+                                Attributes::PROMO_CODE => $promotion->promo_code
                             ],[
                                 Attributes::USER_ID,
                                 Attributes::PROMO_CODE,
                             ]);
+
+
                             if(!$promo_code_update){
                                 return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
                             }
@@ -874,6 +888,7 @@ xox";
                     }
 
                 }
+
                 if (is_a($session, Session::class)) {
                     return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                         Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
