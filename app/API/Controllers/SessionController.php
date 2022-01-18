@@ -251,7 +251,7 @@ class SessionController extends CustomController
         ],[
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
-        
+
         foreach ($sub_sessions as $sub_session){
 
             $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
@@ -454,6 +454,10 @@ class SessionController extends CustomController
             $sessions = Helpers::getLatestOnlyInCollection($sessions, $this->last_update);
         }
 
+        // get related sub_session
+        $sub_session = $sessions->map->subSessions;
+        $sub_session = $sub_session->flatten()->filter();
+
         // get related reviews
         $reviews = $sessions->map->reviews;
         $reviews = $reviews->flatten()->filter();
@@ -473,6 +477,7 @@ class SessionController extends CustomController
         // return response
         return Helpers::returnResponse([
             Attributes::SESSIONS => Session::returnTransformedItems($sessions, ListSessionTransformer::class),
+            Attributes::SUB_SESSIONS => Session::returnTransformedItems($sub_session, ListSessionTransformer::class),
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),

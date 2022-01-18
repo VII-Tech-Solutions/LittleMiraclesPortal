@@ -5,10 +5,10 @@ namespace App\API\Transformers;
 use App\Constants\Attributes;
 
 /**
- * Class ListSessionTransformer
+ * Class ListSubSessionTransformer
  * @package App\API\Transformers
  */
-class ListSessionTransformer extends CustomTransformer
+class ListSubSessionTransformer extends CustomTransformer
 {
     public $fields = [
         Attributes::ID,
@@ -16,13 +16,12 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::USER_ID,
         Attributes::FAMILY_ID,
         Attributes::PACKAGE_ID,
+        Attributes::SUB_PACKAGE_ID,
         Attributes::FEATURED_IMAGE,
         Attributes::CUSTOM_BACKDROP,
         Attributes::CUSTOM_CAKE,
         Attributes::COMMENTS,
         Attributes::TOTAL_PRICE,
-        Attributes::BENEFITS_IDS,
-        Attributes::SUB_SESSIONS_IDS,
         Attributes::REVIEWS_IDS,
         Attributes::MEDIA_IDS,
         Attributes::INCLUDE_ME,
@@ -38,7 +37,6 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::PHOTOGRAPHER_NAME,
         Attributes::HAS_GUIDELINE,
         Attributes::GIFT_CLAIMED,
-        Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT
     ];

@@ -115,6 +115,7 @@ class Session extends CustomModel
         Attributes::MEDIA_IDS,
         Attributes::BENEFITS_IDS,
         Attributes::FEATURED_IMAGE,
+        Attributes::SUB_SESSIONS_IDS,
     ];
 
 
@@ -231,6 +232,17 @@ class Session extends CustomModel
     }
 
     /**
+     * Attribute: benefits_ids
+     * @return string
+     */
+    public function getSubSessionsIdsAttribute(){
+        $array = $this->subSessions()->pluck(Attributes::ID)->toArray();
+        if(empty($array)){
+            return null;
+        }
+        return implode(", ", $array);    }
+
+    /**
      * Attribute: reviews_ids
      * @return string
      */
@@ -325,6 +337,14 @@ class Session extends CustomModel
         return $this->hasMany(Review::class, Attributes::SESSION_ID, Attributes::ID);
     }
 
+    /**
+     * Relationships: Reviews
+     * @return HasMany
+     */
+    public function subSessions()
+    {
+        return $this->hasMany(Session::class, Attributes::SESSION_ID, Attributes::ID);
+    }
     /**
      * Relationships: Media
      * @return HasMany
