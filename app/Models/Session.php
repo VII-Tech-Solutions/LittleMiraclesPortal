@@ -125,7 +125,7 @@ class Session extends CustomModel
     public static function createOrUpdate(array $data, $find_by = null)
     {
         return parent::createOrUpdate($data, [
-            Attributes::USER_ID, Attributes::PACKAGE_ID,
+            Attributes::USER_ID, Attributes::PACKAGE_ID, Attributes::SUB_PACKAGE_ID,
             Attributes::DATE, Attributes::TIME, Attributes::STATUS
         ]);
     }

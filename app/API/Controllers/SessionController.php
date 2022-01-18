@@ -107,6 +107,7 @@ class SessionController extends CustomController
             Attributes::USER_ID => $user->id,
             Attributes::FAMILY_ID => $user->family_id,
             Attributes::PACKAGE_ID => $package_id,
+            Attributes::SUB_PACKAGE_ID => null,
             Attributes::DATE => $date,
             Attributes::TIME => $time,
             Attributes::COMMENTS => $comments,
@@ -290,7 +291,7 @@ class SessionController extends CustomController
                 Attributes::LOCATION_TEXT => $location_text,
                 Attributes::IS_OUTDOOR => $is_outdoor,
             ],[
-                Attributes::PACKAGE_ID,Attributes::SUB_PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
+                Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
             ]);
 
             // add the session id to the ids collection to filter the list all later
