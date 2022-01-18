@@ -191,6 +191,183 @@ class SessionController extends CustomController
     }
 
     /**
+     * Book a Session
+     *
+     * @return JsonResponse
+     *
+     * * @OA\POST(
+     *     path="/api/sessions",
+     *     tags={"Sessions"},
+     *     description="Book a Session",
+     *     @OA\Response(response="200", description="Sessions saved successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="last_update", in="query", description="Last Update: 2020-10-04", required=false, @OA\Schema(type="string")),
+     * )
+     */
+    public function bookMultipleSession(): JsonResponse
+    {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get all parameters
+        $sessions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SESSIONS, null, CastingTypes::ARRAY);
+        $ids = collect();
+        foreach ($sessions as $session){
+            $package_id = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
+            $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
+            $date = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::DATE, null, CastingTypes::STRING);
+            $time = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::TIME, null, CastingTypes::STRING);
+            $people = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PEOPLE, null, CastingTypes::ARRAY);
+            $backdrops = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::BACKDROPS, null, CastingTypes::ARRAY);
+            $cakes = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::CAKES, null, CastingTypes::ARRAY);
+            $comments = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::COMMENTS, null, CastingTypes::STRING);
+            $photographer = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
+            $additions = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
+            $payment_method = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
+            $include_me = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
+            $location_link = GlobalHelpers::getValueFromHTTPRequest($session, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
+
+            // Get package then validate
+            /** @var Package $package */
+            $package = Package::where(Attributes::ID, $package_id)->first();
+            if (is_null($package)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
+            }
+            
+
+            // calculate package price
+            $total_price = $package->price;
+
+            // find the package
+            /** @var Package $package */
+            $package = Package::find($package_id);
+            if (is_null($package)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
+            }
+
+            // location
+            $is_outdoor = false;
+            if (!is_null($location_link)) {
+                $is_outdoor = true;
+                $location_text = "Outdoor";
+            } else {
+                $location_text = "Studio";
+                $location_link = null;
+            }
+
+            // create session
+            $session = Session::createOrUpdate([
+                Attributes::TITLE => $package->title . " " . $package->tag,
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::PACKAGE_ID => $package_id,
+                Attributes::SUB_PACKAGE_ID => $sub_package_id,
+                Attributes::DATE => $date,
+                Attributes::TIME => $time,
+                Attributes::COMMENTS => $comments,
+                Attributes::PAYMENT_METHOD => $payment_method,
+                Attributes::STATUS => SessionStatus::UNPAID,
+                Attributes::TOTAL_PRICE => $total_price,
+                Attributes::PHOTOGRAPHER => $photographer,
+                Attributes::INCLUDE_ME => $include_me,
+                Attributes::LOCATION_LINK => $location_link,
+                Attributes::LOCATION_TEXT => $location_text,
+                Attributes::IS_OUTDOOR => $is_outdoor,
+            ],[
+                Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
+            ]);
+
+            // add the session id to the ids collection to filter the list all later
+            $ids->add($session->id);
+
+            // save session people
+            if (!is_null($people) && count($people) > 0) {
+                foreach ($people as $item) {
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::PEOPLE,
+                        Attributes::VALUE => $item,
+                        Attributes::USER_ID => $user->id,
+                        Attributes::FAMILY_ID => $user->family_id,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id
+                    ], [
+                        Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
+                    ]);
+                }
+            }
+
+            // save session backdrops
+            if (!is_null($backdrops) && count($backdrops) > 0) {
+                foreach ($backdrops as $item) {
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::BACKDROP,
+                        Attributes::VALUE => $item,
+                        Attributes::USER_ID => $user->id,
+                        Attributes::FAMILY_ID => $user->family_id,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id
+                    ],[
+                        Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
+                    ]);
+                }
+            }
+
+            // save session cakes
+            if (!is_null($cakes) && count($cakes) > 0) {
+                foreach ($cakes as $item) {
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::CAKE,
+                        Attributes::VALUE => $item,
+                        Attributes::USER_ID => $user->id,
+                        Attributes::FAMILY_ID => $user->family_id,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id
+                    ],[
+                        Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
+                    ]);
+                }
+            }
+
+            // save session additions
+            if (!is_null($additions) && count($additions) > 0) {
+                foreach ($additions as $item) {
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::ADDITIONS,
+                        Attributes::VALUE => $item,
+                        Attributes::USER_ID => $user->id,
+                        Attributes::FAMILY_ID => $user->family_id,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id
+                    ],[
+                        Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
+                    ]);
+                }
+            }
+
+
+
+        }
+
+        // return response
+        $this->request->merge([
+            Attributes::IDS => $ids->toArray()
+        ]);
+
+        if(!empty($ids)){
+            return $this->listAll();
+        }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+
+
+
+    }
+
+    /**
      * Get Session Info
      *
      * @return JsonResponse
@@ -237,9 +414,12 @@ class SessionController extends CustomController
 
         // get sessions
         $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
+        $ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IDS, null, CastingTypes::ARRAY);
         if (!empty($id)) {
             $sessions = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
-        } else {
+        }elseif (!empty($ids)) {
+            $sessions = Session::whereIn(Attributes::ID, $ids)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+        }  else {
             $sessions = Session::paid()->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }
 
