@@ -412,6 +412,6 @@ class Session extends CustomModel
      * @return bool
      */
     function scopeSessions($q){
-        return $q->whereNull(Attributes::SESSION_ID)->whereNull(Attributes::SUB_PACKAGE_ID);
+        return $q->where(Attributes::SESSION_ID)->where(Attributes::SUB_PACKAGE_ID);
     }
 }

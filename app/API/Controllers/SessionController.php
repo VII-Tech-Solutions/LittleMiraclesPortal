@@ -445,11 +445,11 @@ class SessionController extends CustomController
         //only get sessions and not sub_sessions
         $sessions = Session::sessions();
         if (!empty($id)) {
-            $sessions = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+            $sessions = $sessions->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }elseif (!empty($ids)) {
-            $sessions = Session::whereIn(Attributes::ID, $ids)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+            $sessions = $sessions->whereIn(Attributes::ID, $ids)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }  else {
-            $sessions = Session::paid()->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+            $sessions = $sessions->paid()->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }
 
         // get last updated items
