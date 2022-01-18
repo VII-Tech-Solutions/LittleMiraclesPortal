@@ -318,8 +318,8 @@ class SessionController extends CustomController
                         Attributes::VALUE => $item,
                         Attributes::USER_ID => $user->id,
                         Attributes::FAMILY_ID => $user->family_id,
-                        Attributes::SESSION_ID => $session->id,
-                        Attributes::PACKAGE_ID => $session->package_id
+                        Attributes::SESSION_ID => $sub_session->id,
+                        Attributes::PACKAGE_ID => $sub_session->package_id
                     ], [
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
@@ -334,8 +334,8 @@ class SessionController extends CustomController
                         Attributes::VALUE => $item,
                         Attributes::USER_ID => $user->id,
                         Attributes::FAMILY_ID => $user->family_id,
-                        Attributes::SESSION_ID => $session->id,
-                        Attributes::PACKAGE_ID => $session->package_id
+                        Attributes::SESSION_ID => $sub_session->id,
+                        Attributes::PACKAGE_ID => $sub_session->package_id
                     ],[
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
@@ -350,8 +350,8 @@ class SessionController extends CustomController
                         Attributes::VALUE => $item,
                         Attributes::USER_ID => $user->id,
                         Attributes::FAMILY_ID => $user->family_id,
-                        Attributes::SESSION_ID => $session->id,
-                        Attributes::PACKAGE_ID => $session->package_id
+                        Attributes::SESSION_ID => $sub_session->id,
+                        Attributes::PACKAGE_ID => $sub_session->package_id
                     ],[
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
@@ -366,8 +366,8 @@ class SessionController extends CustomController
                         Attributes::VALUE => $item,
                         Attributes::USER_ID => $user->id,
                         Attributes::FAMILY_ID => $user->family_id,
-                        Attributes::SESSION_ID => $session->id,
-                        Attributes::PACKAGE_ID => $session->package_id
+                        Attributes::SESSION_ID => $sub_session->id,
+                        Attributes::PACKAGE_ID => $sub_session->package_id
                     ],[
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
