@@ -20,7 +20,6 @@ class ListSubSessionTransformer extends CustomTransformer
         Attributes::FEATURED_IMAGE,
         Attributes::CUSTOM_BACKDROP,
         Attributes::CUSTOM_CAKE,
-        Attributes::COMMENTS,
         Attributes::TOTAL_PRICE,
         Attributes::REVIEWS_IDS,
         Attributes::MEDIA_IDS,
