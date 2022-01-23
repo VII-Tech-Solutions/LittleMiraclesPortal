@@ -7,6 +7,7 @@ use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\ListSessionTransformer;
+use App\API\Transformers\ListSubSessionTransformer;
 use App\Constants\Attributes;
 use App\Constants\Gender;
 use App\Constants\Messages;
@@ -218,6 +219,7 @@ class SessionController extends CustomController
         $package_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
         $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
         $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
+        $comments = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::COMMENTS, null, CastingTypes::STRING);
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
         $sub_sessions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SUB_SESSIONS, null, CastingTypes::ARRAY);
 
@@ -244,6 +246,7 @@ class SessionController extends CustomController
             Attributes::FAMILY_ID => $user->family_id,
             Attributes::PACKAGE_ID => $package_id,
             Attributes::DATE => $date,
+            Attributes::COMMENTS => $comments,
             Attributes::TIME => $time,
             Attributes::PAYMENT_METHOD => $payment_method,
             Attributes::STATUS => SessionStatus::UNPAID,
@@ -260,7 +263,6 @@ class SessionController extends CustomController
             $people = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::PEOPLE, null, CastingTypes::ARRAY);
             $backdrops = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::BACKDROPS, null, CastingTypes::ARRAY);
             $cakes = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::CAKES, null, CastingTypes::ARRAY);
-            $comments = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::COMMENTS, null, CastingTypes::STRING);
             $photographer = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
             $additions = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
             $include_me = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
@@ -298,7 +300,6 @@ class SessionController extends CustomController
                 Attributes::SUB_PACKAGE_ID => $sub_package_id,
                 Attributes::DATE => $date,
                 Attributes::TIME => $time,
-                Attributes::COMMENTS => $comments,
                 Attributes::STATUS => SessionStatus::UNPAID,
                 Attributes::PAYMENT_METHOD => $payment_method,
                 Attributes::PHOTOGRAPHER => $photographer,
@@ -480,7 +481,7 @@ class SessionController extends CustomController
         // return response
         return Helpers::returnResponse([
             Attributes::SESSIONS => Session::returnTransformedItems($sessions, ListSessionTransformer::class),
-            Attributes::SUB_SESSIONS => Session::returnTransformedItems($sub_session, ListSessionTransformer::class),
+            Attributes::SUB_SESSIONS => Session::returnTransformedItems($sub_session, ListSubSessionTransformer::class),
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
