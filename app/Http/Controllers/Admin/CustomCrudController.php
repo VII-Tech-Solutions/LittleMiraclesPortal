@@ -1020,26 +1020,30 @@ class CustomCrudController extends CrudController
      * @param null $tab_name
      * @param false $allow_null
      */
-    function addRelationshipField($relationships = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
+    function addRelationshipField($relationships = null, $name = null, $label = null, $tab_name = null, $allow_null = false, $type = FieldTypes::SELECT2_FROM_ARRAY, $entity = null, $model = null, $attribute = null )
     {
-        if (is_null($relationships)) {
-            $relationships = Relationship::all();
-        }
-        if (is_null($attribute_name)) {
-            $attribute_name = Attributes::RELATIONSHIP;
+
+        if (is_null($name)) {
+            $name = Attributes::RELATIONSHIP;
         }
         if (is_null($label)) {
             $label = ucfirst(Attributes::RELATIONSHIP);
         }
+
         CRUD::addField([
             Attributes::LABEL => $label,
-            Attributes::NAME => $attribute_name,
+            Attributes::NAME => $name,
             Attributes::ALLOWS_NULL => $allow_null,
-            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::TYPE => $type,
+            Attributes::ENTITY => $entity,
+            Attributes::MODEL => $model,
             Attributes::OPTIONS => $relationships,
             Attributes::TAB => $tab_name,
+            Attributes::ATTRIBUTE => $attribute,
+
         ]);
     }
+
 
     /**
      * Add Studio Metadata Category Field

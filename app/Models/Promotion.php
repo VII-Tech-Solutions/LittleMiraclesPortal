@@ -6,6 +6,8 @@ use App\Constants\Attributes;
 use App\Constants\Tables;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -83,5 +85,17 @@ class Promotion extends CustomModel
     public function setImageAttribute($value)
     {
         $this->setImage($value);
+    }
+
+
+
+
+    /**
+     * Relationships: package
+     * @return BelongsTo
+     */
+    public function package(): BelongsTo
+    {
+        return $this->BelongsTo(Package::class, Attributes::PACKAGE_ID);
     }
 }
