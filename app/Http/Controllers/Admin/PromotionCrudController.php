@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants\AllPackages;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\PromotionType;
+use App\Constants\Relationship;
 use App\Constants\Status;
+use App\Helpers;
 use App\Http\Requests\PromotionRequest;
+use App\Models\Package;
 use App\Models\Promotion;
 use Exception;
 
@@ -99,6 +103,9 @@ class PromotionCrudController extends CustomCrudController
 
         // Field: Name
         $this->addNameField(Attributes::TITLE, "Title");
+
+        // Field: Select Package
+        $this->addRelationshipField([AllPackages::ALL => 'All Packages'] + Helpers::toCustomArray(Package::all(), 'title'), Attributes::PACKAGE_ID );
 
         // Field: Image
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);

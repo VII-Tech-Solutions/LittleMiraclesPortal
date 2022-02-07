@@ -7,6 +7,7 @@ use App\Constants\EnvVariables;
 use App\Constants\Status;
 use App\Models\Benefit;
 use App\Models\Media;
+use App\Models\Package;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -328,6 +329,20 @@ class Helpers
             return $benefits->pluck(Attributes::ID);
         }
         return $benefits;
+    }
+
+    /**
+     * To Custom Array
+     * @return array
+     */
+    static function toCustomArray($collection , $value_name){
+        $collect = collect();
+        foreach ($collection as $value){
+            $collect->add(
+                $value['id'] = $value[$value_name]
+            );
+        }
+        return $collect->toArray();
     }
 
 }
