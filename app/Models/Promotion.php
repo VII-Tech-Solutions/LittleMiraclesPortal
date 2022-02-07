@@ -40,6 +40,7 @@ class Promotion extends CustomModel
         Attributes::USER_ID,
         Attributes::PACKAGE_ID,
         Attributes::SESSION_ID,
+        Attributes::AVAILABLE_FROM,
     ];
 
     protected $casts = [

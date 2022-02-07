@@ -72,24 +72,17 @@ class GiftCrudController extends CustomCrudController
         $this->crud->setValidation(GiftRequest::class);
 
         // Field: Select Package
-//        $this->crud->addField(
-//            [  // Select
-//                'label'     => "Select Package",
-//                'type'      => 'select',
-//                'name'      => 'package_id', // the db column for the foreign key
-//
-//                // optional
-//                // 'entity' should point to the method that defines the relationship in your Model
-//                // defining entity will make Backpack guess 'model' and 'attribute'
-//                'entity'    => 'package',
-//
-//                // optional - manually specify the related model and attribute
-//                'model'     => "App\Models\Package", // related model
-//                'attribute' => 'title', // foreign key attribute that is shown to user
-//            ]
-//        );
+        $this->addRelationshipField(null, Attributes::PACKAGE_ID, 'Select Package', null, null, FieldTypes::SELECT, 'package', "App\Models\Package" ,Attributes::TITLE );
 
-        $this->addRelationshipField(null, Attributes::PACKAGE_ID, 'Select Package', null, null, FieldTypes::SELECT, 'package', "App\Models\Package" ,'title' );
+        // Field: Image
+        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
+
+        // Field: Available From
+        $this->addDateField(Attributes::AVAILABLE_FROM , "Available From");
+
+        // Field: Valid Until
+        $this->addDateField(Attributes::VALID_UNTIL , "Valid Until");
+
         // Field: Status
         $this->addStatusField(GiftStatus::all());
 

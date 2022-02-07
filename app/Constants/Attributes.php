@@ -220,5 +220,7 @@ class Attributes extends CustomEnum
     const SUB_SESSION_ID = 'sub_session_id';
     const SUB_SESSIONS_IDS = 'sub_sessions_ids';
     const VALID_FROM = 'valid_from';
+    const AVAILABLE_FROM = 'available_from';
+    const PACKAGE = 'package';
 
 }
