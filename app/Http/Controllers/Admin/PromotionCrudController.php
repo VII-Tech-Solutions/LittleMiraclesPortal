@@ -110,10 +110,10 @@ class PromotionCrudController extends CustomCrudController
         $this->addOfferField(Attributes::OFFER, "Discount Percentage (%)");
 
         // Field: Available From
-        $this->addDateField(Attributes::AVAILABLE_FROM , "Available From");
+        $this->addDateField(Attributes::AVAILABLE_FROM , "Start Date");
 
         // Field: Valid Until
-        $this->addDateField(Attributes::VALID_UNTIL , "Valid Until");
+        $this->addDateField(Attributes::VALID_UNTIL , "End Date");
 
         // Field: Type
         $this->addHiddenField(Attributes::TYPE, PromotionType::PUBLIC);
