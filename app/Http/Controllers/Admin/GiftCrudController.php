@@ -60,11 +60,10 @@ class GiftCrudController extends CustomCrudController
         $this->addColumn(Attributes::PACKAGE, 'Package Name');
 
         // Column: Available From
-        $this->addDateColumn("Available From",1, Attributes::AVAILABLE_FROM);
-
+        $this->addDateColumn("Start Date",1, Attributes::AVAILABLE_FROM);
 
         // Column: Valid Until
-        $this->addDateColumn("Valid Until",2, Attributes::VALID_UNTIL);
+        $this->addDateColumn("End Date",2, Attributes::VALID_UNTIL);
 
 
         // Column: Status
@@ -105,10 +104,10 @@ class GiftCrudController extends CustomCrudController
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: Available From
-        $this->addDateField(Attributes::AVAILABLE_FROM , "Available From");
+        $this->addDateField(Attributes::AVAILABLE_FROM , "Start Date");
 
         // Field: Valid Until
-        $this->addDateField(Attributes::VALID_UNTIL , "Valid Until");
+        $this->addDateField(Attributes::VALID_UNTIL , "End Date");
 
         // Field: Type
         $this->addHiddenField(Attributes::TYPE, PromotionType::GIFT);

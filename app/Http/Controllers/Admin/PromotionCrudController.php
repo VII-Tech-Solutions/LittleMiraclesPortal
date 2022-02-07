@@ -27,9 +27,9 @@ class PromotionCrudController extends CustomCrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/promotions');
         $this->crud->setEntityNameStrings('Promotion', 'Promotions');
 
-//        $this->crud->addClause('where',function ($q){
-//           return $q->where(Attributes::USER_ID, null);
-//        });
+        $this->crud->addClause('where',function ($q){
+            return $q->where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::PUBLIC);
+        });
 
     }
 
@@ -107,16 +107,16 @@ class PromotionCrudController extends CustomCrudController
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
 
         // Field: Offer
-        $this->addOfferField(Attributes::OFFER, "Offer Percentage");
+        $this->addOfferField(Attributes::OFFER, "Discount Percentage (%)");
 
-        // Field: Type
-        $this->addStatusField(PromotionType::all(), Attributes::TYPE, "Type");
-
-        // Field: Posted At
-        $this->addPostedAtField(Attributes::POSTED_AT, "Posted At");
+        // Field: Available From
+        $this->addDateField(Attributes::AVAILABLE_FROM , "Available From");
 
         // Field: Valid Until
-        $this->addValidUntilField(Attributes::VALID_UNTIL , "Valid Until");
+        $this->addDateField(Attributes::VALID_UNTIL , "Valid Until");
+
+        // Field: Type
+        $this->addHiddenField(Attributes::TYPE, PromotionType::PUBLIC);
 
         // Field: Promo Code
         $this->addPromotionCodeField(Attributes::PROMO_CODE, "Promo Code");
