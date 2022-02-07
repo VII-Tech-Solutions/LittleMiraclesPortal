@@ -36,6 +36,7 @@ class ListSubSessionTransformer extends CustomTransformer
         Attributes::PHOTOGRAPHER_NAME,
         Attributes::HAS_GUIDELINE,
         Attributes::UPDATED_AT,
-        Attributes::DELETED_AT
+        Attributes::DELETED_AT,
+        Attributes::STATUS
     ];
 }
