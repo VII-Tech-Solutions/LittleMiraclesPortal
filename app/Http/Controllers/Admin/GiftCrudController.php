@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Alert;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\GiftStatus;
+use App\Constants\PromotionStatus;
 use App\Constants\PromotionType;
 use App\Constants\Status;
 use App\Http\Requests\GiftRequest;
 use App\Http\Requests\PromotionRequest;
 use App\Models\Package;
 use App\Models\Promotion;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Redirect;
+use VIITech\Helpers\GlobalHelpers;
 
 /**
  * Promotions CRUD Controller
@@ -46,7 +54,7 @@ class GiftCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(PromotionStatus::all());
 
         // Column: Package
         $this->addColumn(Attributes::PACKAGE, 'Package Name');
@@ -108,5 +116,68 @@ class GiftCrudController extends CustomCrudController
         // Field: Status
         $this->addStatusField(GiftStatus::all());
 
+    }
+
+
+    /**
+     * Activate
+     * @param $id
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function activate($id) {
+
+        $activate =  Promotion::where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::GIFT)->where(Attributes::ID, $id)->first();
+
+        if(is_null($activate)){
+            $response = 'Gift not found';
+            Alert::error($response)->flash();
+
+        }else{
+            $activate->status = PromotionStatus::ACTIVE;
+
+            if($activate->save()){
+                $response = 'Gift updated successfully';
+                Alert::success($response)->flash();
+                $deActivate_all = Promotion::where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::GIFT)
+                    ->where(Attributes::STATUS,PromotionStatus::ACTIVE)->where(Attributes::ID,'!=', $id)->update([Attributes::STATUS => PromotionStatus::INACTIVE]);
+            }
+        }
+
+        return Redirect::back();
+    }
+
+
+    /**
+     * De Activate
+     * @param $id
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function deActivate($id) {
+
+        $de_activate =  Promotion::where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::GIFT)->where(Attributes::ID, $id)->first();
+
+        if(is_null($de_activate)){
+            $response = 'Gift not found';
+            Alert::error($response)->flash();
+
+        }else{
+            // check first if there is at least one active
+            $active_gifts =  Promotion::where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::GIFT)->where(Attributes::ID,'!=', $id)->where(Attributes::STATUS, PromotionStatus::ACTIVE)->count();
+            if($active_gifts == 0){
+                $response = 'One gift must be at least activated';
+                Alert::error($response)->flash();
+            }else{
+                $de_activate->status = PromotionStatus::INACTIVE;
+                if($de_activate->save()){
+                    $response = 'Gift updated successfully';
+                    Alert::success($response)->flash();
+                }
+            }
+
+        }
+
+        return Redirect::back();
     }
 }

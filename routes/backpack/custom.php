@@ -26,6 +26,9 @@ Route::group([
     Route::crud('daily-tips', 'DailyTipCrudController');
     Route::crud('promotions', 'PromotionCrudController');
     Route::crud('gifts', 'GiftCrudController');
+    Route::get('gifts/{id}/activate', 'GiftCrudController@activate');
+    Route::get('gifts/{id}/de-activate', 'GiftCrudController@deActivate');
+
     Route::crud('workshops', 'WorkshopCrudController');
     Route::crud('reviews', 'ReviewCrudController');
     Route::crud('sessions', 'SessionCrudController');

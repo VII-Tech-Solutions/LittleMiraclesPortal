@@ -11,9 +11,14 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use VIITech\Helpers\Constants\CastingTypes;
+use VIITech\Helpers\GlobalHelpers;
 
 /**
  * Promotion
@@ -111,14 +116,15 @@ class Promotion extends CustomModel
      */
     public function giftActivation(): string
     {
-        if($this->status == PromotionStatus::INACTIVE){
-            return '<a href="' . backpack_url("gifts/$this->id/activate") . '" class="btn btn-sm btn-link" style="color:green; font-weight: 900" data-button-type="Activate"><i  class="la la-check"></i> Activate</a>';
-        }else{
+        if($this->status == PromotionStatus::ACTIVE){
             return '<a href="' . backpack_url("gifts/$this->id/de-activate") . '" class="btn btn-sm btn-link" style="color:gray ;font-weight: 900" data-button-type="DeActivate"><i class="la la-low-vision"></i> DeActivate</a>';
+        }else{
+            return '<a href="' . backpack_url("gifts/$this->id/activate") . '" class="btn btn-sm btn-link" style="color:green; font-weight: 900" data-button-type="Activate"><i  class="la la-check"></i> Activate</a>';
 
         }
 
     }
+
 
 
 
