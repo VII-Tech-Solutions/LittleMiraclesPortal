@@ -241,6 +241,24 @@ class CustomCrudController extends CrudController
 
     }
 
+
+    /**
+     * Add Hidden Field
+     */
+    function addHiddenField($name, $value)
+    {
+
+        CRUD::addField(
+            [   // Hidden
+                Attributes::NAME => $name,
+                Attributes::TYPE  => FieldTypes::HIDDEN,
+                Attributes::VALUE => $value,
+            ]
+        );
+
+    }
+
+
     /**
      * Add Session Detail Field from Array
      */
@@ -487,6 +505,18 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
             Attributes::PRIORITY => $priority
+        ]);
+    }
+    /**
+     * Add Column
+     * @param $column_name
+     * @param $label
+     */
+    function addColumn($column_name, $label)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
         ]);
     }
 

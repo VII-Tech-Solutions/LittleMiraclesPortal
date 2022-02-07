@@ -3,7 +3,12 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\GiftStatus;
+use App\Constants\PromotionStatus;
+use App\Constants\PromotionType;
+use App\Constants\Status;
 use App\Constants\Tables;
+use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -66,7 +71,8 @@ class Promotion extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        return $this->getStatusName($value);
+        $text = PromotionStatus::getKey($this->status);
+        return Helpers::readableText($text);
     }
 
     /**
@@ -90,7 +96,6 @@ class Promotion extends CustomModel
 
 
 
-
     /**
      * Relationships: package
      * @return BelongsTo
@@ -99,4 +104,22 @@ class Promotion extends CustomModel
     {
         return $this->BelongsTo(Package::class, Attributes::PACKAGE_ID);
     }
+
+
+    /**
+     * gift Activate
+     */
+    public function giftActivation(): string
+    {
+        if($this->status == PromotionStatus::INACTIVE){
+            return '<a href="' . backpack_url("gifts/$this->id/activate") . '" class="btn btn-sm btn-link" style="color:green; font-weight: 900" data-button-type="Activate"><i  class="la la-check"></i> Activate</a>';
+        }else{
+            return '<a href="' . backpack_url("gifts/$this->id/de-activate") . '" class="btn btn-sm btn-link" style="color:gray ;font-weight: 900" data-button-type="DeActivate"><i class="la la-low-vision"></i> DeActivate</a>';
+
+        }
+
+    }
+
+
+
 }

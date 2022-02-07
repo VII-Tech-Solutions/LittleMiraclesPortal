@@ -45,6 +45,25 @@ class GiftCrudController extends CustomCrudController
     protected function setupListOperation()
     {
 
+        // Filter: Status
+        $this->addStatusFilter(Status::all());
+
+        // Column: Package
+        $this->addColumn(Attributes::PACKAGE, 'Package Name');
+
+        // Column: Available From
+        $this->addDateColumn("Available From",1, Attributes::AVAILABLE_FROM);
+
+
+        // Column: Valid Until
+        $this->addDateColumn("Valid Until",2, Attributes::VALID_UNTIL);
+
+
+        // Column: Status
+        $this->addStatusColumn(Attributes::STATUS_NAME);
+
+        // Button: Ban
+        $this->crud->addButtonFromModelFunction('line', 'activation', 'giftActivation', 'beginning');
 
     }
 
@@ -82,6 +101,9 @@ class GiftCrudController extends CustomCrudController
 
         // Field: Valid Until
         $this->addDateField(Attributes::VALID_UNTIL , "Valid Until");
+
+        // Field: Type
+        $this->addHiddenField(Attributes::TYPE, PromotionType::GIFT);
 
         // Field: Status
         $this->addStatusField(GiftStatus::all());
