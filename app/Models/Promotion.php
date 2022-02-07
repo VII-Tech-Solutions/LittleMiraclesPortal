@@ -51,6 +51,7 @@ class Promotion extends CustomModel
         Attributes::PACKAGE_ID,
         Attributes::SESSION_ID,
         Attributes::AVAILABLE_FROM,
+        Attributes::DAYS_OF_VALIDITY,
     ];
 
     protected $casts = [
@@ -66,7 +67,8 @@ class Promotion extends CustomModel
     ];
 
     protected $appends = [
-        Attributes::STATUS_NAME
+        Attributes::STATUS_NAME,
+        Attributes::DAYS_OF_VALIDITY_TEXT
     ];
 
     /**
@@ -88,6 +90,20 @@ class Promotion extends CustomModel
     function getImageAttribute($value)
     {
         return $this->getImage($value);
+    }
+
+    /**
+     * Get Days of validity text
+     * @param $value
+     * @return string|null
+     */
+    function getDaysOfValidityTextAttribute($value)
+    {
+        if(empty($this->days_of_validity)){
+            return null;
+        }
+
+        return $this->days_of_validity . " Days";
     }
 
     /**

@@ -6,6 +6,7 @@ use Alert;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\GiftStatus;
+use App\Constants\GiftValidityDays;
 use App\Constants\PromotionStatus;
 use App\Constants\PromotionType;
 use App\Constants\Status;
@@ -65,6 +66,8 @@ class GiftCrudController extends CustomCrudController
         // Column: Valid Until
         $this->addDateColumn("End Date",2, Attributes::VALID_UNTIL);
 
+        // Column: Package
+        $this->addColumn(Attributes::DAYS_OF_VALIDITY_TEXT, 'Days of validity');
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -108,6 +111,11 @@ class GiftCrudController extends CustomCrudController
 
         // Field: Valid Until
         $this->addDateField(Attributes::VALID_UNTIL , "End Date");
+
+        // Field: Days of validity
+        $this->addRelationshipField( GiftValidityDays::all(),
+            Attributes::DAYS_OF_VALIDITY, 'Days of validity'
+        );
 
         // Field: Type
         $this->addHiddenField(Attributes::TYPE, PromotionType::GIFT);

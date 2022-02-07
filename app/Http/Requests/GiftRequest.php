@@ -23,6 +23,7 @@ class GiftRequest extends CustomRequest
             Attributes::IMAGE => 'required',
             Attributes::AVAILABLE_FROM => 'required',
             Attributes::VALID_UNTIL => 'required',
+            Attributes::DAYS_OF_VALIDITY => 'required',
         ];
     }
 

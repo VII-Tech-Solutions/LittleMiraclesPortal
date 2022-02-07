@@ -222,5 +222,7 @@ class Attributes extends CustomEnum
     const VALID_FROM = 'valid_from';
     const AVAILABLE_FROM = 'available_from';
     const PACKAGE = 'package';
+    const DAYS_OF_VALIDITY = 'days_of_validity';
+    const DAYS_OF_VALIDITY_TEXT = 'days_of_validity_text';
 
 }
