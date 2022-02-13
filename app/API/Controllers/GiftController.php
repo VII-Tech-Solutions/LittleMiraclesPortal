@@ -114,7 +114,7 @@ class GiftController extends CustomController
                  Attributes::IMAGE => $package->image,
                  Attributes::AVAILABLE_FROM => Carbon::now()->format('Y-m-d'),
                  Attributes::AVAILABLE_UNTIL => Carbon::now()->addMonths(6)->format('Y-m-d'),
-                 Attributes::DAYS_OF_VALIDITY => 90,
+                 Attributes::DAYS_OF_VALIDITY => 180,
                  Attributes::TYPE => PromotionType::GIFT
                 ]);
             }
