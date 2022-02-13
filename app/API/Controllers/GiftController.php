@@ -88,10 +88,11 @@ class GiftController extends CustomController
         // get sessions
         /** @var Builder $session */
         $sessions = Session::where(Attributes::STATUS, SessionStatus::READY)
+            ->whereNull(Attributes::SESSION_ID)
             ->where(Attributes::USER_ID, $user->id)
             ->where(Attributes::GIFT_CLAIMED, false)
             ->orderBy(Attributes::CREATED_AT);
-        
+
         if($sessions->count() < 5){
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
