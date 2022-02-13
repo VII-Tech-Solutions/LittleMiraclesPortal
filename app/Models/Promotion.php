@@ -51,6 +51,7 @@ class Promotion extends CustomModel
         Attributes::PACKAGE_ID,
         Attributes::SESSION_ID,
         Attributes::AVAILABLE_FROM,
+        Attributes::AVAILABLE_UNTIL,
         Attributes::DAYS_OF_VALIDITY,
     ];
 

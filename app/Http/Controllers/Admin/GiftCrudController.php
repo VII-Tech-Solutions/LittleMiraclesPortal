@@ -64,7 +64,7 @@ class GiftCrudController extends CustomCrudController
         $this->addDateColumn("Start Date",1, Attributes::AVAILABLE_FROM);
 
         // Column: Valid Until
-        $this->addDateColumn("End Date",2, Attributes::VALID_UNTIL);
+        $this->addDateColumn("End Date",2, Attributes::AVAILABLE_UNTIL);
 
         // Column: Package
         $this->addColumn(Attributes::DAYS_OF_VALIDITY_TEXT, 'Days of validity');
@@ -110,7 +110,7 @@ class GiftCrudController extends CustomCrudController
         $this->addDateField(Attributes::AVAILABLE_FROM , "Start Date");
 
         // Field: Valid Until
-        $this->addDateField(Attributes::VALID_UNTIL , "End Date");
+        $this->addDateField(Attributes::AVAILABLE_UNTIL , "End Date");
 
         // Field: Days of validity
         $this->addRelationshipField( GiftValidityDays::all(),

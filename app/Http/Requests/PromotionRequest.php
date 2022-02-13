@@ -19,7 +19,6 @@ class PromotionRequest extends CustomRequest
         return [
             Attributes::TITLE => 'required|min:2|max:255',
             Attributes::OFFER => 'required',
-            Attributes::IMAGE => 'required',
             Attributes::TYPE => 'required',
             Attributes::PROMO_CODE => 'required',
             Attributes::AVAILABLE_FROM => 'required',

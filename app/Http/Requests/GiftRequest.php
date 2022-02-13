@@ -19,10 +19,10 @@ class GiftRequest extends CustomRequest
     public function rules()
     {
         return [
-            Attributes::PACKAGE_ID => ['required',Rule::unique(Tables::PROMOTIONS,Attributes::PACKAGE_ID)->ignore($this->request->get(Attributes::ID))],
+            Attributes::PACKAGE_ID => 'required',
             Attributes::IMAGE => 'required',
             Attributes::AVAILABLE_FROM => 'required',
-            Attributes::VALID_UNTIL => 'required',
+            Attributes::AVAILABLE_UNTIL => 'required',
             Attributes::DAYS_OF_VALIDITY => 'required',
         ];
     }
