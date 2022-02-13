@@ -170,17 +170,13 @@ class GiftCrudController extends CustomCrudController
             Alert::error($response)->flash();
 
         }else{
-            // check first if there is at least one active
-            $active_gifts =  Promotion::where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::GIFT)->where(Attributes::ID,'!=', $id)->where(Attributes::STATUS, PromotionStatus::ACTIVE)->count();
-            if($active_gifts == 0){
-                $response = 'One gift must be at least activated';
-                Alert::error($response)->flash();
+            $de_activate->status = PromotionStatus::INACTIVE;
+            if($de_activate->save()){
+                $response = 'Gift updated successfully';
+                Alert::success($response)->flash();
             }else{
-                $de_activate->status = PromotionStatus::INACTIVE;
-                if($de_activate->save()){
-                    $response = 'Gift updated successfully';
-                    Alert::success($response)->flash();
-                }
+                $response = "Gift wasn't saved";
+                Alert::error($response)->flash();
             }
 
         }
