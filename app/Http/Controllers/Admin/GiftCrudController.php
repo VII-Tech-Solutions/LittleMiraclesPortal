@@ -121,7 +121,7 @@ class GiftCrudController extends CustomCrudController
         $this->addHiddenField(Attributes::TYPE, PromotionType::GIFT);
 
         // Field: Status
-        $this->addStatusField(GiftStatus::all());
+        $this->addStatusField(PromotionStatus::all());
 
     }
 

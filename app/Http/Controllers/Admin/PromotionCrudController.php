@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\AllPackages;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\PromotionStatus;
 use App\Constants\PromotionType;
 use App\Constants\Relationship;
 use App\Constants\Status;
@@ -52,20 +53,8 @@ class PromotionCrudController extends CustomCrudController
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
-        // column: Image
-        $this->addImageColumn("Image");
-
-        // Column: Content
-        $this->addContentColumn();
-
         // Column: Offer
         $this->addOfferColumn("Offer Percentage", 1, Attributes::OFFER);
-
-        // Column: Type
-        $this->addPromotionTypeColumn("Type", 1, Attributes::TYPE);
-
-        // Column: Posted At
-        $this->addPostedAtColumn("Posted At");
 
         // Column: Valid Until
         $this->addPostedAtColumn("Valid Until",1, Attributes::VALID_UNTIL);
@@ -129,7 +118,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addPromotionCodeField(Attributes::PROMO_CODE, "Promo Code");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(PromotionStatus::all());
 
     }
 }
