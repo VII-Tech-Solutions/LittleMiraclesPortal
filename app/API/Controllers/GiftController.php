@@ -4,6 +4,8 @@ namespace App\API\Controllers;
 
 use App\API\Transformers\ListPromotionTransformer;
 use App\Constants\Attributes;
+use App\Constants\GiftStatus;
+use App\Constants\GiftValidityDays;
 use App\Constants\Messages;
 use App\Constants\PromotionType;
 use App\Constants\SessionStatus;
@@ -89,15 +91,32 @@ class GiftController extends CustomController
             ->where(Attributes::USER_ID, $user->id)
             ->where(Attributes::GIFT_CLAIMED, false)
             ->orderBy(Attributes::CREATED_AT);
-        if($sessions->count() == 0){
+        
+        if($sessions->count() < 5){
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
         // find package with gift
-        /** @var Package $package */
-        $package = Package::active()->where(Attributes::FIVE_SESSIONS_GIFT, true)->inRandomOrder()->first();
+        /** @var Package $package_gift */
+        $package = Promotion::active()->where(Attributes::STATUS, GiftStatus::ACTIVE)->whereNull(Attributes::USER_ID)
+            ->whereDate(Attributes::AVAILABLE_FROM, '<=', Carbon::now()->format('Y-m-d'))
+            ->whereDate(Attributes::AVAILABLE_UNTIL, '>=', Carbon::now()->format('Y-m-d'))->first();
+
         if(is_null($package)){
-            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+            $package = Package::where(Attributes::TITLE, 'Mini Session')->first();
+            if(is_null($package)){
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+            }else{
+                // if not found, then will need to generate mini session by default
+                $package = Promotion::createOrUpdate([
+                 Attributes::PACKAGE_ID => $package->id,
+                 Attributes::IMAGE => $package->image,
+                 Attributes::AVAILABLE_FROM => Carbon::now()->format('Y-m-d'),
+                 Attributes::AVAILABLE_UNTIL => Carbon::now()->addMonths(6)->format('Y-m-d'),
+                 Attributes::DAYS_OF_VALIDITY => 90,
+                 Attributes::TYPE => PromotionType::GIFT
+                ]);
+            }
         }
 
         // find a unique promo code for user
@@ -105,7 +124,7 @@ class GiftController extends CustomController
         $count = 0;
         do {
             $code = Helpers::generateCode();
-            $existing_promotions = Promotion::active()->where(Attributes::PROMO_CODE, $code)->count();
+            $existing_promotions = Promotion::where(Attributes::PROMO_CODE, $code)->count();
             $count++;
         } while ($existing_promotions != 0 && $count == 10);
 
@@ -114,8 +133,8 @@ class GiftController extends CustomController
             Attributes::TITLE => null,
             Attributes::OFFER => 100,
             Attributes::TYPE => PromotionType::GIFT,
-            Attributes::POSTED_AT => Carbon::now(),
-            Attributes::VALID_UNTIL => Carbon::now()->addYear(),
+            Attributes::POSTED_AT => Carbon::now()->format('Y-m-d'),
+            Attributes::VALID_UNTIL => Carbon::now()->addDays($package->days_of_validaty ?? 30)->format('Y-m-d'),
             Attributes::CONTENT => null,
             Attributes::PROMO_CODE => $code,
             Attributes::IMAGE => $package->image,
@@ -125,8 +144,8 @@ class GiftController extends CustomController
         ], [
             Attributes::USER_ID, Attributes::PACKAGE_ID, Attributes::VALID_UNTIL
         ]);
-
-        // validate the gift
+//
+//        // validate the gift
         if(!is_a($gift, Promotion::class)){
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
@@ -136,8 +155,15 @@ class GiftController extends CustomController
             /** @var Session $session */
             $session->gift_claimed = true;
             $session->save();
-        });
 
+            //get all sub_sessions and confirm them
+            $sub_sessions = $session->subSessions()->get();
+            foreach ($sub_sessions as $sub_session){
+                $sub_session->gift_claimed = true;
+                $save_sub_session = $sub_session->save();
+            }
+
+        });
         // return response
         return GlobalHelpers::formattedJSONResponse(Messages::GIFT_CLAIMED, [
             Attributes::GIFTS => Promotion::returnTransformedItems(collect([$gift]), ListPromotionTransformer::class),
