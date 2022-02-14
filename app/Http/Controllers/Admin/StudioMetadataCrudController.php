@@ -39,14 +39,14 @@ class StudioMetadataCrudController extends CustomCrudController
         // Filter: Category
         $this->addCategoryFilter(StudioCategory::all());
 
+        // Column: ID
+        $this->addColumn( Attributes::ID, 'ID');
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Content
-        $this->addContentColumn("Description",1, Attributes::DESCRIPTION);
-
-        // Column: Image
-        $this->addImageColumn("Image", 1, Attributes::IMAGE);
+        $this->addColumn( Attributes::PRICE, 'Price');
 
         // Column: Type
         $this->addStudioMetadataColumn(Attributes::CATEGORY_NAME);
@@ -86,6 +86,11 @@ class StudioMetadataCrudController extends CustomCrudController
 
         // Field: Description
         $this->addContentField(Attributes::DESCRIPTION, Attributes::DESCRIPTION, null, FieldTypes::TEXTAREA, 5, 200);
+
+
+        // Field: Price
+        $this->addPriceField(Attributes::PRICE, 'Price');
+
 
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);

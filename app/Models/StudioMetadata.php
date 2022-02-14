@@ -37,6 +37,7 @@ class StudioMetadata extends CustomModel
         Attributes::IMAGE,
         Attributes::CATEGORY,
         Attributes::STATUS,
+        Attributes::PRICE,
     ];
 
     protected $casts = [
