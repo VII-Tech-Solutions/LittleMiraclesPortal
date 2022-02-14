@@ -12,6 +12,7 @@ use App\Constants\Attributes;
 use App\Constants\Gender;
 use App\Constants\Messages;
 use App\Constants\PromotionStatus;
+use App\Constants\PromotionType;
 use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
@@ -710,9 +711,8 @@ xox";
 
             // get promotion
             /** @var Promotion $promotion */
-            $promotion = Promotion::where(Attributes::PROMO_CODE, $code)->active()->first();
+            $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
             if (!is_null($promotion)) {
-
                 if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
 
                     // calculate
@@ -729,11 +729,11 @@ xox";
                     ], null, Response::HTTP_OK);
 
                 } else {
-                    return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
                 }
 
             } else {
-                return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
+                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
             }
         }
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
