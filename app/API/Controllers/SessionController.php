@@ -8,6 +8,7 @@ use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\ListSessionTransformer;
 use App\API\Transformers\ListSubSessionTransformer;
+use App\Constants\AllPackages;
 use App\Constants\Attributes;
 use App\Constants\Gender;
 use App\Constants\Messages;
@@ -693,7 +694,7 @@ xox";
 
         // validate session
         /** @var Session $session */
-        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->WhereNull(Attributes::SESSION_ID)->first();
         if (is_null($session)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
@@ -713,19 +714,23 @@ xox";
             /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
             if (!is_null($promotion)) {
+                // check if the package id doesn't match the current session package id or if it is not 0 -> then it is false since "0" is All packages
+                if(($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL )){
+                    return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+                }
+                // and check the valid until date for the promotion
                 if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
-
                     // calculate
                     $original_price = $session->total_price;
                     $offer = $promotion->offer;
-                    $price = $original_price * ($offer / 100);
-                    $discount_price = $original_price - $price;
+                    $discount_amount = $original_price * ($offer / 100);
+                    $total_price_after_discount = $original_price - $discount_amount;
 
                     // return response
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
                         Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
-                        Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_price),
-                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($price)
+                        Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_amount),
+                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price_after_discount)
                     ], null, Response::HTTP_OK);
 
                 } else {
