@@ -24,7 +24,7 @@ class ProfileController extends CustomController
      *
      * @return JsonResponse
      *
-     * * @OA\POST(
+     * * @OA\PUT(
      *     path="/api/users/update-profile",
      *     tags={"Users"},
      *     description="Profile Update",
@@ -51,7 +51,7 @@ class ProfileController extends CustomController
             Attributes::ID => $user->id,
             Attributes::FIRST_NAME => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FIRST_NAME, null, CastingTypes::STRING),
             Attributes::LAST_NAME => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::LAST_NAME, null, CastingTypes::STRING),
-            Attributes::GENDER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::GENDER, null, CastingTypes::STRING),
+            Attributes::GENDER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::GENDER, null, CastingTypes::INTEGER),
             Attributes::COUNTRY_CODE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::COUNTRY_CODE, null, CastingTypes::STRING),
             Attributes::PHONE_NUMBER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHONE_NUMBER, null, CastingTypes::STRING),
             Attributes::BIRTH_DATE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BIRTH_DATE, null, CastingTypes::STRING)

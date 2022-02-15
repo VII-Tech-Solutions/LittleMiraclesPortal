@@ -80,7 +80,7 @@ $api->version('v1', function ($api) {
         /*******************************
          * Profile
          *******************************/
-        $api->post('/profile', 'ProfileController@update')->middleware('allowed_user'); // Show My Profile
+        $api->put('/profile', 'ProfileController@update')->middleware('allowed_user'); // Show My Profile
     });
 
 });

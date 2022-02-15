@@ -23,7 +23,7 @@ class ProfileUpdateRequest extends CustomRequest
             Attributes::FIRST_NAME => 'string|required|max:200',
             Attributes::LAST_NAME => 'string|required|max:200',
             Attributes::COUNTRY_CODE => "string|required|max:200",
-            Attributes::GENDER => "string|required|max:200",
+            Attributes::GENDER => "int|required|max:200",
             Attributes::PHONE_NUMBER => "string|required|max:200",
             Attributes::BIRTH_DATE => "string|required|max:200",
         ];
