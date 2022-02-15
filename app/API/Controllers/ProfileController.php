@@ -59,10 +59,12 @@ class ProfileController extends CustomController
         ],Attributes::ID);
 
         if($update_user){
-            return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATE_REQUESTED, [], null, Response::HTTP_OK);
+            return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATE_REQUESTED, [
+                Attributes::USER =>  User::returnTransformedItems($update_user)
+            ], null, Response::HTTP_OK);
         }
 
-        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, [], null, Response::HTTP_BAD_REQUEST);
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS,[], null, Response::HTTP_BAD_REQUEST);
 
     }
 
