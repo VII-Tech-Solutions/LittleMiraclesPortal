@@ -81,6 +81,7 @@ $api->version('v1', function ($api) {
          * Profile
          *******************************/
         $api->put('/profile', 'ProfileController@update')->middleware('allowed_user'); // Show My Profile
+        $api->put('/partner', 'ProfileController@updatePartner')->middleware('allowed_user'); // Show My Profile
     });
 
 });

@@ -26,6 +26,7 @@ class ProfileUpdateRequest extends CustomRequest
             Attributes::GENDER => "int|required|max:200",
             Attributes::PHONE_NUMBER => "string|required|max:200",
             Attributes::BIRTH_DATE => "string|required|max:200",
+            Attributes::IS_PARTNER => "nullable",
         ];
     }
 
