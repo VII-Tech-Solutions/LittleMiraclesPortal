@@ -34,7 +34,7 @@ class ProfileController extends CustomController
      * )
      * @throws Exception
      */
-    function updateProfile(): JsonResponse
+    function update(): JsonResponse
     {
         /** @var User $user */
         $user = Helpers::resolveUser();
@@ -81,7 +81,9 @@ class ProfileController extends CustomController
                 Attributes::PHONE_NUMBER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHONE_NUMBER, null, CastingTypes::STRING),
                 Attributes::BIRTH_DATE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BIRTH_DATE, null, CastingTypes::STRING)
 
-            ],Attributes::ID);
+            ],[
+                Attributes::ID
+            ]);
 
             if($update_user){
                 return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATE_REQUESTED, [
