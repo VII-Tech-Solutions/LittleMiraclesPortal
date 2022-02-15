@@ -2,10 +2,13 @@
 
 namespace App\API\Controllers;
 
+use AnotherNamespace\Child;
 use App\API\Requests\ProfileUpdateRequest;
 use App\Constants\Attributes;
 use App\Constants\Messages;
+use App\Constants\Relationship;
 use App\Helpers;
+use App\Models\FamilyInfo;
 use App\Models\FamilyMember;
 use App\Models\User;
 use Dingo\Api\Http\Response;
@@ -58,7 +61,8 @@ class ProfileController extends CustomController
                 Attributes::GENDER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::GENDER, null, CastingTypes::INTEGER),
                 Attributes::COUNTRY_CODE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::COUNTRY_CODE, null, CastingTypes::STRING),
                 Attributes::PHONE_NUMBER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHONE_NUMBER, null, CastingTypes::STRING),
-                Attributes::BIRTH_DATE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BIRTH_DATE, null, CastingTypes::STRING)
+                Attributes::BIRTH_DATE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BIRTH_DATE, null, CastingTypes::STRING),
+                Attributes::RELATIONSHIP => Relationship::PARTNER
 
             ],[
                 Attributes::ID
@@ -134,5 +138,61 @@ class ProfileController extends CustomController
         return $this->updateProfile();
     }
 
+
+    /**
+     * update children
+     *
+     * @return JsonResponse
+     *
+     * * @OA\PUT(
+     *     path="/api/users/partner",
+     *     tags={"Users"},
+     *     description="Profile Update",
+     *     @OA\Response(response="200", description="User profile update successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     * )
+     * @throws Exception
+     */
+    function updateChildren(): JsonResponse
+    {
+        /** @var User $user */
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        $children =  json_decode($this->request->getContent(), true);
+
+        if(empty($children)){
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS,[], null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // soft delete all children
+        $user->myChildrenQuery()->delete();
+        foreach ($children as $child){
+            $new_child = FamilyMember::createOrUpdate([
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::FIRST_NAME => $child["first_name"] ?? null,
+                Attributes::LAST_NAME => $child["last_name"] ?? null,
+                Attributes::GENDER => $child["gender"] ?? null,
+                Attributes::BIRTH_DATE => $child["birth_date"] ?? null,
+                Attributes::PERSONALITY => $child["personality"] ?? null,
+                Attributes::RELATIONSHIP => Relationship::CHILDREN
+            ],
+            [
+                Attributes::USER_ID,
+                Attributes::FAMILY_ID,
+                Attributes::FIRST_NAME,
+                Attributes::LAST_NAME,
+            ]);
+        }
+
+        // return response
+            return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATED, [
+                Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
+            ], null, \Illuminate\Http\Response::HTTP_OK);
+
+    }
 
 }

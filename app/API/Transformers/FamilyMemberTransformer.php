@@ -17,6 +17,7 @@ class FamilyMemberTransformer extends CustomTransformer
         Attributes::GENDER,
         Attributes::COUNTRY_CODE,
         Attributes::PHONE_NUMBER,
+        Attributes::PERSONALITY,
         Attributes::BIRTH_DATE,
         Attributes::RELATIONSHIP,
         Attributes::FAMILY_ID,

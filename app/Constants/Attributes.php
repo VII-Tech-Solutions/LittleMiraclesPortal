@@ -226,5 +226,6 @@ class Attributes extends CustomEnum
     const DAYS_OF_VALIDITY_TEXT = 'days_of_validity_text';
     const AVAILABLE_UNTIL = 'available_until';
     const IS_PARTNER = 'is_partner';
+    const PERSONALITY = 'personality';
 
 }

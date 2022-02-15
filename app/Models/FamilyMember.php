@@ -33,7 +33,8 @@ class FamilyMember extends CustomModel
         Attributes::RELATIONSHIP,
         Attributes::FAMILY_ID,
         Attributes::USER_ID,
-        Attributes::STATUS
+        Attributes::STATUS,
+        Attributes::PERSONALITY
     ];
 
     protected $casts = [

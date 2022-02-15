@@ -10,6 +10,7 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -164,6 +165,13 @@ class User extends CustomModel implements
      */
     function myChildren(){
         return FamilyMember::where(Attributes::FAMILY_ID, $this->family_id)->where(Attributes::RELATIONSHIP, Relationship::CHILDREN)->get();
+    }
+    /**
+     * My Children
+     * @return QueryBuilder
+     */
+    function myChildrenQuery(){
+        return FamilyMember::where(Attributes::FAMILY_ID, $this->family_id)->where(Attributes::RELATIONSHIP, Relationship::CHILDREN);
     }
 
     /**
