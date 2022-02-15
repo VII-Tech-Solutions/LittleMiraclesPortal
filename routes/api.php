@@ -77,6 +77,10 @@ $api->version('v1', function ($api) {
         $api->get('/gifts', 'GiftController@listAll')->middleware('allowed_user:true'); // List All Gifts
         $api->post('/gifts/claim', 'GiftController@claim')->middleware('allowed_user:true'); // Claim Gift
 
+        /*******************************
+         * Profile
+         *******************************/
+        $api->post('/profile', 'ProfileController@update')->middleware('allowed_user'); // Show My Profile
     });
 
 });

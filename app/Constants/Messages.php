@@ -31,5 +31,6 @@ class Messages extends CustomEnum
     const SESSION_CONFIRMED = "Session confirmed successfully";
     const SESSION_RESCHEDULED = "Session rescheduled successfully";
     const INVALID_PARAMETERS = "Invalid parameters";
+    const PROFILE_UPDATE_REQUESTED = "Your profile information has been updated successfully";
 
 }
