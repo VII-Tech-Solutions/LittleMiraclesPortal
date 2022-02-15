@@ -29,7 +29,7 @@ class ProfileController extends CustomController
      * @return JsonResponse
      *
      * * @OA\PUT(
-     *     path="/api/users/profile",
+     *     path="/api/profile",
      *     tags={"Users"},
      *     description="Profile Update",
      *     @OA\Response(response="200", description="User profile update successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
@@ -108,7 +108,7 @@ class ProfileController extends CustomController
      * @return JsonResponse
      *
      * * @OA\PUT(
-     *     path="/api/users/partner",
+     *     path="/api/partner",
      *     tags={"Users"},
      *     description="Profile Update",
      *     @OA\Response(response="200", description="User profile update successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
@@ -145,9 +145,9 @@ class ProfileController extends CustomController
      * @return JsonResponse
      *
      * * @OA\PUT(
-     *     path="/api/users/partner",
+     *     path="/api/children",
      *     tags={"Users"},
-     *     description="Profile Update",
+     *     description="Children Update",
      *     @OA\Response(response="200", description="User profile update successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
      * )
@@ -192,6 +192,59 @@ class ProfileController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATED, [
                 Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
             ], null, \Illuminate\Http\Response::HTTP_OK);
+
+    }
+
+
+    /**
+     * update family
+     *
+     * @return JsonResponse
+     *
+     * * @OA\PUT(
+     *     path="/api/family",
+     *     tags={"Users"},
+     *     description="Family Update",
+     *     @OA\Response(response="200", description="User profile update successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     * )
+     * @throws Exception
+     */
+    function updateFamily(): JsonResponse
+    {
+        /** @var User $user */
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        $family =  json_decode($this->request->getContent(), true);
+
+        if(empty($family)){
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS,[], null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // soft delete all children
+        $user->myFamilyInfoQuery()->delete();
+        foreach ($family as $info){
+            $new_info = FamilyInfo::createOrUpdate([
+                Attributes::USER_ID => $user->id,
+                Attributes::FAMILY_ID => $user->family_id,
+                Attributes::QUESTION_ID => $info["question_id"] ?? null,
+                Attributes::ANSWER => $info["answer"] ?? null
+            ],
+                [
+                    Attributes::USER_ID,
+                    Attributes::FAMILY_ID,
+                    Attributes::QUESTION_ID,
+                    Attributes::ANSWER,
+                ]);
+        }
+
+        // return response
+        return GlobalHelpers::formattedJSONResponse(Messages::FAMILY_INFO_UPDATE_REQUESTED, [
+            Attributes::FAMILY => FamilyInfo::returnTransformedItems($user->myFamilyInfo()),
+        ], null, \Illuminate\Http\Response::HTTP_OK);
 
     }
 

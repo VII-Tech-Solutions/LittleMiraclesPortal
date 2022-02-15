@@ -36,7 +36,6 @@ class FamilyInfo extends CustomModel
 
     protected $casts = [
         Attributes::ANSWER => CastingTypes::STRING,
-        Attributes::ANSWER => CastingTypes::STRING,
     ];
 
     protected $appends = [

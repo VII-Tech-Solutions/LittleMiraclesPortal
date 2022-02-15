@@ -176,6 +176,14 @@ class User extends CustomModel implements
 
     /**
      * My Family Info
+     * @return QueryBuilder
+     */
+    function myFamilyInfoQuery(){
+        return FamilyInfo::where(Attributes::FAMILY_ID, $this->family_id);
+    }
+
+    /**
+     * My Family Info
      * @return Collection
      */
     function myFamilyInfo(){
