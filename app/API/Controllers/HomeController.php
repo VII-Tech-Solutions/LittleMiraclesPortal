@@ -116,7 +116,7 @@ class HomeController extends CustomController
         }
 
         // get on boardings
-        $onboardings = Onboarding::active()->get()->sortBy(Attributes::ORDER);
+        $onboardings = Onboarding::withTrashed()->active()->get()->sortBy(Attributes::ORDER);
 
         // get photographers
         $photographers = Photographer::active()->get();
@@ -140,22 +140,22 @@ class HomeController extends CustomController
         $sections = Section::active()->get();
 
         // get faq
-        $faqs = Faq::active()->get();
+        $faqs = Faq::withTrashed()->active()->get();
 
         // get studio metadata
-        $studio_metadata = StudioMetadata::active()->get();
+        $studio_metadata = StudioMetadata::withTrashed()->active()->get();
 
         //  get social media
-        $social = SocialMedia::active()->get();
+        $social = SocialMedia::withTrashed()->active()->get();
 
         // get packages
-        $packages = Package::active()->get();
+        $packages = Package::withTrashed()->active()->get();
 
         // get pages
-        $pages = Page::active()->get();
+        $pages = Page::withTrashed()->active()->get();
 
         // studio packages
-        $studio_packages = StudioPackage::active()->get();
+        $studio_packages = StudioPackage::withTrashed()->active()->get();
 
         // get payment methods
         $payment_methods = PaymentMethod::readableArray();
@@ -169,7 +169,6 @@ class HomeController extends CustomController
         $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);
 
         // get last updated items
-        if(!is_null($this->last_update)){
             $onboardings = Helpers::getLatestOnlyInCollection($onboardings, $this->last_update);
             $photographers = Helpers::getLatestOnlyInCollection($photographers, $this->last_update);
             $cakes = Helpers::getLatestOnlyInCollection($cakes, $this->last_update);
@@ -185,7 +184,6 @@ class HomeController extends CustomController
             $pages = Helpers::getLatestOnlyInCollection($pages, $this->last_update);
             $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
             $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
-        }
 
         // return response
         return Helpers::returnResponse([
