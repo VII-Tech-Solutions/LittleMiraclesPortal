@@ -189,7 +189,7 @@ class ProfileController extends CustomController
         }
 
         // return response
-            return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATED, [
+            return GlobalHelpers::formattedJSONResponse(Messages::CHILDREN_UPDATE_REQUESTED, [
                 Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
             ], null, \Illuminate\Http\Response::HTTP_OK);
 
