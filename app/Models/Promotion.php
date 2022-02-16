@@ -107,6 +107,20 @@ class Promotion extends CustomModel
         return $this->days_of_validity . " Days";
     }
 
+
+    /**
+     * Get title
+     * @param $value
+     * @return string|null
+     */
+    function getTitleAttribute($value)
+    {
+        if(!is_null($value)){
+            return $value;
+        }
+
+        return $this->package()->first()->title ?? null;
+    }
     /**
      * Set Attribute: Image
      * @param $value
@@ -115,6 +129,7 @@ class Promotion extends CustomModel
     {
         $this->setImage($value);
     }
+
 
 
 
