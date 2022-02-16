@@ -714,8 +714,8 @@ xox";
             /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
             if (!is_null($promotion)) {
-                // check if the package id match the current session package id and if it is not 0 -> then it is false since "0" is All packages
-                if($promotion->package_id == $session->package_id && $promotion->package_id !== AllPackages::ALL){
+                // check if the package id doesn't match the current session package id and if it is not 0 -> then it is false since "0" is All packages
+                if($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL){
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
                 }
                 // and check the valid until date for the promotion
