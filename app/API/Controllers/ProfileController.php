@@ -135,7 +135,7 @@ class ProfileController extends CustomController
             Attributes::IS_PARTNER => true,
         ]);
 
-        return $this->updateProfile();
+        return $this->update();
     }
 
 
