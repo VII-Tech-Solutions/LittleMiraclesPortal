@@ -34,7 +34,9 @@ class FamilyMember extends CustomModel
         Attributes::FAMILY_ID,
         Attributes::USER_ID,
         Attributes::STATUS,
-        Attributes::PERSONALITY
+        Attributes::PERSONALITY,
+        Attributes::PHONE_NUMBER,
+        Attributes::COUNTRY_CODE
     ];
 
     protected $casts = [
