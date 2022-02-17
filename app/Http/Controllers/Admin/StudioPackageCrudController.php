@@ -159,16 +159,9 @@ class StudioPackageCrudController extends CustomCrudController
      */
     public function store()
     {
-        dd('dqw');
-        // validate address
-        $result = $this->validateAddress(false);
-        if(is_a($result, RedirectResponse::class)){
-            return $result;
-        }
 
         // get media ids
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
-        dd($media_ids);
         $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
 
         // create and return response
@@ -178,10 +171,7 @@ class StudioPackageCrudController extends CustomCrudController
         $this->media($media_ids);
 
         // clear cache
-        Helpers::clearCache(Project::class);
-
-        // update items table
-        Artisan::call("fix:items " . ItemTypes::PROJECT);
+        Helpers::clearCache(StudioPackage::class);
 
         // return response
         return $result;
