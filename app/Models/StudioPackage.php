@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\API\Transformers\BenefitTransformer;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\StudioCategory;
@@ -10,6 +11,7 @@ use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -52,7 +54,8 @@ class StudioPackage extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
-        Attributes::MEDIA_IDS
+        Attributes::MEDIA_IDS,
+        Attributes::BENEFITS_IDS,
     ];
 
     /**
@@ -116,4 +119,28 @@ class StudioPackage extends CustomModel
         }
         return $array;
     }
+
+
+    /**
+     * Relationships: Package Benefits
+     * @return BelongsToMany
+     */
+    public function benefits()
+    {
+        return $this->belongsToMany(Benefit::class, Tables::STUDIO_PACKAGE_BENEFITS, Attributes::STUDIO_PACKAGE_ID, Attributes::BENEFIT_ID);
+    }
+
+    /**
+     * Attribute: benefits_ids
+     * @return string
+     */
+    public function getBenefitsIdsAttribute(){
+        $array = $this->benefits()->pluck(Tables::BENEFITS . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
+    }
+
 }

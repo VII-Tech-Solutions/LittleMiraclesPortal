@@ -18,6 +18,8 @@ class ListStudioMetadataTransformer extends CustomTransformer
         Attributes::CATEGORY,
         Attributes::STATUS,
         Attributes::TYPE,
+        Attributes::BENEFITS_IDS,
+        Attributes::MEDIA_IDS,
         Attributes::PRICE,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT

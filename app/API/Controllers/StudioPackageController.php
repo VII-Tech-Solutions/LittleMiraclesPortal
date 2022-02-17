@@ -6,6 +6,7 @@ use App\API\Transformers\ListMediaTransformer;
 use App\API\Transformers\ListPackageBenefitTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
+use App\API\Transformers\ListStudioMetadataTransformer;
 use App\API\Transformers\ListStudioPackageMediaTransformer;
 use App\API\Transformers\SubPackagesTransformer;
 use App\Constants\Attributes;
@@ -59,13 +60,18 @@ class StudioPackageController extends CustomController
             $studio_package = Helpers::getLatestOnlyInCollection($studio_package, $this->last_update);
         }
 
+        // get related metadata
+        $benefits = $studio_package->map->benefits;
+        $benefits = $benefits->flatten()->filter();
+
         // get related image examples
         $media = $studio_package->map->media;
         $media = $media->flatten()->filter();
 
         // return response
         return Helpers::returnResponse([
-            Attributes::STUDIO_PACKAGES => Package::returnTransformedItems($studio_package, ListPackageTransformer::class),
+            Attributes::STUDIO_PACKAGES => StudioPackage::returnTransformedItems($studio_package, ListStudioMetadataTransformer::class),
+            Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
             Attributes::MEDIA => Media::returnTransformedItems($media, ListStudioPackageMediaTransformer::class),
             Attributes::TYPES => StudioPackageTypes::toCustomArray(),
         ]);

@@ -232,5 +232,6 @@ class Attributes extends CustomEnum
     const DESC = 'desc';
     const MEDIA_ID = 'media_id';
     const STUDIO_PACKAGE = 'studio_package';
+    const STUDIO_PACKAGE_BENEFITS = 'studio_package_benefits';
 
 }
