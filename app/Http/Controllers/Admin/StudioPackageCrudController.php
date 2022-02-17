@@ -113,6 +113,10 @@ class StudioPackageCrudController extends CustomCrudController
         // Field: Tyoe
         $this->addStatusField(StudioPackageTypes::all(), Attributes::TYPE, 'Type');
 
+
+        // Field: Benefits
+        $this->addBenefitsField();
+
         // Field: Status
         $this->addStatusField(Status::all());
 
