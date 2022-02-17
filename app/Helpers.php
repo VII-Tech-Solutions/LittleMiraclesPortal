@@ -4,6 +4,7 @@ namespace App;
 
 use App\Constants\Attributes;
 use App\Constants\EnvVariables;
+use App\Constants\MediaType;
 use App\Constants\Status;
 use App\Models\Benefit;
 use App\Models\Media;

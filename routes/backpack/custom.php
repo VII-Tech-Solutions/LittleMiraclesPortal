@@ -52,4 +52,7 @@ Route::group([
     Route::crud('user-studio-specs', 'UserStudioSpecsCrudController');
     Route::crud('payment-method', 'PaymentMethodCrudController');
     Route::crud('available-dates', 'AvailableDateCrudController');
+
+    //media
+    Route::POST('upload', 'StudioPackageCrudController@fileUpload');
 }); // this should be the absolute last line of this file

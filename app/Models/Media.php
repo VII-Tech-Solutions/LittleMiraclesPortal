@@ -25,6 +25,7 @@ class Media extends CustomModel
     use ImageTrait;
 
     protected $table = Tables::MEDIA;
+    public const DIRECTORY = "assets/studio";
     protected $guarded = [
         Attributes::ID
     ];
@@ -86,4 +87,14 @@ class Media extends CustomModel
     {
         return $this->getImage($value);
     }
+
+    /**
+     * Set Attribute: Url
+     * @param $value
+     */
+    public function setUrlAttribute($value)
+    {
+        $this->setUrl($value);
+    }
+
 }

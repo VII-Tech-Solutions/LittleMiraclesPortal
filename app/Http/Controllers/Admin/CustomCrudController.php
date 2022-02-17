@@ -2108,6 +2108,25 @@ class CustomCrudController extends CrudController
 
     }
 
+    /**
+     * Add Media Field
+     * @param string|null $label
+     * @param string|null $tab_name
+     */
+    function addMediaField($label = null, $tab_name = null)
+    {
+        if(is_null($label)){
+            $label = "Media";
+        }
+        CRUD::addField([
+            Attributes::TYPE => FieldTypes::MEDIA,
+            Attributes::NAME => Attributes::MEDIA,
+            Attributes::LABEL => $label,
+            Attributes::FAKE => true,
+            Attributes::TAB => $tab_name,
+        ]);
+    }
+
 
     /**
      * Add Cake Category

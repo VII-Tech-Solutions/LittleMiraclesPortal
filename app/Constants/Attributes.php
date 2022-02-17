@@ -227,5 +227,6 @@ class Attributes extends CustomEnum
     const AVAILABLE_UNTIL = 'available_until';
     const IS_PARTNER = 'is_partner';
     const PERSONALITY = 'personality';
+    const REFERER = 'referer';
 
 }

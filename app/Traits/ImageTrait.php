@@ -47,4 +47,24 @@ trait ImageTrait
         }
     }
 
+    /**
+     * Set Attribute: Url
+     * @param $value
+     */
+    public function setUrl($value)
+    {
+        $image = trim($value);
+
+        if(Str::startsWith($image, "http")){
+            $this->attributes[Attributes::URL] = $image;
+            return;
+        }
+        if(!empty($image)){
+            $path = Helpers::uploadFile($this, $image, Attributes::URL, self::DIRECTORY, true, false, true);
+            $this->attributes[Attributes::URL] = "storage/" . $path;
+        }else{
+            $this->attributes[Attributes::URL] = null;
+        }
+    }
+
 }
