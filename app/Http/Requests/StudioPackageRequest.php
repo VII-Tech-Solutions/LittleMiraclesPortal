@@ -21,6 +21,7 @@ class StudioPackageRequest extends CustomRequest
             Attributes::TITLE => 'required',
             Attributes::IMAGE => 'required',
             Attributes::STARTING_PRICE => 'required',
+            Attributes::TYPE => 'required',
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Constants\Attributes;
 use App\Constants\IsPopular;
 use App\Constants\MediaType;
 use App\Constants\Status;
+use App\Constants\StudioPackageTypes;
 use App\Constants\StudioPrintCategory;
 use App\Helpers;
 use App\Http\Requests\StudioPackageRequest;
@@ -73,6 +74,9 @@ class StudioPackageCrudController extends CustomCrudController
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
 
+        // Column: Status
+        $this->addColumn(Attributes::TYPE_NAME,'Type');
+
     }
 
     /**
@@ -105,6 +109,9 @@ class StudioPackageCrudController extends CustomCrudController
 
         // Field: Starting Price
         $this->addPriceField(Attributes::STARTING_PRICE, "Starting Price");
+
+        // Field: Tyoe
+        $this->addStatusField(StudioPackageTypes::all(), Attributes::TYPE, 'Type');
 
         // Field: Status
         $this->addStatusField(Status::all());
@@ -163,7 +170,7 @@ class StudioPackageCrudController extends CustomCrudController
         // get media ids
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         // don't accept if less than 4
-        if(count($media_ids) < 4 ){
+        if(!is_array($media_ids) || count($media_ids) < 4 ){
             Alert::error("You need to choose at least 4 images! ")->flash();
             return back()->withInput();
         }
@@ -192,7 +199,7 @@ class StudioPackageCrudController extends CustomCrudController
         // get media ids
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         // don't accept if less than 4
-        if(count($media_ids) < 4 ){
+        if(!is_array($media_ids) || count($media_ids) < 4 ){
             Alert::error("You need to choose at least 4 images! ")->flash();
             return back()->withInput();
         }

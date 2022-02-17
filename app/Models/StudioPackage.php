@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\Status;
 use App\Constants\StudioCategory;
+use App\Constants\StudioPackageTypes;
 use App\Constants\Tables;
 use App\Helpers;
 use App\Traits\ImageTrait;
@@ -37,6 +39,7 @@ class StudioPackage extends CustomModel
         Attributes::STARTING_PRICE,
         Attributes::IMAGE,
         Attributes::STATUS,
+        Attributes::TYPE,
     ];
 
     protected $casts = [
@@ -44,6 +47,7 @@ class StudioPackage extends CustomModel
         Attributes::STARTING_PRICE => 'decimal:3',
         Attributes::IMAGE => CastingTypes::STRING,
         Attributes::STATUS => CastingTypes::INTEGER,
+        Attributes::TYPE => CastingTypes::INTEGER,
     ];
 
     protected $appends = [
@@ -58,6 +62,17 @@ class StudioPackage extends CustomModel
     public function getStatusNameAttribute($value)
     {
         return $this->getStatusName($value);
+    }
+
+    /**
+     * Get Attribute: Type_name
+     * @param $value
+     * @return string
+     */
+    public function getTypeNameAttribute($value)
+    {
+        $text = StudioPackageTypes::getKey($this->type);
+        return Helpers::readableText($text);
     }
 
     /**
