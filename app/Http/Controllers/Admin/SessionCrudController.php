@@ -6,14 +6,17 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
+use App\Helpers;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
+use App\Models\Package;
 use App\Models\Session;
 use App\Models\SessionDetail;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Session CRUD Controller
@@ -120,6 +123,12 @@ class SessionCrudController extends CustomCrudController
 
         // Field: Status
         $this->addStatusField(SessionStatus::all(), Attributes::STATUS, "Status");
+
+        // Field: Media
+        $this->addMediaField("Media", "Media");
+
+
+
     }
 
     /**
@@ -129,11 +138,24 @@ class SessionCrudController extends CustomCrudController
     public function store()
     {
 
+        // get media ids
+        $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
+
+        $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
+
         // get backdrops
         $backdrops = $this->crud->getRequest()->get(Attributes::BACKDROPS);
 
         // create
         $result = $this->traitStore();
+
+
+        // media
+        $this->media($media_ids);
+
+        // clear cache
+        Helpers::clearCache(Session::class);
+
 
         // return response
         return $result;
@@ -145,6 +167,12 @@ class SessionCrudController extends CustomCrudController
      */
     public function update()
     {
+
+        // get media ids
+        $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
+
+        $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
+
 
         /** @var Session $session */
         $session = $this->crud->getCurrentEntry();
@@ -181,6 +209,14 @@ class SessionCrudController extends CustomCrudController
 
         // update and return response
         $result = $this->traitUpdate();
+
+        // media
+        $this->media($media_ids);
+
+        // clear cache
+        Helpers::clearCache(Session::class);
+
+
 
         // return response
         return $result;

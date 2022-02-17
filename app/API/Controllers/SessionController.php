@@ -477,7 +477,13 @@ class SessionController extends CustomController
         $benefits = $benefits->flatten()->filter();
 
         // image examples
-        $media = $sessions->map->media;
+        $media = collect();
+        foreach ( $sessions->map->media  as $session_media){
+            $media->add($session_media);
+        }
+        foreach ( $sub_session->map->media  as $sub_session_media){
+            $media->add($sub_session_media);
+        }
         $media = $media->flatten()->filter();
 
         // return response

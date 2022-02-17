@@ -10,6 +10,8 @@ use App\Models\Benefit;
 use App\Models\Media;
 use App\Models\Package;
 use App\Models\PackageMedia;
+use App\Models\Session;
+use App\Models\SessionMedia;
 use App\Models\StudioPackage;
 use App\Models\StudioPackageMedia;
 use App\Models\User;
@@ -361,6 +363,8 @@ class Helpers
             return StudioPackage::class;
         }else if ($type == 'packages') {
             return Package::class;
+        }else  if ($type == 'sessions') {
+            return Session::class;
         } else {
             return null;
         }
@@ -393,6 +397,8 @@ class Helpers
             return Attributes::STUDIO_PACKAGE_ID;
         }else  if ($type == 'packages') {
             return Attributes::PACKAGE_ID;
+        }else  if ($type == 'sessions') {
+            return Attributes::SESSION_ID;
         } else {
             return null;
         }
@@ -409,7 +415,9 @@ class Helpers
             return StudioPackageMedia::class;
         }else  if ($type == 'packages') {
             return  PackageMedia::class;
-        }  else {
+        } else  if ($type == 'sessions') {
+            return  SessionMedia::class;
+        } else {
             return null;
         }
     }

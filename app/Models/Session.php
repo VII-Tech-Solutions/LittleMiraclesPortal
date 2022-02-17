@@ -217,11 +217,12 @@ class Session extends CustomModel
      * @return string
      */
     public function getMediaIdsAttribute(){
-        $array = $this->media()->pluck(Attributes::ID)->toArray();
+        $array = $this->media()->pluck(Tables::MEDIA . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
         if(empty($array)){
             return null;
         }
-        return implode(", ", $array);
+        return $array;
     }
 
     /**
@@ -231,6 +232,17 @@ class Session extends CustomModel
     public function getBenefitsIdsAttribute(){
         return $this->package->benefits_ids;
     }
+
+
+    /**
+     * Relationships: Reviews
+     * @return HasMany
+     */
+    public function subSessions()
+    {
+        return $this->hasMany(Session::class, Attributes::SESSION_ID, Attributes::ID);
+    }
+
 
     /**
      * Attribute: benefits_ids
@@ -339,21 +351,14 @@ class Session extends CustomModel
     }
 
     /**
-     * Relationships: Reviews
-     * @return HasMany
-     */
-    public function subSessions()
-    {
-        return $this->hasMany(Session::class, Attributes::SESSION_ID, Attributes::ID);
-    }
-    /**
      * Relationships: Media
-     * @return HasMany
+     * @return mixed
      */
     public function media()
     {
-        return $this->hasMany(Media::class, Attributes::SESSION_ID, Attributes::ID);
+        return $this->belongsToMany(Media::class, Tables::SESSION_MEDIA, Attributes::SESSION_ID, Attributes::MEDIA_ID);
     }
+
 
     /**
      * Relationships: Backdrops
@@ -414,4 +419,6 @@ class Session extends CustomModel
     function scopeSessions($q){
         return $q->where(Attributes::SESSION_ID)->where(Attributes::SUB_PACKAGE_ID);
     }
+
+
 }
