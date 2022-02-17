@@ -84,6 +84,14 @@ $api->version('v1', function ($api) {
         $api->put('/partner', 'ProfileController@updatePartner')->middleware('allowed_user'); // Update partner
         $api->put('/children', 'ProfileController@updateChildren')->middleware('allowed_user'); // Update children
         $api->put('/family', 'ProfileController@updateFamily')->middleware('allowed_user'); // Update family
+
+        /*******************************
+         * Studio Packages
+         *******************************/
+        $api->get('/studio', 'StudioPackageController@listAll')->middleware('allowed_user:true');  // Get Studio Package Info
+        $api->get('/studio/{id}', 'StudioPackageController@getInfo')->middleware('allowed_user:true');  // Get Studio Package Info
+
     });
+
 
 });

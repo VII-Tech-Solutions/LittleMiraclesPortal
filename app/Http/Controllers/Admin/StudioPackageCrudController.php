@@ -171,7 +171,7 @@ class StudioPackageCrudController extends CustomCrudController
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         // don't accept if less than 4
         if(!is_array($media_ids) || count($media_ids) < 4 ){
-            Alert::error("You need to choose at least 4 images! ")->flash();
+            Alert::error("You need to select at least 4 images! ")->flash();
             return back()->withInput();
         }
         $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
@@ -200,7 +200,7 @@ class StudioPackageCrudController extends CustomCrudController
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         // don't accept if less than 4
         if(!is_array($media_ids) || count($media_ids) < 4 ){
-            Alert::error("You need to choose at least 4 images! ")->flash();
+            Alert::error("You need to select at least 4 images! ")->flash();
             return back()->withInput();
         }
         $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);

@@ -52,6 +52,7 @@ class StudioPackage extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
+        Attributes::MEDIA_IDS
     ];
 
     /**
@@ -101,5 +102,18 @@ class StudioPackage extends CustomModel
     public function media()
     {
         return $this->belongsToMany(Media::class, Tables::STUDIO_PACKAGE_MEDIA, Attributes::STUDIO_PACKAGE_ID, Attributes::MEDIA_ID);
+    }
+
+    /**
+     * Attribute: media_ids
+     * @return string
+     */
+    public function getMediaIdsAttribute(){
+        $array = $this->media()->pluck(Tables::MEDIA . "." . Attributes::ID)->toArray();
+        $array = implode(",", $array);
+        if(empty($array)){
+            return null;
+        }
+        return $array;
     }
 }
