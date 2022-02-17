@@ -218,11 +218,11 @@ class Package extends CustomModel
 
     /**
      * Relationships: Media
-     * @return HasMany
+     * @return mixed
      */
     public function media()
     {
-        return $this->hasMany(Media::class, Attributes::PACKAGE_ID);
+        return $this->belongsToMany(Media::class, Tables::PACKAGE_MEDIA, Attributes::PACKAGE_ID, Attributes::MEDIA_ID);
     }
 
     /**

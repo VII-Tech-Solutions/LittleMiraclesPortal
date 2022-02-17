@@ -142,7 +142,7 @@ class StudioPackageCrudController extends CustomCrudController
         if($request->hasFile(Attributes::MEDIA)) {
             $files = $request->allFiles()[Attributes::MEDIA];
             foreach ($files as $file){
-                $media = Helpers::uploadFile(null, $file, null, "assets/studio", false, true);
+                $media = Helpers::uploadFile(null, $file, null, "assets/media", false, true);
                 }
             }
 

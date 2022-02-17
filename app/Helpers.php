@@ -9,6 +9,7 @@ use App\Constants\Status;
 use App\Models\Benefit;
 use App\Models\Media;
 use App\Models\Package;
+use App\Models\PackageMedia;
 use App\Models\StudioPackage;
 use App\Models\StudioPackageMedia;
 use App\Models\User;
@@ -358,6 +359,8 @@ class Helpers
     {
         if ($type == 'studio-packages') {
             return StudioPackage::class;
+        }else if ($type == 'packages') {
+            return Package::class;
         } else {
             return null;
         }
@@ -388,6 +391,8 @@ class Helpers
     {
         if ($type == 'studio-packages') {
             return Attributes::STUDIO_PACKAGE_ID;
+        }else  if ($type == 'packages') {
+            return Attributes::PACKAGE_ID;
         } else {
             return null;
         }
@@ -402,7 +407,9 @@ class Helpers
     {
         if ($type == 'studio-packages') {
             return StudioPackageMedia::class;
-        } else {
+        }else  if ($type == 'packages') {
+            return  PackageMedia::class;
+        }  else {
             return null;
         }
     }

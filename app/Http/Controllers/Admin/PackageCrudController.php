@@ -10,16 +10,26 @@ use App\Constants\Guideline;
 use App\Constants\IsPopular;
 use App\Constants\Status;
 use App\Constants\SessionPackageTypes;
+use App\Helpers;
 use App\Http\Requests\SessionPackageRequest;
 use App\Models\Package;
+use App\Models\StudioPackage;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Package CRUD Controller
  */
 class PackageCrudController extends CustomCrudController
 {
+
+    use CreateOperation { store as traitStore; }
+    use UpdateOperation { update as traitUpdate; }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -121,7 +131,7 @@ class PackageCrudController extends CustomCrudController
 
         // Field: Content
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::TEXTAREA, 5, 200);
-        
+
         // Field: Sub Package
         $this->addSubPackagesField();
 
@@ -152,6 +162,68 @@ class PackageCrudController extends CustomCrudController
         // Field: Status
         $this->addStatusField(Status::all());
 
+
+        // Field: Media
+        $this->addMediaField("Media", "Media");
+
+
+    }
+
+    /**
+     * Store
+     * @return RedirectResponse
+     */
+    public function store()
+    {
+
+        // get media ids
+        $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
+        // don't accept if less than 4
+        if(!is_array($media_ids) || count($media_ids) < 4 ){
+            Alert::error("You need to select at least 4 images! ")->flash();
+            return back()->withInput();
+        }
+        $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
+
+        // create and return response
+        $result = $this->traitStore();
+
+        // media
+        $this->media($media_ids);
+
+        // clear cache
+        Helpers::clearCache(Package::class);
+
+        // return response
+        return $result;
+    }
+
+    /**
+     * Update
+     * @return Response|RedirectResponse
+     */
+    public function update()
+    {
+
+        // get media ids
+        $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
+        // don't accept if less than 4
+        if(!is_array($media_ids) || count($media_ids) < 4 ){
+            Alert::error("You need to select at least 4 images! ")->flash();
+            return back()->withInput();
+        }
+        $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
+
+        // update and return response
+        $result = $this->traitUpdate();
+
+        // media
+        $this->media($media_ids);
+
+        // clear cache
+        Helpers::clearCache(Package::class);
+        // return response
+        return $result;
     }
 
 }
