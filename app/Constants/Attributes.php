@@ -228,5 +228,8 @@ class Attributes extends CustomEnum
     const IS_PARTNER = 'is_partner';
     const PERSONALITY = 'personality';
     const REFERER = 'referer';
+    const LAST_FETCHED_MEDIA_ID = 'last_fetched_media_id';
+    const DESC = 'desc';
+    const MEDIA_ID = 'media_id';
 
 }

@@ -55,4 +55,5 @@ Route::group([
 
     //media
     Route::POST('upload', 'StudioPackageCrudController@fileUpload');
+    Route::GET('fetch-more-media', 'StudioPackageCrudController@fetchMoreMedia');
 }); // this should be the absolute last line of this file

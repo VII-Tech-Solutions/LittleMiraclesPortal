@@ -47,5 +47,6 @@ class Tables extends CustomEnum
     const PACKAGES = 'packages';
     const SUB_PACKAGES = 'sub_packages';
     const PACKAGE_SUB_PACKAGES = 'package_sub_packages';
+    const STUDIO_PACKAGE_MEDIA = 'studio_package_media';
 
 }

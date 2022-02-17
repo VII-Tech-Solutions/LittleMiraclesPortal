@@ -9,7 +9,6 @@ $route_params = Route::current()->parameters();
 $total_images = Media::where(Attributes::STATUS, Status::ACTIVE)->count();
 $all_images = Media::where(Attributes::STATUS, Status::ACTIVE)->get();
 $has_more_images = $total_images > 48;
-
 $images = [];
 $item_id = null;
 if(isset($entry) && !is_null($entry->media)){
@@ -43,7 +42,7 @@ if(isset($entry)){
                 <div class="col-sm-2 col-md-2 image-item">
                     <div class="panel panel-default">
                         <div class="panel-body image-area">
-                            <div class="preview-container" data-media-id="{{ $image->id }}" data-url="{{ $image->url }}" style="background-image: url({{ $image->thumbnail }});
+                            <div class="preview-container" data-media-id="{{ $image->id }}" data-url="{{ $image->url }}" style="background-image: url({{ $image->url }});
                                 background-size: cover; width: 100% !important; background-position: center;"></div>
                             <a class="remove-image" href="#" style="display: inline;">&#215;</a>
                             <input type='hidden' name='media_ids[]' value='{{ $image->id }}'>

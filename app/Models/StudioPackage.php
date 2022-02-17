@@ -78,4 +78,13 @@ class StudioPackage extends CustomModel
     {
         $this->setImage($value);
     }
+
+    /**
+     * Relationships: Media
+     * @return mixed
+     */
+    public function media()
+    {
+        return $this->belongsToMany(Media::class, Tables::STUDIO_PACKAGE_MEDIA, Attributes::STUDIO_PACKAGE_ID, Attributes::MEDIA_ID);
+    }
 }

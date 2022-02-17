@@ -14,8 +14,10 @@ use App\Constants\SectionTypes;
 use App\Constants\SessionPackageTypes;
 use App\Constants\Status;
 use App\Constants\StudioCategory;
+use App\Helpers;
 use App\Models\BackdropCategory;
 use App\Models\CakeCategory;
+use App\Models\Media;
 use App\Models\PackageBenefit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -2166,5 +2168,62 @@ class CustomCrudController extends CrudController
     protected function fetchBenefit()
     {
         return $this->fetch(PackageBenefit::class);
+    }
+
+
+    /**
+     * Media
+     * @param array $media_ids
+     */
+    function media($media_ids = []){
+        $item_id = $this->crud->getCurrentEntryId();
+        $media_ids = collect($media_ids);
+
+        // type
+        $type = basename($this->crud->getRoute());
+        $model = Helpers::getModel($type);
+        $item_primary_column = Helpers::getModelPrimaryColumn($type);
+        $relationship_model = Helpers::getModelRelationship($type);
+
+        if(is_null($item_id)){
+            return;
+        }
+        if(is_null($media_ids) || $media_ids->isEmpty()){
+            $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
+        }
+        if(is_null($media_ids) || $media_ids->isEmpty()){
+            $relationship_model::where($item_primary_column, $item_id)->delete();
+            return;
+        }
+
+        // featured image
+//        $featured_media_id = intval($media_ids->pull(0));
+//        $item = $model::find($item_id);
+//        if(!is_null($item)){
+//            $relationship_model::createOrUpdate([
+//                $item_primary_column => $item_id,
+//                Attributes::MEDIA_ID => intval($featured_media_id),
+//                Attributes::ORDER => 1
+//            ]);
+//            $media = Media::find($featured_media_id);
+//            if(!is_null($media)){
+//                $item->featured_image = $media->path;
+//            }
+//            $item->featured_image_id = $featured_media_id;
+//            $item->save();
+//        }
+
+        // other media items
+        $count = 2;
+        if(!$media_ids->isEmpty()){
+            foreach ($media_ids as $media_id){
+                $relationship_model::createOrUpdate([
+                    $item_primary_column => $item_id,
+                    Attributes::MEDIA_ID => $media_id,
+                    Attributes::ORDER => $count
+                ]);
+                $count++;
+            }
+        }
     }
 }

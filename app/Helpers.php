@@ -9,6 +9,8 @@ use App\Constants\Status;
 use App\Models\Benefit;
 use App\Models\Media;
 use App\Models\Package;
+use App\Models\StudioPackage;
+use App\Models\StudioPackageMedia;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -17,6 +19,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -344,6 +347,64 @@ class Helpers
             );
         }
         return $collect->toArray();
+    }
+
+    /**
+     * Get Model
+     * @param $type
+     * @return string|null
+     */
+    static function getModel($type)
+    {
+        if ($type == 'studio-packages') {
+            return StudioPackage::class;
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * Clear Cache
+     * @param string $model
+     */
+    static public function clearCache($model)
+    {
+        try {
+            Artisan::call("cache:clear");
+            Artisan::call("view:clear");
+            Artisan::call("modelCache:clear", ["model" => "\\" . addslashes($model)]);
+        } catch (Exception $e) {
+            GlobalHelpers::debugger($e, DebuggerLevels::ERROR);
+        }
+    }
+
+    /**
+     * Get Model Primary Column
+     * @param $type
+     * @return string|null
+     */
+    static function getModelPrimaryColumn($type)
+    {
+        if ($type == 'studio-packages') {
+            return Attributes::STUDIO_PACKAGE_ID;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get Model Relationship
+     * @param $type
+     * @return string|null
+     */
+    static function getModelRelationship($type)
+    {
+        if ($type == 'studio-packages') {
+            return StudioPackageMedia::class;
+        } else {
+            return null;
+        }
     }
 
 }

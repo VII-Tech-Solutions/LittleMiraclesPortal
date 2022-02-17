@@ -4,6 +4,7 @@ storage/framework/laravel-excel/*
 public/images/**
 public/fonts/**
 public/js/**
+public/css/**
 public/**
 # Created by https://www.gitignore.io/api/git,osx,linux,laravel,windows,phpstorm,jetbrains,sublimetext,phpstorm+iml,phpstorm+all,jetbrains+iml,jetbrains+all
 
