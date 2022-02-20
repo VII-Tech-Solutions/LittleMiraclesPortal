@@ -66,7 +66,7 @@ class StudioPackageController extends CustomController
 
         // get related image examples
         $media = $studio_package->map->media;
-        $media = $media->flatten()->filter();
+        $media = $media->flatten()->filter()->unique();
 
         // return response
         return Helpers::returnResponse([

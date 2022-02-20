@@ -71,7 +71,7 @@ class PackageController extends CustomController
 
         // get related image examples
         $media = $packages->map->media;
-        $media = $media->flatten()->filter();
+        $media = $media->flatten()->filter()->unique();
 
         // return response
         return Helpers::returnResponse([
