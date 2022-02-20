@@ -484,7 +484,7 @@ class SessionController extends CustomController
         foreach ( $sub_session->map->media  as $sub_session_media){
             $media->add($sub_session_media);
         }
-        $media = $media->flatten()->filter()->unique();
+        $media = $media->flatten()->filter()->unique(Attributes::ID);
 
         // return response
         return Helpers::returnResponse([
