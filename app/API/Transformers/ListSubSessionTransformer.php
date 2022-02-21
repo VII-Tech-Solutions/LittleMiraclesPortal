@@ -37,6 +37,7 @@ class ListSubSessionTransformer extends CustomTransformer
         Attributes::HAS_GUIDELINE,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
-        Attributes::STATUS
+        Attributes::STATUS,
+        Attributes::BOOKING_TEXT
     ];
 }
