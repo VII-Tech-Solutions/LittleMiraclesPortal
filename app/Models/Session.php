@@ -356,7 +356,7 @@ class Session extends CustomModel
      */
     public function media()
     {
-        return $this->belongsToMany(Media::class, Tables::SESSION_MEDIA, Attributes::SESSION_ID, Attributes::MEDIA_ID);
+        return $this->hasMany(Media::class,Attributes::SESSION_ID, Attributes::ID);
     }
 
 

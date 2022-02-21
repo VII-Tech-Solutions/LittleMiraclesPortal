@@ -136,13 +136,14 @@ class StudioPackageCrudController extends CustomCrudController
     public function fileUpload(Request $request){
         $back_url = request()->headers->get(Attributes::REFERER) ?? null;
         $item_id = intval($request->item_id);
+        $session_id = intval($request->session_id);
         if(!$item_id){
             return back()->withInput();
         }
         if($request->hasFile(Attributes::MEDIA)) {
             $files = $request->allFiles()[Attributes::MEDIA];
             foreach ($files as $file){
-                $media = Helpers::uploadFile(null, $file, null, "assets/media", false, true);
+                $media = Helpers::uploadFile(null, $file, null, "assets/media", false, true, true, $session_id);
                 }
             }
 

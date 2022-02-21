@@ -9,6 +9,7 @@ use App\Constants\SessionStatus;
 use App\Helpers;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
+use App\Models\Media;
 use App\Models\Package;
 use App\Models\Session;
 use App\Models\SessionDetail;
@@ -137,21 +138,13 @@ class SessionCrudController extends CustomCrudController
      */
     public function store()
     {
-
-        // get media ids
-        $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
-
-        $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
-
+        
         // get backdrops
         $backdrops = $this->crud->getRequest()->get(Attributes::BACKDROPS);
 
         // create
         $result = $this->traitStore();
 
-
-        // media
-        $this->media($media_ids);
 
         // clear cache
         Helpers::clearCache(Session::class);
@@ -211,7 +204,7 @@ class SessionCrudController extends CustomCrudController
         $result = $this->traitUpdate();
 
         // media
-        $this->media($media_ids);
+        $update_media = $session->media()->whereNotIn(Attributes::ID, $media_ids)->delete();
 
         // clear cache
         Helpers::clearCache(Session::class);

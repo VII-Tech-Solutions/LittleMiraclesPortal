@@ -17,6 +17,7 @@ use App\Models\StudioPackageMedia;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Google\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
@@ -228,7 +229,7 @@ class Helpers
      * @param bool $add_to_media
      * @return string|null
      */
-    public static function uploadFile($static, $image, $attribute_name, $destination_path, $return_path = true, $add_to_media = true, $generate_name = true)
+    public static function uploadFile($static, $image, $attribute_name, $destination_path, $return_path = true, $add_to_media = true, $generate_name = true, $session_id = null)
     {
 
 
@@ -281,7 +282,7 @@ class Helpers
 
             /** @var Media $media */
             if ($add_to_media) {
-                $media = Media::findOrCreate($filename, MediaType::IMAGE, "$public_destination_path/$filename", $extension);
+                $media = Media::findOrCreate($filename, MediaType::IMAGE, "$public_destination_path/$filename", $extension, $session_id);
             }
 
             if ($return_path) {
@@ -421,5 +422,20 @@ class Helpers
             return null;
         }
     }
+
+    /**
+     * Get Model Primary Column
+     * @param $name
+     * @return string|null
+     */
+    static function getModelByTableName($name)
+    {
+        if ($name == 'sessions') {
+            return Session::class;
+        } else {
+            return null;
+        }
+    }
+
 
 }

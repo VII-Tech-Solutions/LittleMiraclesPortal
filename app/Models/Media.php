@@ -31,6 +31,7 @@ class Media extends CustomModel
     ];
     protected $fillable = [
         Attributes::NAME,
+        Attributes::SESSION_ID,
         Attributes::URL,
         Attributes::STATUS_NAME,
         Attributes::TYPE,
@@ -48,7 +49,7 @@ class Media extends CustomModel
      * @param $extension
      * @return static|null
      */
-    public static function findOrCreate($name, $type, $url, $extension = null)
+    public static function findOrCreate($name, $type, $url, $extension = null, $session_id = null)
     {
 
         if(!is_null($extension)){
@@ -65,6 +66,7 @@ class Media extends CustomModel
             Attributes::NAME => $name,
             Attributes::TYPE => $type,
             Attributes::URL => $url,
+            Attributes::SESSION_ID => $session_id,
         ]);
     }
 
