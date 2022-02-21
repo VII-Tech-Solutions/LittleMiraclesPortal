@@ -8,6 +8,7 @@ use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Status;
 use App\Constants\Tables;
+use App\Constants\Values;
 use App\Helpers;
 use App\Traits\ModelTrait;
 use Carbon\Carbon;
@@ -117,6 +118,7 @@ class Session extends CustomModel
         Attributes::BENEFITS_IDS,
         Attributes::FEATURED_IMAGE,
         Attributes::SUB_SESSIONS_IDS,
+        Attributes::BOOKING_TEXT,
     ];
 
 
@@ -315,6 +317,21 @@ class Session extends CustomModel
     }
 
     /**
+     * Attribute: booking_text
+     * @return string
+     */
+    public function getBookingTextAttribute()
+    {
+        $appointment = $this->appointment();
+        if (is_null($appointment) || is_null($appointment->date) || is_null($appointment->time)) {
+            return null;
+        }
+
+        $date = Carbon::parse($appointment->date)->format('F d, Y');
+        return "You booked an appointment on $date at $appointment->time";
+    }
+
+    /**
      * Scope: Sort By Latest
      * @param Builder $q
      * @return Builder
@@ -357,6 +374,15 @@ class Session extends CustomModel
     public function media()
     {
         return $this->hasMany(Media::class,Attributes::SESSION_ID, Attributes::ID);
+    }
+
+    /**
+     * Relationships: Appointment
+     * @return mixed
+     */
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class,Attributes::SESSION_ID, Attributes::ID)->first();
     }
 
 

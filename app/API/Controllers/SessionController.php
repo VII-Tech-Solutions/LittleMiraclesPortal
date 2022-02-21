@@ -1013,7 +1013,6 @@ xox";
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-
        $save_appointment = Appointment::createOrUpdate([
         Attributes::USER_ID => $user->id,
         Attributes::SESSION_ID => $session->id,

@@ -40,6 +40,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::GIFT_CLAIMED,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
-        Attributes::DELETED_AT
+        Attributes::DELETED_AT,
+        Attributes::BOOKING_TEXT
     ];
 }
