@@ -138,7 +138,7 @@ class SessionCrudController extends CustomCrudController
      */
     public function store()
     {
-        
+
         // get backdrops
         $backdrops = $this->crud->getRequest()->get(Attributes::BACKDROPS);
 

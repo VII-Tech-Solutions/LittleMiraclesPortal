@@ -30,6 +30,7 @@ class Messages extends CustomEnum
     const GIFT_CLAIMED = "Gift claimed successfully";
     const SESSION_ALREADY_CONFIRMED = "This session has been already confirmed";
     const SESSION_CONFIRMED = "Session confirmed successfully";
+    const SESSION_APPOINTMENT_BOOKED = "Session appointment booked successfully";
     const SESSION_RESCHEDULED = "Session rescheduled successfully";
     const INVALID_PARAMETERS = "Invalid parameters";
     const PROFILE_UPDATE_REQUESTED = "Your profile information has been updated successfully";

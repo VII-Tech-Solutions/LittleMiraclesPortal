@@ -51,5 +51,6 @@ class Tables extends CustomEnum
     const STUDIO_PACKAGE_BENEFITS = 'studio_package_benefits';
     const PACKAGE_MEDIA = 'package_media';
     const SESSION_MEDIA = 'session_media';
+    const APPOINTMENTS = 'appointments';
 
 }

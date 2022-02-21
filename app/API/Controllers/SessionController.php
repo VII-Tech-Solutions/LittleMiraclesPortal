@@ -20,6 +20,7 @@ use App\Constants\SessionStatus;
 use App\Constants\Status;
 use App\Constants\Values;
 use App\Helpers;
+use App\Models\Appointment;
 use App\Models\Benefit;
 use App\Models\Feedback;
 use App\Models\FeedbackQuestion;
@@ -967,6 +968,67 @@ xox";
                 ], null, Response::HTTP_OK);
             }
         }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+    }
+
+
+    /**
+     * Book Appointment
+     *
+     * @return JsonResponse
+     *
+     * * @OA\POST(
+     *     path="/api/sessions/{id}/appointment",
+     *     tags={"Sessions"},
+     *     description="Book appointment for the  session",
+     *     @OA\Response(response="200", description="Session has been rescheduled successfully", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="500", description="Internal Server Error", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="id", in="path", description="Session ID", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="date", in="query", description="Date", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="time", in="query", description="time", required=true, @OA\Schema(type="string")),
+     * )
+     */
+    public function bookAppointment($id): JsonResponse
+    {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get parameters
+        $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
+        $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
+
+        if(empty($date) || empty($time)){
+            return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PARAMETERS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // validate session
+        /** @var Session $session */
+        $session = Session::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        if (is_null($session)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+
+       $save_appointment = Appointment::createOrUpdate([
+        Attributes::USER_ID => $user->id,
+        Attributes::SESSION_ID => $session->id,
+        Attributes::DATE => $date,
+        Attributes::TIME => $time,
+    ],[
+        Attributes::USER_ID,
+        Attributes::SESSION_ID
+       ]);
+
+            if (is_a($session, Session::class) && $save_appointment) {
+                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_APPOINTMENT_BOOKED, [
+                    Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
+                ], null, Response::HTTP_OK);
+            }
 
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }

@@ -70,6 +70,7 @@ $api->version('v1', function ($api) {
         $api->post('/sessions/{id}/review', 'SessionController@submitReview')->middleware('allowed_user:true'); // Submit a Review
         $api->get('/sessions/{id}/guideline', 'SessionController@showGuideline')->middleware('allowed_user:true'); // Show Session Guideline
         $api->post('/sessions/{id}/feedback', 'SessionController@submitFeedback')->middleware('allowed_user:true'); // Submit Session Feedback
+        $api->post('/sessions/{id}/appointment', 'SessionController@bookAppointment')->middleware('allowed_user:true');  // Submit the appointment for the session
 
         /*******************************
          * Gifts
@@ -90,6 +91,8 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->get('/studio', 'StudioPackageController@listAll')->middleware('allowed_user:true');  // Get Studio Package Info
         $api->get('/studio/{id}', 'StudioPackageController@getInfo')->middleware('allowed_user:true');  // Get Studio Package Info
+
+
 
     });
 
