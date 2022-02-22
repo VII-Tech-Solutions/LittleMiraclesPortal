@@ -204,7 +204,11 @@ class SessionCrudController extends CustomCrudController
         $result = $this->traitUpdate();
 
         // media
-        $update_media = $session->media()->whereNotIn(Attributes::ID, $media_ids)->delete();
+        if(!is_null($media_ids)){
+            $update_media = $session->media()->whereNotIn(Attributes::ID, $media_ids)->delete();
+        }else{
+            $update_media = $session->media()->delete();
+        }
 
         // clear cache
         Helpers::clearCache(Session::class);
