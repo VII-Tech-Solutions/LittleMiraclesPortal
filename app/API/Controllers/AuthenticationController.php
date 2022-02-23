@@ -284,7 +284,10 @@ class AuthenticationController extends CustomController
 
             }
 
-            // change status
+        }
+
+        // change status
+        if(!is_null($family_info) && is_a($new_user, User::class)) {
             $new_user->status = Status::ACTIVE;
             $new_user->save();
 
