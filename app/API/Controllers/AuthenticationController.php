@@ -295,7 +295,7 @@ class AuthenticationController extends CustomController
         if (is_a($new_user, User::class)) {
             return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATED, [
                 Attributes::USER => User::returnTransformedItems($new_user),
-                Attributes::PARTNER => $new_partner ? FamilyMember::returnTransformedItems($new_partner) : null,
+                Attributes::PARTNER => $new_partner ? FamilyMember::returnTransformedItems($new_partner) : collect(),
                 Attributes::CHILDREN => FamilyMember::returnTransformedItems($new_user->myChildren()),
                 Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($new_user->myFamilyInfo()),
             ], null, Response::HTTP_OK);
