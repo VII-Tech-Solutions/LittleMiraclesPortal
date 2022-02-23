@@ -27,6 +27,7 @@ if(isset($entry) && !is_null($entry->media)){
     if(!is_a($media, Collection::class) || !is_a($media, \Illuminate\Support\Collection::class)){
         $media = collect([$media]);
     }
+
     $images = $media->sortBy(Attributes::ORDER);
 }
 if(isset($entry)){
@@ -112,7 +113,7 @@ if(isset($entry)){
                         <h4 class="modal-title">Upload Images</h4>
                     </div>
                     <div class="modal-body">
-                            <input type="file" name="media[]">
+                            <input type="file" name="media[]" multiple>
                         <label class="backstrap-file-label" for="media">Size limit: 7MB per image</label>
                     </div>
                     <div class="modal-footer">
