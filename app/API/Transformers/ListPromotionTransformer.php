@@ -24,6 +24,7 @@ class ListPromotionTransformer extends CustomTransformer
         Attributes::SESSION_ID,
         Attributes::PACKAGE_ID,
         Attributes::STATUS,
+        Attributes::CREATED_AT,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
     ];
