@@ -25,6 +25,9 @@ class FamilyInfoCrudController  extends CustomCrudController
         $this->crud->setModel(FamilyInfo::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/family-info');
         $this->crud->setEntityNameStrings('Family Information', 'Family Informations');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
     }
 
     /**

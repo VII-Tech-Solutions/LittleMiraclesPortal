@@ -31,6 +31,10 @@ class FamilyMemberCrudController extends CustomCrudController
         $this->crud->setModel(FamilyMember::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/family-members');
         $this->crud->setEntityNameStrings('Family Member', 'Family Members');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
+
     }
 
     /**

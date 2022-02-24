@@ -39,6 +39,10 @@ class SessionCrudController extends CustomCrudController
         $this->crud->setModel(Session::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/sessions');
         $this->crud->setEntityNameStrings('Session', 'Sessions');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
+
     }
 
     /**

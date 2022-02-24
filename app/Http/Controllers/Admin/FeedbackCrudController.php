@@ -21,6 +21,10 @@ class FeedbackCrudController extends CustomCrudController
         $this->crud->setModel(Feedback::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/feedback');
         $this->crud->setEntityNameStrings('Feedback', 'Feedbacks');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
+
     }
 
     /**
