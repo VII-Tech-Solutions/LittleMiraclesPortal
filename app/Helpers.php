@@ -428,9 +428,9 @@ class Helpers
      * @param $name
      * @return string|null
      */
-    static function getModelByTableName($name)
+    static function getModelByEntityName($name)
     {
-        if ($name == 'sessions') {
+        if ($name == 'Session') {
             return Session::class;
         } else {
             return null;

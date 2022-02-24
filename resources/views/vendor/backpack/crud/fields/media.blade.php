@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
 $route_params = Route::current()->parameters();
 // type
-$table_name = Route::getCurrentRoute()->controller->crud->entry->getTable();
+$entity = Route::getCurrentRoute()->controller->crud->entity_name;
 // if session
 
 $all_images = Media::active();
 
 $session_id = null;
-if(str_replace("App\Models\\", "", Helpers::getModelByTableName($table_name)) == Session::class){
+if(str_replace("App\Models\\", "", Helpers::getModelByEntityName($entity)) == Session::class){
     $session_id =  Route::current()->parameter('id');
 }else{
     $all_images = $all_images->whereNull(Attributes::SESSION_ID);
