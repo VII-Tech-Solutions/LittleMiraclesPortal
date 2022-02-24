@@ -27,6 +27,11 @@ use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
+use Prologue\Alerts\Facades\Alert;
 
 /**
  * Custom CRUD Controller
@@ -2171,6 +2176,44 @@ class CustomCrudController extends CrudController
     }
 
 
+
+
+    /**
+     * File Upload
+     * @param Request $request
+     * @return array|RedirectResponse|Response
+     */
+    public function fileUpload(Request $request){
+        $back_url = request()->headers->get(Attributes::REFERER) ?? null;
+        $item_id = intval($request->item_id);
+        $session_id = is_null($request->session_id) ? null : intval($request->session_id);
+        if(!$item_id){
+            return back()->withInput();
+        }
+        if($request->hasFile(Attributes::MEDIA)) {
+            $files = $request->allFiles()[Attributes::MEDIA];
+            foreach ($files as $file){
+                $media = Helpers::uploadFile(null, $file, null, "assets/media", false, true, true, $session_id);
+            }
+        }
+
+        Alert::success('Media saved for this entry.')->flash();
+        return !is_null($back_url) ? Redirect::to($back_url."#media") : back();
+    }
+
+
+    public function fetchMoreMedia(Request $request) {
+        if ($request->filled(Attributes::LAST_FETCHED_MEDIA_ID)) {
+            $last_media_id = $request->{Attributes::LAST_FETCHED_MEDIA_ID};
+            $total = Media::where(Attributes::STATUS, Status::ACTIVE)->where(Attributes::ID, '<', $last_media_id)->count();
+            $media = Media::where(Attributes::STATUS, Status::ACTIVE)->where(Attributes::ID, '<', $last_media_id)->take(48)->orderBy(Attributes::CREATED_AT, Attributes::DESC)->select([Attributes::ID, Attributes::URL])->get()->unique()->toArray();
+            $data = [];
+            $data['has_more_media'] = $total > 48;
+            $data['media'] = $media;
+            return response()->json($data);
+        }
+
+    }
     /**
      * Media
      * @param array $media_ids

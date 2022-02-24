@@ -54,6 +54,6 @@ Route::group([
     Route::crud('available-dates', 'AvailableDateCrudController');
 
     //media
-    Route::POST('upload', 'StudioPackageCrudController@fileUpload');
-    Route::GET('fetch-more-media', 'StudioPackageCrudController@fetchMoreMedia');
+    Route::POST('upload', 'CustomCrudController@fileUpload');
+    Route::GET('fetch-more-media', 'CustomCrudController@fetchMoreMedia');
 }); // this should be the absolute last line of this file

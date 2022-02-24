@@ -10,13 +10,15 @@ $route_params = Route::current()->parameters();
 $table_name = Route::getCurrentRoute()->controller->crud->entry->getTable();
 // if session
 
-$all_images = Media::active()->get();
-
+$all_images = Media::active();
 
 $session_id = null;
 if(str_replace("App\Models\\", "", Helpers::getModelByTableName($table_name)) == Session::class){
     $session_id =  Route::current()->parameter('id');
+}else{
+    $all_images = $all_images->whereNull(Attributes::SESSION_ID);
 }
+$all_images = $all_images->get();
 
 $has_more_images = $all_images->count() > 48;
 $images = [];
