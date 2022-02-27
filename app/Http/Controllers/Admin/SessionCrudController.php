@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\PromotionType;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Helpers;
@@ -43,6 +44,14 @@ class SessionCrudController extends CustomCrudController
         // deny access
         $this->crud->denyAccess(["create"]);
 
+        // don't show sub-sessions
+        $this->crud->addClause('where',function ($q){
+            return $q->whereNull(Attributes::SESSION_ID);
+        });
+
+        // override edit view
+        $this->crud->setEditView('edit.session');
+
     }
 
     /**
@@ -56,6 +65,9 @@ class SessionCrudController extends CustomCrudController
 
         // Filter: Status
         $this->addStatusFilter(SessionStatus::all());
+
+        // Column: ID
+        $this->addColumn(Attributes::ID, 'ID');
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
