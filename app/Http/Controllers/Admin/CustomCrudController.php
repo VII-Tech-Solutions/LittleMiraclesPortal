@@ -816,7 +816,7 @@ class CustomCrudController extends CrudController
     /**
      * Add Relationship Filter Field
      */
-    function addRelationshipFilter($Relationship = null, $column_name = Attributes::RELATIONSHIP, $label = "Gender")
+    function addRelationshipFilter($Relationship = null, $column_name = Attributes::RELATIONSHIP, $label = "Relationship")
     {
         if (is_null($Relationship)) {
             $Relationship = Relationship::all();

@@ -52,10 +52,10 @@ class UserStudioSpecsCrudController extends CustomCrudController
         $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
 
         // Column: Studio Package ID
-        $this->addIDColumn("Question ID", 1, Attributes::STUDIO_PACKAGE_ID);
+        $this->addIDColumn("Studio Package ID", 1, Attributes::STUDIO_PACKAGE_ID);
 
         // Column: Studio Specs ID
-        $this->addIDColumn("Question ID", 1, Attributes::STUDIO_SPECS_ID);
+        $this->addIDColumn("Studio Specs ID", 1, Attributes::STUDIO_SPECS_ID);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
