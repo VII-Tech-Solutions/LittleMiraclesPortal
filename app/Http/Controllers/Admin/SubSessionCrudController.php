@@ -19,11 +19,12 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Prologue\Alerts\Facades\Alert;
+use Request;
 
 /**
  * Session CRUD Controller
  */
-class SessionCrudController extends CustomCrudController
+class SubSessionCrudController extends CustomCrudController
 {
 
     use CreateOperation {store as traitStore;}
@@ -38,19 +39,24 @@ class SessionCrudController extends CustomCrudController
     public function setup()
     {
         $this->crud->setModel(Session::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/sessions');
-        $this->crud->setEntityNameStrings('Session', 'Sessions');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/sub-sessions');
+        $this->crud->setEntityNameStrings('Sub Session', 'Sub Sessions');
 
         // deny access
         $this->crud->denyAccess(["create"]);
 
         // don't show sub-sessions
         $this->crud->addClause('where',function ($q){
-            return $q->whereNull(Attributes::SESSION_ID);
+            $q = $q->whereNotNull(Attributes::SESSION_ID);
+
+            if(!is_null(Request::get('session_id'))){
+                $q = $q->where(Attributes::SESSION_ID, Request::get('session_id'));
+            }
+            return $q;
         });
 
         // override edit view
-        $this->crud->setEditView('edit.session');
+        $this->crud->setEditView('edit.sub_session');
 
     }
 
@@ -65,9 +71,6 @@ class SessionCrudController extends CustomCrudController
 
         // Filter: Status
         $this->addStatusFilter(SessionStatus::all());
-
-        // Column: ID
-        $this->addColumn(Attributes::ID, 'ID');
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
