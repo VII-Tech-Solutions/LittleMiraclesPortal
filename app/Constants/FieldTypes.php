@@ -25,6 +25,7 @@ class FieldTypes extends CustomEnum
     const SELECT2_FROM_AJAX = "select2_from_ajax";
     const HIDDEN = "hidden";
     const TOGGLE = "toggle";
+    const SELECT_TOGGLE = "select_toggle";
     const TIME = "time";
     const URL = "url";
     const ICON_PICKER = "icon_picker";
@@ -32,4 +33,5 @@ class FieldTypes extends CustomEnum
     const DATE_RANGE = "date_range";
     const MEDIA = "media";
     const SELECT2_NESTED = 'select2_nested';
+
 }

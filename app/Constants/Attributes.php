@@ -234,5 +234,6 @@ class Attributes extends CustomEnum
     const STUDIO_PACKAGE = 'studio_package';
     const STUDIO_PACKAGE_BENEFITS = 'studio_package_benefits';
     const BOOKING_TEXT = 'booking_text';
+    const HIDE_WHEN = "hide_when";
 
 }

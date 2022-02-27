@@ -17,6 +17,7 @@ use App\Constants\StudioCategory;
 use App\Helpers;
 use App\Models\BackdropCategory;
 use App\Models\CakeCategory;
+use App\Models\FeedbackQuestion;
 use App\Models\Media;
 use App\Models\PackageBenefit;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -1030,6 +1031,9 @@ class CustomCrudController extends CrudController
      */
     function addQuestionTypeField($genders = null, $attribute_name = null, $label = null, $tab_name = null, $allow_null = false)
     {
+        /** @var FeedbackQuestion $entry */
+        $entry = $this->crud->getCurrentEntry();
+
         if (is_null($genders)) {
             $genders = QuestionType::all();
         }
@@ -1043,9 +1047,15 @@ class CustomCrudController extends CrudController
             Attributes::LABEL => $label,
             Attributes::NAME => $attribute_name,
             Attributes::ALLOWS_NULL => $allow_null,
-            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::TYPE => FieldTypes::SELECT_TOGGLE,
             Attributes::OPTIONS => $genders,
             Attributes::TAB => $tab_name,
+            Attributes::HIDE_WHEN => [
+                1 => [
+                    Attributes::OPTIONS,
+                ]
+            ]
+
         ]);
     }
 
@@ -2083,6 +2093,11 @@ class CustomCrudController extends CrudController
             Attributes::TYPE => FieldTypes::REPEATABLE,
             Attributes::LABEL => "Answers",
             Attributes::NAME => "options",
+            "visibility" => [
+                'field_name' => Attributes::QUESTION_TYPE,
+                'value'      => 1,
+                'add_disabled' => false, // if you need to disable this field value to not be send through create/update request set it to true, otherwise set it to true
+            ],
             Attributes::TAB => $tab_name,
             Attributes::FIELDS => [
                 [
@@ -2095,6 +2110,7 @@ class CustomCrudController extends CrudController
                 ]
             ],
             Attributes::INIT_ROWS => 0, // number of empty rows to be initialized, by default 1
+
 
         ]);
     }

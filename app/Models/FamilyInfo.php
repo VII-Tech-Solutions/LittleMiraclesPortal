@@ -5,6 +5,7 @@ namespace App\Models;
 use App\API\Transformers\FamilyInfoTransformer;
 use App\Constants\Attributes;
 use App\Constants\Tables;
+use App\Models\Relationships\FamilyInfoRelashionship;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -16,7 +17,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  */
 class FamilyInfo extends CustomModel
 {
-    use ModelTrait;
+    use ModelTrait, FamilyInfoRelashionship;
 
     protected $table = Tables::FAMILY_INFO;
     const TRANSFORMER_NAME = FamilyInfoTransformer::class;
@@ -41,6 +42,7 @@ class FamilyInfo extends CustomModel
     protected $appends = [
         Attributes::STATUS_NAME,
     ];
+
 
     /**
      * Get Attribute: status_name
