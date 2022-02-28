@@ -50,6 +50,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
 
@@ -307,4 +308,20 @@ class HomeController extends CustomController
         ]);
     }
 
+
+    function test(){
+
+
+
+        $selected_background = Image::canvas(500, 500, '#bbdce0');
+        $unselected_background = Image::canvas(500, 500, '#d0d3d6');
+
+
+        $img = Image::make( $unselected_background)->resize(500, 500);
+
+        return $img->response('jpg');
+
+
+
+    }
 }

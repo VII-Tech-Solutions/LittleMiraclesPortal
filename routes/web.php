@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', '\App\API\Controllers\HomeController@welcome');
 Route::get('/home', '\App\API\Controllers\HomeController@home');
 Route::get('/email', '\App\API\Controllers\HomeController@email');
+
+// usage inside a laravel route
+Route::get('/test', '\App\API\Controllers\HomeController@test');
