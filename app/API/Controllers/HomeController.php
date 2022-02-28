@@ -310,18 +310,25 @@ class HomeController extends CustomController
 
 
     function test(){
+    $unselected_color = '#d0d3d6';
+    $selected_color = '#bbdce0';
+    $border_width = 5;
+    $border_colour = $selected_color;
 
-
-
-        $selected_background = Image::canvas(500, 500, '#bbdce0');
-        $unselected_background = Image::canvas(500, 500, '#d0d3d6');
-
-
+//        $selected_background = Image::canvas(500, 500, '#bbdce0');
+//        $unselected_background = Image::canvas(500, 500, $unselected_color);
+//        $unselected_background->resizeCanvas($border_width*2, $border_width*3, 'center', true, $unselected_color);
+//
+        $unselected_background = Image::make("images/test.png");
+//        $img = Image::make('public/foo.jpg');
         $img = Image::make( $unselected_background)->resize(500, 500);
+        $img->text('4x10', 200, 300, function($font) {
+            $font->size(10);
+            $font->color('#000');
+            $font->angle(45);
+        });
 
-        return $img->response('jpg');
-
-
+        return $img->response('png');
 
     }
 }

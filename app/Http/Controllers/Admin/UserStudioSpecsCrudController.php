@@ -84,6 +84,9 @@ class UserStudioSpecsCrudController extends CustomCrudController
         // Validation
         $this->crud->setValidation(UserStudioSpecsRequest::class);
 
+
+
+
         // Field: Status
         $this->addStatusField(Status::all());
 
