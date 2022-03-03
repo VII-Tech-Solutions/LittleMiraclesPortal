@@ -65,7 +65,7 @@ class AuthenticationController extends CustomController
                 return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
             }
 
-        } else if ($provider == LoginProvider::FACEBOOK) {
+        } else if ($provider == LoginProvider::FACEBOOK || $provider == LoginProvider::SNAPCHAT) {
 
             // validate required fields
             if (!$this->request->has([Attributes::NAME])) {
@@ -76,7 +76,12 @@ class AuthenticationController extends CustomController
 
         } else if ($provider == LoginProvider::SNAPCHAT) {
 
-            // TODO Snapchat
+            // validate required fields
+            if (!$this->request->has([Attributes::ID, Attributes::PHOTO_URL, Attributes::NAME])) {
+                return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
+            }
+
+            $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
 
         } else {
             return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
