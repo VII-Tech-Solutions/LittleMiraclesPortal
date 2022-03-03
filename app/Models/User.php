@@ -200,10 +200,11 @@ class User extends CustomModel implements
     {
         $fields = collect($data);
         $find_by = [Attributes::ID];
-        if(!empty($fields->get(Attributes::EMAIL))){
-            $find_by = [Attributes::EMAIL];
-        }else if(!empty($fields->get(Attributes::PROVIDER)) && !empty($fields->get(Attributes::PROVIDER_ID))){
+         if(!empty($fields->get(Attributes::PROVIDER)) && !empty($fields->get(Attributes::PROVIDER_ID))){
             $find_by = [Attributes::PROVIDER, Attributes::PROVIDER_ID];
+        }
+        else if(!empty($fields->get(Attributes::EMAIL))){
+            $find_by = [Attributes::EMAIL];
         }else if(empty($fields->get(Attributes::ID))) {
             $find_by = [Attributes::COUNTRY_CODE, Attributes::PHONE_NUMBER];
         }
