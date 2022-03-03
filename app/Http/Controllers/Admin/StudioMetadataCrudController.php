@@ -91,10 +91,6 @@ class StudioMetadataCrudController extends CustomCrudController
         // Field: Price
         $this->addPriceField(Attributes::PRICE, 'Price');
 
-
-        // Field: Image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
-
         // Field: Selected Image
         $this->addFeaturedImageField(Attributes::IMAGE_SELECTED, "Image Selected", true);
 
