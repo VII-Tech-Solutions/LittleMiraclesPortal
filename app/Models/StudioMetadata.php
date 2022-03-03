@@ -17,6 +17,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property integer id
  * @property integer title
  * @property integer image
+ * @property integer image_selected
+ * @property integer image_unselected
  * @property integer description
  * @property string category
  * @property integer status
@@ -35,6 +37,8 @@ class StudioMetadata extends CustomModel
         Attributes::TITLE,
         Attributes::DESCRIPTION,
         Attributes::IMAGE,
+        Attributes::IMAGE_UNSELECTED,
+        Attributes::IMAGE_SELECTED,
         Attributes::CATEGORY,
         Attributes::STATUS,
         Attributes::PRICE,
@@ -90,4 +94,14 @@ class StudioMetadata extends CustomModel
     {
         $this->setImage($value);
     }
+
+    public function setImageSelectedAttribute($value)
+    {
+        $this->setImage($value,Attributes::IMAGE_SELECTED);
+    }
+    public function setImageUnSelectedAttribute($value)
+    {
+        $this->setImage($value,Attributes::IMAGE_UNSELECTED);
+    }
+
 }

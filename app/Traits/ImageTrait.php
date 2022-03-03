@@ -31,19 +31,19 @@ trait ImageTrait
      * Set Attribute: Image
      * @param $value
      */
-    public function setImage($value)
+    public function setImage($value, $attribute_name = Attributes::IMAGE)
     {
         $image = trim($value);
 
         if(Str::startsWith($image, "http")){
-            $this->attributes[Attributes::IMAGE] = $image;
+            $this->attributes[$attribute_name] = $image;
             return;
         }
         if(!empty($image)){
-            $path = Helpers::uploadFile($this, $image, Attributes::IMAGE, self::DIRECTORY, true, false, true);
-            $this->attributes[Attributes::IMAGE] = "storage/" . $path;
+            $path = Helpers::uploadFile($this, $image, $attribute_name, self::DIRECTORY, true, false, true);
+            $this->attributes[$attribute_name] = "storage/" . $path;
         }else{
-            $this->attributes[Attributes::IMAGE] = null;
+            $this->attributes[$attribute_name] = null;
         }
     }
 
