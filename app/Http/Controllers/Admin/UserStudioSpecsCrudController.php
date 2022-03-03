@@ -8,7 +8,6 @@ use App\Constants\Status;
 use App\Http\Requests\UserStudioSpecsRequest;
 use App\Models\UserStudioSpecs;
 use Exception;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * User Studio Specs CRUD Controller
