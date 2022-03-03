@@ -65,7 +65,7 @@ class AuthenticationController extends CustomController
                 return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
             }
 
-        } else if ($provider == LoginProvider::FACEBOOK || $provider == LoginProvider::SNAPCHAT) {
+        } else if ($provider == LoginProvider::FACEBOOK ) {
 
             // validate required fields
             if (!$this->request->has([Attributes::NAME])) {
