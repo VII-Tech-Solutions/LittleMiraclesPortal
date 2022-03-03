@@ -5,7 +5,9 @@ public/images/**
 public/fonts/**
 public/js/**
 public/css/**
+public/css/app.css
 public/**
+public/mix-manifest.json
 # Created by https://www.gitignore.io/api/git,osx,linux,laravel,windows,phpstorm,jetbrains,sublimetext,phpstorm+iml,phpstorm+all,jetbrains+iml,jetbrains+all
 
 ### Git ###
