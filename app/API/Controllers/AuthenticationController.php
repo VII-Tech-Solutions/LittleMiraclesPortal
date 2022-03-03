@@ -75,7 +75,6 @@ class AuthenticationController extends CustomController
             $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
 
         } else if ($provider == LoginProvider::SNAPCHAT) {
-
             // validate required fields
             if (!$this->request->has([Attributes::ID, Attributes::PHOTO_URL, Attributes::NAME])) {
                 return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
@@ -100,6 +99,8 @@ class AuthenticationController extends CustomController
         if (!is_null($avatar) && !Str::startsWith($avatar, "http")) {
             $avatar = base64_encode(file_get_contents($avatar));
         }
+
+
 
         // create a user
         if(is_null($user)){
