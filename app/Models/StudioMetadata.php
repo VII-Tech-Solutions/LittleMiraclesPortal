@@ -87,6 +87,26 @@ class StudioMetadata extends CustomModel
     }
 
     /**
+     * Get selected image Attribute
+     * @param $value
+     * @return string|null
+     */
+    function getImageSelectedAttribute($value)
+    {
+        return $this->getImage($value);
+    }
+
+    /**
+     * Get unselected image Attribute
+     * @param $value
+     * @return string|null
+     */
+    function getImageUnselectedAttribute($value)
+    {
+        return $this->getImage($value);
+    }
+
+    /**
      * Set Attribute: Image
      * @param $value
      */
