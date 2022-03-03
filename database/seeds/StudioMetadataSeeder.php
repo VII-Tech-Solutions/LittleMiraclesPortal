@@ -5,6 +5,7 @@ use App\Constants\Status;
 use App\Constants\StudioCategory;
 use App\Models\StudioMetadata;
 use Illuminate\Database\Seeder;
+use Intervention\Image\Facades\Image;
 
 class StudioMetadataSeeder extends Seeder
 {
@@ -23,13 +24,19 @@ class StudioMetadataSeeder extends Seeder
         $this->canvasSize();
         $this->paperSize();
     }
+    function createImage($width,$height)
+    {
+        $unselected_background = Image::canvas(500, 500, '#d0d3d6');
+        $img = Image::make($unselected_background)->resize($width, $height);
+        return $img->encode('data-url') ?? null;
 
+    }
 
     function albumSize(){
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "5x7",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(5,7),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
