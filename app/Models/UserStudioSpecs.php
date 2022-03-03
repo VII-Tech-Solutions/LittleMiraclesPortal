@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\Tables;
 use App\Helpers;
+use App\Models\Relationships\UserStudioSpecsRelationship;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -17,7 +18,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  */
 class UserStudioSpecs extends CustomModel
 {
-    use ModelTrait;
+    use ModelTrait, UserStudioSpecsRelationship;
 
     protected $table = Tables::USER_STUDIO_SPECS;
 

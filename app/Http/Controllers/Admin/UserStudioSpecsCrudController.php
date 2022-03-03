@@ -8,6 +8,7 @@ use App\Constants\Status;
 use App\Http\Requests\UserStudioSpecsRequest;
 use App\Models\UserStudioSpecs;
 use Exception;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * User Studio Specs CRUD Controller
@@ -71,6 +72,7 @@ class UserStudioSpecsCrudController extends CustomCrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+
     }
 
     /**
@@ -83,9 +85,6 @@ class UserStudioSpecsCrudController extends CustomCrudController
     {
         // Validation
         $this->crud->setValidation(UserStudioSpecsRequest::class);
-
-
-
 
         // Field: Status
         $this->addStatusField(Status::all());
