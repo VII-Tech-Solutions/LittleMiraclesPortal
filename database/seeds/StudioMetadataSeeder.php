@@ -26,8 +26,9 @@ class StudioMetadataSeeder extends Seeder
     }
     function createImage($width,$height)
     {
+
         $unselected_background = Image::canvas(500, 500, '#d0d3d6');
-        $img = Image::make($unselected_background)->resize($width, $height);
+        $img = Image::make($unselected_background)->resize($width*10, $height*10);
         return $img->encode('data-url') ?? null;
 
     }
@@ -46,7 +47,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "6x6",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(6,6),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -56,7 +57,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "8x8",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(8,8),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -66,7 +67,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "8x10",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(8,10),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -76,7 +77,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "8x12",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(8,12),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -86,7 +87,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "9x12",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(9,12),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -96,7 +97,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "10x10",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(10,10),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -106,7 +107,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
         Attributes::TITLE => "12x12",
         Attributes::DESCRIPTION => null,
-        Attributes::IMAGE => null,
+        Attributes::IMAGE => $this->createImage(12,12),
         Attributes::CATEGORY => StudioCategory::ALBUM_SIZE,
         Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -307,7 +308,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "4x6",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(5,7),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -317,7 +318,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "5x7",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(5,7),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -327,7 +328,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "8x10",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(8,10),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -337,7 +338,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "9x16",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(9,16),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -347,7 +348,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "11x14",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(11,14),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -357,7 +358,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "11x16",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(11,16),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -367,7 +368,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "12x16",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(12,16),
             Attributes::CATEGORY => StudioCategory::CANVAS_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -419,7 +420,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "3.5x5",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(3.5,5),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -429,7 +430,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "4x5",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(4,5),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -439,7 +440,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "4x6",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(4,6),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -449,7 +450,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "5x5",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(5,5),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -459,7 +460,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "5x7",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(5,7),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -469,7 +470,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "8x8",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(8,8),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -479,7 +480,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "4x10",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(4,10),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -489,7 +490,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "5x10",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(5,10),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -499,7 +500,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "7x10",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(7,10),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -509,7 +510,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "8x10",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(8,10),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -519,7 +520,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "8x12",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(8,12),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -529,7 +530,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "9x12",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(9,12),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -539,7 +540,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "10x10",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(10,10),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -549,7 +550,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "10x13",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(10,13),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -559,7 +560,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "10x15",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(10,15),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -569,7 +570,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "10x20",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(10,20),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -579,7 +580,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "5x30",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(5,30),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -589,7 +590,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "10x30",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(10,30),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -599,7 +600,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "11x14",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(11,14),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -609,7 +610,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "11x16",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(11,16),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -619,7 +620,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "12x12",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(12,12),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -629,7 +630,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "12x18",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(12,18),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -639,7 +640,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "12x24",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(12,24),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -649,7 +650,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "15x30",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(15,30),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -659,7 +660,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "16x16",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(16,16),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -669,7 +670,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "16x20",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(16,20),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -679,7 +680,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "16x24",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(16,24),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -689,7 +690,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "20x20",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(20,20),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -699,7 +700,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "20x24",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(20,24),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -709,7 +710,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "20x30",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(20,30),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -719,7 +720,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "20x40",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(20,40),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -729,7 +730,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "24x30",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(24,30),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -739,7 +740,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "24x36",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(24,36),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -749,7 +750,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "30x30",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(30,30),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -759,7 +760,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "30x40",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(30,40),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
@@ -769,7 +770,7 @@ class StudioMetadataSeeder extends Seeder
         StudioMetadata::createOrUpdate([
             Attributes::TITLE => "30x45",
             Attributes::DESCRIPTION => null,
-            Attributes::IMAGE => null,
+            Attributes::IMAGE => $this->createImage(30,45),
             Attributes::CATEGORY => StudioCategory::PAPER_SIZE,
             Attributes::STATUS => Status::ACTIVE,
         ], [
