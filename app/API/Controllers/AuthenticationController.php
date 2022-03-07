@@ -76,7 +76,7 @@ class AuthenticationController extends CustomController
 
         } else if ($provider == LoginProvider::SNAPCHAT) {
             // validate required fields
-            if (!$this->request->has([Attributes::ID, Attributes::PHOTO_URL, Attributes::NAME])) {
+            if (!$this->request->has([Attributes::ID, Attributes::NAME])) {
                 return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
             }
 
