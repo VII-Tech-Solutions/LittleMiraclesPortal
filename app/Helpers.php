@@ -55,6 +55,15 @@ class Helpers
     }
 
     /**
+     * User Topic
+     * @param $user_id
+     * @return string
+     */
+    static function userTopic($user_id){
+        return "user_" . str_replace("user_", "", $user_id);
+    }
+
+    /**
      * Generate Random Code
      * @param $length
      * @return string

@@ -32,6 +32,7 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->get('/data', 'HomeController@data')->middleware('allowed_user:true');
         $api->get('/available-hours', 'HomeController@availableHours')->middleware('allowed_user:true');
+        $api->post('/chat', 'HomeController@chatMessage')->middleware('allowed_user:true');
 
         /*******************************
          * Authentication
@@ -91,8 +92,6 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->get('/studio', 'StudioPackageController@listAll')->middleware('allowed_user:true');  // Get Studio Package Info
         $api->get('/studio/{id}', 'StudioPackageController@getInfo')->middleware('allowed_user:true');  // Get Studio Package Info
-
-
 
     });
 

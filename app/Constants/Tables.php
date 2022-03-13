@@ -15,6 +15,7 @@ class Tables extends CustomEnum
     const SESSION_DETAILS = "session_details";
     const BENEFITS = "benefits";
     const PROMOTIONS = "promotions";
+    const USER_TOKENS = "user_tokens";
     const NOTIFICATIONS = "notifications";
     const WORKSHOPS = "workshops";
     const REVIEWS = "reviews";

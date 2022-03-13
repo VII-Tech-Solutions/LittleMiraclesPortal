@@ -23,6 +23,8 @@ use App\API\Transformers\ListWorkshopTransformer;
 use App\Constants\Attributes;
 use App\Constants\AvailableDateType;
 use App\Constants\Headers;
+use App\Constants\Messages;
+use App\Constants\NotificationType;
 use App\Constants\PaymentMethod;
 use App\Constants\PromotionType;
 use App\Constants\Values;
@@ -43,10 +45,13 @@ use App\Models\Package;
 use App\Models\SocialMedia;
 use App\Models\StudioMetadata;
 use App\Models\StudioPackage;
+use App\Models\User;
 use App\Models\UserDevice;
+use App\Models\UserToken;
 use App\Models\Workshop;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -325,5 +330,55 @@ class HomeController extends CustomController
 
         return $img->response('png');
 
+    }
+
+    /**
+     * Send Chat Message
+     * @return JsonResponse
+     * @OA\GET(
+     *     path="/chat",
+     *     tags={"Chat"},
+     *     description="Send Message",
+     *     @OA\Response(response="200", description="Send Chat Message", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Response(response="401", description="Permission denied", @OA\JsonContent(ref="#/components/schemas/CustomJsonResponse")),
+     *     @OA\Parameter(name="Authorization", in="header", description="Authorization", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="title", in="query", description="Title", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="message", in="query", description="Message", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="environment", in="query", description="Environment", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="topic", in="query", description="Topic", required=true, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="room_id", in="query", description="Room ID", required=true, @OA\Schema(type="string")),
+     * )
+     */
+    function chatMessage()
+    {
+
+        /** @var User $user */
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get variables
+        $title = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TITLE, null, CastingTypes::STRING);
+        $message = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::MESSAGE, null, CastingTypes::STRING);
+        $environment = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ENVIRONMENT, null, CastingTypes::STRING);
+        $room_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ROOM_ID, null, CastingTypes::STRING);
+        $topic = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOPIC, null, CastingTypes::STRING);
+        $user_id = str_replace("user_", "", $topic);
+
+        // send fcm
+        $sent = UserToken::sendFCMByToken($user_id, $environment, [
+            Attributes::TITLE => $title,
+            Attributes::MESSAGE => $message,
+            Attributes::TYPE => NotificationType::CHAT,
+            Attributes::ROOM_ID => $room_id,
+            Attributes::USER_ID => $user_id,
+        ], false);
+
+        // return response
+        if($sent){
+            return GlobalHelpers::formattedJSONResponse(Messages::MESSAGE_SENT, null, null, Response::HTTP_OK);
+        }
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }
 }

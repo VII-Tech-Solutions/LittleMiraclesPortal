@@ -10,4 +10,11 @@ class Values extends CustomEnum
     const DEFAULT_TIMEZONE = "Asia/Bahrain";
     const CARBON_HOUR_FORMAT = "g:i A";
     const CARBON_DATE_FORMAT = "Y-m-d";
+
+    // FCM
+    const FCM_DEFAULT_TOPIC = "lms";
+    const FCM_PROJECT_ID = "little-miracles-app";
+    const FCM_PRIORITY_IOS = "10";
+    const FCM_PRIORITY_ANDROID = "high";
+    const FCM_COLOR = "#ff4f69";
 }

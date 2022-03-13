@@ -13,6 +13,7 @@ use App\Helpers;
 use App\Models\FamilyInfo;
 use App\Models\FamilyMember;
 use App\Models\User;
+use App\Models\UserToken;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +51,7 @@ class AuthenticationController extends CustomController
 
         $user = null;
         $username = null;
+
         $name = trim(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::NAME, null, CastingTypes::STRING));
         $provider_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
         $email = Str::lower(trim(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::EMAIL, null, CastingTypes::STRING)));
@@ -100,8 +102,6 @@ class AuthenticationController extends CustomController
             $avatar = base64_encode(file_get_contents($avatar));
         }
 
-
-
         // create a user
         if(is_null($user)){
             $user = User::createOrUpdate([
@@ -142,6 +142,9 @@ class AuthenticationController extends CustomController
     {
 
         $response = $user->createToken(Attributes::USER, []);
+
+        // save token
+        $this->saveToken($user);
 
         if (GlobalHelpers::isValidObject($response, PersonalAccessTokenResult::class)) {
             $response = $response->toArray();
@@ -287,18 +290,19 @@ class AuthenticationController extends CustomController
                     Attributes::FAMILY_ID,
                     Attributes::QUESTION_ID,
                 ]);
-
             }
-
         }
 
         // change status
         if(!is_null($family_info) && is_a($new_user, User::class)) {
             $new_user->status = Status::ACTIVE;
             $new_user->save();
-
         }
 
+        // save token
+        if(!is_null($family_info) && is_a($new_user, User::class)) {
+            $this->saveToken($new_user);
+        }
 
         // return response
         if (is_a($new_user, User::class)) {
@@ -310,7 +314,24 @@ class AuthenticationController extends CustomController
             ], null, Response::HTTP_OK);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
-
     }
 
+    /**
+     * Save Token
+     * @return void
+     */
+    function saveToken($user){
+        $token = trim(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOKEN, null, CastingTypes::STRING));
+        $platform = trim(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PLATFORM, null, CastingTypes::STRING));
+        if(empty($platform)){
+            $platform = $this->request->header(Attributes::PLATFORM);
+        }
+        if(!empty($token) && !empty($platform)){
+            UserToken::createOrUpdate([
+                Attributes::USER_ID => $user->id,
+                Attributes::TOKEN => $token,
+                Attributes::PLATFORM => $platform
+            ]);
+        }
+    }
 }
