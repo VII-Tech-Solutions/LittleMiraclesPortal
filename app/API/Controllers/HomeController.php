@@ -363,6 +363,7 @@ class HomeController extends CustomController
         $message = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::MESSAGE, null, CastingTypes::STRING);
         $environment = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ENVIRONMENT, null, CastingTypes::STRING);
         $room_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ROOM_ID, null, CastingTypes::STRING);
+        $family_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FAMILY_ID, null, CastingTypes::STRING);
         $topic = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOPIC, null, CastingTypes::STRING);
         $user_id = str_replace("user_", "", $topic);
 
@@ -373,6 +374,7 @@ class HomeController extends CustomController
             Attributes::TYPE => NotificationType::CHAT,
             Attributes::ROOM_ID => $room_id,
             Attributes::USER_ID => $user_id,
+            Attributes::FAMILY_ID => $family_id,
         ], false);
 
         // return response

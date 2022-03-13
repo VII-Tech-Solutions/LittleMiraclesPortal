@@ -51,6 +51,10 @@ class FirebaseHelper
                 $data[Attributes::ROOM_ID] = null;
             }
 
+            if(!array_key_exists(Attributes::FAMILY_ID, $data)){
+                $data[Attributes::FAMILY_ID] = null;
+            }
+
             $message = CloudMessage::withTarget(Attributes::CONDITION, "'$topic' in topics && '$env' in topics")
                 ->withNotification(Notification::fromArray([
                     Attributes::TITLE => $title,
