@@ -104,7 +104,9 @@ class SessionController extends CustomController
             $location_text = "Studio";
             $location_link = null;
         }
-
+        $package = Package::findOrfail($package_id);
+        $cakes = array_slice($cakes,-$package->cake_allowed,null,true);
+//        $backdrops = array_slice($backdrops,-$package->backdrop_allowed,null,true);
         // create session
         $session = Session::createOrUpdate([
             Attributes::TITLE => $package->title . " " . $package->tag,
