@@ -57,4 +57,5 @@ Route::group([
     //media
     Route::POST('upload', 'CustomCrudController@fileUpload');
     Route::GET('fetch-more-media', 'CustomCrudController@fetchMoreMedia');
+    Route::crud('sub-session', 'SubSessionCrudController');
 }); // this should be the absolute last line of this file

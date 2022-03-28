@@ -72,6 +72,9 @@ class SubSessionCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(SessionStatus::all());
 
+        // Column: ID
+        $this->addColumn(Attributes::ID, 'ID');
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
@@ -86,7 +89,6 @@ class SubSessionCrudController extends CustomCrudController
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
-
     }
 
     /**
