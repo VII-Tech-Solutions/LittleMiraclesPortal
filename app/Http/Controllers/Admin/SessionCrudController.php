@@ -10,6 +10,7 @@ use App\Constants\SessionStatus;
 use App\Helpers;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
+use App\Models\Cake;
 use App\Models\Media;
 use App\Models\Package;
 use App\Models\Session;
@@ -114,6 +115,9 @@ class SessionCrudController extends CustomCrudController
 
         // Field: Backdrops
         $this->addSessionDetailField(Attributes::BACKDROPS, "Backdrops", "Backdrop", Backdrop::class);
+
+        // Field: Cakes
+        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
 
         // Field: Backdrops
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
