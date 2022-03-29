@@ -106,7 +106,7 @@ class SessionController extends CustomController
         }
         $package = Package::findOrfail($package_id);
         $cakes = array_slice($cakes,-$package->cake_allowed,null,true);
-//        $backdrops = array_slice($backdrops,-$package->backdrop_allowed,null,true);
+        $backdrops = array_slice($backdrops,-$package->backdrop_allowed,null,true);
         // create session
         $session = Session::createOrUpdate([
             Attributes::TITLE => $package->title . " " . $package->tag,
@@ -128,7 +128,7 @@ class SessionController extends CustomController
         ],[
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
-
+        SessionDetail::where(Attributes::SESSION_ID,$session->id)->whereIn(Attributes::TYPE,[3,2])->forceDelete();
         // save session people
         if (!is_null($people) && count($people) > 0) {
             foreach ($people as $item) {
