@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
+use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Http\Requests\BackdropRequest;
 use App\Models\Backdrop;
+use App\Models\BackdropCategory;
 use Exception;
 
 /**
@@ -39,12 +41,14 @@ class BackdropCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
+        // Filter: Backdrop Category
+        $this->addCustomCategoryFilter();
+
         // Column: Name
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
         // Column: Category
-        $this->addCakeCategoryColumn("Category", 1, Attributes::CATEGORY);
-
+        $this->addCakeCategoryColumn("Category", 2, Attributes::CATEGORY_NAME);
         // column: Image
         $this->addImageColumn("Image");
 

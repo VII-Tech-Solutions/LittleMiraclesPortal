@@ -805,6 +805,17 @@ class CustomCrudController extends CrudController
         });
     }
 
+    function addCustomCategoryFilter($attribute_name = Attributes::CATEGORY,$label = 'Category',$model = BackdropCategory::class,$clause = Attributes::CATEGORY_ID)
+    {
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $attribute_name,
+            Attributes::LABEL => $label,
+        ], $model::all()->pluck('name','id')->toArray(), function ($value) use ($clause){
+            $this->crud->addClause('where', $clause, $value);
+        });
+    }
+
     /**
      * Add Question Type Filter Field
      */
