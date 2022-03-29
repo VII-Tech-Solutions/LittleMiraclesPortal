@@ -251,6 +251,7 @@ class Attributes extends CustomEnum
     const HIDE_WHEN = "hide_when";
     const IMAGE_SELECTED = "image_selected";
     const IMAGE_UNSELECTED = "image_unselected";
+    const SEARCH_LOGIC = "searchLogic";
 
 
 }

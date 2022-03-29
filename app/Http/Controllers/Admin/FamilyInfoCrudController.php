@@ -7,6 +7,8 @@ use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\FamilyInfoRequest;
 use App\Models\FamilyInfo;
+use App\Models\FamilyInfoQuestion;
+use App\Models\User;
 use Exception;
 
 /**
@@ -49,12 +51,11 @@ class FamilyInfoCrudController  extends CustomCrudController
         $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
 
         // column: User ID
-        $this->addIDColumn("User", 1, Attributes::USER_ID);
-
+        $this->addUserNameColumn();
 
         // Column: Question ID
-        $this->addIDColumn("Question", 1, Attributes::QUESTION_ID);
-
+        $this->addColumnWithSearchLogic('Question',Attributes::QUESTION_ID,Attributes::QUESTION_ID,Attributes::QUESTION,FamilyInfoQuestion::class);
+        
         // Column: Answer
         $this->addAnswerColumn("Answer",1, Attributes::ANSWER);
 

@@ -73,6 +73,34 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    function addColumnWithSearchLogic($label = null, $attribute_name = null, $search_logic = null, $search_column = null,$model = null)
+    {
+        if (is_null($label)) {
+            $label = "Name";
+        }
+        if (is_null($attribute_name)) {
+            $attribute_name = Attributes::NAME;
+        }
+        if (!is_null($search_logic)) {
+            $this->crud->addColumn([
+                Attributes::LABEL => $label,
+                Attributes::NAME => $attribute_name,
+                Attributes::SEARCH_LOGIC => function($query, $column, $searchTerm) use (&$search_logic, $search_column, $model) {
+                    $entry = $model::query()->where($search_column, 'like', '%'.$searchTerm.'%')->pluck('id')->all();
+                    $query->orWhereIn($search_logic, $entry);
+                }
+            ]);
+        }
+        else
+        {
+            $this->crud->addColumn([
+                Attributes::LABEL => $label,
+                Attributes::NAME => $attribute_name,
+            ]);
+        }
+
+    }
+
     /**
      * Add Icon Field
      * @param string|null $field_name
@@ -1541,6 +1569,9 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    /**
+     * Add UserName With Search
+     */
     function addUserNameColumn()
     {
         $this->crud->addColumn([
