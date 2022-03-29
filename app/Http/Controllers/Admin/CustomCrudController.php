@@ -20,6 +20,7 @@ use App\Models\CakeCategory;
 use App\Models\FeedbackQuestion;
 use App\Models\Media;
 use App\Models\PackageBenefit;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -1537,6 +1538,21 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
             Attributes::PRIORITY => $priority,
+        ]);
+    }
+
+    function addUserNameColumn()
+    {
+        $this->crud->addColumn([
+            Attributes::LABEL => 'User Name',
+            Attributes::NAME => Attributes::USER_ID,
+            Attributes::ENTITY => 'user',
+            Attributes::ATTRIBUTE => Attributes::FULL_NAME,
+            Attributes::MODEL => "App\Models\User",
+            'searchLogic' => function($query, $column, $searchTerm) {
+                $user = User::where(Attributes::FIRST_NAME, 'like', '%'.$searchTerm.'%')->orWhere(Attributes::LAST_NAME, 'like', '%'.$searchTerm.'%')->pluck('id')->all();
+                $query->orWhereIn(Attributes::USER_ID, $user);
+            }
         ]);
     }
 

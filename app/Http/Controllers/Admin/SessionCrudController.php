@@ -15,11 +15,13 @@ use App\Models\Media;
 use App\Models\Package;
 use App\Models\Session;
 use App\Models\SessionDetail;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Prologue\Alerts\Facades\Alert;
+use Spatie\CollectionMacros\Macros\At;
 
 /**
  * Session CRUD Controller
@@ -77,8 +79,7 @@ class SessionCrudController extends CustomCrudController
         $this->addTotalPriceColumn("Total Price", 1, Attributes::TOTAL_PRICE);
 
         // Column: User ID
-        $this->addIDColumn("User Name", 1, Attributes::USER_NAME);
-
+        $this->addUserNameColumn();
         // Column: Package Name
         $this->addIDColumn("Package Name", 1, Attributes::PACKAGE_NAME);
 
