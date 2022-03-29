@@ -82,7 +82,7 @@ class SubSessionCrudController extends CustomCrudController
         $this->addTotalPriceColumn("Total Price", 1, Attributes::TOTAL_PRICE);
 
         // Column: User ID
-        $this->addIDColumn("User Name", 1, Attributes::USER_NAME);
+        $this->addUserNameColumn();
 
         // Column: Package Name
         $this->addIDColumn("Package Name", 1, Attributes::PACKAGE_NAME);
