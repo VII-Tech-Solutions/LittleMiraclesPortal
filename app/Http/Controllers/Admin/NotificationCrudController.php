@@ -51,6 +51,9 @@ class NotificationCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter();
 
+        // Filter: Type
+        $this->addStatusFilter(NotificationTypes::all(),Attributes::TYPE,'Type');
+
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
