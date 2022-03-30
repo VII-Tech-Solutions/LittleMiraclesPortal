@@ -8,6 +8,7 @@ use App\Constants\FieldTypes;
 use App\Constants\Gender;
 use App\Constants\Guideline;
 use App\Constants\IsPopular;
+use App\Constants\LoginProvider;
 use App\Constants\QuestionType;
 use App\Constants\Relationship;
 use App\Constants\SectionTypes;
@@ -849,6 +850,26 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label
         ], $Genders, function ($value) use ($column_name) {
+            $this->crud->addClause('where', $column_name, $value);
+        });
+    }
+
+    /**
+     * Add LoginProvider Filter
+     * @param null $providers
+     * @param string $column_name
+     * @param string $label
+     */
+    function addLoginProviderFilter($providers = null, $column_name = Attributes::PROVIDER, $label = "Provider")
+    {
+        if (is_null($providers)) {
+            $providers = LoginProvider::all();
+        }
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label
+        ], $providers, function ($value) use ($column_name) {
             $this->crud->addClause('where', $column_name, $value);
         });
     }

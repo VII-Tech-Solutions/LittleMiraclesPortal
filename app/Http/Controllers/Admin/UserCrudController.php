@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\LoginProvider;
 use App\Constants\Status;
 use App\Constants\Gender;
 use App\Http\Requests\UserRequest;
@@ -45,6 +46,8 @@ class UserCrudController extends CustomCrudController
         // Filter: Gender
         $this->addGenderFilter(Gender::all());
 
+        // Filter: Provider
+        $this->addLoginProviderFilter();
         // column: User ID
         $this->addIDColumn("User ID", 1, Attributes::ID);
 
