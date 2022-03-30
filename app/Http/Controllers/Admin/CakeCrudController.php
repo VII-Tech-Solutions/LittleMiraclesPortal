@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\CakeRequest;
 use App\Models\Cake;
+use App\Models\CakeCategory;
 use Exception;
 
 /**
@@ -39,6 +40,7 @@ class CakeCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
+        $this->addCustomCategoryFilter(Attributes::CATEGORY,"Category",CakeCategory::class,Attributes::CATEGORY_ID);
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
 
