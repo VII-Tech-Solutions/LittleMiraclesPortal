@@ -1399,7 +1399,7 @@ class CustomCrudController extends CrudController
      * @param int $priority
      * @param string $column_name
      */
-    function addQuestionColumn($label = null, $priority = 1, $column_name = Attributes::QUESTION)
+    function addQuestionColumn($label = null, $priority = 1, $column_name = Attributes::QUESTION, $limit = 80)
     {
         if (is_null($label)) {
             $label = "Question";
@@ -1407,7 +1407,8 @@ class CustomCrudController extends CrudController
         $this->crud->addColumn([
             Attributes::NAME => $column_name,
             Attributes::LABEL => $label,
-            Attributes::PRIORITY => $priority
+            Attributes::PRIORITY => $priority,
+            Attributes::LIMIT => $limit,
         ]);
     }
 
