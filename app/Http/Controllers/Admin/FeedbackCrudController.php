@@ -43,7 +43,7 @@ class FeedbackCrudController extends CustomCrudController
         $this->addIDColumn("ID", 1, Attributes::ID);
 
         // Column: User Name
-        $this->addIDColumn("User Name", 1, Attributes::USER_NAME);
+        $this->addUserNameColumn();
 
         // Column: Session Name
         $this->addIDColumn("Session Name", 1, Attributes::SESSION_NAME);

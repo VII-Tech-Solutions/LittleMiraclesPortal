@@ -33,6 +33,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Prologue\Alerts\Facades\Alert;
 
@@ -1615,7 +1616,10 @@ class CustomCrudController extends CrudController
             Attributes::ATTRIBUTE => Attributes::FULL_NAME,
             Attributes::MODEL => "App\Models\User",
             'searchLogic' => function($query, $column, $searchTerm) {
-                $user = User::where(Attributes::FIRST_NAME, 'like', '%'.$searchTerm.'%')->orWhere(Attributes::LAST_NAME, 'like', '%'.$searchTerm.'%')->pluck('id')->all();
+//                $user = User::where(Attributes::FIRST_NAME, 'like', '%'.$searchTerm.'%')->orWhere(Attributes::LAST_NAME, 'like', '%'.$searchTerm.'%')->pluck('id')->all();
+                $user = User::select(Attributes::ID, Attributes::FIRST_NAME, Attributes::LAST_NAME)
+                    ->orWhere(DB::raw("concat(".Attributes::FIRST_NAME.", ' ', ".Attributes::LAST_NAME.")"), 'LIKE', "%".$searchTerm."%")
+                    ->get();
                 $query->orWhereIn(Attributes::USER_ID, $user);
             }
         ]);
