@@ -39,11 +39,14 @@ class SectionCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(Status::all());
 
-        // Filter: Status
+        // Filter: Type
         $this->addTypeFilter(SectionTypes::all());
 
         // Filter: Is Featured Filter
         $this->addIsPopularFilter(IsFeatured::all(), Attributes::IS_FEATURED,"Is Featured");
+
+        // Filter: Is Featured Filter
+        $this->addIsPopularFilter(GoToAction::all(), Attributes::GO_TO,"Go To");
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
