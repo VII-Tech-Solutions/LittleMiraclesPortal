@@ -271,7 +271,7 @@ class HomeController extends CustomController
 
                 $timings_collection = collect();
 
-                $day_of_week = $date->dayOfWeek + 1;
+                $day_of_week = $date->dayOfWeek;
 
                 $timings = $hours->where(Attributes::DAY_ID, $day_of_week);
 
