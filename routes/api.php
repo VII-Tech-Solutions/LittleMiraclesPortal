@@ -14,6 +14,8 @@
 /** @var Router $api */
 
 use Dingo\Api\Routing\Router;
+use VIITech\Helpers\GlobalHelpers;
+
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
@@ -95,5 +97,9 @@ $api->version('v1', function ($api) {
 
     });
 
+        /*******************************
+         * Registration
+         *******************************/
+        $api->post('/login', 'AuthenticationController@authenticate')->middleware('allowed_user:true'); // Login
 
 });

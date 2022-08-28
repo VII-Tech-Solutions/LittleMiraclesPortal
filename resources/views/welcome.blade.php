@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Little Miracles Portals</title>
+    <title>Little Miracles Portal</title>
 
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -38,7 +38,7 @@
 <body>
 <div class="container">
     <div class="content">
-        <div class="title">Little Miracles Portals</div>
+        <div class="title">Little Miracles Portal</div>
     </div>
 </div>
 </body>
