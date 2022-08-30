@@ -41,12 +41,6 @@ $api->version('v1', function ($api) {
         $api->post('/login', 'AuthenticationController@socialLogin')->middleware('allowed_user:true'); // Social Login
         $api->post('/register', 'AuthenticationController@register')->middleware('allowed_user:true'); // Registration
 
-
-        /*******************************
-         * Registration
-         *******************************/
-        $api->post('/login', 'AuthenticationController@authenticate')->middleware('allowed_user:true'); // Login
-
         /*******************************
          * Users
          *******************************/
