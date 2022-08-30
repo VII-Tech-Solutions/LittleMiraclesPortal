@@ -14,7 +14,6 @@
 /** @var Router $api */
 
 use Dingo\Api\Routing\Router;
-use VIITech\Helpers\GlobalHelpers;
 
 
 $api = app('Dingo\Api\Routing\Router');
@@ -95,11 +94,12 @@ $api->version('v1', function ($api) {
         $api->get('/studio', 'StudioPackageController@listAll')->middleware('allowed_user:true');  // Get Studio Package Info
         $api->get('/studio/{id}', 'StudioPackageController@getInfo')->middleware('allowed_user:true');  // Get Studio Package Info
 
+
     });
 
-        /*******************************
-         * Registration
-         *******************************/
-        $api->post('/login', 'AuthenticationController@authenticate')->middleware('allowed_user:true'); // Login
+    /*******************************
+     * Registration
+     *******************************/
+    $api->post('/login', 'AuthenticationController@authenticate')->middleware('allowed_user:true'); // Login
 
 });
