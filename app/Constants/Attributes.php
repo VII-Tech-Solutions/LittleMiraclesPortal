@@ -76,6 +76,7 @@ class Attributes extends CustomEnum
     const LTR = "ltr";
     const PROMO_CODE = "promo_code";
     const PACKAGE_NAME = "package_name";
+    const PACKAGE_TYPE = "package_type";
     const MEDIA_IDS = "media_ids";
     const FULL_NAME = "full_name";
     const EXPIRES = "expires";
@@ -252,6 +253,15 @@ class Attributes extends CustomEnum
     const IMAGE_SELECTED = "image_selected";
     const IMAGE_UNSELECTED = "image_unselected";
     const SEARCH_LOGIC = "searchLogic";
-
-
+    const DISPLAY_IMAGE = "display_image";
+    const ALBUM_SIZE = "album_size";
+    const SPREADS = "spreads";
+    const PAPER_TYPE = "paper_type";
+    const COVER_TYPE = "cover_type";
+    const CANVAS_SIZE = "canvas_size";
+    const CANVAS_TYPE = "canvas_type";
+    const QUANTITY = "quantity";
+    const PRINT_TYPE = "print_type";
+    const PAPER_SIZE = "paper_size";
+    const ADDITIONAL_COMMENTS = "additional_comment";
 }

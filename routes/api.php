@@ -94,7 +94,10 @@ $api->version('v1', function ($api) {
         $api->get('/studio', 'StudioPackageController@listAll')->middleware('allowed_user:true');  // Get Studio Package Info
         $api->get('/studio/{id}', 'StudioPackageController@getInfo')->middleware('allowed_user:true');  // Get Studio Package Info
 
-
+        /*******************************
+         * Cart
+         *******************************/
+        $api->post('/cart/add', 'CartController@addCartItem')->middleware('allowed_user:true'); // Add Cart Item
     });
 
 });

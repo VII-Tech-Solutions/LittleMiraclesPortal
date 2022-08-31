@@ -38,4 +38,5 @@ class Messages extends CustomEnum
     const PARTNER_UPDATE_REQUESTED = "Your partner information has been updated successfully";
     const FAMILY_INFO_UPDATE_REQUESTED = "Your family information has been updated successfully";
     const MESSAGE_SENT = "Message sent successfully";
+    const CART_ITEM_ADDED = "Cart item added successfully";
 }
