@@ -40,4 +40,5 @@ class Messages extends CustomEnum
     const MESSAGE_SENT = "Message sent successfully";
     const CART_ITEM_ADDED = "Cart item added successfully";
     const CART_ITEM_REMOVED = "Cart item has been removed successfully";
+    const ORDER_CREATED = "Order created successfully";
 }

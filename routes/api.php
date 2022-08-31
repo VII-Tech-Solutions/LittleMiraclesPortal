@@ -101,6 +101,7 @@ $api->version('v1', function ($api) {
         $api->get('/cart', 'CartController@listCartItems')->middleware('allowed_user:true'); // Add Cart Item
         $api->delete('/cart/{id}', 'CartController@removeCartItem')->middleware('allowed_user:true'); // Add Cart Item
         $api->post('/cart/promotion', 'CartController@applyPromoCode')->middleware('allowed_user:true'); // Add Cart Item
+        $api->post('/checkout', 'CartController@checkout')->middleware('allowed_user:true'); // Add Cart Item
     });
 
 });

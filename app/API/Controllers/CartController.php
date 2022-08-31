@@ -9,6 +9,8 @@ use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Helpers;
 use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\OrderItems;
 use App\Models\Package;
 use App\Models\Promotion;
 use App\Models\StudioMetadata;
@@ -184,5 +186,52 @@ class CartController extends CustomController
         }
 
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Checkout
+     *
+     * @return JsonResponse
+     */
+    public function checkout() {
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get cart items
+        $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
+        $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
+        $total_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOTAL_PRICE, null, CastingTypes::DOUBLE);
+        $discount_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISCOUNT_PRICE, null, CastingTypes::DOUBLE);
+
+        // create order
+        $order = Order::createOrUpdate([
+            Attributes::PROMO_CODE => $promo_code,
+            Attributes::TOTAL_PRICE => $total_price,
+            Attributes::DISCOUNT_PRICE => $discount_price,
+            Attributes::USER_ID => $user->id
+        ]);
+
+        if (!is_a($order, Order::class)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // add order items
+        foreach ($cart_items as $item) {
+            OrderItems::createOrUpdate([
+                Attributes::ORDER_ID => $order->id,
+                Attributes::ITEM_ID => $item->id,
+                Attributes::USER_ID => $user->id
+            ]);
+
+            // change item status
+            $item->status = CartItemStatus::PURCHASED;
+            $item->save();
+        }
+
+        // return response
+        return GlobalHelpers::formattedJSONResponse(Messages::ORDER_CREATED, null, null, Response::HTTP_OK);
     }
 }

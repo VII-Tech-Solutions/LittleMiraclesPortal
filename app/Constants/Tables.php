@@ -54,4 +54,6 @@ class Tables extends CustomEnum
     const SESSION_MEDIA = 'session_media';
     const APPOINTMENTS = 'appointments';
     const CART_ITEMS = "cart_items";
+    const ORDERS = "orders";
+    const ORDER_ITEMS = "order_items";
 }
