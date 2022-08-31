@@ -264,4 +264,5 @@ class Attributes extends CustomEnum
     const PRINT_TYPE = "print_type";
     const PAPER_SIZE = "paper_size";
     const ADDITIONAL_COMMENTS = "additional_comment";
+    const CART_ITEMS = "cart_items";
 }

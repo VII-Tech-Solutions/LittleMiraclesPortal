@@ -2,7 +2,9 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\ListCartItemsTransformer;
 use App\Constants\Attributes;
+use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Helpers;
 use App\Models\CartItem;
@@ -10,6 +12,7 @@ use App\Models\Package;
 use App\Models\StudioMetadata;
 use App\Models\User;
 use Dingo\Api\Http\Response;
+use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
 
@@ -78,7 +81,29 @@ class CartController extends CustomController
         }
 
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
-
     }
 
+    /**
+     * List Cart Items
+     * @return JsonResponse
+     */
+    public function listCartItems() {
+
+        // get current user
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        //  get user cart items (unpurchased)
+        $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED);
+        $total_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
+        $cart_items = $cart_items->get();
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::TOTAL_PRICE => $total_price,
+            Attributes::CART_ITEMS => CartItem::returnTransformedItems($cart_items, ListCartItemsTransformer::class),
+        ]);
+    }
 }
