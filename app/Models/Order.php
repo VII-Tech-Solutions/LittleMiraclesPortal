@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Constants\Attributes;
 use App\Constants\Tables;
+use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * Class Order
@@ -14,6 +15,7 @@ use App\Constants\Tables;
  * @property double discount_price
  * @property integer status
  * @property integer user_id
+ * @property Collection orderItems
  */
 class Order extends CustomModel
 {
@@ -25,4 +27,12 @@ class Order extends CustomModel
         Attributes::STATUS,
         Attributes::USER_ID
     ];
+
+    /**
+     * Relationship: Order Items
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function orderItems() {
+        return $this->belongsToMany(CartItem::class, Tables::ORDER_ITEMS,  Attributes::ORDER_ID, Attributes::ITEM_ID);
+    }
 }

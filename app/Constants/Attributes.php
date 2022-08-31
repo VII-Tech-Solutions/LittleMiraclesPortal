@@ -266,4 +266,6 @@ class Attributes extends CustomEnum
     const ADDITIONAL_COMMENTS = "additional_comment";
     const CART_ITEMS = "cart_items";
     const ORDER_ID = "order_id";
+    const ORDERS = "orders";
+    const ORDER_ITEMS = "order_items";
 }

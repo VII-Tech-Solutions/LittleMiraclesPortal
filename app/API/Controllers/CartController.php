@@ -3,10 +3,12 @@
 namespace App\API\Controllers;
 
 use App\API\Transformers\ListCartItemsTransformer;
+use App\API\Transformers\ListOrdersTransformer;
 use App\Constants\AllProducts;
 use App\Constants\Attributes;
 use App\Constants\CartItemStatus;
 use App\Constants\Messages;
+use App\Constants\OrderStatus;
 use App\Helpers;
 use App\Models\CartItem;
 use App\Models\Order;
@@ -233,5 +235,30 @@ class CartController extends CustomController
 
         // return response
         return GlobalHelpers::formattedJSONResponse(Messages::ORDER_CREATED, null, null, Response::HTTP_OK);
+    }
+
+    /**
+     * List Orders
+     *
+     * @return JsonResponse
+     */
+    public function listOrders() {
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get orders
+        $orders = Order::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, '!=', OrderStatus::CANCELLED)->get();
+
+
+        $order_items = $orders->map->orderItems;
+        $order_items = $order_items->flatten()->unique(Attributes::ID);
+
+        return Helpers::returnResponse([
+            Attributes::ORDERS => Order::returnTransformedItems($orders, ListOrdersTransformer::class),
+            Attributes::ORDER_ITEMS => $order_items,
+        ]);
     }
 }
