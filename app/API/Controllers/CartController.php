@@ -3,12 +3,14 @@
 namespace App\API\Controllers;
 
 use App\API\Transformers\ListCartItemsTransformer;
+use App\Constants\AllProducts;
 use App\Constants\Attributes;
 use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Helpers;
 use App\Models\CartItem;
 use App\Models\Package;
+use App\Models\Promotion;
 use App\Models\StudioMetadata;
 use Dingo\Api\Http\Response;
 use Exception;
@@ -133,5 +135,54 @@ class CartController extends CustomController
         }
 
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Apply Promo Code
+     *
+     * @param $id
+     * @return JsonResponse
+     */
+    public function applyPromoCode() {
+
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get parameters
+        $code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
+
+        // validate code
+        if (!is_null($code)) {
+            // get promotion
+            /** @var Promotion $promotion */
+            $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
+
+            if (is_null($promotion)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
+            }
+
+            if ($promotion->package_id != AllProducts::ALL) {
+                return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
+            }
+
+            // calculate
+            $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED);
+            $original_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
+            $offer = $promotion->offer;
+            $discount_amount = $original_price * ($offer / 100);
+            $total_price_after_discount = $original_price - $discount_amount;
+
+            // return response
+            return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
+                Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
+                Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_amount),
+                Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price_after_discount)
+            ], null, Response::HTTP_OK);
+        }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
     }
 }

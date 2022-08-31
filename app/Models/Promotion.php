@@ -25,6 +25,7 @@ use VIITech\Helpers\GlobalHelpers;
  *
  * @property string offer
  * @property string valid_until
+ * @property integer package_id
  */
 class Promotion extends CustomModel
 {

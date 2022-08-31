@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\AllPackages;
+use App\Constants\AllProducts;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\PromotionStatus;
@@ -94,7 +95,7 @@ class PromotionCrudController extends CustomCrudController
         $this->addNameField(Attributes::TITLE, "Title");
 
         // Field: Select Package
-        $this->addRelationshipField([AllPackages::ALL => 'All Packages'] + Helpers::toCustomArray(Package::all(), 'title'), Attributes::PACKAGE_ID );
+        $this->addRelationshipField([AllPackages::ALL => 'All Packages'] + [AllProducts::ALL => "All Products"] + Helpers::toCustomArray(Package::all(), 'title'), Attributes::PACKAGE_ID );
 
         // Field: Image
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
