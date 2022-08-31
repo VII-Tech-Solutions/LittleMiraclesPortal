@@ -10,8 +10,8 @@ use App\Helpers;
 use App\Models\CartItem;
 use App\Models\Package;
 use App\Models\StudioMetadata;
-use App\Models\User;
 use Dingo\Api\Http\Response;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
@@ -105,5 +105,33 @@ class CartController extends CustomController
             Attributes::TOTAL_PRICE => $total_price,
             Attributes::CART_ITEMS => CartItem::returnTransformedItems($cart_items, ListCartItemsTransformer::class),
         ]);
+    }
+
+    /**
+     * Remove Cart Item
+     * @param $id
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function removeCartItem($id) {
+
+        // get current user
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get item
+        $cart_item = CartItem::where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->first();
+        if (is_null($cart_item)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::ITEM_NOT_FOUND, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // remove cart item
+        if ($cart_item->delete()) {
+            return GlobalHelpers::formattedJSONResponse(Messages::CART_ITEM_REMOVED, null, null, Response::HTTP_OK);
+        }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }
 }

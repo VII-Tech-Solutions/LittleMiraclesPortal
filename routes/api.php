@@ -99,6 +99,7 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->post('/cart/add', 'CartController@addCartItem')->middleware('allowed_user:true'); // Add Cart Item
         $api->get('/cart', 'CartController@listCartItems')->middleware('allowed_user:true'); // Add Cart Item
+        $api->delete('/cart/{id}', 'CartController@removeCartItem')->middleware('allowed_user:true'); // Add Cart Item
     });
 
 });
