@@ -1050,6 +1050,22 @@ class CustomCrudController extends CrudController
             Attributes::DEFAULT => false
         ]);
     }
+
+    /**
+     * Add Firebase Field
+     * @param $attribute_name
+     * @return void
+     */
+    function addFirebaseIdField($attribute_name = null) {
+        CRUD::addField([
+            Attributes::LABEL => "Firebase Id",
+            Attributes::NAME => $attribute_name,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::DEFAULT => null,
+            Attributes::ALLOWS_NULL => true
+        ]);
+    }
+
     /**
      * Add SectionType Field
      * @param null $types
@@ -1990,9 +2006,23 @@ class CustomCrudController extends CrudController
      */
     function addChatWithEveryoneColumn($attribute = Attributes::CHAT_WITH_EVERYONE, $priority = 1) {
         $this->crud->addColumn([
-           Attributes::NAME => Attributes::CHAT_WITH_EVERYONE,
+           Attributes::NAME => $attribute,
            Attributes::LABEL => "Chat with Everyone",
            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Firebase Id
+     * @param $attribute
+     * @param $priority
+     * @return void
+     */
+    function addFirebaseIdColumn($attribute = Attributes::FIREBASE_ID, $priority = 1) {
+        $this->crud->addColumn([
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => "Firebase Id",
+            Attributes::PRIORITY => $priority
         ]);
     }
 

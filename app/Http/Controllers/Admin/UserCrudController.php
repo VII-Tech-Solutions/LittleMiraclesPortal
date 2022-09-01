@@ -90,6 +90,9 @@ class UserCrudController extends CustomCrudController
         // Column: Chat with Everyone
         $this->addChatWithEveryoneColumn();
 
+        // Column: Firebase Id
+        $this->addFirebaseIdColumn();
+
     }
 
     /**
@@ -148,5 +151,8 @@ class UserCrudController extends CustomCrudController
 
         // Field: Chat with Everyone
         $this->addChatWithEveryoneField(Attributes::CHAT_WITH_EVERYONE);
+
+        // Field: Firebase Id
+        $this->addFirebaseIdField();
     }
 }

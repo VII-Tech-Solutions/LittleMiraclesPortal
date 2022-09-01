@@ -27,6 +27,7 @@ class UserTransformer extends CustomTransformer
         Attributes::PROVIDER_ID,
         Attributes::STATUS,
         Attributes::CHAT_WITH_EVERYONE,
+        Attributes::FIREBASE_ID,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT
     ];

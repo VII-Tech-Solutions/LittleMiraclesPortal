@@ -269,4 +269,5 @@ class Attributes extends CustomEnum
     const ORDERS = "orders";
     const ORDER_ITEMS = "order_items";
     const CHAT_WITH_EVERYONE = "chat_with_everyone";
+    const FIREBASE_ID = "firebase_id";
 }
