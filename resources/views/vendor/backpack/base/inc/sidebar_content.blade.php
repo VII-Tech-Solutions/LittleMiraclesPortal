@@ -1,5 +1,5 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>
+{{--<li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>--}}
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('notifications') }}'><i class='nav-icon la la-bell'></i>Notifications</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('onboardings') }}'><i class='nav-icon la la-hands-helping'></i>Onboardings</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('photographers') }}'><i class='nav-icon la la-user-friends'></i>Photographers</a></li>
@@ -74,6 +74,8 @@
     </ul>
 </li>
 
+{{--<li class='nav-item'><a class='nav-link' href='{{ backpack_url('order') }}'><i class='nav-icon la la-question'></i> Orders</a></li>--}}
+
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gifts') }}'><i class='nav-icon la la-gifts'></i>Gifts</a></li>
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('users') }}'><i class='nav-icon la la-user'></i>Users</a></li>
@@ -145,6 +147,3 @@
 
 {{--    </ul>--}}
 {{--</li>--}}
-
-
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('order') }}'><i class='nav-icon la la-question'></i> Orders</a></li>
