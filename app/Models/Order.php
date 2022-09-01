@@ -3,8 +3,13 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\OrderStatus;
 use App\Constants\Tables;
+use App\Helpers;
+use App\Traits\ModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use phpDocumentor\Reflection\Types\Collection;
+use \Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 /**
  * Class Order
@@ -19,6 +24,8 @@ use phpDocumentor\Reflection\Types\Collection;
  */
 class Order extends CustomModel
 {
+    use CrudTrait, ModelTrait;
+
     protected $table = Tables::ORDERS;
     protected $fillable = [
         Attributes::PROMO_CODE,
@@ -35,4 +42,26 @@ class Order extends CustomModel
     public function orderItems() {
         return $this->belongsToMany(CartItem::class, Tables::ORDER_ITEMS,  Attributes::ORDER_ID, Attributes::ITEM_ID);
     }
+
+    /**
+     * Get Attribute: status_name
+     * @param $value
+     * @return string
+     */
+    public function getStatusNameAttribute($value)
+    {
+        $text = OrderStatus::getKey($this->status);
+        return Helpers::readableText($text);
+    }
+
+    /**
+     * Relationship: User
+     * @return BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, Attributes::USER_ID);
+    }
+
+
 }
