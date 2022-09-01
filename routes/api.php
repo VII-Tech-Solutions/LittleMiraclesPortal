@@ -46,6 +46,7 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->post('/users/register', 'UserController@register'); // User Registration
         $api->delete('/delete-account', 'UserController@delete')->middleware('allowed_user:true');
+        $api->get('/firebase-ids', 'UserController@listFirebaseIds');
 
         /*******************************
          * Questions

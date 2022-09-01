@@ -2,8 +2,10 @@
 
 namespace App\API\Controllers;
 
+use App\Constants\Attributes;
 use App\Constants\Messages;
 use App\Helpers;
+use App\Models\User;
 use Dingo\Api\Http\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -43,6 +45,21 @@ class UserController extends CustomController
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
 
+    }
+
+    /**
+     * List Firebase Ids
+     * @return JsonResponse
+     */
+    function listFirebaseIds() {
+
+        // get firebase ids
+        $firebase_ids = User::where(Attributes::CHAT_WITH_EVERYONE, true)->pluck(Attributes::FIREBASE_ID);
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::FIREBASE_IDS => $firebase_ids
+        ]);
     }
 
 }

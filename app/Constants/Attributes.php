@@ -271,4 +271,5 @@ class Attributes extends CustomEnum
     const CHAT_WITH_EVERYONE = "chat_with_everyone";
     const FIREBASE_ID = "firebase_id";
     const ALBUM_TITLE = "album_title";
+    const FIREBASE_IDS = "firebase_ids";
 }
