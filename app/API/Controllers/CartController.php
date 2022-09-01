@@ -52,6 +52,7 @@ class CartController extends CustomController
         $print_type = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PRINT_TYPE, null, CastingTypes::INTEGER);
         $paper_size = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAPER_SIZE, null, CastingTypes::INTEGER);
         $additional_comments = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ADDITIONAL_COMMENTS, null, CastingTypes::STRING);
+        $album_title = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ALBUM_TITLE, null, CastingTypes::STRING);
 
         // calculate total price
         /** @var Package $package */
@@ -78,7 +79,8 @@ class CartController extends CustomController
             Attributes::PAPER_SIZE => $paper_size,
             Attributes::ADDITIONAL_COMMENTS => $additional_comments,
             Attributes::USER_ID => $user->id,
-            Attributes::TOTAL_PRICE => $total_price
+            Attributes::TOTAL_PRICE => $total_price,
+            Attributes::ALBUM_TITLE => $album_title
         ]);
 
         // return response
@@ -204,6 +206,8 @@ class CartController extends CustomController
 
         // get cart items
         $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
+
+        // get parameters
         $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
         $total_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOTAL_PRICE, null, CastingTypes::DOUBLE);
         $discount_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISCOUNT_PRICE, null, CastingTypes::DOUBLE);

@@ -28,6 +28,7 @@ use App\Constants\Tables;
  * @property integer status
  * @property double total_price
  * @property integer user_id
+ * @property string album_title
  */
 class CartItem extends CustomModel
 {
@@ -51,6 +52,7 @@ class CartItem extends CustomModel
         Attributes::ADDITIONAL_COMMENTS,
         Attributes::STATUS,
         Attributes::TOTAL_PRICE,
-        Attributes::USER_ID
+        Attributes::USER_ID,
+        Attributes::ALBUM_TITLE
     ];
 }

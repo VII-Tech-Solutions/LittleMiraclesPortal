@@ -30,5 +30,6 @@ class ListCartItemsTransformer extends CustomTransformer
         Attributes::ADDITIONAL_COMMENTS,
         Attributes::STATUS,
         Attributes::TOTAL_PRICE,
+        Attributes::ALBUM_TITLE
     ];
 }
