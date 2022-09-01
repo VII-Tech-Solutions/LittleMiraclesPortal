@@ -153,6 +153,6 @@ class UserCrudController extends CustomCrudController
         $this->addChatWithEveryoneField(Attributes::CHAT_WITH_EVERYONE);
 
         // Field: Firebase Id
-        $this->addFirebaseIdField();
+        $this->addFirebaseIdField(Attributes::FIREBASE_ID);
     }
 }
