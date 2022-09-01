@@ -355,9 +355,7 @@ class Helpers
     static function toCustomArray($collection , $value_name){
         $collect = collect();
         foreach ($collection as $value){
-            $collect->add(
-                $value['id'] = $value[$value_name]
-            );
+            $collect[$value['id']] = $value[$value_name];
         }
         return $collect->toArray();
     }
