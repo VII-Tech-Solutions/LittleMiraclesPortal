@@ -1026,6 +1026,31 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Boolean Options
+     * @return string[]
+     */
+    function booleanOptions(){
+        return [
+            false => "No",
+            true => "Yes"
+        ];
+    }
+
+    /**
+     * Add Chat with Everyone Field
+     * @param $attribute_name
+     * @return void
+     */
+    function addChatWithEveryoneField($attribute_name = null) {
+        CRUD::addField([
+            Attributes::LABEL => "Chat with Everyone",
+            Attributes::NAME => $attribute_name,
+            Attributes::TYPE => FieldTypes::SELECT2_FROM_ARRAY,
+            Attributes::OPTIONS => $this->booleanOptions(),
+            Attributes::DEFAULT => false
+        ]);
+    }
+    /**
      * Add SectionType Field
      * @param null $types
      * @param null $attribute_name
@@ -1954,6 +1979,20 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $attribute,
             Attributes::LABEL => "Category",
             Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Can Chat Column
+     * @param $attribute
+     * @param $priority
+     * @return void
+     */
+    function addChatWithEveryoneColumn($attribute = Attributes::CHAT_WITH_EVERYONE, $priority = 1) {
+        $this->crud->addColumn([
+           Attributes::NAME => Attributes::CHAT_WITH_EVERYONE,
+           Attributes::LABEL => "Chat with Everyone",
+           Attributes::PRIORITY => $priority
         ]);
     }
 

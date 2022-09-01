@@ -65,7 +65,8 @@ class User extends CustomModel implements
         Attributes::PROVIDER,
         Attributes::USERNAME,
         Attributes::PAST_EXPERIENCE,
-        Attributes::STATUS
+        Attributes::STATUS,
+        Attributes::CHAT_WITH_EVERYONE
     ];
 
     /**

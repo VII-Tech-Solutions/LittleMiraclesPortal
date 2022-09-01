@@ -87,6 +87,9 @@ class UserCrudController extends CustomCrudController
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
 
+        // Column: Chat with Everyone
+        $this->addChatWithEveryoneColumn();
+
     }
 
     /**
@@ -143,5 +146,7 @@ class UserCrudController extends CustomCrudController
         // Field: Status
         $this->addStatusField(Status::all());
 
+        // Field: Chat with Everyone
+        $this->addChatWithEveryoneField(Attributes::CHAT_WITH_EVERYONE);
     }
 }
