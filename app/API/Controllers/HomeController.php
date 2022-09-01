@@ -190,6 +190,7 @@ class HomeController extends CustomController
             $pages = Helpers::getLatestOnlyInCollection($pages, $this->last_update);
             $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
             $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
+            $studio_packages = Helpers::getLatestOnlyInCollection($studio_packages, $this->last_update);
 
         // return response
         return Helpers::returnResponse([
