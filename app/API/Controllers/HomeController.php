@@ -125,25 +125,25 @@ class HomeController extends CustomController
         $onboardings = Onboarding::withTrashed()->active()->get()->sortBy(Attributes::ORDER);
 
         // get photographers
-        $photographers = Photographer::active()->get();
+        $photographers = Photographer::withTrashed()->active()->get();
 
         // get cakes
-        $cakes = Cake::active()->get();
+        $cakes = Cake::withTrashed()->active()->get();
 
         // get backdrops
-        $backdrops = Backdrop::active()->get();
+        $backdrops = Backdrop::withTrashed()->active()->get();
 
         // get daily tips
-        $daily_tips = DailyTip::active()->get();
+        $daily_tips = DailyTip::withTrashed()->active()->get();
 
         // get promotions
-        $promotions = Promotion::active()->where(Attributes::TYPE, PromotionType::PUBLIC)->get();
+        $promotions = Promotion::withTrashed()->active()->where(Attributes::TYPE, PromotionType::PUBLIC)->get();
 
         // get workshops
-        $workshops = Workshop::active()->get();
+        $workshops = Workshop::withTrashed()->active()->get();
 
         // get home header
-        $sections = Section::active()->get();
+        $sections = Section::withTrashed()->active()->get();
 
         // get faq
         $faqs = Faq::withTrashed()->active()->get();
