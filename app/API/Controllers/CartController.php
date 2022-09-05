@@ -46,7 +46,7 @@ class CartController extends CustomController
         $package_type = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PACKAGE_TYPE, null, CastingTypes::INTEGER);
         $title = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TITLE, null, CastingTypes::STRING);
         $description = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DESCRIPTION, null, CastingTypes::STRING);
-        $display_image = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISPLAY_IMAGE, null, CastingTypes::INTEGER);
+        $display_image = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISPLAY_IMAGE, null, CastingTypes::STRING);
         $media_ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::MEDIA_IDS, null, CastingTypes::STRING);
         $album_size = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ALBUM_SIZE, null, CastingTypes::INTEGER);
         $spreads = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SPREADS, null, CastingTypes::INTEGER);

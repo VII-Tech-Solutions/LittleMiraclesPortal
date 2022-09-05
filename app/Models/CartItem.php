@@ -13,7 +13,7 @@ use App\Constants\Tables;
  * @property integer package_type
  * @property string title
  * @property string description
- * @property integer display_image
+ * @property string display_image
  * @property string media_ids
  * @property integer album_size
  * @property integer spreads
