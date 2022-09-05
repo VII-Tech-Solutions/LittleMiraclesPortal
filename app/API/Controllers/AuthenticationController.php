@@ -84,6 +84,11 @@ class AuthenticationController extends CustomController
 
             $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
 
+        } else if ($provider == LoginProvider::APPLE) {
+            // validate required fields
+            if(!$this->request->has([Attributes::EMAIL, Attributes::NAME])){
+                return GlobalHelpers::formattedJSONResponse(__(Messages::BAD_REQUEST), null, null, \Illuminate\Http\Response::HTTP_BAD_REQUEST);
+            }
         } else {
             return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
         }
