@@ -28,6 +28,12 @@ use VIITech\Helpers\GlobalHelpers;
  */
 class CartController extends CustomController
 {
+
+    /**
+     * Add Cart Item
+     *
+     * @return JsonResponse
+     */
     public function addCartItem() {
         // get current user
         $user = Helpers::resolveUser();
@@ -41,7 +47,7 @@ class CartController extends CustomController
         $title = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TITLE, null, CastingTypes::STRING);
         $description = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DESCRIPTION, null, CastingTypes::STRING);
         $display_image = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISPLAY_IMAGE, null, CastingTypes::INTEGER);
-        $media_ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISPLAY_IMAGE, null, CastingTypes::STRING);
+        $media_ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::MEDIA_IDS, null, CastingTypes::STRING);
         $album_size = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ALBUM_SIZE, null, CastingTypes::INTEGER);
         $spreads = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SPREADS, null, CastingTypes::INTEGER);
         $paper_type = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAPER_TYPE, null, CastingTypes::INTEGER);
@@ -103,7 +109,7 @@ class CartController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        //  get user cart items (unpurchased)
+        // get user cart items (unpurchased)
         $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED);
         $total_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
         $cart_items = $cart_items->get();
