@@ -34,6 +34,7 @@ class ListSubSessionTransformer extends CustomTransformer
         Attributes::LOCATION_LINK,
         Attributes::IS_OUTDOOR,
         Attributes::PHOTOGRAPHER_NAME,
+        Attributes::PHOTOGRAPHER,
         Attributes::HAS_GUIDELINE,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
