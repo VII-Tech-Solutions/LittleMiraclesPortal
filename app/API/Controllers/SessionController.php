@@ -595,7 +595,19 @@ class SessionController extends CustomController
             $children_name[$children_count] = $child->first_name;
         }
 
-        if ($children_count > 1) {
+        if ($children_count == 2) {
+            foreach ($children_name as $names) {
+                $name[$children_count2] = $names . "&";
+                $children_count2++;
+            }
+            $name[count($name) - 1] = str_replace('&', "", $name[count($name) - 1]);
+            $object = "their";
+            $object2 = "they";
+            $object3 = "them";
+            $baby = "babies";
+            $had = "have";
+            $is = "are";
+        } else if ($children_count > 1) {
             foreach ($children_name as $names) {
                 $name[$children_count2] = $names . ",";
                 $children_count2++;
@@ -625,8 +637,15 @@ class SessionController extends CustomController
             $is = "is";
         }
 
+        // greeting title
+        if ($user->gender == Gender::FEMALE) {
+            $greeting = "mommy";
+        } else {
+            $greeting = "daddy";
+        }
+
         // generate text
-        $text = "Hi mommy $user->first_name!
+        $text = "Hi $greeting $user->first_name!
 
 Congratulations!! 😊
 
