@@ -10,6 +10,7 @@ use App\Helpers;
 use App\Http\Requests\AvailableDateRequest;
 use App\Models\AvailableDate;
 use App\Models\OpeningHour;
+use App\Models\Photographer;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
@@ -94,8 +95,11 @@ class AvailableDateCrudController extends CustomCrudController
         // Field: End Date
         $this->addDateField(Attributes::END_DATE, "End Date");
 
+        // Field: Photographer id
+        $this->addDropdownField(Photographer::all()->pluck(Attributes::NAME, Attributes::ID), Attributes::PHOTOGRAPHER_ID, ucfirst(Attributes::PHOTOGRAPHER));
+
         // Field: Type
-        $this->addStatusField(AvailableDateType::all(), Attributes::TYPE, "Type");
+//        $this->addStatusField(AvailableDateType::all(), Attributes::TYPE, "Type");
 
         // Field: Days
         $this->addRepeatableDaysField();

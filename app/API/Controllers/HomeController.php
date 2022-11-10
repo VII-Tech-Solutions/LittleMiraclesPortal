@@ -234,9 +234,10 @@ class HomeController extends CustomController
 
         // get parameters
         $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
+        $photographer_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHOTOGRAPHER_ID, null, CastingTypes::INTEGER);
 
         // build available dates query
-        $available_dates = AvailableDate::active()->where(Attributes::TYPE, AvailableDateType::INCLUDE);
+        $available_dates = AvailableDate::active()->where(Attributes::TYPE, AvailableDateType::INCLUDE)->where(Attributes::PHOTOGRAPHER_ID, $photographer_id);
 
         // filter by date
         if(!empty($date)){

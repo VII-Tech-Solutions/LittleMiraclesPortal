@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property-read string type_name
  * @property-read string status_name
  * @property Collection hours
+ * @property integer photographer_id
  */
 class AvailableDate extends CustomModel
 {
@@ -37,6 +38,7 @@ class AvailableDate extends CustomModel
         Attributes::END_DATE,
         Attributes::TYPE,
         Attributes::STATUS,
+        Attributes::PHOTOGRAPHER_ID
     ];
 
     protected $appends = [
