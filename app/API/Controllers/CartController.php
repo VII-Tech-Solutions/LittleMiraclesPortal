@@ -21,6 +21,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
+use App\Helpers\PaymentHelpers;
 
 /**
  * Class CartController
@@ -204,6 +205,7 @@ class CartController extends CustomController
      * @return JsonResponse
      */
     public function checkout() {
+
         // get current user info
         $user = Helpers::resolveUser();
         if (is_null($user)) {
@@ -217,6 +219,7 @@ class CartController extends CustomController
         $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
         $total_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOTAL_PRICE, null, CastingTypes::DOUBLE);
         $discount_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISCOUNT_PRICE, null, CastingTypes::DOUBLE);
+        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::STRING);
 
         // create order
         $order = Order::createOrUpdate([
@@ -243,7 +246,12 @@ class CartController extends CustomController
             $item->save();
         }
 
+//        list(Attributes::TRANSACTION => $transaction, Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
+
         // return response
+//        return Helpers::returnResponse([
+//            Attributes::PAYMENT_URL => $payment_url
+//        ]);
         return GlobalHelpers::formattedJSONResponse(Messages::ORDER_CREATED, null, null, Response::HTTP_OK);
     }
 

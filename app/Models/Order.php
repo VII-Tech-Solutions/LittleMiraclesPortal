@@ -21,6 +21,7 @@ use \Backpack\CRUD\app\Models\Traits\CrudTrait;
  * @property integer status
  * @property integer user_id
  * @property Collection orderItems
+ * @property User user
  */
 class Order extends CustomModel
 {

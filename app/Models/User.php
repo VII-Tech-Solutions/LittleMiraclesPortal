@@ -32,6 +32,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int gender
  * @property int family_id
  * @property string full_name
+ * @property string phone_number
  */
 class User extends CustomModel implements
     AuthenticatableContract,
