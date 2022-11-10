@@ -21,6 +21,7 @@ use Illuminate\Support\Collection;
  * @property-read string status_name
  * @property Collection hours
  * @property integer photographer_id
+ * @property Photographer photographer
  */
 class AvailableDate extends CustomModel
 {
@@ -42,7 +43,7 @@ class AvailableDate extends CustomModel
     ];
 
     protected $appends = [
-
+        Attributes::PHOTOGRAPHER_NAME
     ];
 
     /**
@@ -56,6 +57,13 @@ class AvailableDate extends CustomModel
             ->whereNull(Tables::OPENING_HOURS . "." . Attributes::DELETED_AT);
     }
 
+    /**
+     * Relationship: photographer
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function photographer() {
+        return $this->hasOne(Photographer::class, Attributes::ID, Attributes::PHOTOGRAPHER_ID);
+    }
 
     /**
      * Get full_date Attribute
@@ -80,6 +88,19 @@ class AvailableDate extends CustomModel
      */
     function getStatusNameAttribute(){
         return $this->getStatusName($this->status);
+    }
+
+    /**
+     * Attribute: name
+     * @return string|null
+     */
+    function getPhotographerNameAttribute()
+    {
+        $photographer = $this->photographer;
+        if (is_null($photographer)) {
+            return null;
+        }
+        return $photographer->name;
     }
 }
 

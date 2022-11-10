@@ -59,7 +59,7 @@ class AvailableDateCrudController extends CustomCrudController
         $this->addNameColumn("Date", 1, Attributes::FULL_DATE);
 
         // Column: Type
-        $this->addNameColumn("Type", 1, Attributes::TYPE_NAME);
+        $this->addNameColumn(ucfirst(Attributes::PHOTOGRAPHER), 1, Attributes::PHOTOGRAPHER_NAME);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);

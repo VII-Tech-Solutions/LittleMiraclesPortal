@@ -69,6 +69,9 @@ class SessionCrudController extends CustomCrudController
         // Filter: Status
         $this->addStatusFilter(SessionStatus::all());
 
+        // Filter: Package Name
+        $this->addPackageIdFilter(Attributes::TITLE, Helpers::readableText(Attributes::PACKAGE_NAME), Package::class, Attributes::PACKAGE_ID);
+
         // Column: ID
         $this->addColumn(Attributes::ID, 'ID');
 

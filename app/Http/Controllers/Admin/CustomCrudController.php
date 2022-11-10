@@ -20,6 +20,7 @@ use App\Models\BackdropCategory;
 use App\Models\CakeCategory;
 use App\Models\FeedbackQuestion;
 use App\Models\Media;
+use App\Models\Package;
 use App\Models\PackageBenefit;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -814,6 +815,17 @@ class CustomCrudController extends CrudController
             Attributes::NAME => $attribute_name,
             Attributes::LABEL => $label,
         ], $model::all()->pluck('name','id')->toArray(), function ($value) use ($clause){
+            $this->crud->addClause('where', $clause, $value);
+        });
+    }
+
+    function addPackageIdFilter($attribute_name = Attributes::PACKAGE_NAME,$label = 'Package Name',$model = Package::class,$clause = Attributes::PACKAGE_ID)
+    {
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $attribute_name,
+            Attributes::LABEL => $label,
+        ], $model::all()->pluck('title','id')->toArray(), function ($value) use ($clause){
             $this->crud->addClause('where', $clause, $value);
         });
     }
