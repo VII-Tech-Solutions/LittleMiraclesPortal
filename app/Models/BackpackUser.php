@@ -28,7 +28,8 @@ class BackpackUser extends CustomModel implements
     protected $fillable = [
         Attributes::NAME,
         Attributes::EMAIL,
-        Attributes::PASSWORD
+        Attributes::PASSWORD,
+        Attributes::PHOTOGRAPHER_ID
     ];
 
     /**
