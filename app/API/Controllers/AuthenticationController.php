@@ -89,6 +89,8 @@ class AuthenticationController extends CustomController
             if(!$this->request->has([Attributes::EMAIL, Attributes::NAME])){
                 return GlobalHelpers::formattedJSONResponse(__(Messages::BAD_REQUEST), null, null, \Illuminate\Http\Response::HTTP_BAD_REQUEST);
             }
+            $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
+
         } else {
             return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
         }
