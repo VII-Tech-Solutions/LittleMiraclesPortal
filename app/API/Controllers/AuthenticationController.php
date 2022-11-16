@@ -97,10 +97,10 @@ class AuthenticationController extends CustomController
 
         /** @var User $user */
         if (is_null($user) && !is_null($email)) {
-            $user = User::where(Attributes::EMAIL, $email)->first();
-            if (!is_null($user) && $user->provider != $provider) {
-                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_BAD_REQUEST);
-            }
+            $user = User::where(Attributes::EMAIL, $email)->where(Attributes::PROVIDER, $provider)->first();
+//            if (!is_null($user) && $user->provider != $provider) {
+//                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_BAD_REQUEST);
+//            }
         }
 
         // get avatar
@@ -119,7 +119,9 @@ class AuthenticationController extends CustomController
                 Attributes::AVATAR => $avatar,
                 Attributes::USERNAME => $username
             ], [
-                Attributes::EMAIL
+                Attributes::EMAIL,
+                Attributes::PROVIDER,
+                Attributes::PROVIDER_ID
             ]);
         }else{
             $user->avatar = $avatar;
