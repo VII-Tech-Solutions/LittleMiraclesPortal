@@ -10,6 +10,7 @@ use App\API\Transformers\ListCakeCategoryTransformer;
 use App\API\Transformers\ListCakeTransformer;
 use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListFAQsTransformer;
+use App\API\Transformers\ListNotificationsTransformer;
 use App\API\Transformers\ListOnboardingTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListPageTransformer;
@@ -36,6 +37,7 @@ use App\Models\Cake;
 use App\Models\CakeCategory;
 use App\Models\DailyTip;
 use App\Models\Faq;
+use App\Models\Notification;
 use App\Models\Onboarding;
 use App\Models\Page;
 use App\Models\Photographer;
@@ -174,6 +176,9 @@ class HomeController extends CustomController
         $cake_categories = $cakes->map->category;
         $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);
 
+        // get notifications
+        $notifications = Notification::withTrashed()->active()->get();
+
         // get last updated items
             $onboardings = Helpers::getLatestOnlyInCollection($onboardings, $this->last_update);
             $photographers = Helpers::getLatestOnlyInCollection($photographers, $this->last_update);
@@ -191,6 +196,7 @@ class HomeController extends CustomController
             $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
             $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
             $studio_packages = Helpers::getLatestOnlyInCollection($studio_packages, $this->last_update);
+            $notifications = Helpers::getLatestOnlyInCollection($notifications, $this->last_update);
 
         // return response
         return Helpers::returnResponse([
@@ -211,6 +217,7 @@ class HomeController extends CustomController
             Attributes::BACKDROP_CATEGORIES => BackdropCategory::returnTransformedItems($backdrop_categories, ListBackdropCategoryTransformer::class),
             Attributes::CAKE_CATEGORIES => CakeCategory::returnTransformedItems($cake_categories, ListCakeCategoryTransformer::class),
             Attributes::STUDIO_PACKAGES => StudioPackage::returnTransformedItems($studio_packages, ListStudioPackageTransformer::class),
+            Attributes::NOTIFICATIONS => Notification::returnTransformedItems($notifications, ListNotificationsTransformer::class)
         ]);
     }
 

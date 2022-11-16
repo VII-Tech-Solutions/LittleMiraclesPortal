@@ -16,6 +16,7 @@ class Attributes extends CustomEnum
     const SOUND = "sound";
     const ROOM_ID = "room_id";
     const NOTIFICATION = "notification";
+    const NOTIFICATIONS = "notifications";
     const PAYLOAD = "payload";
     const APNS_PRIORITY = "apns-priority";
     const APS = "aps";
