@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Http\Requests\PhotographerRequest;
+use App\Models\Helpers;
 use App\Models\Photographer;
 use Exception;
 
@@ -78,6 +79,9 @@ class PhotographerCrudController extends CustomCrudController
 
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
+
+        // Field: Additional Charge
+        $this->addNumberField(Attributes::ADDITIONAL_CHARGE, Helpers::readableText(Attributes::ADDITIONAL_CHARGE));
 
         // Field: Status
         $this->addStatusField(Status::all());

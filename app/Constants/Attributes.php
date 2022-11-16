@@ -298,4 +298,6 @@ class Attributes extends CustomEnum
     const UDF3 = "udf3";
     const ERRORTEXT = "ErrorText";
     const TRANSACTION = "transaction";
+    const ADDITIONAL_CHARGE = "additional_charge";
+    const EXTRA_PEOPLE = "extra_people";
 }

@@ -49,11 +49,10 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property array reviews_ids
  * @property string featured_image
  * @property boolean gift_claimed
- *
+ * @property integer extra_people
  * @method static Builder sortByLatest()
  * @method static \Illuminate\Database\Eloquent\Builder|self paid()
  * @method static \Illuminate\Database\Eloquent\Builder|self sessions()
-
  */
 class Session extends CustomModel
 {
@@ -86,7 +85,8 @@ class Session extends CustomModel
         Attributes::IS_OUTDOOR,
         Attributes::GIFT_CLAIMED,
         Attributes::SESSION_ID,
-        Attributes::SUB_PACKAGE_ID
+        Attributes::SUB_PACKAGE_ID,
+        Attributes::EXTRA_PEOPLE
     ];
 
     protected $casts = [

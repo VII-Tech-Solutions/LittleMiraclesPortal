@@ -82,4 +82,11 @@ class Helpers
         return storage_path("app/benefit/" . env("BENEFIT_ENVIRONMENT", "test") . "/");
     }
 
+    /**
+     * Get Readable Text
+     */
+    static function readableText($text)
+    {
+        return ucwords(strtolower(str_replace("_", " ", $text)));
+    }
 }

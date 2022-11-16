@@ -25,6 +25,7 @@ use App\Models\Benefit;
 use App\Models\Feedback;
 use App\Models\FeedbackQuestion;
 use App\Models\Package;
+use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Review;
 use App\Models\Session;
@@ -77,6 +78,7 @@ class SessionController extends CustomController
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
         $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
         $location_link = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
+        $extra_people = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::EXTRA_PEOPLE, null, CastingTypes::STRING);
 
         // Get package then validate
         /** @var Package $package */
@@ -85,8 +87,15 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
         }
 
+        // get photographer
+        /** @var Photographer $session_photographer */
+        $session_photographer = Photographer::find($photographer);
+
         // calculate package price
         $total_price = $package->price;
+        if (!is_null($session_photographer->additional_charge)) {
+            $total_price += $session_photographer->additional_charge;
+        }
 
         // find the package
         /** @var Package $package */
@@ -125,6 +134,7 @@ class SessionController extends CustomController
             Attributes::LOCATION_LINK => $location_link,
             Attributes::LOCATION_TEXT => $location_text,
             Attributes::IS_OUTDOOR => $is_outdoor,
+            Attributes::EXTRA_PEOPLE => $extra_people
         ],[
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
@@ -272,6 +282,7 @@ class SessionController extends CustomController
             $additions = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
             $include_me = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
             $location_link = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
+            $extra_people = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::EXTRA_PEOPLE, null, CastingTypes::STRING);
 
 
             // check sub package
@@ -292,8 +303,15 @@ class SessionController extends CustomController
                 $location_link = null;
             }
 
+            // get photographer
+            /** @var Photographer $session_photographer */
+            $session_photographer = Photographer::find($photographer);
+
             // calculate package price
             $total_price = $package->price;
+            if (!is_null($session_photographer->additional_charge)) {
+                $total_price += $session_photographer->additional_charge;
+            }
 
             // create session
             $sub_session = Session::createOrUpdate([
@@ -312,6 +330,8 @@ class SessionController extends CustomController
                 Attributes::LOCATION_LINK => $location_link,
                 Attributes::LOCATION_TEXT => $location_text,
                 Attributes::IS_OUTDOOR => $is_outdoor,
+                Attributes::TOTAL_PRICE => $total_price,
+                Attributes::EXTRA_PEOPLE => $extra_people
             ],[
                 Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID
             ]);

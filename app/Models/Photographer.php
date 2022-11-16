@@ -12,6 +12,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * Photographer
  *
  * @property string name
+ * @property int additional_charge
  */
 class Photographer extends CustomModel
 {
@@ -29,6 +30,7 @@ class Photographer extends CustomModel
         Attributes::NAME,
         Attributes::IMAGE,
         Attributes::STATUS,
+        Attributes::ADDITIONAL_CHARGE
     ];
 
     protected $casts = [
