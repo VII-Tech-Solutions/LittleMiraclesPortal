@@ -78,7 +78,7 @@ class SessionController extends CustomController
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
         $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
         $location_link = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
-        $extra_people = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::EXTRA_PEOPLE, null, CastingTypes::STRING);
+        $extra_people = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::EXTRA_PEOPLE, null, CastingTypes::STRING);
 
         // Get package then validate
         /** @var Package $package */
