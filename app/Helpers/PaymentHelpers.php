@@ -3,13 +3,18 @@
 namespace App\Helpers;
 
 use App\Constants\Attributes;
+use App\Constants\Messages;
 use App\Constants\PaymentMethods;
 use App\Constants\Values;
 use App\Http\Controllers\BenefitController;
 use App\Models\Helpers;
 use App\Models\Order;
 use App\Models\Transaction;
+use Dingo\Api\Http\Response;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Crypt;
 use VIITech\Helpers\GlobalHelpers;
 use Exception;
 use function Webmozart\Assert\Tests\StaticAnalysis\null;
@@ -21,7 +26,7 @@ class PaymentHelpers
      * Generate Payment Link
      * @param Order $order
      * @param $payment_method
-     * @return array
+     * @return array|JsonResponse
      */
     static function generatePaymentLink(Order $order, $payment_method) {
         // process url
@@ -43,7 +48,58 @@ class PaymentHelpers
         }
 
         if ($payment_method == PaymentMethods::CREDIT_CARD) {
+            // todo success_url
+            // todo error_url
 
+            // get merchant id and api password
+            $merchant_id = env('CREDIMAX_MERCHANT_ID');
+            $api_password = env('CREDIMAX_API_PASSWORD');
+
+            if (is_null($merchant_id) && is_null($api_password)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null,Response::HTTP_BAD_REQUEST);
+            }
+
+            $create_session_data = [
+                "apiOperation" => "INITIATE_CHECKOUT",
+                "apiPassword" => $api_password,
+                "apiUsername" => "merchant." . $merchant_id,
+                "interaction.returnUrl" => $process_url,
+                "interaction.merchant.name" => "LittleMiracles",
+                "interaction.operation" => "PURCHASE",
+                "interaction.displayControl.billingAddress" => "HIDE",
+                "merchant" => $merchant_id,
+                "order.amount" => $amount,
+                "order.currency" => "BHD",
+                "order.description" => "Booking",
+                "order.id" => $transaction->id,
+            ];
+
+            $client = new Client();
+            $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
+                'form_params' => $create_session_data
+            ]);
+            $response_body = json_encode($response->getBody()->getContents());
+            $response_data = array();
+            foreach (explode("&",$response_body) as $data) {
+                $response_result = (explode("=", $data));
+                $response_data[$response_result[0]] = str_replace('"', '', $response_result[1]);
+            }
+            $request_response_result = $response_data['result']; #return SUCCESS or FAIL
+            if ($request_response_result == 'SUCCESS') {
+                $session_id = $response_data['session.id'];
+                $transaction->success_indicator = $response_data['successIndicator'];
+                $result['session_id'] = $session_id;
+                $result['merchant_id'] = $merchant_id;
+            }
+
+            $query = http_build_query([
+                "session_id" => Crypt::encryptString($session_id),
+                "merchant_id" => $merchant_id ?? null,
+                "order_id" => $transaction->uid,
+                "success_indicator" => $response_body->successIndicator ?? null
+            ]);
+
+            $payment_url = env('APP_URL') . "/api/payment/redirect?$query";
         } else {
             $success_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
