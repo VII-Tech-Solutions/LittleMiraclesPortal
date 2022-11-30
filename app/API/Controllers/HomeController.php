@@ -3,7 +3,6 @@
 namespace App\API\Controllers;
 
 use App\API\Transformers\AvailableDateTransformer;
-use App\API\Transformers\AvailableHourTransformer;
 use App\API\Transformers\ListBackdropCategoryTransformer;
 use App\API\Transformers\ListBackdropTransformer;
 use App\API\Transformers\ListCakeCategoryTransformer;
@@ -39,11 +38,11 @@ use App\Models\DailyTip;
 use App\Models\Faq;
 use App\Models\Notification;
 use App\Models\Onboarding;
+use App\Models\Package;
 use App\Models\Page;
 use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Section;
-use App\Models\Package;
 use App\Models\SocialMedia;
 use App\Models\StudioMetadata;
 use App\Models\StudioPackage;
@@ -71,7 +70,8 @@ class HomeController extends CustomController
      * Welcome
      * @return View
      */
-    function welcome(){
+    function welcome()
+    {
         return view('welcome');
     }
 
@@ -79,7 +79,8 @@ class HomeController extends CustomController
      * Home
      * @return RedirectResponse
      */
-    function home(){
+    function home()
+    {
         return redirect(backpack_url());
     }
 
@@ -87,7 +88,8 @@ class HomeController extends CustomController
      * Email
      * @return View
      */
-    function email(){
+    function email()
+    {
         return view('emails.invoice');
     }
 
@@ -112,13 +114,13 @@ class HomeController extends CustomController
         $user = Helpers::resolveUser();
 
         // update user device
-        if(!is_null($user)){
+        if (!is_null($user)) {
             UserDevice::createOrUpdate([
                 Attributes::USER_ID => $user->id,
-                Attributes::PLATFORM =>  $this->request->hasHeader(Headers::PLATFORM) ? $this->request->header(Headers::PLATFORM) : $this->request->get(Headers::PLATFORM),
-                Attributes::APP_VERSION =>  $this->request->hasHeader(Headers::APP_VERSION) ? $this->request->header(Headers::APP_VERSION) : $this->request->get(Headers::APP_VERSION),
-                Attributes::TOKEN =>  $this->request->get(Attributes::TOKEN),
-            ],[
+                Attributes::PLATFORM => $this->request->hasHeader(Headers::PLATFORM) ? $this->request->header(Headers::PLATFORM) : $this->request->get(Headers::PLATFORM),
+                Attributes::APP_VERSION => $this->request->hasHeader(Headers::APP_VERSION) ? $this->request->header(Headers::APP_VERSION) : $this->request->get(Headers::APP_VERSION),
+                Attributes::TOKEN => $this->request->get(Attributes::TOKEN),
+            ], [
                 Attributes::USER_ID, Attributes::PLATFORM
             ]);
         }
@@ -180,23 +182,23 @@ class HomeController extends CustomController
         $notifications = Notification::withTrashed()->active()->get();
 
         // get last updated items
-            $onboardings = Helpers::getLatestOnlyInCollection($onboardings, $this->last_update);
-            $photographers = Helpers::getLatestOnlyInCollection($photographers, $this->last_update);
-            $cakes = Helpers::getLatestOnlyInCollection($cakes, $this->last_update);
-            $backdrops = Helpers::getLatestOnlyInCollection($backdrops, $this->last_update);
-            $daily_tips = Helpers::getLatestOnlyInCollection($daily_tips, $this->last_update);
-            $promotions = Helpers::getLatestOnlyInCollection($promotions, $this->last_update);
-            $workshops = Helpers::getLatestOnlyInCollection($workshops, $this->last_update);
-            $sections = Helpers::getLatestOnlyInCollection($sections, $this->last_update);
-            $faqs = Helpers::getLatestOnlyInCollection($faqs, $this->last_update);
-            $studio_metadata = Helpers::getLatestOnlyInCollection($studio_metadata, $this->last_update);
-            $social = Helpers::getLatestOnlyInCollection($social, $this->last_update);
-            $packages = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
-            $pages = Helpers::getLatestOnlyInCollection($pages, $this->last_update);
-            $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
-            $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
-            $studio_packages = Helpers::getLatestOnlyInCollection($studio_packages, $this->last_update);
-            $notifications = Helpers::getLatestOnlyInCollection($notifications, $this->last_update);
+        $onboardings = Helpers::getLatestOnlyInCollection($onboardings, $this->last_update);
+        $photographers = Helpers::getLatestOnlyInCollection($photographers, $this->last_update);
+        $cakes = Helpers::getLatestOnlyInCollection($cakes, $this->last_update);
+        $backdrops = Helpers::getLatestOnlyInCollection($backdrops, $this->last_update);
+        $daily_tips = Helpers::getLatestOnlyInCollection($daily_tips, $this->last_update);
+        $promotions = Helpers::getLatestOnlyInCollection($promotions, $this->last_update);
+        $workshops = Helpers::getLatestOnlyInCollection($workshops, $this->last_update);
+        $sections = Helpers::getLatestOnlyInCollection($sections, $this->last_update);
+        $faqs = Helpers::getLatestOnlyInCollection($faqs, $this->last_update);
+        $studio_metadata = Helpers::getLatestOnlyInCollection($studio_metadata, $this->last_update);
+        $social = Helpers::getLatestOnlyInCollection($social, $this->last_update);
+        $packages = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
+        $pages = Helpers::getLatestOnlyInCollection($pages, $this->last_update);
+        $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
+        $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
+        $studio_packages = Helpers::getLatestOnlyInCollection($studio_packages, $this->last_update);
+        $notifications = Helpers::getLatestOnlyInCollection($notifications, $this->last_update);
 
         // return response
         return Helpers::returnResponse([
@@ -247,7 +249,7 @@ class HomeController extends CustomController
         $available_dates = AvailableDate::active()->where(Attributes::TYPE, AvailableDateType::INCLUDE)->where(Attributes::PHOTOGRAPHER_ID, $photographer_id);
 
         // filter by date
-        if(!empty($date)){
+        if (!empty($date)) {
             $available_dates = $available_dates->where(Attributes::START_DATE, $date);
         }
 
@@ -259,13 +261,13 @@ class HomeController extends CustomController
         $available_dates = $available_dates->get();
 
         // filter by last update
-        if(!is_null($this->last_update)) {
+        if (!is_null($this->last_update)) {
             $available_dates = Helpers::getLatestOnlyInCollection($available_dates, $this->last_update);
         }
 
         $available_dates_collection = collect();
 
-        $available_dates->each(function ($item) use(&$available_dates_collection){
+        $available_dates->each(function ($item) use (&$available_dates_collection) {
 
             /** @var AvailableDate $item */
             $start_date = $item->start_date;
@@ -284,13 +286,13 @@ class HomeController extends CustomController
 
                 $timings = $hours->where(Attributes::DAY_ID, $day_of_week);
 
-                if($timings->isNotEmpty()){
+                if ($timings->isNotEmpty()) {
 
-                    foreach ($timings as $time){
+                    foreach ($timings as $time) {
 
                         $interval = CarbonPeriod::since($time->from)->hours(1)->until($time->to)->toArray();
 
-                        foreach ($interval as $time_from_to){
+                        foreach ($interval as $time_from_to) {
 
                             $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
 
@@ -298,7 +300,7 @@ class HomeController extends CustomController
 
                         $this_date = Carbon::parse($start_date, Values::DEFAULT_TIMEZONE)->addDays($count);
 
-                        if($this_date->isPast()){
+                        if ($this_date->isPast()) {
                             continue;
                         }
 
@@ -323,11 +325,12 @@ class HomeController extends CustomController
     }
 
 
-    function test(){
-    $unselected_color = '#d0d3d6';
-    $selected_color = '#bbdce0';
-    $border_width = 5;
-    $border_colour = $selected_color;
+    function test()
+    {
+        $unselected_color = '#d0d3d6';
+        $selected_color = '#bbdce0';
+        $border_width = 5;
+        $border_colour = $selected_color;
 
 //        $selected_background = Image::canvas(500, 500, '#bbdce0');
         $unselected_background = Image::canvas(500, 500, $unselected_color);
@@ -335,7 +338,7 @@ class HomeController extends CustomController
 //
 //        $unselected_background = Image::make("images/test.png");
 //        $img = Image::make('public/foo.jpg');
-        $img = Image::make( $unselected_background)->resize(800, 1200);
+        $img = Image::make($unselected_background)->resize(800, 1200);
 
         return $img->response('png');
 
@@ -387,7 +390,7 @@ class HomeController extends CustomController
         ], false);
 
         // return response
-        if($sent){
+        if ($sent) {
             return GlobalHelpers::formattedJSONResponse(Messages::MESSAGE_SENT, null, null, Response::HTTP_OK);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);

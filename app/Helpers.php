@@ -17,7 +17,6 @@ use App\Models\StudioPackageMedia;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
-use Google\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
@@ -47,7 +46,8 @@ class Helpers
      * @param int $default_status
      * @return void
      */
-    static function defaultMigration(Blueprint $table, int $default_status = Status::ACTIVE){
+    static function defaultMigration(Blueprint $table, int $default_status = Status::ACTIVE)
+    {
         $table->bigIncrements(Attributes::ID);
         $table->integer(Attributes::STATUS)->default($default_status);
         $table->timestamps();
@@ -59,7 +59,8 @@ class Helpers
      * @param $user_id
      * @return string
      */
-    static function userTopic($user_id){
+    static function userTopic($user_id)
+    {
         return "user_" . str_replace("user_", "", $user_id);
     }
 
@@ -68,7 +69,8 @@ class Helpers
      * @param $length
      * @return string
      */
-    static function generateCode($length = 9) {
+    static function generateCode($length = 9)
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -84,7 +86,8 @@ class Helpers
      * @param string $format
      * @return string
      */
-    static function formattedPrice($price, $format = '%0.1f'){
+    static function formattedPrice($price, $format = '%0.1f')
+    {
         return sprintf($format, $price);
     }
 
@@ -95,7 +98,7 @@ class Helpers
      */
     static function nullableCollection($collection): Collection
     {
-        if(is_null($collection)){
+        if (is_null($collection)) {
             return collect();
         }
         return $collection;
@@ -105,16 +108,17 @@ class Helpers
      * Capture Exception
      * @param $exception
      */
-    static function captureException($exception){
-        if(GlobalHelpers::isDevelopmentEnv()){
+    static function captureException($exception)
+    {
+        if (GlobalHelpers::isDevelopmentEnv()) {
             dd($exception);
         }
         $level = DebuggerLevels::INFO;
         if (!is_null($exception) && is_a($exception, Throwable::class)) {
             if (env(EnvVariables::SENTRY_ENABLED, false)) {
                 $user_id = self::resolveUserID();
-                if(!is_null($user_id)){
-                    configureScope(function (Scope $scope) use($user_id): void {
+                if (!is_null($user_id)) {
+                    configureScope(function (Scope $scope) use ($user_id): void {
                         $scope->setUser([Attributes::USER_ID => $user_id]);
                     });
                 }
@@ -131,11 +135,10 @@ class Helpers
      * @param $last_update
      * @return mixed
      */
-    static function getLatestOnlyInCollection($collection, $last_update){
-        return $collection->filter(function($item) use($last_update){
-            if(is_null($last_update)){
-                return is_null($item->deleted_at);
-            }else{
+    static function getLatestOnlyInCollection($collection, $last_update)
+    {
+        return $collection->filter(function ($item) use ($last_update) {
+            if (!is_null($last_update)) {
                 return Carbon::parse($item->updated_at)->greaterThanOrEqualTo($last_update);
             }
         });
@@ -157,13 +160,14 @@ class Helpers
      * Resolve User
      * @return User
      */
-    static function resolveUser(){
+    static function resolveUser()
+    {
         try {
-            $user =  resolve(Attributes::USER);
-            if(is_null($user)){
+            $user = resolve(Attributes::USER);
+            if (is_null($user)) {
                 $user = Auth::guard("api")->user();
             }
-            if(is_null($user)){
+            if (is_null($user)) {
                 $user = Auth::guard("web")->user();
             }
             return $user;
@@ -176,12 +180,13 @@ class Helpers
      * Resolve User ID
      * @return string
      */
-    static function resolveUserID(){
+    static function resolveUserID()
+    {
         try {
             $user_id = resolve(Attributes::USER_ID);
-            if(is_null($user_id)){
+            if (is_null($user_id)) {
                 $user = self::resolveUser();
-                if(!is_null($user)){
+                if (!is_null($user)) {
                     $user_id = $user->id;
                 }
             }
@@ -196,7 +201,8 @@ class Helpers
      * @param $text
      * @return string
      */
-    static function readableText($text){
+    static function readableText($text)
+    {
         return ucwords(strtolower(str_replace("_", " ", $text)));
     }
 
@@ -204,11 +210,12 @@ class Helpers
      * Get New Family ID
      * @return int
      */
-    static function getNewFamilyID(){
+    static function getNewFamilyID()
+    {
         /** @var User $user */
         $family_id = 1;
         $user = User::orderBy(Attributes::FAMILY_ID, "DESC")->take(1)->first();
-        if(!is_null($user)){
+        if (!is_null($user)) {
             $family_id = $user->family_id + 1;
         }
         return $family_id;
@@ -221,9 +228,10 @@ class Helpers
      * @param $field
      * @return void
      */
-    public static function validateValueInCollection(&$collection, &$new_collection, $field){
+    public static function validateValueInCollection(&$collection, &$new_collection, $field)
+    {
         $value = $collection->get($field);
-        if(!is_null($value)){
+        if (!is_null($value)) {
             $new_collection->put($field, $value);
         }
     }
@@ -254,7 +262,7 @@ class Helpers
                 $extension = $image->extension();
             } else if (is_a($image, \Intervention\Image\Image::class)) {
                 $extension = $image->extension;
-            }else if(Str::contains($image, "data:image/png;base64")){
+            } else if (Str::contains($image, "data:image/png;base64")) {
                 $extension = "png";
             }
             if (!in_array($extension, $allowed_types)) {
@@ -266,7 +274,7 @@ class Helpers
             if (!is_a($image, \Intervention\Image\Image::class) && $generate_name) {
                 $image = Image::make($image)->encode($extension, 90);
                 $filename = $image->filename;
-                if(empty($filename)){
+                if (empty($filename)) {
                     $filename = Str::random();
                 }
                 $filename = $filename . ".$extension";
@@ -316,9 +324,9 @@ class Helpers
      */
     public static function readableBoolean($boolean)
     {
-        if($boolean === true || $boolean === 1){
+        if ($boolean === true || $boolean === 1) {
             return "Yes";
-        } else{
+        } else {
             return "No";
         }
     }
@@ -335,10 +343,10 @@ class Helpers
             $benefits = collect($paginator->items())->map->benefits;
         } else if (is_a($paginator, Benefit::class)) {
             $benefits = $paginator->items->map->benefits();
-        }else if(is_a($paginator, \Illuminate\Database\Eloquent\Collection::class) || is_a($paginator, Collection::class)){
+        } else if (is_a($paginator, \Illuminate\Database\Eloquent\Collection::class) || is_a($paginator, Collection::class)) {
             $benefits = $paginator->map->benefits;
         }
-        if(!isset($benefits)){
+        if (!isset($benefits)) {
             return collect();
         }
         $benefits = $benefits->flatten()->unique(Attributes::ID);
@@ -352,9 +360,10 @@ class Helpers
      * To Custom Array
      * @return array
      */
-    static function toCustomArray($collection , $value_name){
+    static function toCustomArray($collection, $value_name)
+    {
         $collect = collect();
-        foreach ($collection as $value){
+        foreach ($collection as $value) {
             $collect[$value['id']] = $value[$value_name];
         }
         return $collect->toArray();
@@ -369,9 +378,9 @@ class Helpers
     {
         if ($type == 'studio-packages') {
             return StudioPackage::class;
-        }else if ($type == 'packages') {
+        } else if ($type == 'packages') {
             return Package::class;
-        }else  if ($type == 'sessions') {
+        } else if ($type == 'sessions') {
             return Session::class;
         } else {
             return null;
@@ -403,9 +412,9 @@ class Helpers
     {
         if ($type == 'studio-packages') {
             return Attributes::STUDIO_PACKAGE_ID;
-        }else  if ($type == 'packages') {
+        } else if ($type == 'packages') {
             return Attributes::PACKAGE_ID;
-        }else  if ($type == 'sessions') {
+        } else if ($type == 'sessions') {
             return Attributes::SESSION_ID;
         } else {
             return null;
@@ -421,10 +430,10 @@ class Helpers
     {
         if ($type == 'studio-packages') {
             return StudioPackageMedia::class;
-        }else  if ($type == 'packages') {
-            return  PackageMedia::class;
-        } else  if ($type == 'sessions') {
-            return  SessionMedia::class;
+        } else if ($type == 'packages') {
+            return PackageMedia::class;
+        } else if ($type == 'sessions') {
+            return SessionMedia::class;
         } else {
             return null;
         }
