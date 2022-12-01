@@ -13,6 +13,7 @@ use App\Models\Backdrop;
 use App\Models\Cake;
 use App\Models\Media;
 use App\Models\Package;
+use App\Models\Photographer;
 use App\Models\Session;
 use App\Models\SessionDetail;
 use App\Models\User;
@@ -72,6 +73,9 @@ class SessionCrudController extends CustomCrudController
         // Filter: Package Name
         $this->addPackageIdFilter(Attributes::TITLE, Helpers::readableText(Attributes::PACKAGE_NAME), Package::class, Attributes::PACKAGE_ID);
 
+        // Filter: Photographer
+        $this->addPhotographerFilter();
+
         // Column: ID
         $this->addColumn(Attributes::ID, 'ID');
 
@@ -89,6 +93,9 @@ class SessionCrudController extends CustomCrudController
 
         // Column: Extra People
         $this->addNumberColumn("Extra People", 1, Attributes::EXTRA_PEOPLE);
+
+        // Column: Photographer
+        $this->addNameColumn("Photographer", 1, Attributes::PHOTOGRAPHER_NAME);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -152,6 +159,9 @@ class SessionCrudController extends CustomCrudController
 
         // Field: Status
         $this->addStatusField(SessionStatus::all(), Attributes::STATUS, "Status");
+
+        // Field: Photographer
+        $this->addStatusField(Photographer::pluck(Attributes::NAME, Attributes::ID), Attributes::PHOTOGRAPHER, "Photographer");
 
         // Field: Media
         $this->addMediaField("Media", "Media");
