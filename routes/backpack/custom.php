@@ -59,4 +59,5 @@ Route::group([
     Route::GET('fetch-more-media', 'CustomCrudController@fetchMoreMedia');
     Route::crud('sub-session', 'SubSessionCrudController');
     Route::crud('order', 'OrderCrudController');
+    Route::crud('transaction', 'TransactionCrudController');
 }); // this should be the absolute last line of this file

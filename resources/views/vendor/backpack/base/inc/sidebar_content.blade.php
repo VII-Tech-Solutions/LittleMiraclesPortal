@@ -147,3 +147,5 @@
 
 {{--    </ul>--}}
 {{--</li>--}}
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('transaction') }}'><i class='nav-icon la la-question'></i> Transactions</a></li>

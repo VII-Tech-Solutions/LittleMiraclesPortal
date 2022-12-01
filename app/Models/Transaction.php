@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Constants\PaymentMethods;
+use App\Constants\PaymentStatus;
 use App\Constants\Tables;
 use App\Constants\Attributes;
+use App\Helpers;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 /**
  * Class Transaction
@@ -29,6 +33,7 @@ use App\Constants\Attributes;
  */
 class Transaction extends CustomModel
 {
+    use CrudTrait;
     protected $table = Tables::TRANSACTIONS;
     protected $fillable = [
         Attributes::TRANSACTION_ID,
@@ -47,4 +52,26 @@ class Transaction extends CustomModel
         Attributes::PAYMENT_ID,
         Attributes::STATUS
     ];
+
+    protected $appends = [
+        Attributes::PAYMENT_METHOD_NAME
+    ];
+
+    /**
+     * Attribute: status name
+     * @return string
+     */
+    function getStatusNameAttribute(): string {
+        $text = PaymentStatus::getKey($this->status);
+        return Helpers::readableText($text);
+    }
+
+    /**
+     * Attribute: payment method name
+     * @return string
+     */
+    function getPaymentMethodNameAttribute(): string {
+        $text = PaymentMethods::getKey($this->payment_method);
+        return Helpers::readableText($text);
+    }
 }
