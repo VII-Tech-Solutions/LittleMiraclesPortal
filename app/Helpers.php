@@ -133,7 +133,7 @@ class Helpers
      */
     static function getLatestOnlyInCollection($collection, $last_update){
         return $collection->filter(function($item) use($last_update){
-            if(is_null($last_update)){
+            if(!is_null($last_update)){
                 return is_null($item->deleted_at);
             }else{
                 return Carbon::parse($item->updated_at)->greaterThanOrEqualTo($last_update);
