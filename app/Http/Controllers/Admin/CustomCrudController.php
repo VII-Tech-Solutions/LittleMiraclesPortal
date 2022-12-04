@@ -22,6 +22,7 @@ use App\Models\FeedbackQuestion;
 use App\Models\Media;
 use App\Models\Package;
 use App\Models\PackageBenefit;
+use App\Models\Photographer;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -76,7 +77,7 @@ class CustomCrudController extends CrudController
         ]);
     }
 
-    function addColumnWithSearchLogic($label = null, $attribute_name = null, $search_logic = null, $search_column = null,$model = null)
+    function addColumnWithSearchLogic($label = null, $attribute_name = null, $search_logic = null, $search_column = null, $model = null)
     {
         if (is_null($label)) {
             $label = "Name";
@@ -88,14 +89,12 @@ class CustomCrudController extends CrudController
             $this->crud->addColumn([
                 Attributes::LABEL => $label,
                 Attributes::NAME => $attribute_name,
-                Attributes::SEARCH_LOGIC => function($query, $column, $searchTerm) use (&$search_logic, $search_column, $model) {
-                    $entry = $model::query()->where($search_column, 'like', '%'.$searchTerm.'%')->pluck('id')->all();
+                Attributes::SEARCH_LOGIC => function ($query, $column, $searchTerm) use (&$search_logic, $search_column, $model) {
+                    $entry = $model::query()->where($search_column, 'like', '%' . $searchTerm . '%')->pluck('id')->all();
                     $query->orWhereIn($search_logic, $entry);
                 }
             ]);
-        }
-        else
-        {
+        } else {
             $this->crud->addColumn([
                 Attributes::LABEL => $label,
                 Attributes::NAME => $attribute_name,
@@ -291,7 +290,7 @@ class CustomCrudController extends CrudController
         CRUD::addField(
             [   // Hidden
                 Attributes::NAME => $name,
-                Attributes::TYPE  => FieldTypes::HIDDEN,
+                Attributes::TYPE => FieldTypes::HIDDEN,
                 Attributes::VALUE => $value,
             ]
         );
@@ -547,6 +546,7 @@ class CustomCrudController extends CrudController
             Attributes::PRIORITY => $priority
         ]);
     }
+
     /**
      * Add Column
      * @param $column_name
@@ -808,24 +808,35 @@ class CustomCrudController extends CrudController
         });
     }
 
-    function addCustomCategoryFilter($attribute_name = Attributes::CATEGORY,$label = 'Category',$model = BackdropCategory::class,$clause = Attributes::CATEGORY_ID)
+    function addCustomCategoryFilter($attribute_name = Attributes::CATEGORY, $label = 'Category', $model = BackdropCategory::class, $clause = Attributes::CATEGORY_ID)
     {
         $this->crud->addFilter([
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $attribute_name,
             Attributes::LABEL => $label,
-        ], $model::all()->pluck('name','id')->toArray(), function ($value) use ($clause){
+        ], $model::all()->pluck('name', 'id')->toArray(), function ($value) use ($clause) {
             $this->crud->addClause('where', $clause, $value);
         });
     }
 
-    function addPackageIdFilter($attribute_name = Attributes::PACKAGE_NAME,$label = 'Package Name',$model = Package::class,$clause = Attributes::PACKAGE_ID)
+    function addPackageIdFilter($attribute_name = Attributes::PACKAGE_NAME, $label = 'Package Name', $model = Package::class, $clause = Attributes::PACKAGE_ID)
     {
         $this->crud->addFilter([
             Attributes::TYPE => FieldTypes::DROPDOWN,
             Attributes::NAME => $attribute_name,
             Attributes::LABEL => $label,
-        ], $model::all()->pluck('title','id')->toArray(), function ($value) use ($clause){
+        ], $model::all()->pluck('title', 'id')->toArray(), function ($value) use ($clause) {
+            $this->crud->addClause('where', $clause, $value);
+        });
+    }
+
+    function addPhotographerFilter($attribute_name = Attributes::PHOTOGRAPHER, $label = "Photographer", $model = Photographer::class, $clause = Attributes::PHOTOGRAPHER)
+    {
+        $this->crud->addFilter([
+            Attributes::TYPE => FieldTypes::DROPDOWN,
+            Attributes::NAME => $attribute_name,
+            Attributes::LABEL => $label,
+        ], $model::all()->pluck('name', 'id')->toArray(), function ($value) use ($clause) {
             $this->crud->addClause('where', $clause, $value);
         });
     }
@@ -978,7 +989,7 @@ class CustomCrudController extends CrudController
         CRUD::addField([
             Attributes::LABEL => 'Hours',
             Attributes::NAME => Attributes::HOURS,
-            'type'  => 'repeatable',
+            'type' => 'repeatable',
             'fields' => [
                 [
                     Attributes::LABEL => "Day",
@@ -1000,7 +1011,7 @@ class CustomCrudController extends CrudController
             ],
 
             // optional
-            'new_item_label'  => 'Add Day', // customize the text of the button
+            'new_item_label' => 'Add Day', // customize the text of the button
             'init_rows' => 1, // number of empty rows to be initialized, by default 1
             'min_rows' => 1, // minimum rows allowed, when reached the "delete" buttons will be hidden
 
@@ -1041,7 +1052,8 @@ class CustomCrudController extends CrudController
      * Boolean Options
      * @return string[]
      */
-    function booleanOptions(){
+    function booleanOptions()
+    {
         return [
             false => "No",
             true => "Yes"
@@ -1053,7 +1065,8 @@ class CustomCrudController extends CrudController
      * @param $attribute_name
      * @return void
      */
-    function addChatWithEveryoneField($attribute_name = null) {
+    function addChatWithEveryoneField($attribute_name = null)
+    {
         CRUD::addField([
             Attributes::LABEL => "Chat with Everyone",
             Attributes::NAME => $attribute_name,
@@ -1068,7 +1081,8 @@ class CustomCrudController extends CrudController
      * @param $attribute_name
      * @return void
      */
-    function addFirebaseIdField($attribute_name = null) {
+    function addFirebaseIdField($attribute_name = null)
+    {
         CRUD::addField([
             Attributes::LABEL => "Firebase Id",
             Attributes::NAME => $attribute_name,
@@ -1182,7 +1196,7 @@ class CustomCrudController extends CrudController
      * @param null $tab_name
      * @param false $allow_null
      */
-    function addRelationshipField($relationships = null, $name = null, $label = null, $tab_name = null, $allow_null = false, $type = FieldTypes::SELECT2_FROM_ARRAY, $entity = null, $model = null, $attribute = null )
+    function addRelationshipField($relationships = null, $name = null, $label = null, $tab_name = null, $allow_null = false, $type = FieldTypes::SELECT2_FROM_ARRAY, $entity = null, $model = null, $attribute = null)
     {
 
         if (is_null($name)) {
@@ -1668,10 +1682,10 @@ class CustomCrudController extends CrudController
             Attributes::ENTITY => 'user',
             Attributes::ATTRIBUTE => Attributes::FULL_NAME,
             Attributes::MODEL => "App\Models\User",
-            'searchLogic' => function($query, $column, $searchTerm) {
+            'searchLogic' => function ($query, $column, $searchTerm) {
 //                $user = User::where(Attributes::FIRST_NAME, 'like', '%'.$searchTerm.'%')->orWhere(Attributes::LAST_NAME, 'like', '%'.$searchTerm.'%')->pluck('id')->all();
                 $user = User::select(Attributes::ID, Attributes::FIRST_NAME, Attributes::LAST_NAME)
-                    ->orWhere(DB::raw("concat(".Attributes::FIRST_NAME.", ' ', ".Attributes::LAST_NAME.")"), 'LIKE', "%".$searchTerm."%")
+                    ->orWhere(DB::raw("concat(" . Attributes::FIRST_NAME . ", ' ', " . Attributes::LAST_NAME . ")"), 'LIKE', "%" . $searchTerm . "%")
                     ->get();
                 $query->orWhereIn(Attributes::USER_ID, $user);
             }
@@ -1968,6 +1982,7 @@ class CustomCrudController extends CrudController
             Attributes::INLINE_CREATE => [Attributes::ENTITY => 'sub-packages'], // specify the entity in singular
         ]);
     }
+
     /**
      * Add Status Column
      * @param string $attribute
@@ -2016,11 +2031,12 @@ class CustomCrudController extends CrudController
      * @param $priority
      * @return void
      */
-    function addChatWithEveryoneColumn($attribute = Attributes::CHAT_WITH_EVERYONE, $priority = 1) {
+    function addChatWithEveryoneColumn($attribute = Attributes::CHAT_WITH_EVERYONE, $priority = 1)
+    {
         $this->crud->addColumn([
-           Attributes::NAME => $attribute,
-           Attributes::LABEL => "Chat with Everyone",
-           Attributes::PRIORITY => $priority
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => "Chat with Everyone",
+            Attributes::PRIORITY => $priority
         ]);
     }
 
@@ -2030,7 +2046,8 @@ class CustomCrudController extends CrudController
      * @param $priority
      * @return void
      */
-    function addFirebaseIdColumn($attribute = Attributes::FIREBASE_ID, $priority = 1) {
+    function addFirebaseIdColumn($attribute = Attributes::FIREBASE_ID, $priority = 1)
+    {
         $this->crud->addColumn([
             Attributes::NAME => $attribute,
             Attributes::LABEL => "Firebase Id",
@@ -2261,7 +2278,7 @@ class CustomCrudController extends CrudController
             Attributes::NAME => "options",
             "visibility" => [
                 'field_name' => Attributes::QUESTION_TYPE,
-                'value'      => 1,
+                'value' => 1,
                 'add_disabled' => false, // if you need to disable this field value to not be send through create/update request set it to true, otherwise set it to true
             ],
             Attributes::TAB => $tab_name,
@@ -2304,7 +2321,7 @@ class CustomCrudController extends CrudController
      */
     function addMediaField($label = null, $tab_name = null)
     {
-        if(is_null($label)){
+        if (is_null($label)) {
             $label = "Media";
         }
         CRUD::addField([
@@ -2358,33 +2375,33 @@ class CustomCrudController extends CrudController
     }
 
 
-
-
     /**
      * File Upload
      * @param Request $request
      * @return array|RedirectResponse|Response
      */
-    public function fileUpload(Request $request){
+    public function fileUpload(Request $request)
+    {
         $back_url = request()->headers->get(Attributes::REFERER) ?? null;
         $item_id = intval($request->item_id);
         $session_id = is_null($request->session_id) ? null : intval($request->session_id);
-        if(!$item_id){
+        if (!$item_id) {
             return back()->withInput();
         }
-        if($request->hasFile(Attributes::MEDIA)) {
+        if ($request->hasFile(Attributes::MEDIA)) {
             $files = $request->allFiles()[Attributes::MEDIA];
-            foreach ($files as $file){
+            foreach ($files as $file) {
                 $media = Helpers::uploadFile(null, $file, null, "assets/media", false, true, true, $session_id);
             }
         }
 
         Alert::success('Media saved for this entry.')->flash();
-        return !is_null($back_url) ? Redirect::to($back_url."#media") : back();
+        return !is_null($back_url) ? Redirect::to($back_url . "#media") : back();
     }
 
 
-    public function fetchMoreMedia(Request $request) {
+    public function fetchMoreMedia(Request $request)
+    {
         if ($request->filled(Attributes::LAST_FETCHED_MEDIA_ID)) {
             $last_media_id = $request->{Attributes::LAST_FETCHED_MEDIA_ID};
             $total = Media::where(Attributes::STATUS, Status::ACTIVE)->where(Attributes::ID, '<', $last_media_id)->count();
@@ -2396,11 +2413,13 @@ class CustomCrudController extends CrudController
         }
 
     }
+
     /**
      * Media
      * @param array $media_ids
      */
-    function media($media_ids = []){
+    function media($media_ids = [])
+    {
         $item_id = $this->crud->getCurrentEntryId();
         $media_ids = collect($media_ids);
 
@@ -2410,13 +2429,13 @@ class CustomCrudController extends CrudController
         $item_primary_column = Helpers::getModelPrimaryColumn($type);
         $relationship_model = Helpers::getModelRelationship($type);
 
-        if(is_null($item_id)){
+        if (is_null($item_id)) {
             return;
         }
-        if(is_null($media_ids) || $media_ids->isEmpty()){
+        if (is_null($media_ids) || $media_ids->isEmpty()) {
             $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         }
-        if(is_null($media_ids) || $media_ids->isEmpty()){
+        if (is_null($media_ids) || $media_ids->isEmpty()) {
             $relationship_model::where($item_primary_column, $item_id)->delete();
             return;
         }
@@ -2440,8 +2459,8 @@ class CustomCrudController extends CrudController
 
         // other media items
         $count = 2;
-        if(!$media_ids->isEmpty()){
-            foreach ($media_ids as $media_id){
+        if (!$media_ids->isEmpty()) {
+            foreach ($media_ids as $media_id) {
                 $relationship_model::createOrUpdate([
                     $item_primary_column => $item_id,
                     Attributes::MEDIA_ID => $media_id,

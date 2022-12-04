@@ -28,7 +28,8 @@ class PaymentHelpers
      * @param $payment_method
      * @return array|JsonResponse
      */
-    static function generatePaymentLink(Order $order, $payment_method) {
+    static function generatePaymentLink(Order $order, $payment_method)
+    {
         // process url
         $process_url = url('/api/payment/process');
 
@@ -36,10 +37,12 @@ class PaymentHelpers
         $transaction = new Transaction();
         $transaction->payment_method = $payment_method;
         $transaction->order_id = $order->id;
+        $transaction->save();
 
         // get personal info
         $customer_name = $order->user->first_name . ' ' . $order->user->last_name;
         $customer_phone_number = $order->user->phone_number;
+
         // get amount
         $amount = !is_null($order->discount_price) ? $order->discount_price : $order->total_price;
         if (!GlobalHelpers::isProductionEnv()) {
@@ -52,22 +55,22 @@ class PaymentHelpers
             // todo error_url
 
             // get merchant id and api password
-            $merchant_id = env('CREDIMAX_MERCHANT_ID');
-            $api_password = env('CREDIMAX_API_PASSWORD');
+            $merchant_id = env('MERCHANT_ID');
+            $api_password = env('PAYMENT_SECRET');
 
             if (is_null($merchant_id) && is_null($api_password)) {
-                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null,Response::HTTP_BAD_REQUEST);
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
             }
 
             $create_session_data = [
                 "apiOperation" => "INITIATE_CHECKOUT",
-                "apiPassword" => $api_password,
-                "apiUsername" => "merchant." . $merchant_id,
+                "apiPassword" => env('PAYMENT_SECRET'),
+                "apiUsername" => "merchant." . env('MERCHANT_ID'),
                 "interaction.returnUrl" => $process_url,
-                "interaction.merchant.name" => "LittleMiracles",
+                "interaction.merchant.name" => env('MERCHANT_MAME'),
                 "interaction.operation" => "PURCHASE",
                 "interaction.displayControl.billingAddress" => "HIDE",
-                "merchant" => $merchant_id,
+                "merchant" => env('MERCHANT_ID'),
                 "order.amount" => $amount,
                 "order.currency" => "BHD",
                 "order.description" => "Booking",
@@ -76,11 +79,14 @@ class PaymentHelpers
 
             $client = new Client();
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
-                'form_params' => $create_session_data
+                'form_params' => $create_session_data,
             ]);
+
+            dd($response->getBody()->getContents());
             $response_body = json_encode($response->getBody()->getContents());
             $response_data = array();
-            foreach (explode("&",$response_body) as $data) {
+            // todo check how to extract data
+            foreach (explode("&", $response_body) as $data) {
                 $response_result = (explode("=", $data));
                 $response_data[$response_result[0]] = str_replace('"', '', $response_result[1]);
             }
@@ -88,14 +94,13 @@ class PaymentHelpers
             if ($request_response_result == 'SUCCESS') {
                 $session_id = $response_data['session.id'];
                 $transaction->success_indicator = $response_data['successIndicator'];
-                $result['session_id'] = $session_id;
-                $result['merchant_id'] = $merchant_id;
+                $transaction->save();
             }
 
             $query = http_build_query([
                 "session_id" => Crypt::encryptString($session_id),
                 "merchant_id" => $merchant_id ?? null,
-                "order_id" => $transaction->uid,
+                "transaction_id" => $transaction->id,
                 "success_indicator" => $response_body->successIndicator ?? null
             ]);
 
@@ -122,7 +127,8 @@ class PaymentHelpers
      * @param $error_url
      * @return null
      */
-    static function generateBenefitPaymentLink($amount, $transaction_id, $customer_name, $customer_phone_number, $success_url, $error_url) {
+    static function generateBenefitPaymentLink($amount, $transaction_id, $customer_name, $customer_phone_number, $success_url, $error_url)
+    {
         try {
             $benefit_request_data = [
                 Attributes::AMOUNT => $amount,

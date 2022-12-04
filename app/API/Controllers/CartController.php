@@ -9,6 +9,7 @@ use App\Constants\Attributes;
 use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Constants\OrderStatus;
+use App\Constants\PaymentStatus;
 use App\Helpers;
 use App\Models\CartItem;
 use App\Models\Order;
@@ -16,10 +17,14 @@ use App\Models\OrderItems;
 use App\Models\Package;
 use App\Models\Promotion;
 use App\Models\StudioMetadata;
+use App\Models\Transaction;
 use Dingo\Api\Http\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\View\View;
 use VIITech\Helpers\Constants\CastingTypes;
+use VIITech\Helpers\Constants\DebuggerLevels;
 use VIITech\Helpers\GlobalHelpers;
 use App\Helpers\PaymentHelpers;
 
@@ -246,13 +251,13 @@ class CartController extends CustomController
             $item->save();
         }
 
-//        list(Attributes::TRANSACTION => $transaction, Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
+        list(Attributes::TRANSACTION => $transaction, Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
 
         // return response
-//        return Helpers::returnResponse([
-//            Attributes::PAYMENT_URL => $payment_url
-//        ]);
-        return GlobalHelpers::formattedJSONResponse(Messages::ORDER_CREATED, null, null, Response::HTTP_OK);
+        return Helpers::returnResponse([
+            Attributes::PAYMENT_URL => $payment_url
+        ]);
+//        return GlobalHelpers::formattedJSONResponse(Messages::ORDER_CREATED, null, null, Response::HTTP_OK);
     }
 
     /**
@@ -277,6 +282,80 @@ class CartController extends CustomController
         return Helpers::returnResponse([
             Attributes::ORDERS => Order::returnTransformedItems($orders, ListOrdersTransformer::class),
             Attributes::ORDER_ITEMS => $order_items,
+        ]);
+    }
+
+    /**
+     * Redirect Payment
+     * @return View
+     */
+    public function redirectPayment(): View
+    {
+        GlobalHelpers::debugger("CartController@redirectPayment", DebuggerLevels::INFO);
+
+        // get parameters
+        $session_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SESSION_ID, null, CastingTypes::STRING);
+        $merchant_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::MERCHANT_ID, null, CastingTypes::STRING);
+        $transaction_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TRANSACTION_ID, null, CastingTypes::STRING);
+
+        // get transaction
+        /** @var Transaction $transaction */
+        $transaction = Transaction::where(Attributes::ID, $transaction_id)->first();
+
+        // return payment page
+        return view('checkout', [
+            "merchant_name" => env(''),
+            "session_id" => Crypt::decryptString($session_id),
+            "merchant_id" => $merchant_id,
+            "gateway_name" => $transaction->gateway,
+            "currency" => $transaction->currency,
+            "amount" => $transaction->amount,
+            "description" => $transaction->description,
+        ]);
+    }
+
+    /**
+     * Process Checkout
+     * @return JsonResponse
+     */
+    public function processCheckout(): JsonResponse
+    {
+        // log request
+        if (env("DEBUGGER_LOGS_ENABLED", false)) {
+            GlobalHelpers::logRequest($this->request, "CartController@processCheckout");
+        }
+
+        $success = false;
+        $return_url = null;
+        $result_indicator = $this->request->get('resultIndicator');
+
+        // get transaction
+        /** @var Transaction $transaction */
+        $transaction = Transaction::where(Attributes::SUCCESS_INDICATOR, $result_indicator)->first();
+        if (is_null($transaction)) {
+            $success = true;
+        }
+
+        if ($success) {
+            // todo redirect to approved page
+            $return_url = $transaction->success_url;
+            $transaction->status = PaymentStatus::CONFIRMED;
+            $transaction->save();
+        } else {
+            // todo redirect to declined page
+            $return_url = $transaction->error_url;
+        }
+
+        if (is_null($return_url) && !$success) {
+            // todo redirect to error page
+//            return view('error');
+        }
+
+        // redirect to url
+        return Helpers::returnResponse([
+            Attributes::RETURN_URL => $return_url,
+            Attributes::SUCCESS => $success,
+            Attributes::TRANSACTION_ID => $transaction->id
         ]);
     }
 }

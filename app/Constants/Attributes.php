@@ -300,4 +300,6 @@ class Attributes extends CustomEnum
     const TRANSACTION = "transaction";
     const ADDITIONAL_CHARGE = "additional_charge";
     const EXTRA_PEOPLE = "extra_people";
+    const RETURN_URL = "return_url";
+    const PAYMENT_METHOD_NAME = "payment_method_name";
 }
