@@ -51,7 +51,7 @@ class MetadataController extends CustomController
 
         // get last updated items
         if(!empty($this->last_update)){
-            $questions = Helpers::getLatestOnlyInCollection($questions, '');
+            $questions = Helpers::getLatestOnlyInCollection($questions, $this->last_update);
         }
 
         // return response
