@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
-use App\Constants\PromotionType;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Helpers;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
 use App\Models\Cake;
-use App\Models\Media;
 use App\Models\Package;
 use App\Models\Photographer;
 use App\Models\Session;
@@ -21,8 +19,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Prologue\Alerts\Facades\Alert;
-use Spatie\CollectionMacros\Macros\At;
 
 /**
  * Session CRUD Controller
@@ -30,8 +26,12 @@ use Spatie\CollectionMacros\Macros\At;
 class SessionCrudController extends CustomCrudController
 {
 
-    use CreateOperation {store as traitStore;}
-    use UpdateOperation {update as traitUpdate;}
+    use CreateOperation {
+        store as traitStore;
+    }
+    use UpdateOperation {
+        update as traitUpdate;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -49,7 +49,7 @@ class SessionCrudController extends CustomCrudController
         $this->crud->denyAccess(["create"]);
 
         // don't show sub-sessions
-        $this->crud->addClause('where',function ($q){
+        $this->crud->addClause('where', function ($q) {
             return $q->whereNull(Attributes::SESSION_ID);
         });
 
@@ -128,6 +128,9 @@ class SessionCrudController extends CustomCrudController
         // Field: Title
         $this->addNameField(Attributes::TITLE, "Title");
 
+        // Field: Date
+        $this->addDateField(Attributes::DATE, 'Date');
+
         // Field: Backdrops
         $this->addSessionDetailField(Attributes::BACKDROPS, "Backdrops", "Backdrop", Backdrop::class);
 
@@ -137,8 +140,8 @@ class SessionCrudController extends CustomCrudController
         // Field: Backdrops
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
 
-        // Field: People
-//        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", User::class, Attributes::FULL_NAME);
+        //  Field: People
+        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", User::class, Attributes::FULL_NAME);
 
         // Field: Additions
 //        $this->addSessionDetailField(Attributes::ADDITIONS, "Additions", "Addition", StudioPackage::class, Attributes::TITLE);
@@ -165,8 +168,6 @@ class SessionCrudController extends CustomCrudController
 
         // Field: Media
         $this->addMediaField("Media", "Media");
-
-
 
     }
 
@@ -213,14 +214,14 @@ class SessionCrudController extends CustomCrudController
         $this->crud->getRequest()->request->remove(Attributes::BACKDROPS);
         $backdrops = json_decode($backdrops, true);
         $backdrops = collect($backdrops)->flatten()->filter();
-        if($backdrops->isNotEmpty()){
-            foreach ($backdrops as $item){
+        if ($backdrops->isNotEmpty()) {
+            foreach ($backdrops as $item) {
 
                 $item_exists = SessionDetail::where(Attributes::SESSION_ID, $session->id)
                     ->where(Attributes::TYPE, SessionDetailsType::BACKDROP)
                     ->where(Attributes::VALUE, $item)->exists();
 
-                if(!$item_exists){
+                if (!$item_exists) {
                     SessionDetail::createOrUpdate([
                         Attributes::TYPE => SessionDetailsType::BACKDROP,
                         Attributes::VALUE => $item,
@@ -242,11 +243,10 @@ class SessionCrudController extends CustomCrudController
         $result = $this->traitUpdate();
 
         // media
-            $update_media = $session->media()->whereNotIn(Attributes::ID, $media_ids ?? [])->delete();
+        $update_media = $session->media()->whereNotIn(Attributes::ID, $media_ids ?? [])->delete();
 
         // clear cache
         Helpers::clearCache(Session::class);
-
 
 
         // return response
