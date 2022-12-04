@@ -15,7 +15,6 @@ use App\Models\Package;
 use App\Models\Photographer;
 use App\Models\Session;
 use App\Models\SessionDetail;
-use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
@@ -133,7 +132,7 @@ class SessionCrudController extends CustomCrudController
         $this->addDateField(Attributes::DATE, 'Date');
 
         // Field: Time
-        $this->addTimeField(Attributes::TIME, 'Time');
+        $this->addTimeField('Time', Attributes::TIME);
 
         // Field: Backdrops
         $this->addSessionDetailField(Attributes::BACKDROPS, "Backdrops", "Backdrop", Backdrop::class);
@@ -145,7 +144,7 @@ class SessionCrudController extends CustomCrudController
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
 
         //  Field: People
-        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", FamilyMember::class, Attributes::FULL_NAME);
+        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", FamilyMember::class );
 
         // Field: Additions
 //        $this->addSessionDetailField(Attributes::ADDITIONS, "Additions", "Addition", StudioPackage::class, Attributes::TITLE);
