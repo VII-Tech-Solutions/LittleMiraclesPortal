@@ -488,6 +488,30 @@ class CustomCrudController extends CrudController
 
 
     /**
+     * Add Time Field
+     * @param string|null $label
+     * @param string|null $field_name
+     */
+    function addTimeField($label = null, $field_name = null)
+    {
+        if (is_null($label)) {
+            $label = "Time";
+        }
+
+        if (is_null($field_name)) {
+            $field_name = Attributes::TIME;
+        }
+
+        CRUD::addField([
+            Attributes::NAME => $field_name,
+            Attributes::TYPE => FieldTypes::TIME,
+            Attributes::LABEL => $label,
+        ]);
+
+    }
+
+
+    /**
      * Add Description Field
      * @param string|null $name
      * @param string|null $label

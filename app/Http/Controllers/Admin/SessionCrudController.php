@@ -131,6 +131,9 @@ class SessionCrudController extends CustomCrudController
         // Field: Date
         $this->addDateField(Attributes::DATE, 'Date');
 
+        // Field: Time
+        $this->addTimeField(Attributes::TIME, 'Time');
+
         // Field: Backdrops
         $this->addSessionDetailField(Attributes::BACKDROPS, "Backdrops", "Backdrop", Backdrop::class);
 
