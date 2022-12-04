@@ -6,9 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
-use App\Constants\Status;
 use App\Constants\Tables;
-use App\Constants\Values;
 use App\Helpers;
 use App\Traits\ModelTrait;
 use Carbon\Carbon;
@@ -126,7 +124,8 @@ class Session extends CustomModel
      * Attribute: featured_image
      * @return string
      */
-    function getFeaturedImageAttribute(){
+    function getFeaturedImageAttribute()
+    {
         return $this->package->image;
     }
 
@@ -134,7 +133,8 @@ class Session extends CustomModel
      * Attribute: has_guideline
      * @return boolean
      */
-    function getHasGuidelineAttribute(){
+    function getHasGuidelineAttribute()
+    {
         return $this->package->has_guideline;
     }
 
@@ -156,7 +156,7 @@ class Session extends CustomModel
     public function getFormattedDateAttribute()
     {
         $date = $this->date;
-        if(is_null($date)){
+        if (is_null($date)) {
             return null;
         }
         return Carbon::parse($date)->format("jS, F Y");
@@ -169,7 +169,7 @@ class Session extends CustomModel
     public function getPhotographerNameAttribute()
     {
         $photographer = Photographer::find($this->photographer);
-        if(is_null($photographer)){
+        if (is_null($photographer)) {
             return null;
         }
         return $photographer->name;
@@ -184,19 +184,19 @@ class Session extends CustomModel
         $include_me = $this->include_me;
         $people = $this->people()->get([Attributes::RELATIONSHIP]);
         $adults = 0;
-        if($include_me){
+        if ($include_me) {
             $adults = $adults + 1;
         }
         $adults = $adults + $people->where(Attributes::RELATIONSHIP, Relationship::PARTNER)->count();
         $children = $people->where(Attributes::RELATIONSHIP, Relationship::CHILDREN)->count();
-        if($adults == 1){
+        if ($adults == 1) {
             $adults = $adults . " adult";
-        }else {
+        } else {
             $adults = $adults . " adults";
         }
-        if($children == 1){
+        if ($children == 1) {
             $children = $children . " baby";
-        }else {
+        } else {
             $children = $children . " babies";
         }
         return "$children, $adults";
@@ -206,9 +206,10 @@ class Session extends CustomModel
      * Attribute: people_ids
      * @return string
      */
-    public function getPeopleIdsAttribute(){
+    public function getPeopleIdsAttribute()
+    {
         $array = $this->people()->pluck(Tables::FAMILY_MEMBERS . "." . Attributes::ID)->toArray();
-        if(empty($array)){
+        if (empty($array)) {
             return null;
         }
         return implode(", ", $array);
@@ -218,10 +219,11 @@ class Session extends CustomModel
      * Attribute: media_ids
      * @return string
      */
-    public function getMediaIdsAttribute(){
+    public function getMediaIdsAttribute()
+    {
         $array = $this->media()->pluck(Tables::MEDIA . "." . Attributes::ID)->toArray();
         $array = implode(",", $array);
-        if(empty($array)){
+        if (empty($array)) {
             return null;
         }
         return $array;
@@ -231,7 +233,8 @@ class Session extends CustomModel
      * Attribute: benefits_ids
      * @return string
      */
-    public function getBenefitsIdsAttribute(){
+    public function getBenefitsIdsAttribute()
+    {
         return $this->package->benefits_ids;
     }
 
@@ -250,20 +253,23 @@ class Session extends CustomModel
      * Attribute: sub_sessions_ids
      * @return string
      */
-    public function getSubSessionsIdsAttribute(){
+    public function getSubSessionsIdsAttribute()
+    {
         $array = $this->subSessions()->pluck(Attributes::ID)->toArray();
-        if(empty($array)){
+        if (empty($array)) {
             return null;
         }
-        return implode(", ", $array);    }
+        return implode(", ", $array);
+    }
 
     /**
      * Attribute: reviews_ids
      * @return string
      */
-    public function getReviewsIdsAttribute(){
+    public function getReviewsIdsAttribute()
+    {
         $array = $this->reviews()->orderBy(Attributes::RATING)->pluck(Attributes::ID)->toArray();
-        if(empty($array)){
+        if (empty($array)) {
             return null;
         }
         return implode(", ", $array);
@@ -277,10 +283,10 @@ class Session extends CustomModel
     {
         $cakes = $this->cakes()->get();
         $array = null;
-        foreach ($cakes as $cake){
+        foreach ($cakes as $cake) {
             $array[] = $cake->category_name . " - " . $cake->title;
         }
-        if(empty($array)){
+        if (empty($array)) {
             return null;
         }
         return implode(", ", $array);
@@ -297,7 +303,7 @@ class Session extends CustomModel
         foreach ($backdrops as $backdrop) {
             $array[] = $backdrop->title . " backdrop";
         }
-        if(empty($array)){
+        if (empty($array)) {
             return null;
         }
         return implode(", ", $array);
@@ -336,7 +342,8 @@ class Session extends CustomModel
      * @param Builder $q
      * @return Builder
      */
-    public function scopeSortByLatest($q){
+    public function scopeSortByLatest($q)
+    {
         return $q->orderBy(Attributes::DATE)->orderBy(Attributes::TIME);
     }
 
@@ -373,7 +380,7 @@ class Session extends CustomModel
      */
     public function media()
     {
-        return $this->hasMany(Media::class,Attributes::SESSION_ID, Attributes::ID);
+        return $this->hasMany(Media::class, Attributes::SESSION_ID, Attributes::ID);
     }
 
     /**
@@ -382,7 +389,7 @@ class Session extends CustomModel
      */
     public function appointment()
     {
-        return $this->hasOne(Appointment::class,Attributes::SESSION_ID, Attributes::ID)->first();
+        return $this->hasOne(Appointment::class, Attributes::SESSION_ID, Attributes::ID)->first();
     }
 
 
@@ -427,13 +434,13 @@ class Session extends CustomModel
     }
 
 
-
     /**
      * Scope: Paid
      * @param $q
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    function scopePaid($q){
+    function scopePaid($q)
+    {
         return $q->where(Attributes::STATUS, '!=', SessionStatus::UNPAID);
     }
 
@@ -442,7 +449,8 @@ class Session extends CustomModel
      * @param $q
      * @return bool
      */
-    function scopeSessions($q){
+    function scopeSessions($q)
+    {
         return $q->where(Attributes::SESSION_ID)->where(Attributes::SUB_PACKAGE_ID);
     }
 

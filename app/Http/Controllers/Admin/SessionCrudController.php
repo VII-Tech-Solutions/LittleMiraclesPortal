@@ -144,7 +144,7 @@ class SessionCrudController extends CustomCrudController
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
 
         //  Field: People
-        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", FamilyMember::class );
+//        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", FamilyMember::class, Attributes::FULL_NAME);
 
         // Field: Additions
 //        $this->addSessionDetailField(Attributes::ADDITIONS, "Additions", "Addition", StudioPackage::class, Attributes::TITLE);
