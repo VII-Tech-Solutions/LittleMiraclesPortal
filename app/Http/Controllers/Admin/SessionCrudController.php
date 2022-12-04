@@ -10,6 +10,7 @@ use App\Helpers;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
 use App\Models\Cake;
+use App\Models\FamilyMember;
 use App\Models\Package;
 use App\Models\Photographer;
 use App\Models\Session;
@@ -144,7 +145,7 @@ class SessionCrudController extends CustomCrudController
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
 
         //  Field: People
-        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", User::class, Attributes::FULL_NAME);
+        $this->addSessionDetailField(Attributes::PEOPLE, "People", "People", FamilyMember::class, Attributes::FULL_NAME);
 
         // Field: Additions
 //        $this->addSessionDetailField(Attributes::ADDITIONS, "Additions", "Addition", StudioPackage::class, Attributes::TITLE);
