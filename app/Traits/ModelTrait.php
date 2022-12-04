@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Constants\ReviewStatus;
 use App\Constants\Status;
 use App\Helpers;
 
@@ -19,6 +20,17 @@ trait ModelTrait
     public function getStatusName($value)
     {
         $text = Status::getKey($this->status);
+        return Helpers::readableText($text);
+    }
+
+    /**
+     * Get Attribute: status_name
+     * @param $value
+     * @return string
+     */
+    public function getReviewStatusName($value)
+    {
+        $text = ReviewStatus::getKey($this->status);
         return Helpers::readableText($text);
     }
 

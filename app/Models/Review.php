@@ -67,7 +67,7 @@ class Review extends CustomModel
      */
     public function getStatusNameAttribute($value)
     {
-        return $this->getStatusName($value);
+        return $this->getReviewStatusName($value);
     }
 
     /**

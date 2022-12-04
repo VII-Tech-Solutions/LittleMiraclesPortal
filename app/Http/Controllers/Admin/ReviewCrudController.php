@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
+use App\Constants\ReviewStatus;
 use App\Constants\Status;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
@@ -29,7 +30,7 @@ class ReviewCrudController extends CustomCrudController
 
         // deny access
         $this->crud->denyAccess(["create"]);
-        
+
     }
 
     /**
@@ -42,7 +43,7 @@ class ReviewCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(ReviewStatus::all());
 
         // Column: User ID
         $this->addIDColumn("User ID", 1, Attributes::USER_ID);
@@ -69,7 +70,7 @@ class ReviewCrudController extends CustomCrudController
         $this->addIDColumn("Session ID", 1, Attributes::SESSION_ID);
 
         // Column: Status
-        $this->addStatusColumn(Attributes::STATUS_NAME);
+        $this->addReviewStatusColumn(Attributes::STATUS_NAME);
 
     }
 
@@ -104,7 +105,7 @@ class ReviewCrudController extends CustomCrudController
         $this->addRatingField(Attributes::RATING, "Rating");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(ReviewStatus::all());
 
     }
 }

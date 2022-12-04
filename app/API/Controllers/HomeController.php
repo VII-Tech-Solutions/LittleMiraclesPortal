@@ -310,7 +310,6 @@ class HomeController extends CustomController
 
                     }
 
-
                 }
 
                 $count++;

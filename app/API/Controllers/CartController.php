@@ -11,6 +11,7 @@ use App\Constants\Messages;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentStatus;
 use App\Helpers;
+use App\Helpers\PaymentHelpers;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItems;
@@ -26,7 +27,6 @@ use Illuminate\View\View;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\Constants\DebuggerLevels;
 use VIITech\Helpers\GlobalHelpers;
-use App\Helpers\PaymentHelpers;
 
 /**
  * Class CartController
@@ -40,7 +40,8 @@ class CartController extends CustomController
      *
      * @return JsonResponse
      */
-    public function addCartItem() {
+    public function addCartItem()
+    {
         // get current user
         $user = Helpers::resolveUser();
         if (is_null($user)) {
@@ -107,7 +108,8 @@ class CartController extends CustomController
      * List Cart Items
      * @return JsonResponse
      */
-    public function listCartItems() {
+    public function listCartItems()
+    {
 
         // get current user
         $user = Helpers::resolveUser();
@@ -133,7 +135,8 @@ class CartController extends CustomController
      * @return JsonResponse
      * @throws Exception
      */
-    public function removeCartItem($id) {
+    public function removeCartItem($id)
+    {
 
         // get current user
         $user = Helpers::resolveUser();
@@ -161,7 +164,8 @@ class CartController extends CustomController
      * @param $id
      * @return JsonResponse
      */
-    public function applyPromoCode() {
+    public function applyPromoCode()
+    {
 
         // get current user info
         $user = Helpers::resolveUser();
@@ -177,14 +181,15 @@ class CartController extends CustomController
             // get promotion
             /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
+            $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED);
 
             if (is_null($promotion)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
             }
 
-//            if ($promotion->package_id != AllProducts::ALL) {
-//                return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
-//            }
+            if ($promotion->package_id != AllProducts::ALL && !$cart_items->pluck(Attributes::PACKAGE_ID)->contains($promotion->package_id)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
+            }
 
             // calculate
             $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED);
@@ -209,7 +214,8 @@ class CartController extends CustomController
      *
      * @return JsonResponse
      */
-    public function checkout() {
+    public function checkout()
+    {
 
         // get current user info
         $user = Helpers::resolveUser();
@@ -265,7 +271,8 @@ class CartController extends CustomController
      *
      * @return JsonResponse
      */
-    public function listOrders() {
+    public function listOrders()
+    {
         // get current user info
         $user = Helpers::resolveUser();
         if (is_null($user)) {

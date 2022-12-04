@@ -237,7 +237,7 @@ class Session extends CustomModel
 
 
     /**
-     * Relationships: Reviews
+     * Relationships: sub_sessions
      * @return HasMany
      */
     public function subSessions()
@@ -247,7 +247,7 @@ class Session extends CustomModel
 
 
     /**
-     * Attribute: benefits_ids
+     * Attribute: sub_sessions_ids
      * @return string
      */
     public function getSubSessionsIdsAttribute(){
@@ -262,7 +262,7 @@ class Session extends CustomModel
      * @return string
      */
     public function getReviewsIdsAttribute(){
-        $array = $this->reviews()->pluck(Attributes::ID)->toArray();
+        $array = $this->reviews()->orderBy(Attributes::RATING)->pluck(Attributes::ID)->toArray();
         if(empty($array)){
             return null;
         }

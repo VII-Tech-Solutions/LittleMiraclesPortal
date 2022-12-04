@@ -67,7 +67,7 @@ class AuthenticationController extends CustomController
                 return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
             }
 
-        } else if ($provider == LoginProvider::FACEBOOK ) {
+        } else if ($provider == LoginProvider::FACEBOOK) {
 
             // validate required fields
             if (!$this->request->has([Attributes::NAME])) {
@@ -86,7 +86,7 @@ class AuthenticationController extends CustomController
 
         } else if ($provider == LoginProvider::APPLE) {
             // validate required fields
-            if(!$this->request->has([Attributes::EMAIL, Attributes::NAME])){
+            if (!$this->request->has([Attributes::EMAIL, Attributes::NAME])) {
                 return GlobalHelpers::formattedJSONResponse(__(Messages::BAD_REQUEST), null, null, \Illuminate\Http\Response::HTTP_BAD_REQUEST);
             }
             $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
@@ -110,7 +110,7 @@ class AuthenticationController extends CustomController
         }
 
         // create a user
-        if(is_null($user)){
+        if (is_null($user)) {
             $user = User::createOrUpdate([
                 Attributes::EMAIL => $email,
                 Attributes::PROVIDER => $provider,
@@ -123,7 +123,7 @@ class AuthenticationController extends CustomController
                 Attributes::PROVIDER,
                 Attributes::PROVIDER_ID
             ]);
-        }else{
+        } else {
             $user->avatar = $avatar;
             $user->save();
         }
@@ -207,7 +207,7 @@ class AuthenticationController extends CustomController
         $family_info = $this->request->get(Attributes::FAMILY);
 
         // User
-        if(!is_null($user_info)){
+        if (!is_null($user_info)) {
 
             $user_info = collect($user_info);
             $fields = collect();
@@ -234,7 +234,7 @@ class AuthenticationController extends CustomController
         }
 
         // Partner
-        if(!is_null($partner_info) && is_a($new_user, User::class)){
+        if (!is_null($partner_info) && is_a($new_user, User::class)) {
 
             $partner_info = collect($partner_info);
             $fields = collect();
@@ -257,7 +257,7 @@ class AuthenticationController extends CustomController
         }
 
         // Children
-        if(!is_null($children_info) && is_a($new_user, User::class) && is_a($new_partner, FamilyMember::class)) {
+        if (!is_null($children_info) && is_a($new_user, User::class) && is_a($new_partner, FamilyMember::class)) {
 
             $children_info = collect($children_info);
             $fields = collect();
@@ -266,10 +266,8 @@ class AuthenticationController extends CustomController
             $fields->put(Attributes::USER_ID, $user_id);
             $fields->put(Attributes::FAMILY_ID, $family_id);
 
-            foreach ($children_info as $info){
-
+            foreach ($children_info as $info) {
                 $info = $fields->merge($info)->toArray();
-
                 FamilyMember::createOrUpdate($info, [
                     Attributes::FAMILY_ID,
                     Attributes::RELATIONSHIP,
@@ -277,13 +275,11 @@ class AuthenticationController extends CustomController
                     Attributes::LAST_NAME,
                     Attributes::BIRTH_DATE
                 ]);
-
             }
-
         }
 
         // Family Info
-        if(!is_null($family_info) && is_a($new_user, User::class) && is_a($new_partner, FamilyMember::class)) {
+        if (!is_null($family_info) && is_a($new_user, User::class) && is_a($new_partner, FamilyMember::class)) {
 
             $family_info = collect($family_info);
             $fields = collect();
@@ -291,8 +287,7 @@ class AuthenticationController extends CustomController
             $fields->put(Attributes::USER_ID, $user_id);
             $fields->put(Attributes::FAMILY_ID, $family_id);
 
-            foreach ($family_info as $info){
-
+            foreach ($family_info as $info) {
                 $info = $fields->merge($info)->toArray();
 
                 FamilyInfo::createOrUpdate($info, [
@@ -303,13 +298,13 @@ class AuthenticationController extends CustomController
         }
 
         // change status
-        if(!is_null($family_info) && is_a($new_user, User::class)) {
+        if (!is_null($family_info) && is_a($new_user, User::class)) {
             $new_user->status = Status::ACTIVE;
             $new_user->save();
         }
 
         // save token
-        if(!is_null($family_info) && is_a($new_user, User::class)) {
+        if (!is_null($family_info) && is_a($new_user, User::class)) {
             $this->saveToken($new_user);
         }
 
@@ -329,13 +324,14 @@ class AuthenticationController extends CustomController
      * Save Token
      * @return void
      */
-    function saveToken($user){
+    function saveToken($user)
+    {
         $token = trim(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOKEN, null, CastingTypes::STRING));
         $platform = trim(GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PLATFORM, null, CastingTypes::STRING));
-        if(empty($platform)){
+        if (empty($platform)) {
             $platform = $this->request->header(Attributes::PLATFORM);
         }
-        if(!empty($token) && !empty($platform)){
+        if (!empty($token) && !empty($platform)) {
             UserToken::createOrUpdate([
                 Attributes::USER_ID => $user->id,
                 Attributes::TOKEN => $token,

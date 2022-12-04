@@ -2002,6 +2002,20 @@ class CustomCrudController extends CrudController
      * @param string $attribute
      * @param int $priority
      */
+    function addReviewStatusColumn($attribute = Attributes::STATUS, $priority = 1)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $attribute,
+            Attributes::LABEL => "Status",
+            Attributes::PRIORITY => $priority
+        ]);
+    }
+
+    /**
+     * Add Status Column
+     * @param string $attribute
+     * @param int $priority
+     */
     function addSectionTypeColumn($attribute = Attributes::TYPE, $priority = 1)
     {
         $this->crud->addColumn([

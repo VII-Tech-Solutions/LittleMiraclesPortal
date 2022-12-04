@@ -8,6 +8,7 @@ use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListReviewsTransformer;
 use App\API\Transformers\SubPackagesTransformer;
 use App\Constants\Attributes;
+use App\Constants\ReviewStatus;
 use App\Helpers;
 use App\Models\Benefit;
 use App\Models\Media;
@@ -45,14 +46,14 @@ class PackageController extends CustomController
         $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::INTEGER);
 
         // get packages
-        if(!empty($id)){
+        if (!empty($id)) {
             $packages = Package::active()->where(Attributes::ID, $id)->get();
-        }else{
+        } else {
             $packages = Package::active()->get();
         }
 
         // get last updated items
-        if(!empty($this->last_update)){
+        if (!empty($this->last_update)) {
             $packages = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
         }
 
@@ -67,7 +68,7 @@ class PackageController extends CustomController
 
         // get related reviews
         $reviews = $packages->map->reviews;
-        $reviews = $reviews->flatten()->filter();
+        $reviews = $reviews->where(Attributes::STATUS, ReviewStatus::ACTIVE)->flatten()->filter();
 
         // get related image examples
         $media = $packages->map->media;

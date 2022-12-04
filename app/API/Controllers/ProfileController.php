@@ -2,7 +2,6 @@
 
 namespace App\API\Controllers;
 
-use AnotherNamespace\Child;
 use App\API\Requests\ProfileUpdateRequest;
 use App\Constants\Attributes;
 use App\Constants\Messages;
@@ -53,7 +52,7 @@ class ProfileController extends CustomController
 
         $is_partner = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IS_PARTNER, null, CastingTypes::BOOLEAN);
 
-        if($is_partner){
+        if ($is_partner) {
             $update_partner = FamilyMember::createOrUpdate([
                 Attributes::ID => $user->myPartner()->id,
                 Attributes::FIRST_NAME => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FIRST_NAME, null, CastingTypes::STRING),
@@ -64,18 +63,18 @@ class ProfileController extends CustomController
                 Attributes::BIRTH_DATE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BIRTH_DATE, null, CastingTypes::STRING),
                 Attributes::RELATIONSHIP => Relationship::PARTNER
 
-            ],[
+            ], [
                 Attributes::ID
             ]);
 
 
-            if($update_partner){
+            if ($update_partner) {
                 return GlobalHelpers::formattedJSONResponse(Messages::PARTNER_UPDATE_REQUESTED, [
-                    Attributes::PARTNER =>  FamilyMember::returnTransformedItems($update_partner)
+                    Attributes::PARTNER => FamilyMember::returnTransformedItems($update_partner)
                 ], null, Response::HTTP_OK);
             }
 
-        }else{
+        } else {
             $update_user = User::createOrUpdate([
                 Attributes::ID => $user->id,
                 Attributes::FIRST_NAME => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FIRST_NAME, null, CastingTypes::STRING),
@@ -85,19 +84,19 @@ class ProfileController extends CustomController
                 Attributes::PHONE_NUMBER => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHONE_NUMBER, null, CastingTypes::STRING),
                 Attributes::BIRTH_DATE => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BIRTH_DATE, null, CastingTypes::STRING),
                 Attributes::FIREBASE_ID => GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FIREBASE_ID, null, CastingTypes::STRING)
-            ],[
+            ], [
                 Attributes::ID
             ]);
 
-            if($update_user){
+            if ($update_user) {
                 return GlobalHelpers::formattedJSONResponse(Messages::PROFILE_UPDATE_REQUESTED, [
-                    Attributes::USER =>  User::returnTransformedItems($update_user)
+                    Attributes::USER => User::returnTransformedItems($update_user)
                 ], null, Response::HTTP_OK);
             }
 
         }
 
-        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS,[], null, Response::HTTP_BAD_REQUEST);
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, [], null, Response::HTTP_BAD_REQUEST);
 
     }
 
@@ -161,15 +160,15 @@ class ProfileController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        $children =  json_decode($this->request->getContent(), true);
+        $children = json_decode($this->request->getContent(), true);
 
-        if(empty($children)){
-            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS,[], null, Response::HTTP_BAD_REQUEST);
+        if (empty($children)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, [], null, Response::HTTP_BAD_REQUEST);
         }
 
         // soft delete all children
         $user->myChildrenQuery()->delete();
-        foreach ($children as $child){
+        foreach ($children as $child) {
             $new_child = FamilyMember::createOrUpdate([
                 Attributes::USER_ID => $user->id,
                 Attributes::FAMILY_ID => $user->family_id,
@@ -180,18 +179,18 @@ class ProfileController extends CustomController
                 Attributes::PERSONALITY => $child["personality"] ?? null,
                 Attributes::RELATIONSHIP => Relationship::CHILDREN
             ],
-            [
-                Attributes::USER_ID,
-                Attributes::FAMILY_ID,
-                Attributes::FIRST_NAME,
-                Attributes::LAST_NAME,
-            ]);
+                [
+                    Attributes::USER_ID,
+                    Attributes::FAMILY_ID,
+                    Attributes::FIRST_NAME,
+                    Attributes::LAST_NAME,
+                ]);
         }
 
         // return response
-            return GlobalHelpers::formattedJSONResponse(Messages::CHILDREN_UPDATE_REQUESTED, [
-                Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
-            ], null, \Illuminate\Http\Response::HTTP_OK);
+        return GlobalHelpers::formattedJSONResponse(Messages::CHILDREN_UPDATE_REQUESTED, [
+            Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
+        ], null, \Illuminate\Http\Response::HTTP_OK);
 
     }
 
@@ -218,15 +217,15 @@ class ProfileController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        $family =  json_decode($this->request->getContent(), true);
+        $family = json_decode($this->request->getContent(), true);
 
-        if(empty($family)){
-            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS,[], null, Response::HTTP_BAD_REQUEST);
+        if (empty($family)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, [], null, Response::HTTP_BAD_REQUEST);
         }
 
         // soft delete all children
         $user->myFamilyInfoQuery()->delete();
-        foreach ($family as $info){
+        foreach ($family as $info) {
             $new_info = FamilyInfo::createOrUpdate([
                 Attributes::USER_ID => $user->id,
                 Attributes::FAMILY_ID => $user->family_id,

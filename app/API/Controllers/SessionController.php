@@ -13,11 +13,10 @@ use App\Constants\Attributes;
 use App\Constants\Gender;
 use App\Constants\Messages;
 use App\Constants\PromotionStatus;
-use App\Constants\PromotionType;
 use App\Constants\Relationship;
+use App\Constants\ReviewStatus;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
-use App\Constants\Status;
 use App\Constants\Values;
 use App\Helpers;
 use App\Models\Appointment;
@@ -135,10 +134,10 @@ class SessionController extends CustomController
             Attributes::LOCATION_TEXT => $location_text,
             Attributes::IS_OUTDOOR => $is_outdoor,
             Attributes::EXTRA_PEOPLE => $extra_people
-        ],[
+        ], [
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
-        SessionDetail::where(Attributes::SESSION_ID,$session->id)->whereIn(Attributes::TYPE,[3,2])->forceDelete();
+        SessionDetail::where(Attributes::SESSION_ID, $session->id)->whereIn(Attributes::TYPE, [3, 2])->forceDelete();
         // save session people
         if (!is_null($people) && count($people) > 0) {
             foreach ($people as $item) {
@@ -165,7 +164,7 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
-                ],[
+                ], [
                     Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
@@ -181,7 +180,7 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
-                ],[
+                ], [
                     Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
@@ -197,7 +196,7 @@ class SessionController extends CustomController
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
                     Attributes::PACKAGE_ID => $session->package_id
-                ],[
+                ], [
                     Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
             }
@@ -246,7 +245,7 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
         }
 
-        if(!is_array($sub_sessions)){
+        if (!is_array($sub_sessions)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -266,11 +265,11 @@ class SessionController extends CustomController
             Attributes::PAYMENT_METHOD => $payment_method,
             Attributes::STATUS => SessionStatus::UNPAID,
             Attributes::TOTAL_PRICE => $total_price,
-        ],[
+        ], [
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
 
-        foreach ($sub_sessions as $sub_session){
+        foreach ($sub_sessions as $sub_session) {
 
             $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
             $date = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::DATE, null, CastingTypes::STRING);
@@ -332,7 +331,7 @@ class SessionController extends CustomController
                 Attributes::IS_OUTDOOR => $is_outdoor,
                 Attributes::TOTAL_PRICE => $total_price,
                 Attributes::EXTRA_PEOPLE => $extra_people
-            ],[
+            ], [
                 Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID
             ]);
 
@@ -362,7 +361,7 @@ class SessionController extends CustomController
                         Attributes::FAMILY_ID => $user->family_id,
                         Attributes::SESSION_ID => $sub_session->id,
                         Attributes::PACKAGE_ID => $sub_session->package_id
-                    ],[
+                    ], [
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
                 }
@@ -378,7 +377,7 @@ class SessionController extends CustomController
                         Attributes::FAMILY_ID => $user->family_id,
                         Attributes::SESSION_ID => $sub_session->id,
                         Attributes::PACKAGE_ID => $sub_session->package_id
-                    ],[
+                    ], [
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
                 }
@@ -394,13 +393,11 @@ class SessionController extends CustomController
                         Attributes::FAMILY_ID => $user->family_id,
                         Attributes::SESSION_ID => $sub_session->id,
                         Attributes::PACKAGE_ID => $sub_session->package_id
-                    ],[
+                    ], [
                         Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                     ]);
                 }
             }
-
-
 
         }
 
@@ -409,13 +406,11 @@ class SessionController extends CustomController
             Attributes::ID => $session->id
         ]);
 
-        if(!empty($session->id)){
+        if (!empty($session->id)) {
             return $this->listAll();
         }
 
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
-
-
 
     }
 
@@ -472,9 +467,9 @@ class SessionController extends CustomController
         $sessions = Session::sessions();
         if (!empty($id)) {
             $sessions = $sessions->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
-        }elseif (!empty($ids)) {
+        } elseif (!empty($ids)) {
             $sessions = $sessions->whereIn(Attributes::ID, $ids)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
-        }  else {
+        } else {
             $sessions = $sessions->paid()->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
         }
 
@@ -489,7 +484,7 @@ class SessionController extends CustomController
 
         // get related reviews
         $reviews = $sessions->map->reviews;
-        $reviews = $reviews->flatten()->filter();
+        $reviews = $reviews->where(Attributes::STATUS, ReviewStatus::ACTIVE)->flatten()->filter();
 
         // get related packages
         $packages = $sessions->map->package;
@@ -501,10 +496,10 @@ class SessionController extends CustomController
 
         // image examples
         $media = collect();
-        foreach ( $sessions->map->media  as $session_media){
+        foreach ($sessions->map->media as $session_media) {
             $media->add($session_media);
         }
-        foreach ( $sub_session->map->media  as $sub_session_media){
+        foreach ($sub_session->map->media as $sub_session_media) {
             $media->add($sub_session_media);
         }
         $media = $media->flatten()->filter()->unique(Attributes::ID);
@@ -560,12 +555,14 @@ class SessionController extends CustomController
             Attributes::PACKAGE_ID => $session->package_id,
             Attributes::USER_IMAGE => $user->avatar,
             Attributes::USER_NAME => $user->full_name,
+            Attributes::STATUS => ReviewStatus::PENDING,
         ]);
 
+        $updated_reviews = $session->reviews->where(Attributes::STATUS, ReviewStatus::ACTIVE);
         // return response
         if (is_a($review, Review::class)) {
             return GlobalHelpers::formattedJSONResponse(Messages::REVIEW_SUBMITTED, [
-                Attributes::REVIEWS => Review::returnTransformedItems($session->reviews, ListReviewsTransformer::class),
+                Attributes::REVIEWS => Review::returnTransformedItems($updated_reviews, ListReviewsTransformer::class),
             ], null, Response::HTTP_OK);
         }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
@@ -763,7 +760,7 @@ xox";
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
             if (!is_null($promotion)) {
                 // check if the package id doesn't match the current session package id and if it is not 0 -> then it is false since "0" is All packages
-                if($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL){
+                if ($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL) {
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
                 }
                 // and check the valid until date for the promotion
@@ -825,16 +822,16 @@ xox";
         $full_answer = null;
 
         $data = $this->request->all();
-        foreach ($data as $item){
+        foreach ($data as $item) {
 
             $question_id = $item[Attributes::QUESTION_ID] ?? null;
             $answer = $item[Attributes::ANSWER] ?? null;
 
-            if(!empty($question_id) && !empty($answer)){
+            if (!empty($question_id) && !empty($answer)) {
 
                 /** @var FeedbackQuestion $question */
                 $question = FeedbackQuestion::find($question_id);
-                if(!is_null($question)){
+                if (!is_null($question)) {
 
                     $full_answer = $full_answer . "- " . $question->question . "\n" . $answer . "\n\n";
 
@@ -851,7 +848,7 @@ xox";
             Attributes::SESSION_ID => $session->id,
             Attributes::PACKAGE_ID => $session->package_id,
             Attributes::ANSWER => rtrim($full_answer),
-        ],[
+        ], [
             Attributes::USER_ID, Attributes::SESSION_ID
         ]);
 
@@ -898,24 +895,23 @@ xox";
         $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PROMO_CODE, null, CastingTypes::STRING);
 
 
-
-        if($session->status == SessionStatus::UNPAID){
+        if ($session->status == SessionStatus::UNPAID) {
             $session->status = SessionStatus::BOOKED;
             $save_session = $session->save();
-            if($save_session){
+            if ($save_session) {
 
                 //get all sub_sessions and confirm them
                 $sub_sessions = $session->subSessions()->get();
-                foreach ($sub_sessions as $sub_session){
+                foreach ($sub_sessions as $sub_session) {
                     $sub_session->status = SessionStatus::BOOKED;
                     $save_sub_session = $sub_session->save();
-                    if(!$save_sub_session){
+                    if (!$save_sub_session) {
                         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_UPDATE_STATUS, null, null, Response::HTTP_BAD_REQUEST);
                     }
                 }
 
                 //check promo code
-                if(!is_null($promo_code)){
+                if (!is_null($promo_code)) {
                     // get promotion
                     /** @var Promotion $promotion */
                     $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
@@ -929,13 +925,13 @@ xox";
                                 Attributes::SESSION_ID => $session->id,
                                 Attributes::STATUS => PromotionStatus::INACTIVE,
                                 Attributes::PROMO_CODE => $promotion->promo_code
-                            ],[
+                            ], [
                                 Attributes::USER_ID,
                                 Attributes::PROMO_CODE,
                             ]);
 
 
-                            if(!$promo_code_update){
+                            if (!$promo_code_update) {
                                 return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
                             }
                         }
@@ -949,7 +945,7 @@ xox";
                     ], null, Response::HTTP_OK);
                 }
             }
-        }else{
+        } else {
             return GlobalHelpers::formattedJSONResponse(Messages::SESSION_ALREADY_CONFIRMED, null, null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -986,7 +982,7 @@ xox";
         $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
         $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
 
-        if(empty($date) || empty($time)){
+        if (empty($date) || empty($time)) {
             return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PARAMETERS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -1002,7 +998,7 @@ xox";
         $session->date = $date;
         $save_session = $session->save();
 
-        if($save_session){
+        if ($save_session) {
             if (is_a($session, Session::class)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                     Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
@@ -1043,7 +1039,7 @@ xox";
         $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
         $time = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TIME, null, CastingTypes::STRING);
 
-        if(empty($date) || empty($time)){
+        if (empty($date) || empty($time)) {
             return GlobalHelpers::formattedJSONResponse(Messages::INVALID_PARAMETERS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -1054,21 +1050,21 @@ xox";
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-       $save_appointment = Appointment::createOrUpdate([
-        Attributes::USER_ID => $user->id,
-        Attributes::SESSION_ID => $session->id,
-        Attributes::DATE => $date,
-        Attributes::TIME => $time,
-    ],[
-        Attributes::USER_ID,
-        Attributes::SESSION_ID
-       ]);
+        $save_appointment = Appointment::createOrUpdate([
+            Attributes::USER_ID => $user->id,
+            Attributes::SESSION_ID => $session->id,
+            Attributes::DATE => $date,
+            Attributes::TIME => $time,
+        ], [
+            Attributes::USER_ID,
+            Attributes::SESSION_ID
+        ]);
 
-            if (is_a($session, Session::class) && $save_appointment) {
-                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_APPOINTMENT_BOOKED, [
-                    Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
-                ], null, Response::HTTP_OK);
-            }
+        if (is_a($session, Session::class) && $save_appointment) {
+            return GlobalHelpers::formattedJSONResponse(Messages::SESSION_APPOINTMENT_BOOKED, [
+                Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
+            ], null, Response::HTTP_OK);
+        }
 
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }

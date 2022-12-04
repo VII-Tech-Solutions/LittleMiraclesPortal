@@ -5,6 +5,7 @@ namespace App\Models;
 use App\API\Transformers\BenefitTransformer;
 use App\API\Transformers\SubPackagesTransformer;
 use App\Constants\Attributes;
+use App\Constants\ReviewStatus;
 use App\Constants\SessionPackageTypes;
 use App\Constants\Tables;
 use App\Helpers;
@@ -95,7 +96,7 @@ class Package extends CustomModel
      * @return int
      */
     function getRatingAttribute(){
-        $avg = $this->reviews()->pluck(Attributes::RATING)->filter()->avg();
+        $avg = $this->reviews()->where(Attributes::STATUS,ReviewStatus::ACTIVE)->pluck(Attributes::RATING)->filter()->avg();
         if(is_null($avg)){
             return "0.0";
         }
