@@ -106,10 +106,10 @@ class PaymentHelpers
                 "merchant_id" => $merchant_id ?? null,
                 "transaction_id" => $transaction->id,
                 "success_indicator" => $response_body->successIndicator ?? null,
-                Attributes::DESCRIPTION => "Credimax Little Miracles",
+                Attributes::DESCRIPTION => "Credimax Little Miracles"
             ]);
-            dd($query);
-            $payment_url = env('APP_URL') . "/api/payment/redirect?$query";
+            $stringQuery = collect($query)->toJson();
+            $payment_url = env('APP_URL') . "/api/payment/redirect?$stringQuery";
         } else {
             $success_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
