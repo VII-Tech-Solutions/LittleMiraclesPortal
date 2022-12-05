@@ -115,7 +115,7 @@ class PaymentHelpers
             $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $payment_url = self::generateBenefitPaymentLink($amount, $transaction->id, $customer_name, $customer_phone_number, $success_url, $error_url);
         }
-
+dd($payment_url);
         return [
             Attributes::PAYMENT_URL => $payment_url,
             Attributes::TRANSACTION => $transaction,
