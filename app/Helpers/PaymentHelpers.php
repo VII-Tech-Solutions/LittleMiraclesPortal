@@ -101,15 +101,21 @@ class PaymentHelpers
                 $transaction->save();
             }
 
-            $query = http_build_query([
-                "session_id" => Crypt::encryptString($session_id),
-                "merchant_id" => $merchant_id ?? null,
-                "transaction_id" => $transaction->id,
-                "success_indicator" => $response_body->successIndicator ?? null,
-                Attributes::DESCRIPTION => "Credimax Little Miracles"
-            ]);
-            $stringQuery = collect($query)->toJson();
-            $payment_url = env('APP_URL') . "/api/payment/redirect?$stringQuery";
+            try {
+
+
+                $query = http_build_query([
+                    "session_id" => Crypt::encryptString($session_id),
+                    "merchant_id" => $merchant_id ?? null,
+                    "transaction_id" => $transaction->id,
+                    "success_indicator" => $response_body->successIndicator ?? null,
+                    Attributes::DESCRIPTION => "Credimax Little Miracles"
+                ]);
+                $stringQuery = collect($query)->toJson();
+                $payment_url = env('APP_URL') . "/api/payment/redirect?$stringQuery";
+            } catch (Exception $e) {
+                dd($e->getMessage());
+            }
         } else {
             $success_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
