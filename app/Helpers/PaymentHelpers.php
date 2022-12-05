@@ -81,19 +81,25 @@ class PaymentHelpers
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
                 'form_params' => $create_session_data,
             ]);
-//            dd($response);
-//            dd($response->getBody()->getContents());
-            $response_body = json_encode($response->getBody()->getContents());
-            $response_data = array();
-            // todo check how to extract data
-            foreach (explode("&", $response_body) as $data) {
-                $response_result = (explode("=", $data));
-                $response_data[$response_result[0]] = str_replace('"', '', $response_result[1]);
-            }
-            $request_response_result = $response_data['result']; #return SUCCESS or FAIL
-            if ($request_response_result == 'SUCCESS') {
-                $session_id = $response_data['session.id'];
-                $transaction->success_indicator = $response_data['successIndicator'];
+
+            $response_body = Helpers::parseQuery($response->getBody()->getContents());
+            $request_response_result = $response_body['result']; #return SUCCESS or FAIL
+
+//            // todo check how to extract data
+//            foreach (explode("&", $request_response_result) as $data) {
+//                $response_result = (explode("=", $data));
+//                $response_data[$response_result[0]] = str_replace('"', '', $response_result[1]);
+//            }
+
+//            if ($request_response_result == 'SUCCESS') {
+//                $session_id = $response_data['session.id'];
+//                $transaction->success_indicator = $response_data['successIndicator'];
+//                $transaction->save();
+//            }
+
+            if ($request_response_result == 'SUCCESS' && !is_null($merchant_id)) {
+                $session_id = $response_body['session.id'];
+                $transaction->success_indicator = $response_body['successIndicator'];
                 $transaction->save();
             }
 

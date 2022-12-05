@@ -89,4 +89,47 @@ class Helpers
     {
         return ucwords(strtolower(str_replace("_", " ", $text)));
     }
+
+    /**
+     * Parse Query
+     * @param $str
+     * @param $urlEncoding
+     * @return array
+     */
+    static function parseQuery($str, $urlEncoding = true)
+    {
+        $result = [];
+
+        if ($str === '') {
+            return $result;
+        }
+
+        if ($urlEncoding === true) {
+            $decoder = function ($value) {
+                return rawurldecode(str_replace('+', ' ', $value));
+            };
+        } elseif ($urlEncoding === PHP_QUERY_RFC3986) {
+            $decoder = 'rawurldecode';
+        } elseif ($urlEncoding === PHP_QUERY_RFC1738) {
+            $decoder = 'urldecode';
+        } else {
+            $decoder = function ($str) { return $str; };
+        }
+
+        foreach (explode('&', $str) as $kvp) {
+            $parts = explode('=', $kvp, 2);
+            $key = $decoder($parts[0]);
+            $value = isset($parts[1]) ? $decoder($parts[1]) : null;
+            if (!isset($result[$key])) {
+                $result[$key] = $value;
+            } else {
+                if (!is_array($result[$key])) {
+                    $result[$key] = [$result[$key]];
+                }
+                $result[$key][] = $value;
+            }
+        }
+
+        return $result;
+    }
 }
