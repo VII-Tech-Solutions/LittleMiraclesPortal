@@ -26,7 +26,6 @@ class PaymentHelpers
      * Generate Payment Link
      * @param Order $order
      * @param $payment_method
-     * @return array|JsonResponse
      */
     static function generatePaymentLink(Order $order, $payment_method)
     {
