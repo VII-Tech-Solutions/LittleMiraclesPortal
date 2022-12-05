@@ -82,7 +82,7 @@ class PaymentHelpers
                 'form_params' => $create_session_data,
             ]);
 
-            dd($response->getBody()->getContents());
+//            dd($response->getBody()->getContents());
             $response_body = json_encode($response->getBody()->getContents());
             $response_data = array();
             // todo check how to extract data
