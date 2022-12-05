@@ -68,7 +68,7 @@ class PaymentHelpers
                 "apiUsername" => "merchant." . env('MERCHANT_ID'),
                 "interaction.returnUrl" => $process_url,
                 "interaction.merchant.name" => env('MERCHANT_MAME'),
-                "interaction.operation" => "PURCHASE",
+                "interaction.operation" => "AUTHORIZE",
                 "interaction.displayControl.billingAddress" => "HIDE",
                 "merchant" => env('MERCHANT_ID'),
                 "order.amount" => $amount,
