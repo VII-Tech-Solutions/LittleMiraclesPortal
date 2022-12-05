@@ -11,12 +11,12 @@ use App\Models\Helpers;
 use App\Models\Order;
 use App\Models\Transaction;
 use Dingo\Api\Http\Response;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Crypt;
 use VIITech\Helpers\GlobalHelpers;
-use Exception;
 use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class PaymentHelpers
@@ -81,8 +81,8 @@ class PaymentHelpers
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
                 'form_params' => $create_session_data,
             ]);
-dd($response);
-            dd($response->getBody()->getContents());
+//            dd($response);
+//            dd($response->getBody()->getContents());
             $response_body = json_encode($response->getBody()->getContents());
             $response_data = array();
             // todo check how to extract data
