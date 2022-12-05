@@ -81,7 +81,7 @@ class PaymentHelpers
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
                 'form_params' => $create_session_data,
             ]);
-
+dd($response);
             dd($response->getBody()->getContents());
             $response_body = json_encode($response->getBody()->getContents());
             $response_data = array();
