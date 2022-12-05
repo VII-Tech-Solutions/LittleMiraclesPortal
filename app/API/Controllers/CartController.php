@@ -259,7 +259,7 @@ class CartController extends CustomController
         }
 
         list(Attributes::TRANSACTION => $transaction, Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
-
+        dd($payment_url);
         // return response
         return Helpers::returnResponse([
             Attributes::PAYMENT_URL => $payment_url

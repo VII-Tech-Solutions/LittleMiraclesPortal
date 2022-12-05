@@ -102,8 +102,6 @@ class PaymentHelpers
             }
 
             try {
-
-
                 $query = http_build_query([
                     "session_id" => Crypt::encryptString($session_id),
                     "merchant_id" => $merchant_id ?? null,
