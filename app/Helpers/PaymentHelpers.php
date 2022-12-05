@@ -109,8 +109,7 @@ class PaymentHelpers
                     "success_indicator" => $response_body->successIndicator ?? null,
                     Attributes::DESCRIPTION => "Credimax Little Miracles"
                 ]);
-                $stringQuery = collect($query)->toJson();
-                $payment_url = env('APP_URL') . "/api/payment/redirect?$stringQuery";
+                $payment_url = env('APP_URL') . "/api/payment/redirect?$query";
             } catch (Exception $e) {
                 dd($e->getMessage());
             }
