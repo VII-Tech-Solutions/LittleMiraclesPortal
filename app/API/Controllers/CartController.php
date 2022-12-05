@@ -258,11 +258,12 @@ class CartController extends CustomController
             $item->save();
         }
 
-        list(Attributes::TRANSACTION => $transaction, Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
-        dd($payment_url);
+//        list(Attributes::TRANSACTION => $transaction,
+//            Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
+
         // return response
         return Helpers::returnResponse([
-            Attributes::PAYMENT_URL => $payment_url
+            Attributes::PAYMENT_URL => PaymentHelpers::generatePaymentLink($order, $payment_method)
         ]);
 //        return GlobalHelpers::formattedJSONResponse(Messages::ORDER_CREATED, null, null, Response::HTTP_OK);
     }
