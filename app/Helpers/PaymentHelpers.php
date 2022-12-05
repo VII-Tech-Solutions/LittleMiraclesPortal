@@ -14,7 +14,6 @@ use Dingo\Api\Http\Response;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Crypt;
 use VIITech\Helpers\GlobalHelpers;
 use function Webmozart\Assert\Tests\StaticAnalysis\null;
@@ -106,16 +105,17 @@ class PaymentHelpers
                 "session_id" => Crypt::encryptString($session_id),
                 "merchant_id" => $merchant_id ?? null,
                 "transaction_id" => $transaction->id,
-                "success_indicator" => $response_body->successIndicator ?? null
+                "success_indicator" => $response_body->successIndicator ?? null,
+                Attributes::DESCRIPTION => "Credimax Little Miracles",
             ]);
-
+            dd($query);
             $payment_url = env('APP_URL') . "/api/payment/redirect?$query";
         } else {
             $success_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $payment_url = self::generateBenefitPaymentLink($amount, $transaction->id, $customer_name, $customer_phone_number, $success_url, $error_url);
         }
-dd($payment_url);
+
         return [
             Attributes::PAYMENT_URL => $payment_url,
             Attributes::TRANSACTION => $transaction,
