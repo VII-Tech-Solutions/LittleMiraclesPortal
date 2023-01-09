@@ -95,7 +95,6 @@ class BenefitController extends CustomController
                 ]
             ], 500);
         } else {
-            dd($ipay_benefit_pipe->getwebAddress());
             return response()->json([
                 Attributes::SUCCESS => true,
                 Attributes::DATA => [
