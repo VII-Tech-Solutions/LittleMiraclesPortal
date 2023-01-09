@@ -95,6 +95,7 @@ class BenefitController extends CustomController
                 ]
             ], 500);
         } else {
+            dd('here');
             return response()->json([
                 Attributes::SUCCESS => true,
                 Attributes::DATA => [
