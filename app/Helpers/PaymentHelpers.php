@@ -29,6 +29,7 @@ class PaymentHelpers
      */
     static function generatePaymentLink(Order $order, $payment_method)
     {
+        GlobalHelpers::debugger("PaymentHelpers@generatePaymentLink", DebuggerLevels::INFO);
         // process url
         $process_url = url('/api/payment/process');
 
@@ -76,6 +77,7 @@ class PaymentHelpers
                 "order.id" => $transaction->id,
             ];
 
+            GlobalHelpers::debugger(json_encode($create_session_data), DebuggerLevels::INFO);
             $client = new Client();
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
                 'form_params' => $create_session_data,
