@@ -23,7 +23,8 @@ class BenefitController extends CustomController
      * @param $benefit_data
      * @return \Illuminate\Http\JsonResponse
      */
-    static function checkout($benefit_data) {
+    static function checkout($benefit_data)
+    {
         require_once("Benefit/plugin/iPayBenefitPipe.php");
         $order_uid = Helpers::appendEnvNumber() . time() . Helpers::generateBigRandomNumber();
         $success_url = $benefit_data[Attributes::SUCCESS_URL];
@@ -341,7 +342,7 @@ class BenefitController extends CustomController
 
     /**
      * Declined
-     * @return RedirectResponse|View
+     * @return Transaction
      */
     function declined()
     {
@@ -410,7 +411,7 @@ class BenefitController extends CustomController
 
     /**
      * Error
-     * @return RedirectResponse|View
+     * @return Transaction
      */
     function error()
     {
@@ -421,51 +422,46 @@ class BenefitController extends CustomController
 
     /**
      * Show Result
-     * @return RedirectResponse|View
+     * @param $success
+     * @param $error_message
+     * @return Transaction
      */
     function showResult($success, $error_message = null)
     {
 
         // get values
         $payment_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENTID, null, CastingTypes::STRING);
-        $order_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TRACKID, null, CastingTypes::STRING);
-        $order_uid = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::UDF3, null, CastingTypes::STRING);
+        $transaction_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TRACKID, null, CastingTypes::STRING);
 
         if (empty($error_message)) {
             $error_message = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ERRORTEXT, null, CastingTypes::STRING);
         }
 
         // get the order
-        /** @var Transaction $order */
-        $order = Transaction::where(Attributes::GATEWAY, PaymentGateways::BENEFIT)
+        /** @var Transaction $transaction */
+        $transaction = Transaction::where(Attributes::GATEWAY, PaymentGateways::BENEFIT)
             ->where(Attributes::STATUS, PaymentStatus::AWAITING_PAYMENT)
-            ->where(Attributes::ORDER_ID, $order_id);
+            ->where(Attributes::ID, $transaction_id)->first();
 
-        if (!is_null($order_uid)) {
-            $order = $order->where(Attributes::UID, $order_uid);
-        }
-
-//        $order = $order->first();
-
-        if (!is_null($order)) {
+        if (!is_null($transaction)) {
             // update order
-            $order->status = $success ? PaymentStatus::CONFIRMED : PaymentStatus::REJECTED;
-            $order->error_message = $error_message;
-            $order->payment_id = $payment_id;
-            $order->save();
-
-            // redirect to page
-            if ($success) {
-                return redirect()->to($order->success_url);
-            } else {
-                return redirect()->to($order->error_url);
-            }
+            $transaction->status = $success ? PaymentStatus::CONFIRMED : PaymentStatus::REJECTED;
+            $transaction->error_message = $error_message;
+            $transaction->payment_id = $payment_id;
+            $transaction->save();
         }
 
-        if ($success) {
-            return view('success');
-        }
-        return view('error');
+        return $transaction;
     }
 
+
+    /**
+     * Get Data
+     * @param $key
+     * @return mixed
+     */
+    function getData($key)
+    {
+        return GlobalHelpers::getValueFromHTTPRequest($this->request, $key, null, CastingTypes::STRING);
+    }
 }

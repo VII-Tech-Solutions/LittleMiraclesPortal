@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Constants\Attributes;
 use App\Constants\Messages;
+use App\Constants\PaymentGateways;
 use App\Constants\PaymentMethods;
 use App\Constants\Values;
 use App\Http\Controllers\BenefitController;
@@ -53,6 +54,8 @@ class PaymentHelpers
         if ($payment_method == PaymentMethods::CREDIT_CARD) {
             // todo success_url
             // todo error_url
+            $transaction->gateway = PaymentGateways::CREDIMAX;
+            $transaction->save();
 
             // get merchant id and api password
             $merchant_id = env('MERCHANT_ID');
@@ -103,11 +106,16 @@ class PaymentHelpers
                 ]);
                 $payment_url = env('APP_URL') . "/api/payment/redirect?$query";
             } catch (Exception $e) {
-                $e->getMessage();
+                return $e->getMessage();
             }
         } else {
             $success_url = url("/api/payments/verify-benefit?order_id=$order->id");
             $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
+            $transaction->success_url = $success_url;
+            $transaction->error_url = $error_url;
+            $transaction->gateway = PaymentGateways::BENEFIT;
+            $transaction->save();
+
             $payment_url = self::generateBenefitPaymentLink($amount, $transaction->id, $customer_name, $customer_phone_number, $success_url, $error_url);
         }
 
@@ -136,8 +144,8 @@ class PaymentHelpers
                 Attributes::TRACKID => $transaction_id,
                 Attributes::CUSTOMER_NAME => $customer_name,
                 Attributes::CUSTOMER_PHONE_NUMBER => $customer_phone_number,
-                Attributes::PAYMENT_SECRET => env('BENEFIT_PAYMENT_SECRET'),
-                Attributes::BENEFIT_MIDDLEWARE_TOKEN => env('BENEFIT_PAYMENT_SECRET'),
+                Attributes::PAYMENT_SECRET => env('PAYMENT_SECRET'),
+                Attributes::BENEFIT_MIDDLEWARE_TOKEN => env('PAYMENT_SECRET'),
                 Attributes::SUCCESS_URL => $success_url,
                 Attributes::ERROR_URL => $error_url,
                 Attributes::MERCHANT_ID => env('BENEFIT_MERCHANT_ID'),
