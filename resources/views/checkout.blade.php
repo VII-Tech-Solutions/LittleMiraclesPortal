@@ -37,8 +37,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{--    <script src="https://{{$gateway_name}}.gateway.mastercard.com/static/checkout/checkout.min.js" data-error="errorCallback" data-cancel="cancelCallback"></script>--}}
-    <script src="https://afs.gateway.mastercard.com/checkout/version/60/checkout.js" data-error="errorCallback"
-            data-cancel="cancelCallback"></script>
+    <script src="https://credimax.gateway.mastercard.com/static/checkout/checkout.min.js" data-error="errorCallback" data-cancel="cancelCallback"></script>
     <script type="text/javascript">
         function errorCallback(error) {
             console.log(JSON.stringify(error));
@@ -50,24 +49,9 @@
         }
 
         Checkout.configure({
-            merchant: '{{ $merchant_id }}',
-            order: {
-                amount: '{{ $amount }}',
-                currency: '{{ $currency }}',
-                description: '{{ $description }}',
-            },
             session: {
                 id: '{{ $session_id }}'
             },
-            interaction: {
-                merchant: {
-                    name: '{{ $merchant_name }}',
-                },
-                displayControl: {
-                    billingAddress: 'HIDE'
-                },
-                operation: "PURCHASE"
-            }
         });
     </script>
 </head>

@@ -313,7 +313,7 @@ class CartController extends CustomController
 
         // return payment page
         return view('checkout', [
-            "merchant_name" => env(''),
+            "merchant_name" => env('MERCHANT_MAME'),
             "session_id" => Crypt::decryptString($session_id),
             "merchant_id" => $merchant_id,
             "gateway_name" => $transaction->gateway,

@@ -103,7 +103,7 @@ $api->version('v1', function ($api) {
         $api->delete('/cart/{id}', 'CartController@removeCartItem')->middleware('allowed_user:true'); // Remove Cart Item
         $api->post('/cart/promotion', 'CartController@applyPromoCode')->middleware('allowed_user:true'); // Apply Promo Code
         $api->post('/checkout', 'CartController@checkout')->middleware('allowed_user:true'); // Checkout
-        $api->post('/payment/redirect', 'CartController@redirectPayment')->middleware('allowed_user:true'); // Checkout
+        $api->get('/payment/redirect', 'CartController@redirectPayment')->middleware('allowed_user:true'); // Checkout
         $api->post('/payment/process', 'CartController@processCheckout')->middleware('allowed_user:true'); // Checkout
 
         /*******************************
