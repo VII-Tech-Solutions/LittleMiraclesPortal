@@ -15,6 +15,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Crypt;
+use VIITech\Helpers\Constants\DebuggerLevels;
 use VIITech\Helpers\GlobalHelpers;
 use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
@@ -81,6 +82,7 @@ class PaymentHelpers
             ]);
 
             $response_body = Helpers::parseQuery($response->getBody()->getContents());
+            GlobalHelpers::debugger(json_encode($response_body), DebuggerLevels::INFO);
             $request_response_result = $response_body['result']; #return SUCCESS or FAIL
 
             if ($request_response_result == 'SUCCESS' && !is_null($merchant_id)) {
@@ -132,11 +134,11 @@ class PaymentHelpers
                 Attributes::TRACKID => $transaction_id,
                 Attributes::CUSTOMER_NAME => $customer_name,
                 Attributes::CUSTOMER_PHONE_NUMBER => $customer_phone_number,
-                Attributes::PAYMENT_SECRET => env('PAYMENT_SECRET'),
-                Attributes::BENEFIT_MIDDLEWARE_TOKEN => env('PAYMENT_SECRET'),
+                Attributes::PAYMENT_SECRET => env('BENEFIT_PAYMENT_SECRET'),
+                Attributes::BENEFIT_MIDDLEWARE_TOKEN => env('BENEFIT_PAYMENT_SECRET'),
                 Attributes::SUCCESS_URL => $success_url,
                 Attributes::ERROR_URL => $error_url,
-                Attributes::MERCHANT_ID => env('MERCHANT_ID'),
+                Attributes::MERCHANT_ID => env('BENEFIT_MERCHANT_ID'),
                 Attributes::DESCRIPTION => "Little Miracles"
             ];
 
