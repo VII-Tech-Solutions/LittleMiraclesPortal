@@ -154,7 +154,6 @@ class PaymentHelpers
 
             $url = BenefitController::checkout($benefit_request_data);
             $response_body = json_decode($url->getContent());
-            dd($response_body);
             return $response_body->data->payment_page ?? null;
         } catch (Exception|GuzzleException $e) {
             Helpers::captureException($e);
