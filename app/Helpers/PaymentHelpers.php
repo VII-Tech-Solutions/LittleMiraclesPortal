@@ -83,18 +83,6 @@ class PaymentHelpers
             $response_body = Helpers::parseQuery($response->getBody()->getContents());
             $request_response_result = $response_body['result']; #return SUCCESS or FAIL
 
-//            // todo check how to extract data
-//            foreach (explode("&", $request_response_result) as $data) {
-//                $response_result = (explode("=", $data));
-//                $response_data[$response_result[0]] = str_replace('"', '', $response_result[1]);
-//            }
-
-//            if ($request_response_result == 'SUCCESS') {
-//                $session_id = $response_data['session.id'];
-//                $transaction->success_indicator = $response_data['successIndicator'];
-//                $transaction->save();
-//            }
-
             if ($request_response_result == 'SUCCESS' && !is_null($merchant_id)) {
                 $session_id = $response_body['session.id'];
                 $transaction->success_indicator = $response_body['successIndicator'];
