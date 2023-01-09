@@ -10,7 +10,7 @@ class Values extends CustomEnum
     const DEFAULT_TIMEZONE = "Asia/Bahrain";
     const CARBON_HOUR_FORMAT = "g:i A";
     const CARBON_DATE_FORMAT = "Y-m-d";
-    const TEST_AMOUNT = 1.000;
+    const TEST_AMOUNT = 0.1;
 
     // FCM
     const FCM_DEFAULT_TOPIC = "lms";
