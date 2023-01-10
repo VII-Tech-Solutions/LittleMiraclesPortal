@@ -110,7 +110,7 @@ $api->version('v1', function ($api) {
          * Orders
          *******************************/
         $api->get('/orders', 'CartController@listOrders')->middleware('allowed_user:true'); // List Orders
-        $api->post('/benefit/process', '\App\Http\Controllers\BenefitController@process')->middleware('allowed_user:true'); // List Orders
+        $api->get('/benefit/process', '\App\Http\Controllers\BenefitController@process')->middleware('allowed_user:true'); // List Orders
 
     });
 

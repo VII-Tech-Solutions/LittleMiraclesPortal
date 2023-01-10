@@ -87,7 +87,6 @@ class PaymentHelpers
             ]);
 
             $response_body = Helpers::parseQuery($response->getBody()->getContents());
-dd($response_body);
             GlobalHelpers::debugger(json_encode($response_body), DebuggerLevels::INFO);
             $request_response_result = $response_body['result']; #return SUCCESS or FAIL
 
