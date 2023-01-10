@@ -52,7 +52,6 @@ class BenefitController extends CustomController
         $merchant_id_from_alias = str_replace(env("BENEFIT_ENVIRONMENT", "test"), "", $merchant_id_from_alias);
         $merchant_id_from_alias = str_replace("test", "", $merchant_id_from_alias);
         $merchant_id_from_alias = str_replace("prod", "", $merchant_id_from_alias);
-        dd($merchant_id, $merchant_id_from_alias);
         if ($merchant_id != $merchant_id_from_alias) {
             return response()->json([
                 Attributes::DATA => [
@@ -86,7 +85,7 @@ class BenefitController extends CustomController
         // However, we recommend setting theses optional fields with invoice/product/customer identification information as they will be reflected in “BENEFIT Payment Gateway” portal where you will be able to link transactions to respective customers. This is helpful for dispute cases.
         $ipay_benefit_pipe->setUdf2($customer_phone_number);
         $ipay_benefit_pipe->setUdf3($order_uid);
-
+dd($ipay_benefit_pipe);
         // todo update transaction
 
         if (trim($ipay_benefit_pipe->performPaymentInitializationHTTP()) != 0) {
