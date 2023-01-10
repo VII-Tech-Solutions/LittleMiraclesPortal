@@ -85,7 +85,7 @@ class BenefitController extends CustomController
         // However, we recommend setting theses optional fields with invoice/product/customer identification information as they will be reflected in “BENEFIT Payment Gateway” portal where you will be able to link transactions to respective customers. This is helpful for dispute cases.
         $ipay_benefit_pipe->setUdf2($customer_phone_number);
         $ipay_benefit_pipe->setUdf3($order_uid);
-dd($ipay_benefit_pipe);
+
         // todo update transaction
 
         if (trim($ipay_benefit_pipe->performPaymentInitializationHTTP()) != 0) {
