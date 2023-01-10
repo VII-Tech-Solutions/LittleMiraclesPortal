@@ -52,6 +52,7 @@ class BenefitController extends CustomController
         $merchant_id_from_alias = str_replace(env("BENEFIT_ENVIRONMENT", "test"), "", $merchant_id_from_alias);
         $merchant_id_from_alias = str_replace("test", "", $merchant_id_from_alias);
         $merchant_id_from_alias = str_replace("prod", "", $merchant_id_from_alias);
+        dd($merchant_id, $merchant_id_from_alias);
         if ($merchant_id != $merchant_id_from_alias) {
             return response()->json([
                 Attributes::DATA => [
