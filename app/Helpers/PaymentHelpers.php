@@ -70,7 +70,7 @@ class PaymentHelpers
                 "apiPassword" => env('PAYMENT_SECRET'),
                 "apiUsername" => "merchant." . env('MERCHANT_ID'),
                 "interaction.returnUrl" => $process_url,
-                "interaction.merchant.name" => env('MERCHANT_MAME'),
+                "interaction.merchant.name" => env('MERCHANT_NAME'),
                 "interaction.operation" => "AUTHORIZE",
                 "interaction.displayControl.billingAddress" => "HIDE",
                 "merchant" => env('MERCHANT_ID'),
@@ -87,6 +87,7 @@ class PaymentHelpers
             ]);
 
             $response_body = Helpers::parseQuery($response->getBody()->getContents());
+dd($response_body);
             GlobalHelpers::debugger(json_encode($response_body), DebuggerLevels::INFO);
             $request_response_result = $response_body['result']; #return SUCCESS or FAIL
 
