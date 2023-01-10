@@ -79,7 +79,7 @@ class PaymentHelpers
                 "order.description" => "Booking",
                 "order.id" => $transaction->id,
             ];
-dd($create_session_data);
+
             GlobalHelpers::debugger(json_encode($create_session_data), DebuggerLevels::INFO);
             $client = new Client();
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
