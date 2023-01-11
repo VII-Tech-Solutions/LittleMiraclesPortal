@@ -71,7 +71,7 @@ class PaymentHelpers
                 "apiUsername" => "merchant." . env('MERCHANT_ID'),
                 "interaction.returnUrl" => $process_url,
                 "interaction.merchant.name" => env('MERCHANT_NAME'),
-                "interaction.operation" => "AUTHORIZE",
+                "interaction.operation" => "PURCHASE",
                 "interaction.displayControl.billingAddress" => "HIDE",
                 "merchant" => env('MERCHANT_ID'),
                 "order.amount" => $amount,
@@ -85,7 +85,6 @@ class PaymentHelpers
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
                 'form_params' => $create_session_data,
             ]);
-
             $response_body = Helpers::parseQuery($response->getBody()->getContents());
             GlobalHelpers::debugger(json_encode($response_body), DebuggerLevels::INFO);
             $request_response_result = $response_body['result']; #return SUCCESS or FAIL
