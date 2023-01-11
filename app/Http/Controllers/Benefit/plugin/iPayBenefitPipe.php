@@ -1121,7 +1121,7 @@ class iPayBenefitPipe
 
             return $xmlData;
         } catch (Exception $e) {
-            dd($e);
+            dd($e->getMessage());
             return null;
         }
     }
