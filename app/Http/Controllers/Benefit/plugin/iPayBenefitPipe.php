@@ -1029,12 +1029,12 @@ class iPayBenefitPipe
 
             $keyParser = new KeyStore();
             $this->key = $keyParser->parseKeyStore($this->keystorePath);
-
             $xmlData = $this->parseResource($this->key, $this->resourcePath, $this->alias);
 
 
             if ($xmlData != null) {
                 $xmlData = $this->parseXMLRequest($xmlData);
+                dd($xmlData);
             } else {
                 $error = "Alias name does not exits";
             }
