@@ -1030,7 +1030,7 @@ class iPayBenefitPipe
             $keyParser = new KeyStore();
             $this->key = $keyParser->parseKeyStore($this->keystorePath);
             $xmlData = $this->parseResource($this->key, $this->resourcePath, $this->alias);
-            dd($xmlData);
+            dd($this->key, $xmlData);
 
 
             if ($xmlData != null) {
