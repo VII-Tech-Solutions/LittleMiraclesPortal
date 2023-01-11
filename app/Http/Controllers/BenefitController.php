@@ -50,8 +50,8 @@ class BenefitController extends CustomController
         // validate merchant id
         $merchant_id_from_alias = Helpers::getBenefitAlias();
         $merchant_id_from_alias = str_replace(env("BENEFIT_ENVIRONMENT", "test"), "", $merchant_id_from_alias);
-        $merchant_id_from_alias = str_replace("test", "", $merchant_id_from_alias);
-        $merchant_id_from_alias = str_replace("prod", "", $merchant_id_from_alias);
+        $merchant_id_from_alias = str_replace("TEST", "", $merchant_id_from_alias);
+        $merchant_id_from_alias = str_replace("PROD", "", $merchant_id_from_alias);
         if ($merchant_id != $merchant_id_from_alias) {
             return response()->json([
                 Attributes::DATA => [
