@@ -100,7 +100,7 @@ class PaymentHelpers
                     "session_id" => Crypt::encryptString($session_id),
                     "merchant_id" => $merchant_id ?? null,
                     "transaction_id" => $transaction->id,
-                    "success_indicator" => $response_body->successIndicator ?? null,
+                    "success_indicator" => $response_body['successIndicator'] ?? null,
                     Attributes::DESCRIPTION => "Credimax Little Miracles"
                 ]);
                 $payment_url = env('APP_URL') . "/api/payment/redirect?$query";

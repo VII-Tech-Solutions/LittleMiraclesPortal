@@ -346,25 +346,14 @@ class CartController extends CustomController
         }
 
         if ($success) {
-            // todo redirect to approved page
-            $return_url = $transaction->success_url;
             $transaction->status = PaymentStatus::CONFIRMED;
             $transaction->save();
-        } else {
-            // todo redirect to declined page
-            $return_url = $transaction->error_url;
-        }
-
-        if (is_null($return_url) && !$success) {
-            // todo redirect to error page
-//            return view('error');
         }
 
         // redirect to url
         return Helpers::returnResponse([
-            Attributes::RETURN_URL => $return_url,
             Attributes::SUCCESS => $success,
-            Attributes::TRANSACTION_ID => $transaction->id
+            Attributes::TRANSACTION => $transaction
         ]);
     }
 }
