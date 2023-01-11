@@ -1118,6 +1118,7 @@ class iPayBenefitPipe
 
             $parseResouce->createCGZFromCGN();
 
+            dd($parseResouce);
             $xmlData = $parseResouce->readZip();
 
             return $xmlData;
