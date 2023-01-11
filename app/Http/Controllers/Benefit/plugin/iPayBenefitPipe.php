@@ -1030,7 +1030,6 @@ class iPayBenefitPipe
             $keyParser = new KeyStore();
             $this->key = $keyParser->parseKeyStore($this->keystorePath);
             $xmlData = $this->parseResource($this->key, $this->resourcePath, $this->alias);
-            dd($this->key, $xmlData);
 
 
             if ($xmlData != null) {
@@ -1118,7 +1117,7 @@ class iPayBenefitPipe
 
             $parseResouce->createCGZFromCGN();
 
-            dd($parseResouce->readZip());
+            dd($parseResouce->createCGZFromCGN());
             $xmlData = $parseResouce->readZip();
 
             return $xmlData;
