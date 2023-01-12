@@ -194,6 +194,7 @@ class BenefitController extends CustomController
         // Remove any HTML/CSS/javascript from the page. Also, you MUST NOT write anything on the page EXCEPT the word "REDIRECT=" (in upper-case only) followed by a URL.
         // If anything else is written on the page then you will not be able to complete the process.
 
+        dd($this->getData("ErrorText"));
         if ($myObj->getResult() == "CAPTURED") {
             $errorText = "";
             return "REDIRECT=" . url('/api/benefit/approved');
