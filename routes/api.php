@@ -113,7 +113,7 @@ $api->version('v1', function ($api) {
         $api->post('/benefit/process', '\App\Http\Controllers\BenefitController@process')->middleware('allowed_user:true'); // List Orders
         $api->post('/benefit/approved', '\App\Http\Controllers\BenefitController@approved');
         $api->post('/benefit/declined', '\App\Http\Controllers\BenefitController@declined');
-        $api->get('/benefit/error', '\App\Http\Controllers\BenefitController@error');
+        $api->post('/benefit/error', '\App\Http\Controllers\BenefitController@error');
 
     });
 
