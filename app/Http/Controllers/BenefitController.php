@@ -196,7 +196,7 @@ class BenefitController extends CustomController
 
         if ($myObj->getResult() == "CAPTURED") {
             $errorText = "";
-            return $this->approved();
+            return "REDIRECT=" . url('/api/benefit/approved');
         } else if ($myObj->getResult() == "NOT CAPTURED" || $myObj->getResult() == "CANCELED" || $myObj->getResult() == "DENIED BY RISK" || $myObj->getResult() == "HOST TIMEOUT") {
             if ($myObj->getResult() == "NOT CAPTURED") {
                 switch ($myObj->getAuthRespCode()) {
@@ -258,11 +258,11 @@ class BenefitController extends CustomController
                 $response = "Unable to process transaction temporarily. Try again later.";
             }
             $errorText = $response;
-            return $this->declined();
+            return "REDIRECT=" . url('/api/benefit/declined');
         } else {
             //Unable to process transaction temporarily. Try again later or try using another card.
             $errorText = "Unable to process transaction temporarily. Try again later or try using another card.";
-            return $this->error();
+            return "REDIRECT=" . url('/api/benefit/error');
         }
     }
 
