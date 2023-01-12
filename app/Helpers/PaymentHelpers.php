@@ -108,8 +108,8 @@ class PaymentHelpers
                 return $e->getMessage();
             }
         } else {
-            $success_url = url("/api/payments/verify-benefit?order_id=$order->id");
-            $error_url = url("/api/payments/verify-benefit?order_id=$order->id");
+            $success_url = url("/api/benefit/approved?order_id=$order->id");
+            $error_url = url("/api/benefit/declined?order_id=$order->id");
             $transaction->success_url = $success_url;
             $transaction->error_url = $error_url;
             $transaction->gateway = PaymentGateways::BENEFIT;

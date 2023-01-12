@@ -190,7 +190,7 @@ class BenefitController extends CustomController
         } else {
             $errorText = "Unknown Exception";
         }
-
+        dd($this->getData("ErrorText"));
 
         // Remove any HTML/CSS/javascript from the page. Also, you MUST NOT write anything on the page EXCEPT the word "REDIRECT=" (in upper-case only) followed by a URL.
         // If anything else is written on the page then you will not be able to complete the process.
@@ -269,7 +269,7 @@ class BenefitController extends CustomController
 
     /**
      * Approved
-     * @return RedirectResponse|View
+     * @return View
      */
     function approved()
     {
@@ -342,7 +342,7 @@ class BenefitController extends CustomController
 
     /**
      * Declined
-     * @return Transaction
+     * @return View
      */
     function declined()
     {
@@ -411,7 +411,7 @@ class BenefitController extends CustomController
 
     /**
      * Error
-     * @return Transaction
+     * @return View
      */
     function error()
     {
@@ -421,10 +421,10 @@ class BenefitController extends CustomController
     }
 
     /**
-     * Show Result
+     * Show Rmesult
      * @param $success
      * @param $error_message
-     * @return Transaction
+     * @return View
      */
     function showResult($success, $error_message = null)
     {
@@ -451,7 +451,10 @@ class BenefitController extends CustomController
             $transaction->save();
         }
 
-        return $transaction;
+        if ($success) {
+            return $this->viewResponsePage($transaction->success_url);
+        }
+        return $this->viewResponsePage($transaction->error_url);
     }
 
 
@@ -463,5 +466,14 @@ class BenefitController extends CustomController
     function getData($key)
     {
         return GlobalHelpers::getValueFromHTTPRequest($this->request, $key, null, CastingTypes::STRING);
+    }
+
+    /**
+     * View Response Page
+     * @param $url
+     * @return View
+     */
+    function viewResponsePage($url){
+        return view('response', ["url" => $url]);
     }
 }
