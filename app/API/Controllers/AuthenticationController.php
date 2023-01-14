@@ -220,6 +220,8 @@ class AuthenticationController extends CustomController
             Helpers::validateValueInCollection($user_info, $fields, Attributes::PHONE_NUMBER);
             Helpers::validateValueInCollection($user_info, $fields, Attributes::BIRTH_DATE);
             Helpers::validateValueInCollection($user_info, $fields, Attributes::PAST_EXPERIENCE);
+            Helpers::validateValueInCollection($user_info, $fields, Attributes::PRO_PAST_EXPERIENCE);
+            Helpers::validateValueInCollection($user_info, $fields, Attributes::HAPPY_PAST_EXPERIENCE);
 
             $fields->put(Attributes::ID, $user_id);
             $fields->put(Attributes::FAMILY_ID, $family_id);
