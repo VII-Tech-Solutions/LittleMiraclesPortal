@@ -403,7 +403,6 @@ class iPayBenefitPipe {
 		$context  = stream_context_create( $options );
 		$requestResult = file_get_contents( $this->endPoint, false, $context );
 		$response = json_decode($requestResult, true);
-        dd($response);
 
         if($response === false){
 			return 0;
