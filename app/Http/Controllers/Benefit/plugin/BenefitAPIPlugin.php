@@ -392,7 +392,6 @@ class iPayBenefitPipe {
 
 	function performeTransaction(){
 		$data = $this->createRequestData();
-        dd($data);
 		$options = array(
 		  'http' => array(
 			'method'  => 'POST',
@@ -404,7 +403,9 @@ class iPayBenefitPipe {
 		$context  = stream_context_create( $options );
 		$requestResult = file_get_contents( $this->endPoint, false, $context );
 		$response = json_decode($requestResult, true);
-		if($response === false){
+        dd($response);
+
+        if($response === false){
 			return 0;
 		}
 		else{
