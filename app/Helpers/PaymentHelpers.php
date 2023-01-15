@@ -132,7 +132,7 @@ class PaymentHelpers
      * @param $customer_phone_number
      * @param $success_url
      * @param $error_url
-     * @return null
+     * @return string
      */
     static function generateBenefitPaymentLink($amount, $transaction_id, $customer_name, $customer_phone_number, $success_url, $error_url)
     {
@@ -151,9 +151,7 @@ class PaymentHelpers
                 Attributes::DESCRIPTION => "Little Miracles"
             ];
 
-            $url = BenefitController::checkout($benefit_request_data);
-            $response_body = json_decode($url->getContent());
-            return $response_body->data->payment_page ?? null;
+            return BenefitController::checkout($benefit_request_data);
         } catch (Exception|GuzzleException $e) {
             Helpers::captureException($e);
         }

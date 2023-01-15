@@ -44,7 +44,7 @@ class BenefitController extends CustomController
         $pipe->setudf2($customer_phone_number);
         $pipe->setudf3($order_uid);
 
-        $pipe->settrackId($order_id);
+        $pipe->settrackId((string)$order_id);
         $pipe->setamt($amount);
         $isSuccess = $pipe->performeTransaction();
         if ($isSuccess == 1) {
