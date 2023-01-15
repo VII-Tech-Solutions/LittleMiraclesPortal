@@ -336,7 +336,6 @@ class iPayBenefitPipe {
 		));
 
 //		var_dump($FinalData);
-        dd($FinalData);
 		return $FinalData;
 	}
 
@@ -393,6 +392,7 @@ class iPayBenefitPipe {
 
 	function performeTransaction(){
 		$data = $this->createRequestData();
+        dd($data);
 		$options = array(
 		  'http' => array(
 			'method'  => 'POST',
