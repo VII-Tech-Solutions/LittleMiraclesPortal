@@ -18,18 +18,10 @@ use VIITech\Helpers\GlobalHelpers;
 class BenefitController extends CustomController
 {
 
-    /**
-     * Checkout
-     * @param $benefit_data
-     * @return \Illuminate\Http\JsonResponse
-     */
     static function checkout($benefit_data)
     {
-        require_once("Benefit/plugin/iPayBenefitPipe.php");
+        require('Benefit/plugin/BenefitAPIPlugin.php');
         $order_uid = Helpers::appendEnvNumber() . time() . Helpers::generateBigRandomNumber();
-        $success_url = $benefit_data[Attributes::SUCCESS_URL];
-        $error_url = $benefit_data[Attributes::ERROR_URL];
-
         $amount = $benefit_data[Attributes::AMOUNT];
         $order_id = $benefit_data[Attributes::ORDER_ID];
         $description = $benefit_data[Attributes::DESCRIPTION];
@@ -37,71 +29,28 @@ class BenefitController extends CustomController
         $payment_secret = $benefit_data[Attributes::PAYMENT_SECRET];
         $merchant_id = $benefit_data[Attributes::MERCHANT_ID];
 
-        // validate secret
-        if ($payment_secret != env("PAYMENT_SECRET")) {
-            return response()->json([
-                Attributes::DATA => [
-                    Attributes::PAYMENT_PAGE => null,
-                    Attributes::ERROR_MESSAGE => "Invalid secret"
-                ]
-            ], 500);
-        }
+        $pipe = new iPayBenefitPipe();
+        // modify the following to reflect your "Tranportal ID", "Tranportal Password ", "Terminal Resourcekey"
+        $pipe->setkey(env('TERMINAL_RESOURCEKEY'));
+        $pipe->setid(env('TRANPORTAL_ID'));
+        $pipe->setpassword(env('TRANPORTAL_PASSWORD'));
+        $pipe->setaction("1");
+        $pipe->setcardType("D");
+        $pipe->setcurrencyCode("048");
 
-        // validate merchant id
-        $merchant_id_from_alias = Helpers::getBenefitAlias();
-        $merchant_id_from_alias = str_replace(env("BENEFIT_ENVIRONMENT", "test"), "", $merchant_id_from_alias);
-        $merchant_id_from_alias = str_replace("TEST", "", $merchant_id_from_alias);
-        $merchant_id_from_alias = str_replace("PROD", "", $merchant_id_from_alias);
-        if ($merchant_id != $merchant_id_from_alias) {
-            return response()->json([
-                Attributes::DATA => [
-                    Attributes::PAYMENT_PAGE => null,
-                    Attributes::ERROR_MESSAGE => "Invalid alias"
-                ]
-            ], 500);
-        }
+        $pipe->setresponseURL(url("/api/benefit/process"));
+        $pipe->seterrorURL(url("/api/benefit/process"));
 
-        // gateway accepts 2 decimals only and third one should be zero
-        $amount = GlobalHelpers::formatNumber($amount, 2) . 0;
-        $ipay_benefit_pipe = BenefitController::getBenefitPipe();
+        $pipe->setudf2($customer_phone_number);
+        $pipe->setudf3($order_uid);
 
-        // Do NOT change the values of the following parameters at all.
-        $ipay_benefit_pipe->setAction("1");
-        $ipay_benefit_pipe->setCurrency("048");
-        $ipay_benefit_pipe->setLanguage("USA");
-        $ipay_benefit_pipe->setType("D");
-
-        // modify the following to reflect your pages URLs
-        $ipay_benefit_pipe->setResponseURL(url("/api/benefit/process"));
-        $ipay_benefit_pipe->setErrorURL(url("/api/benefit/process"));
-
-        // set a unique track ID for each transaction so you can use it later to match transaction response and identify transactions in your system and “BENEFIT Payment Gateway” portal.
-        $ipay_benefit_pipe->setTrackId($order_id);
-
-        // set transaction amount
-        $ipay_benefit_pipe->setAmt($amount);
-
-        // The following user-defined fields (UDF1, UDF2, UDF3, UDF4, UDF5) are optional fields.
-        // However, we recommend setting theses optional fields with invoice/product/customer identification information as they will be reflected in “BENEFIT Payment Gateway” portal where you will be able to link transactions to respective customers. This is helpful for dispute cases.
-        $ipay_benefit_pipe->setUdf2($customer_phone_number);
-        $ipay_benefit_pipe->setUdf3($order_uid);
-
-        // todo update transaction
-
-        if (trim($ipay_benefit_pipe->performPaymentInitializationHTTP()) != 0) {
-            return response()->json([
-                Attributes::DATA => [
-                    Attributes::PAYMENT_PAGE => null
-                ]
-            ], 500);
+        $pipe->settrackId($order_id);
+        $pipe->setamt($amount);
+        $isSuccess = $pipe->performeTransaction();
+        if ($isSuccess == 1) {
+            return $pipe->getresult();
         } else {
-            return response()->json([
-                Attributes::SUCCESS => true,
-                Attributes::DATA => [
-                    Attributes::PAYMENT_PAGE => $ipay_benefit_pipe->getwebAddress(),
-                    Attributes::UID => $order_uid,
-                ]
-            ]);
+            return $pipe->geterror() . ' ' . $pipe->geterrorText();
         }
     }
 
@@ -194,7 +143,6 @@ class BenefitController extends CustomController
         // Remove any HTML/CSS/javascript from the page. Also, you MUST NOT write anything on the page EXCEPT the word "REDIRECT=" (in upper-case only) followed by a URL.
         // If anything else is written on the page then you will not be able to complete the process.
 
-        dd($this->getData("ErrorText"));
         if ($myObj->getResult() == "CAPTURED") {
             $errorText = "";
             return "REDIRECT=" . url('/api/benefit/approved');
@@ -473,7 +421,8 @@ class BenefitController extends CustomController
      * @param $url
      * @return View
      */
-    function viewResponsePage($url){
+    function viewResponsePage($url)
+    {
         return view('response', ["url" => $url]);
     }
 }
