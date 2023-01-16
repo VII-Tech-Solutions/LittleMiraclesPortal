@@ -79,7 +79,7 @@ class BenefitController extends CustomController
 
         $trandata = isset($_POST['trandata']) ? $_POST['trandata'] : "";
 
-        dd($trandata);
+        dd($this->getData("tranData"));
         if ($trandata != "") {
             $pipe = new iPayBenefitPipe();
 
