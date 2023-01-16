@@ -75,144 +75,127 @@ class BenefitController extends CustomController
      */
     function process()
     {
-        require_once("Benefit/plugin/iPayBenefitPipe.php");
+        require_once("Benefit/plugin/BenefitAPIPlugin.php");
 
-        // log request
-        if (env("DEBUGGER_LOGS_ENABLED", false)) {
-            GlobalHelpers::logRequest($this->request, "BenefitController@process");
-        }
+        $trandata = isset($_POST['trandata']) ? $_POST['trandata'] : "";
 
-        $myObj = $this->getBenefitPipe();
-
-        $trandata = "";
-        $paymentID = "";
-        $result = "";
-        $responseCode = "";
-        $response = "";
-        $transactionID = "";
-        $referenceID = "";
-        $trackID = "";
-        $amount = "";
-        $UDF1 = "";
-        $UDF2 = "";
-        $UDF3 = "";
-        $UDF4 = "";
-        $UDF5 = "";
-        $authCode = "";
-        $postDate = "";
-        $errorCode = "";
-        $errorText = "";
-
-        $trandata = $this->getData("trandata") ?? "";
         if ($trandata != "") {
-            $returnValue = $myObj->parseEncryptedRequest($trandata);
-            if ($returnValue == 0) {
-                $paymentID = $myObj->getPaymentId();
-                $result = $myObj->getresult();
-                $responseCode = $myObj->getAuthRespCode();
-                $transactionID = $myObj->getTransId();
-                $referenceID = $myObj->getRef();
-                $trackID = $myObj->getTrackId();
-                $amount = $myObj->getAmt();
-                $UDF1 = $myObj->getUdf1();
-                $UDF2 = $myObj->getUdf2();
-                $UDF3 = $myObj->getUdf3();
-                $UDF4 = $myObj->getUdf4();
-                $UDF5 = $myObj->getUdf5();
-                $authCode = $myObj->getAuth();
-                $postDate = $myObj->getDate();
-                $errorCode = $myObj->getError();
-                $errorText = $myObj->getError_text();
-            } else {
-                $errorText = $myObj->getError_text();
-            }
-        } else if ($this->getData("ErrorText") !== null) {
-            $paymentID = $this->getData("paymentid");
-            $trackID = $this->getData("trackid");
-            $amount = $this->getData("amt");
-            $UDF1 = $this->getData("udf1");
-            $UDF2 = $this->getData("udf2");
-            $UDF3 = $this->getData("udf3");
-            $UDF4 = $this->getData("udf4");
-            $UDF5 = $this->getData("udf5");
-            $errorText = $this->getData("ErrorText");
-        } else {
-            $errorText = "Unknown Exception";
-        }
+            $pipe = new iPayBenefitPipe();
 
-        // Remove any HTML/CSS/javascript from the page. Also, you MUST NOT write anything on the page EXCEPT the word "REDIRECT=" (in upper-case only) followed by a URL.
-        // If anything else is written on the page then you will not be able to complete the process.
+            // modify the following to reflect your "Terminal Resourcekey"
+            $pipe->setkey(env('TERMINAL_RESOURCEKEY'));
 
-        if ($myObj->getResult() == "CAPTURED") {
-            $errorText = "";
-            return "REDIRECT=" . url('/api/benefit/approved');
-        } else if ($myObj->getResult() == "NOT CAPTURED" || $myObj->getResult() == "CANCELED" || $myObj->getResult() == "DENIED BY RISK" || $myObj->getResult() == "HOST TIMEOUT") {
-            if ($myObj->getResult() == "NOT CAPTURED") {
-                switch ($myObj->getAuthRespCode()) {
-                    case "05":
-                        $response = "Please contact issuer";
-                        break;
-                    case "14":
-                        $response = "Invalid card number";
-                        break;
-                    case "33":
-                        $response = "Expired card";
-                        break;
-                    case "36":
-                        $response = "Restricted card";
-                        break;
-                    case "38":
-                        $response = "Allowable PIN tries exceeded";
-                        break;
-                    case "51":
-                        $response = "Insufficient funds";
-                        break;
-                    case "54":
-                        $response = "Expired card";
-                        break;
-                    case "55":
-                        $response = "Incorrect PIN";
-                        break;
-                    case "61":
-                        $response = "Exceeds withdrawal amount limit";
-                        break;
-                    case "62":
-                        $response = "Restricted Card";
-                        break;
-                    case "65":
-                        $response = "Exceeds withdrawal frequency limit";
-                        break;
-                    case "75":
-                        $response = "Allowable number PIN tries exceeded";
-                        break;
-                    case "76":
-                        $response = "Ineligible account";
-                        break;
-                    case "78":
-                        $response = "Refer to Issuer";
-                        break;
-                    case "91":
-                        $response = "Issuer is inoperative";
-                        break;
-                    default:
-                        // for unlisted values, please generate a proper user-friendly message
-                        $response = "Unable to process transaction temporarily. Try again later or try using another card.";
-                        break;
+            $pipe->settrandata($trandata);
+
+            $returnValue = $pipe->parseResponseTrandata();
+            if ($returnValue == 1) {
+                $paymentID = $Pipe->getpaymentId();
+                $result = $Pipe->getresult();
+                $responseCode = $Pipe->getauthRespCode();
+                $transactionID = $Pipe->gettransId();
+                $referenceID = $Pipe->getref();
+                $trackID = $Pipe->gettrackId();
+                $amount = $Pipe->getamt();
+                $UDF1 = $Pipe->getudf1();
+                $UDF2 = $Pipe->getudf2();
+                $UDF3 = $Pipe->getudf3();
+                $UDF4 = $Pipe->getudf4();
+                $UDF5 = $Pipe->getudf5();
+                $authCode = $Pipe->getauthCode();
+                $postDate = $Pipe->gettranDate();
+                $errorCode = $Pipe->geterror();
+                $errorText = $Pipe->geterrorText();
+
+                // Remove any HTML/CSS/javascrip from the page. Also, you MUST NOT write anything on the page EXCEPT the word "REDIRECT=" (in upper-case only) followed by a URL.
+                // If anything else is written on the page then you will not be able to complete the process.
+                if ($Pipe->getresult() == "CAPTURED") {
+                    $errorText = "";
+                    return "REDIRECT=" . url('/api/benefit/approved');
+                } else if ($Pipe->getresult() == "NOT CAPTURED" || $Pipe->getresult() == "CANCELED" || $Pipe->getresult() == "DENIED BY RISK" || $Pipe->getresult() == "HOST TIMEOUT") {
+                    if ($Pipe->getresult() == "NOT CAPTURED") {
+                        switch ($Pipe->getAuthRespCode()) {
+                            case "05":
+                                $response = "Please contact issuer";
+                                break;
+                            case "14":
+                                $response = "Invalid card number";
+                                break;
+                            case "33":
+                                $response = "Expired card";
+                                break;
+                            case "36":
+                                $response = "Restricted card";
+                                break;
+                            case "38":
+                                $response = "Allowable PIN tries exceeded";
+                                break;
+                            case "51":
+                                $response = "Insufficient funds";
+                                break;
+                            case "54":
+                                $response = "Expired card";
+                                break;
+                            case "55":
+                                $response = "Incorrect PIN";
+                                break;
+                            case "61":
+                                $response = "Exceeds withdrawal amount limit";
+                                break;
+                            case "62":
+                                $response = "Restricted Card";
+                                break;
+                            case "65":
+                                $response = "Exceeds withdrawal frequency limit";
+                                break;
+                            case "75":
+                                $response = "Allowable number PIN tries exceeded";
+                                break;
+                            case "76":
+                                $response = "Ineligible account";
+                                break;
+                            case "78":
+                                $response = "Refer to Issuer";
+                                break;
+                            case "91":
+                                $response = "Issuer is inoperative";
+                                break;
+                            default:
+                                // for unlisted values, please generate a proper user-friendly message
+                                $response = "Unable to process transaction temporarily. Try again later or try using another card.";
+                                break;
+                        }
+                    } else if ($Pipe->getresult() == "CANCELED") {
+                        $response = "Transaction was canceled by user.";
+                    } else if ($Pipe->getresult() == "DENIED BY RISK") {
+                        $response = "Maximum number of transactions has exceeded the daily limit.";
+                    } else if ($Pipe->getresult() == "HOST TIMEOUT") {
+                        $response = "Unable to process transaction temporarily. Try again later.";
+                    }
+                    return "REDIRECT=" . url('/api/benefit/declined');
+                } else {
+                    //Unable to process transaction temporarily. Try again later or try using another card.
+                    return "REDIRECT=" . url('/api/benefit/error');
                 }
-            } else if ($myObj->getResult() == "CANCELED") {
-                $response = "Transaction was canceled by user.";
-            } else if ($myObj->getResult() == "DENIED BY RISK") {
-                $response = "Maximum number of transactions has exceeded the daily limit.";
-            } else if ($myObj->getResult() == "HOST TIMEOUT") {
-                $response = "Unable to process transaction temporarily. Try again later.";
+            } else {
+                $errorText = $pipe->geterrorText();
             }
-            $errorText = $response;
+
+        } else if (isset($_POST['ErrorText'])) {
+            $paymentID = $_POST["paymentid"];
+            $trackID = $_POST["trackid"];
+            $amount = $_POST["amt"];
+            $UDF1 = $_POST["udf1"];
+            $UDF2 = $_POST["udf2"];
+            $UDF3 = $_POST["udf3"];
+            $UDF4 = $_POST["udf4"];
+            $UDF5 = $_POST["udf5"];
+            $errorText = $_POST["ErrorText"];
             return "REDIRECT=" . url('/api/benefit/declined');
         } else {
-            //Unable to process transaction temporarily. Try again later or try using another card.
-            $errorText = "Unable to process transaction temporarily. Try again later or try using another card.";
+            $errorText = "Unknown Exception";
             return "REDIRECT=" . url('/api/benefit/error');
         }
+
     }
 
     /**
