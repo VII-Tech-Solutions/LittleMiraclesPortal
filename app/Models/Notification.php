@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\NotificationTypes;
 use App\Constants\Tables;
-use App\Helpers;
 
 /**
  * Class Notification

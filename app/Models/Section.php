@@ -6,7 +6,6 @@ use App\Constants\Attributes;
 use App\Constants\GoToAction;
 use App\Constants\SectionTypes;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;

@@ -5,11 +5,10 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\OrderStatus;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ModelTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use phpDocumentor\Reflection\Types\Collection;
-use \Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 /**
  * Class Order

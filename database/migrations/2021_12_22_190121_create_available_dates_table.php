@@ -3,7 +3,7 @@
 use App\Constants\Attributes;
 use App\Constants\AvailableDateType;
 use App\Constants\Tables;
-use App\Helpers;
+use App\Models\Helpers;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

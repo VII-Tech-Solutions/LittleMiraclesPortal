@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-use App\Helpers;
+use App\Models\Helpers;
 use BenSampo\Enum\Enum;
 
 /**

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ImageTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use VIITech\Helpers\Constants\CastingTypes;

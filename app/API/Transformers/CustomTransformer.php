@@ -3,10 +3,8 @@
 namespace App\API\Transformers;
 
 use App\Constants\Attributes;
-use App\Constants\Tables;
 use App\Constants\Values;
-use App\Helpers;
-use App\Models\Session;
+use App\Models\Helpers;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 

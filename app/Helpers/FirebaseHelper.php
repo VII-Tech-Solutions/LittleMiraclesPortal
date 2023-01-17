@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Constants\Attributes;
 use App\Constants\Values;
-use App\Helpers;
+use App\Models\Helpers;
 use Exception;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\Messaging\ApiConnectionFailed;

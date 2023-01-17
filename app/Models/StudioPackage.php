@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\API\Transformers\BenefitTransformer;
 use App\Constants\Attributes;
-use App\Constants\Status;
-use App\Constants\StudioCategory;
 use App\Constants\StudioPackageTypes;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

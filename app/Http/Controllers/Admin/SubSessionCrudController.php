@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
-use App\Constants\PromotionType;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
-use App\Helpers;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
-use App\Models\Media;
+use App\Models\Helpers;
 use App\Models\Package;
 use App\Models\Session;
 use App\Models\SessionDetail;
@@ -18,7 +16,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Prologue\Alerts\Facades\Alert;
 use Request;
 
 /**

@@ -4,7 +4,7 @@ namespace App\API\Controllers;
 
 use App\Constants\Attributes;
 use App\Constants\Messages;
-use App\Helpers;
+use App\Models\Helpers;
 use App\Models\User;
 use Dingo\Api\Http\Response;
 use Exception;

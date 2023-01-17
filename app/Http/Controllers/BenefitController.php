@@ -7,13 +7,11 @@ use App\Constants\Attributes;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentStatus;
 use App\Models\Helpers;
-use App\Models\Order;
 use App\Models\Transaction;
 use Benefit\plugin\iPayBenefitPipe;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
+use Illuminate\Http\JsonResponse;
 
 class BenefitController extends CustomController
 {
@@ -71,6 +69,7 @@ class BenefitController extends CustomController
     }
 
     /**
+     * Process
      * @return string
      */
     function process()
@@ -196,11 +195,12 @@ class BenefitController extends CustomController
             return "REDIRECT=" . url('/api/benefit/error');
         }
 
+        return "REDIRECT=" . url('/api/benefit/error');
     }
 
     /**
      * Approved
-     * @return View
+     * @return JsonResponse
      */
     function approved()
     {
@@ -208,7 +208,14 @@ class BenefitController extends CustomController
 
         $myObj = new iPayBenefitPipe();
         $myObj->setkey(env('TERMINAL_RESOURCEKEY'));
-dd($this->request);
+
+        // get parameters
+        $payment_id = $this->getData("paymentid") ?? null;
+        $order_id = $this->getData("trackid") ?? null;
+
+        // get transaction
+        $transaction = Transaction::where(Attributes::PAYMENT_ID, $payment_id)->where(Attributes::ORDER_ID, $order_id)->first();
+
         $trandata = "";
         $paymentID = "";
         $result = "";
@@ -274,13 +281,14 @@ dd($this->request);
 
     /**
      * Declined
-     * @return View
+     * @return JsonResponse
      */
     function declined()
     {
-        require_once("Benefit/plugin/iPayBenefitPipe.php");
+        require_once("Benefit/plugin/BenefitAPIPlugin.php");
 
-        $myObj = $this->getBenefitPipe();
+        $myObj = new iPayBenefitPipe();
+        $myObj->setkey(env('TERMINAL_RESOURCEKEY'));
 
         $trandata = "";
         $paymentID = "";
@@ -343,7 +351,7 @@ dd($this->request);
 
     /**
      * Error
-     * @return View
+     * @return JsonResponse
      */
     function error()
     {
@@ -356,7 +364,7 @@ dd($this->request);
      * Show Result
      * @param $success
      * @param $error_message
-     * @return View|string
+     * @return JsonResponse
      */
     function showResult($success, $error_message = null)
     {
@@ -383,10 +391,10 @@ dd($this->request);
             $transaction->save();
         }
 
-        if ($success) {
-            return ($transaction->success_url);
-        }
-        return $this->viewResponsePage($transaction->error_url);
+        // return response
+        return Helpers::returnResponse([
+            Attributes::TRANSACTION => $transaction,
+        ]);
     }
 
 
@@ -398,15 +406,5 @@ dd($this->request);
     function getData($key)
     {
         return GlobalHelpers::getValueFromHTTPRequest($this->request, $key, null, CastingTypes::STRING);
-    }
-
-    /**
-     * View Response Page
-     * @param $url
-     * @return View
-     */
-    function viewResponsePage($url)
-    {
-        return view('response', ["url" => $url]);
     }
 }

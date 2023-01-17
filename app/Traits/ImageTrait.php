@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Constants\Attributes;
-use App\Helpers;
+use App\Models\Helpers;
 use Illuminate\Support\Str;
 
 /**

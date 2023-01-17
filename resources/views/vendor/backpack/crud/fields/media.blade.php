@@ -1,10 +1,11 @@
 <?php
-use App\Constants\Attributes; use App\Constants\MediaType;
-use App\Constants\Status;
-use App\Helpers;
+
+use App\Constants\Attributes;
+use App\Models\Helpers;
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
+
 $route_params = Route::current()->parameters();
 // type
 $entity = Route::getCurrentRoute()->controller->crud->entity_name;

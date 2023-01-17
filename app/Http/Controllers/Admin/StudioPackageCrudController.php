@@ -4,25 +4,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
-
-use App\Constants\IsPopular;
-use App\Constants\MediaType;
 use App\Constants\Status;
 use App\Constants\StudioPackageTypes;
-use App\Constants\StudioPrintCategory;
-use App\Helpers;
 use App\Http\Requests\StudioPackageRequest;
-use App\Models\Media;
+use App\Models\Helpers;
 use App\Models\StudioPackage;
 use App\Models\Trip;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Redirect;
 use Prologue\Alerts\Facades\Alert;
 
 /**

@@ -3,22 +3,12 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
-use App\Constants\GiftStatus;
 use App\Constants\PromotionStatus;
-use App\Constants\PromotionType;
-use App\Constants\Status;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use VIITech\Helpers\Constants\CastingTypes;
-use VIITech\Helpers\GlobalHelpers;
 
 /**
  * Promotion

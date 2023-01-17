@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\StudioCategory;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;

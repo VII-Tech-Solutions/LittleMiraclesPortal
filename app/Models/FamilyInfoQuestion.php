@@ -4,12 +4,9 @@
 namespace App\Models;
 
 use App\API\Transformers\FamilyInfoQuestionOptionTransformer;
-use App\API\Transformers\FamilyInfoQuestionTransformer;
 use App\Constants\Attributes;
 use App\Constants\QuestionType;
-use App\Constants\SessionStatus;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
 

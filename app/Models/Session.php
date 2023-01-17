@@ -7,7 +7,6 @@ use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Tables;
-use App\Helpers;
 use App\Traits\ModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

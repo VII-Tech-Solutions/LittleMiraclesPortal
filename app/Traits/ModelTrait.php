@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Constants\ReviewStatus;
 use App\Constants\Status;
-use App\Helpers;
+use App\Models\Helpers;
 
 /**
  * Model Trait

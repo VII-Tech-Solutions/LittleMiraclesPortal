@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use App\Constants\Attributes;
 use App\Constants\PaymentMethods;
 use App\Constants\PaymentStatus;
 use App\Constants\Tables;
-use App\Constants\Attributes;
-use App\Helpers;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 /**
