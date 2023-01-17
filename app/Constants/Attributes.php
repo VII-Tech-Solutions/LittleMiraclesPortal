@@ -303,4 +303,5 @@ class Attributes extends CustomEnum
     const EXTRA_PEOPLE = "extra_people";
     const RETURN_URL = "return_url";
     const PAYMENT_METHOD_NAME = "payment_method_name";
+    const CONVERSATION_ID = "conversation_id";
 }
