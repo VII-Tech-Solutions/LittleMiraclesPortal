@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\API\Controllers\CustomController;
 use App\Constants\Attributes;
+use App\Constants\OrderStatus;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentStatus;
 use App\Models\Helpers;
+use App\Models\Order;
 use App\Models\Transaction;
 use Benefit\plugin\iPayBenefitPipe;
 use VIITech\Helpers\Constants\CastingTypes;
@@ -377,14 +379,19 @@ class BenefitController extends CustomController
             $error_message = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ERRORTEXT, null, CastingTypes::STRING);
         }
 
-        // get the order
+        // get the transaction
         /** @var Transaction $transaction */
         $transaction = Transaction::where(Attributes::GATEWAY, PaymentGateways::BENEFIT)
             ->where(Attributes::STATUS, PaymentStatus::AWAITING_PAYMENT)
             ->where(Attributes::ID, $transaction_id)->first();
 
         if (!is_null($transaction)) {
-            // update order
+            // get order
+            $order = Order::where(Attributes::ID, $transaction->order_id)->first();
+            $order->status = $success ? OrderStatus::PAID : OrderStatus::CANCELLED;
+            $order->save();
+
+            // update transaction
             $transaction->status = $success ? PaymentStatus::CONFIRMED : PaymentStatus::REJECTED;
             $transaction->error_message = $error_message;
             $transaction->payment_id = $payment_id;

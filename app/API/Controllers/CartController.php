@@ -341,18 +341,19 @@ class CartController extends CustomController
         // get transaction
         /** @var Transaction $transaction */
         $transaction = Transaction::where(Attributes::SUCCESS_INDICATOR, $result_indicator)->first();
-        if (is_null($transaction)) {
-            $success = true;
-        }
+        if (!is_null($transaction)) {
+            // get order
+            $order = Order::where(Attributes::ID, $transaction->order_id)->first();
+            $order->status = OrderStatus::PAID;
+            $order->save();
 
-        if ($success) {
+            // update transaction status
             $transaction->status = PaymentStatus::CONFIRMED;
             $transaction->save();
         }
 
         // redirect to url
         return Helpers::returnResponse([
-            Attributes::SUCCESS => $success,
             Attributes::TRANSACTION => $transaction
         ]);
     }
