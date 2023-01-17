@@ -204,9 +204,9 @@ class BenefitController extends CustomController
      */
     function approved()
     {
-        require_once("Benefit/plugin/iPayBenefitPipe.php");
+        require_once("Benefit/plugin/BenefitAPIPlugin.php");
 
-        $myObj = $this->getBenefitPipe();
+        $myObj = new iPayBenefitPipe();
 
         $trandata = "";
         $paymentID = "";
