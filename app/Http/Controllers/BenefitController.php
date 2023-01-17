@@ -353,10 +353,10 @@ class BenefitController extends CustomController
     }
 
     /**
-     * Show Rmesult
+     * Show Result
      * @param $success
      * @param $error_message
-     * @return View
+     * @return View|string
      */
     function showResult($success, $error_message = null)
     {
@@ -384,7 +384,7 @@ class BenefitController extends CustomController
         }
 
         if ($success) {
-            return $this->viewResponsePage($transaction->success_url);
+            return ($transaction->success_url);
         }
         return $this->viewResponsePage($transaction->error_url);
     }
