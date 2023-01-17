@@ -79,7 +79,6 @@ class BenefitController extends CustomController
 
         $trandata = isset($_POST['trandata']) ? $_POST['trandata'] : "";
 
-        dd($this->request);
         if ($trandata != "") {
             $pipe = new iPayBenefitPipe();
 
@@ -90,31 +89,31 @@ class BenefitController extends CustomController
 
             $returnValue = $pipe->parseResponseTrandata();
             if ($returnValue == 1) {
-                $paymentID = $Pipe->getpaymentId();
-                $result = $Pipe->getresult();
-                $responseCode = $Pipe->getauthRespCode();
-                $transactionID = $Pipe->gettransId();
-                $referenceID = $Pipe->getref();
-                $trackID = $Pipe->gettrackId();
-                $amount = $Pipe->getamt();
-                $UDF1 = $Pipe->getudf1();
-                $UDF2 = $Pipe->getudf2();
-                $UDF3 = $Pipe->getudf3();
-                $UDF4 = $Pipe->getudf4();
-                $UDF5 = $Pipe->getudf5();
-                $authCode = $Pipe->getauthCode();
-                $postDate = $Pipe->gettranDate();
-                $errorCode = $Pipe->geterror();
-                $errorText = $Pipe->geterrorText();
+                $paymentID = $pipe->getpaymentId();
+                $result = $pipe->getresult();
+                $responseCode = $pipe->getauthRespCode();
+                $transactionID = $pipe->gettransId();
+                $referenceID = $pipe->getref();
+                $trackID = $pipe->gettrackId();
+                $amount = $pipe->getamt();
+                $UDF1 = $pipe->getudf1();
+                $UDF2 = $pipe->getudf2();
+                $UDF3 = $pipe->getudf3();
+                $UDF4 = $pipe->getudf4();
+                $UDF5 = $pipe->getudf5();
+                $authCode = $pipe->getauthCode();
+                $postDate = $pipe->gettranDate();
+                $errorCode = $pipe->geterror();
+                $errorText = $pipe->geterrorText();
 
                 // Remove any HTML/CSS/javascrip from the page. Also, you MUST NOT write anything on the page EXCEPT the word "REDIRECT=" (in upper-case only) followed by a URL.
                 // If anything else is written on the page then you will not be able to complete the process.
-                if ($Pipe->getresult() == "CAPTURED") {
+                if ($pipe->getresult() == "CAPTURED") {
                     $errorText = "";
                     return "REDIRECT=" . url('/api/benefit/approved');
-                } else if ($Pipe->getresult() == "NOT CAPTURED" || $Pipe->getresult() == "CANCELED" || $Pipe->getresult() == "DENIED BY RISK" || $Pipe->getresult() == "HOST TIMEOUT") {
-                    if ($Pipe->getresult() == "NOT CAPTURED") {
-                        switch ($Pipe->getAuthRespCode()) {
+                } else if ($pipe->getresult() == "NOT CAPTURED" || $pipe->getresult() == "CANCELED" || $pipe->getresult() == "DENIED BY RISK" || $pipe->getresult() == "HOST TIMEOUT") {
+                    if ($pipe->getresult() == "NOT CAPTURED") {
+                        switch ($pipe->getAuthRespCode()) {
                             case "05":
                                 $response = "Please contact issuer";
                                 break;
@@ -165,11 +164,11 @@ class BenefitController extends CustomController
                                 $response = "Unable to process transaction temporarily. Try again later or try using another card.";
                                 break;
                         }
-                    } else if ($Pipe->getresult() == "CANCELED") {
+                    } else if ($pipe->getresult() == "CANCELED") {
                         $response = "Transaction was canceled by user.";
-                    } else if ($Pipe->getresult() == "DENIED BY RISK") {
+                    } else if ($pipe->getresult() == "DENIED BY RISK") {
                         $response = "Maximum number of transactions has exceeded the daily limit.";
-                    } else if ($Pipe->getresult() == "HOST TIMEOUT") {
+                    } else if ($pipe->getresult() == "HOST TIMEOUT") {
                         $response = "Unable to process transaction temporarily. Try again later.";
                     }
                     return "REDIRECT=" . url('/api/benefit/declined');
