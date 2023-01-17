@@ -207,6 +207,7 @@ class BenefitController extends CustomController
         require_once("Benefit/plugin/BenefitAPIPlugin.php");
 
         $myObj = new iPayBenefitPipe();
+        $myObj->setkey(env('TERMINAL_RESOURCEKEY'));
 
         $trandata = "";
         $paymentID = "";

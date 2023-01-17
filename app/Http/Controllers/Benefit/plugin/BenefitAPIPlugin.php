@@ -50,9 +50,11 @@ class iPayBenefitPipe {
 	protected $transactionDate = null;
 	protected $transUpdateTime = null;
 
-
-
-
+    protected $keystorePath = "";
+    protected $resourcePath = "";
+    protected $auth = "";
+    protected $date = "";
+    protected $error_text = "";
 
 	/* Get */
 	function getendPoint() {
@@ -172,7 +174,18 @@ class iPayBenefitPipe {
 	function gettransUpdateTime() {
 		return $this->transUpdateTime;
 	}
-
+    function getauth()
+    {
+        return $this->auth;
+    }
+    function getDate()
+    {
+        return $this->date;
+    }
+    function geterror_text()
+    {
+        return $this->error_text;
+    }
 
 	/* Set */
 	function setendPoint($val) {
@@ -295,9 +308,20 @@ class iPayBenefitPipe {
 	function settransUpdateTime($val) {
 		$this->transUpdateTime=$val;
 	}
+    function setauth($val)
+    {
+        $this->auth = $val;
+    }
+    function setDate($val)
+    {
+        $this->date = $val;
+    }
+    function seterror_text($val)
+    {
+        $this->error_text = $val;
+    }
 
-
-	function createRequestData(){
+    function createRequestData(){
 		$FinalData = "";
 		$trandataObj = array(array(
 		'amt' => $this->amt,
@@ -542,6 +566,198 @@ class iPayBenefitPipe {
 		}
 		return 0;
 	}
+
+    function parseEncryptedRequest($trandata)
+    {
+        $result = 0;
+        $xmlData = null;
+        $hm = null;
+        try {
+            if ($trandata == null) {
+                return 0;
+            }
+
+
+            $keyParser = new KeyStore();
+            $this->key = $keyParser->parseKeyStore($this->keystorePath);
+            $xmlData = $this->parseResource($this->key, $this->resourcePath, $this->alias);
+            if ($xmlData != null) {
+                $hm = $this->parseXMLRequest($xmlData);
+            } else {
+                $this->error = "Alias name does not exits";
+            }
+            $this->key = $hm ['resourceKey'];
+            $trandata = $this->decryptData($trandata, $this->key);
+
+            $result = $this->parsetrandata($trandata);
+            //echo "kkkkkkk";
+            //echo $trandata;
+            //die();
+            return $result;
+        } catch (Exception $e) {
+            return -1;
+        }
+    }
+
+    function parseResource($key, $resourcePath, $alias)
+    {
+        $xmlData = null;
+        $key = null;
+
+        try {
+            $parseResouce = new parseResource();
+            $parseResouce->setResourcePath($resourcePath);
+
+            $parseResouce->setKey($this->key);
+
+            $parseResouce->setAlias($alias);
+
+            $parseResouce->createCGZFromCGN();
+
+            $xmlData = $parseResouce->readZip();
+
+            return $xmlData;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    function parseXMLRequest($request)
+    {
+        try {
+            $responseMap = null;
+            $request = trim($request);
+            $request = substr($request, strpos($request, "<id>"), strlen($request) - strpos($request, "<id>"));
+            $request = str_replace("</terminal>", "", $request);
+            $pos = strpos($request, "<") == 0;
+            if ($request == null || (strlen($request) < 0) || $pos === false) {
+                return null;
+            } else {
+                try {
+                    $responseMap = $this->parseResponse($request);
+                } catch (Exception $ex) {
+                    return null;
+                }
+            }
+            return $responseMap;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+
+    function parseResponse($response)
+    {
+        $begin = 0;
+        $end = 0;
+        $start = null;
+        $value = null;
+        $map = [];
+        $maps = [];
+        $response = trim($response);
+
+        $pos = strpos($response, "<") == 0;
+        if ($response == null || (strlen($response) < 0) || $pos === false) {
+            return null;
+        } else {
+            do {
+
+                if ((strpos($response, '<') !== false) && (strpos($response, '>') !== false)) {
+                    $start = substr($response, ($ind = strpos($response, "<")) + 1, ((strpos($response, ">") - 1) - $ind));
+                    $mapKey = substr($response, ($ind = strpos($response, ">")) + 1, ((strpos($response, "</" . $start . ">") - 1) - $ind));
+                    $response = substr($response, $from = strpos($response, "</" . $start . ">") + strlen($start) + 3, strrpos($response, ">") - $from + 1);
+                    $maps [$start] = $mapKey;
+                } else {
+                    break;
+                }
+            } while (strlen($response) > 0);
+        }
+        return $maps;
+    }
+
+
+    function parsetrandata($trandata)
+    {
+        try {
+            $splitData = $this->splitData($trandata);
+            if (isset ($splitData ['paymentid'])) {
+                $this->paymentId = $splitData ['paymentid'];
+            }
+            if (isset ($splitData ['result'])) {
+                $this->result = $splitData ['result'];
+            }
+            if (isset ($splitData ['authRespCode'])) {
+                $this->authRespCode = $splitData ['authRespCode'];
+            }
+            if (isset ($splitData ['udf1'])) {
+                $this->udf1 = $splitData ['udf1'];
+            }
+            if (isset ($splitData ['udf2'])) {
+                $this->udf2 = $splitData ['udf2'];
+            }
+            if (isset ($splitData ['udf3'])) {
+                $this->udf3 = $splitData ['udf3'];
+            }
+            if (isset ($splitData ['udf4'])) {
+                $this->udf4 = $splitData ['udf4'];
+            }
+            if (isset ($splitData ['udf5'])) {
+                $this->udf5 = $splitData ['udf5'];
+            }
+            if (isset ($splitData ['amt'])) {
+                $this->amt = $splitData ['amt'];
+            }
+            if (isset ($splitData ['auth'])) {
+                $this->auth = $splitData ['auth'];
+            }
+            if (isset ($splitData ['ref'])) {
+                $this->ref = $splitData ['ref'];
+            }
+            if (isset ($splitData ['tranid'])) {
+                $this->transId = $splitData ['tranid'];
+            }
+            if (isset ($splitData ['postdate'])) {
+                $this->date = $splitData ['postdate'];
+            }
+            if (isset ($splitData ['trackId'])) {
+                $this->trackId = $splitData ['trackId'];
+            }
+            if (isset ($splitData ['trackid'])) {
+                $this->trackId = $splitData ['trackid'];
+            }
+            if (isset ($splitData ['action'])) {
+                $this->action = $splitData ['action'];
+            }
+            if (isset ($splitData ['Error'])) {
+                $this->error = $splitData ['Error'];
+            }
+            if (isset ($splitData ['ErrorText'])) {
+                $this->error_text = $splitData ['ErrorText'];
+            }
+            if (isset ($splitData ['error_text'])) {
+                $this->error_text = $splitData ['error_text'];
+            }
+        } catch (Exception $e) {
+
+            return -1;
+        }
+        return 0;
+    }
+
+    function splitData($trandata)
+    {
+        $splitData = [];
+        $data = explode("&", $trandata);
+        foreach ($data as $value) {
+            $temp = explode("=", $value);
+            if (!isset($temp[1])) {
+                $temp[1] = "";
+            }
+            $splitData [$temp [0]] = $temp [1];
+        }
+        return $splitData;
+    }
+
 
 }
 
