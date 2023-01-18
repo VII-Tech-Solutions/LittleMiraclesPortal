@@ -294,7 +294,7 @@ class HomeController extends CustomController
                         foreach ($interval as $time_from_to) {
                             $formatted_date = $time_from_to->format(Values::CARBON_HOUR_FORMAT);
 
-                            $session = Session::where(Attributes::PHOTOGRAPHER, $photographer_id)->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
+                            $session = Session::where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
                             if (is_null($session)) {
                                 $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
                             }
