@@ -256,8 +256,6 @@ class HomeController extends CustomController
 
         // TODO exclude by type
 
-        // TODO exclude if booked
-
         // get available dates
         $available_dates = $available_dates->get();
 
