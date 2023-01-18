@@ -216,6 +216,17 @@ class SessionCrudController extends CustomCrudController
         $this->crud->getRequest()->request->remove(Attributes::BACKDROPS);
         $backdrops = json_decode($backdrops, true);
         $backdrops = collect($backdrops)->flatten()->filter();
+
+        // get cakes
+        $cakes = $this->crud->getRequest()->get(Attributes::CAKES);
+        $this->crud->getRequest()->request->remove(Attributes::CAKES);
+        $cakes = json_decode($cakes, true);
+        $cakes = collect($cakes)->flatten()->filter();
+
+        // update and return response
+        $result = $this->traitUpdate();
+
+        // add backdrops
         if ($backdrops->isNotEmpty()) {
             foreach ($backdrops as $item) {
 
@@ -241,8 +252,25 @@ class SessionCrudController extends CustomCrudController
 //                ->whereNotIn(Attributes::VALUE, $backdrops)->delete();
         }
 
-        // update and return response
-        $result = $this->traitUpdate();
+        // add cakes
+        if ($cakes->isNotEmpty()) {
+            foreach ($cakes as $cake) {
+                $cake_exists = SessionDetail::where(Attributes::SESSION_ID, $session->id)
+                    ->where(Attributes::TYPE, SessionDetailsType::CAKE)
+                    ->where(Attributes::VALUE, $cake)->exists();
+
+                if (!$cake_exists) {
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::CAKE,
+                        Attributes::VALUE => $cake,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id,
+                        Attributes::USER_ID => $session->user_id,
+                        Attributes::FAMILY_ID => $session->family_id
+                    ]);
+                }
+            }
+        }
 
         // media
         $update_media = $session->media()->whereNotIn(Attributes::ID, $media_ids ?? [])->delete();
