@@ -44,7 +44,7 @@ class PaymentHelpers
         $customer_phone_number = $order->user->phone_number;
 
         // get amount
-        $amount = !is_null($order->discount_price) ? $order->discount_price : $order->total_price;
+        $amount = $order->subtotal;
         if (!GlobalHelpers::isProductionEnv()) {
             // test amount
             $amount = Values::TEST_AMOUNT;

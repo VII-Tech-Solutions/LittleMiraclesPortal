@@ -226,18 +226,26 @@ class CartController extends CustomController
 
         // get cart items
         $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
+        $original_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
 
         // get parameters
         $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
-        $total_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOTAL_PRICE, null, CastingTypes::DOUBLE);
-        $discount_price = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DISCOUNT_PRICE, null, CastingTypes::DOUBLE);
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::STRING);
+
+        // get promotion
+        if (!is_null($promo_code)) {
+            $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
+            $offer = $promotion->offer ?? null;
+            $discount_amount = $original_price * ($offer / 100);
+            $total_price_after_discount = $original_price - $discount_amount;
+        }
 
         // create order
         $order = Order::createOrUpdate([
             Attributes::PROMO_CODE => $promo_code,
-            Attributes::TOTAL_PRICE => $total_price,
-            Attributes::DISCOUNT_PRICE => $discount_price,
+            Attributes::TOTAL_PRICE => $original_price,
+            Attributes::DISCOUNT_PRICE => $discount_amount ?? null,
+            Attributes::SUBTOTAL => $total_price_after_discount ?? $original_price,
             Attributes::USER_ID => $user->id
         ]);
 
