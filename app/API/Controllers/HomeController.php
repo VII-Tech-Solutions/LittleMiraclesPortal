@@ -43,6 +43,7 @@ use App\Models\Page;
 use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Section;
+use App\Models\Session;
 use App\Models\SocialMedia;
 use App\Models\StudioMetadata;
 use App\Models\StudioPackage;
@@ -267,7 +268,7 @@ class HomeController extends CustomController
 
         $available_dates_collection = collect();
 
-        $available_dates->each(function ($item) use (&$available_dates_collection) {
+        $available_dates->each(function ($item) use (&$available_dates_collection, $photographer_id) {
 
             /** @var AvailableDate $item */
             $start_date = $item->start_date;
@@ -293,9 +294,12 @@ class HomeController extends CustomController
                         $interval = CarbonPeriod::since($time->from)->hours(1)->until($time->to)->toArray();
 
                         foreach ($interval as $time_from_to) {
+                            $formatted_date = $time_from_to->format(Values::CARBON_HOUR_FORMAT);
 
-                            $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
-
+                            $session = Session::where(Attributes::PHOTOGRAPHER, $photographer_id)->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
+                            if (is_null($session)) {
+                                $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
+                            }
                         }
 
                         $this_date = Carbon::parse($start_date, Values::DEFAULT_TIMEZONE)->addDays($count);
