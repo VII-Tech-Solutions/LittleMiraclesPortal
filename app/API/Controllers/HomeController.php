@@ -245,6 +245,8 @@ class HomeController extends CustomController
         // get parameters
         $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
         $photographer_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHOTOGRAPHER_ID, null, CastingTypes::INTEGER);
+        /** @var User $user */
+        $user = Helpers::resolveUser();
 
         // build available dates query
         $available_dates = AvailableDate::active()->where(Attributes::TYPE, AvailableDateType::INCLUDE)->where(Attributes::PHOTOGRAPHER_ID, $photographer_id);
@@ -253,6 +255,7 @@ class HomeController extends CustomController
         if (!empty($date)) {
             $available_dates = $available_dates->where(Attributes::START_DATE, $date);
         }
+
 
         // TODO exclude by type
 
@@ -266,7 +269,7 @@ class HomeController extends CustomController
 
         $available_dates_collection = collect();
 
-        $available_dates->each(function ($item) use (&$available_dates_collection, $photographer_id) {
+        $available_dates->each(function ($item) use (&$available_dates_collection, $photographer_id, $user) {
 
             /** @var AvailableDate $item */
             $start_date = $item->start_date;
@@ -294,8 +297,9 @@ class HomeController extends CustomController
                         foreach ($interval as $time_from_to) {
                             $formatted_date = $time_from_to->format(Values::CARBON_HOUR_FORMAT);
 
-                            $session = Session::/*where(Attributes::PHOTOGRAPHER, $photographer_id)->*/where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
-                            if (is_null($session)) {
+                            $photographer_session = Session::/*where(Attributes::PHOTOGRAPHER, $photographer_id)->*/where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
+                            $user_session = Session::where(Attributes::USER_ID, $user->id)->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
+                            if (is_null($photographer_session) && is_null($user_session)) {
                                 $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
                             }
                         }
