@@ -304,4 +304,5 @@ class Attributes extends CustomEnum
     const RETURN_URL = "return_url";
     const PAYMENT_METHOD_NAME = "payment_method_name";
     const CONVERSATION_ID = "conversation_id";
+    const BOOKING_TYPE = "booking_type";
 }

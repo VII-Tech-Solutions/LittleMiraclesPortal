@@ -6,6 +6,7 @@ use App\API\Transformers\ListCartItemsTransformer;
 use App\API\Transformers\ListOrdersTransformer;
 use App\Constants\AllProducts;
 use App\Constants\Attributes;
+use App\Constants\BookingType;
 use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Constants\OrderStatus;
@@ -18,6 +19,7 @@ use App\Models\OrderItems;
 use App\Models\Package;
 use App\Models\Photographer;
 use App\Models\Promotion;
+use App\Models\Session;
 use App\Models\StudioMetadata;
 use App\Models\Transaction;
 use Dingo\Api\Http\Response;
@@ -233,9 +235,47 @@ class CartController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
-        // get cart items
-        $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
-        $original_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
+        // validate booking type
+        $original_price = 0;
+        $booking_type = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BOOKING_TYPE, null, CastingTypes::INTEGER);
+        if ($booking_type == BookingType::SESSION) {
+            // get session
+            $session_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SESSION_ID, null, CastingTypes::INTEGER);
+            /** @var Session $session */
+            $session = Session::find($session_id);
+            if (is_null($session)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_NOT_FOUND);
+            }
+
+            // get sub sessions
+            $sub_sessions = Session::where(Attributes::SESSION_ID, $session->id)->get();
+
+            // get original price
+            $original_price = $session->package->price;
+            if (!is_null($sub_sessions)) {
+                /** @var Session $sub_session */
+                foreach ($sub_sessions as $sub_session) {
+                    // get photographer
+                    /** @var Photographer $photographer */
+                    $photographer = Photographer::find($sub_session->photographer);
+                    if (!is_null($photographer->additional_charge)) {
+                        $original_price += $photographer->additional_charge;
+                    }
+                }
+            } else {
+                // get photographer
+                /** @var Photographer $photographer */
+                $photographer = Photographer::find($session->photographer);
+                if (!is_null($photographer->additional_charge)) {
+                    $original_price += $photographer->additional_charge;
+                }
+            }
+        } else if ($booking_type == BookingType::STUDIO) {
+            // get cart items
+            $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
+            // get original price
+            $original_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
+        }
 
         // get parameters
         $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
@@ -255,7 +295,8 @@ class CartController extends CustomController
             Attributes::TOTAL_PRICE => $original_price,
             Attributes::DISCOUNT_PRICE => $discount_amount ?? null,
             Attributes::SUBTOTAL => $total_price_after_discount ?? $original_price,
-            Attributes::USER_ID => $user->id
+            Attributes::USER_ID => $user->id,
+            Attributes::BOOKING_TYPE => $booking_type
         ]);
 
         if (!is_a($order, Order::class)) {
@@ -263,16 +304,24 @@ class CartController extends CustomController
         }
 
         // add order items
-        foreach ($cart_items as $item) {
+        if (BookingType::SESSION) {
             OrderItems::createOrUpdate([
                 Attributes::ORDER_ID => $order->id,
-                Attributes::ITEM_ID => $item->id,
-                Attributes::USER_ID => $user->id
+                Attributes::USER_ID => $user->id,
+                Attributes::SESSION_ID => $session->id
             ]);
+        } else if (BookingType::STUDIO) {
+            foreach ($cart_items as $item) {
+                OrderItems::createOrUpdate([
+                    Attributes::ORDER_ID => $order->id,
+                    Attributes::ITEM_ID => $item->id,
+                    Attributes::USER_ID => $user->id,
+                ]);
 
-            // change item status
-            $item->status = CartItemStatus::PURCHASED;
-            $item->save();
+                // change item status
+                $item->status = CartItemStatus::PURCHASED;
+                $item->save();
+            }
         }
 
         list(Attributes::TRANSACTION => $transaction,

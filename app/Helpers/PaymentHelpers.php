@@ -79,15 +79,13 @@ class PaymentHelpers
                 "order.id" => $transaction->id,
             ];
 
-            GlobalHelpers::debugger(json_encode($create_session_data), DebuggerLevels::INFO);
             $client = new Client();
             $response = $client->request('POST', "https://credimax.gateway.mastercard.com/api/nvp/version/68", [
                 'form_params' => $create_session_data,
             ]);
             $response_body = Helpers::parseQuery($response->getBody()->getContents());
-            GlobalHelpers::debugger(json_encode($response_body), DebuggerLevels::INFO);
-            $request_response_result = $response_body['result']; #return SUCCESS or FAIL
 
+            $request_response_result = $response_body['result']; #return SUCCESS or FAIL
             if ($request_response_result == 'SUCCESS' && !is_null($merchant_id)) {
                 $session_id = $response_body['session.id'];
                 $transaction->success_indicator = $response_body['successIndicator'];
