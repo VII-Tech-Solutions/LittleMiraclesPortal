@@ -69,20 +69,12 @@ class CartController extends CustomController
         $paper_size = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAPER_SIZE, null, CastingTypes::INTEGER);
         $additional_comments = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ADDITIONAL_COMMENTS, null, CastingTypes::STRING);
         $album_title = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ALBUM_TITLE, null, CastingTypes::STRING);
-        $photographer_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHOTOGRAPHER_ID, null, CastingTypes::INTEGER);
-
-        // get photographer
-        /** @var Photographer $photographer */
-        $photographer = Photographer::find($photographer_id);
 
         // calculate total price
         /** @var Package $package */
         $package = Package::find($package_id);
         $specs_price = StudioMetadata::whereIn(Attributes::ID, [$album_size, $spreads, $paper_type, $cover_type, $canvas_size, $paper_size, $print_type])->pluck(Attributes::PRICE)->sum();
         $total_price = ($package->price + $specs_price) * $quantity;
-        if (!is_null($photographer) && !is_null($photographer->additional_charge)) {
-            $total_price = $total_price + $photographer->additional_charge;
-        }
 
         // create cart item
         $cart_item = CartItem::createOrUpdate([
