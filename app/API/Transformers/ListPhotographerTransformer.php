@@ -13,6 +13,8 @@ class ListPhotographerTransformer extends CustomTransformer
     public $fields = [
         Attributes::ID,
         Attributes::NAME,
+        Attributes::EMAIL,
+        Attributes::ROLE,
         Attributes::IMAGE,
         Attributes::STATUS,
         Attributes::ADDITIONAL_CHARGE,

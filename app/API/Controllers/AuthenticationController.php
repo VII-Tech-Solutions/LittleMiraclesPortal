@@ -4,6 +4,7 @@ namespace App\API\Controllers;
 
 use App\API\Requests\RegistrationRequest;
 use App\API\Requests\SocialLoginRequest;
+use App\API\Transformers\ListPhotographerTransformer;
 use App\Constants\Attributes;
 use App\Constants\LoginProvider;
 use App\Constants\Messages;
@@ -12,6 +13,7 @@ use App\Constants\Status;
 use App\Models\FamilyInfo;
 use App\Models\FamilyMember;
 use App\Models\Helpers;
+use App\Models\Photographer;
 use App\Models\User;
 use App\Models\UserToken;
 use Illuminate\Http\JsonResponse;
@@ -59,6 +61,13 @@ class AuthenticationController extends CustomController
             $email = null;
         }
 
+        $photographer_login = false;
+        // check if photographer
+        $photographer = Photographer::where(Attributes::EMAIL, $email)->first();
+        if (!is_null($photographer)) {
+            $photographer_login = true;
+        }
+
         // validate google login
         if ($provider == LoginProvider::GOOGLE) {
 
@@ -82,69 +91,89 @@ class AuthenticationController extends CustomController
                 return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
             }
 
-            $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
+            if (!$photographer_login) {
+                $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
+            }
 
         } else if ($provider == LoginProvider::APPLE) {
             // validate required fields
             if (!$this->request->has([Attributes::EMAIL, Attributes::NAME])) {
                 return GlobalHelpers::formattedJSONResponse(__(Messages::BAD_REQUEST), null, null, \Illuminate\Http\Response::HTTP_BAD_REQUEST);
             }
-            $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
+            if (!$photographer_login) {
+                $user = User::where(Attributes::PROVIDER_ID, $provider_id)->where(Attributes::PROVIDER, $provider)->first();
+            }
 
         } else {
             return GlobalHelpers::formattedJSONResponse(Messages::BAD_REQUEST, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-        /** @var User $user */
-        if (is_null($user) && !is_null($email)) {
-            $user = User::where(Attributes::EMAIL, $email)->where(Attributes::PROVIDER, $provider)->first();
+        if ($photographer_login) {
+            // login as
+            /** @var Photographer $photographer */
+            if (!is_null($photographer)) {
+
+                Auth::login($photographer);
+            }
+
+            // login and return response
+            if (!is_null($photographer)) {
+                return $this->logMeIn($photographer);
+            }
+
+        } else {
+            /** @var User $user */
+            if (is_null($user) && !is_null($email)) {
+                $user = User::where(Attributes::EMAIL, $email)->where(Attributes::PROVIDER, $provider)->first();
 //            if (!is_null($user) && $user->provider != $provider) {
 //                return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_BAD_REQUEST);
 //            }
+            }
+
+            // get avatar
+            $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
+            if (!is_null($avatar) && !Str::startsWith($avatar, "http")) {
+                $avatar = base64_encode(file_get_contents($avatar));
+            }
+
+            // create a user
+            if (is_null($user)) {
+                $user = User::createOrUpdate([
+                    Attributes::EMAIL => $email,
+                    Attributes::PROVIDER => $provider,
+                    Attributes::PROVIDER_ID => $provider_id,
+                    Attributes::STATUS => Status::INCOMPLETE_PROFILE,
+                    Attributes::AVATAR => $avatar,
+                    Attributes::USERNAME => $username
+                ], [
+                    Attributes::EMAIL,
+                    Attributes::PROVIDER,
+                    Attributes::PROVIDER_ID
+                ]);
+            } else {
+                $user->avatar = $avatar;
+                $user->save();
+            }
+
+            // login as
+            /** @var User $user */
+            if (!is_null($user)) {
+                $user = Auth::loginUsingId($user->id);
+            }
+
+            // login and return response
+            if (!is_null($user)) {
+                return $this->logMeIn($user);
+            }
         }
 
-        // get avatar
-        $avatar = $this->request->get(Attributes::PHOTO_URL) ?? null;
-        if (!is_null($avatar) && !Str::startsWith($avatar, "http")) {
-            $avatar = base64_encode(file_get_contents($avatar));
-        }
-
-        // create a user
-        if (is_null($user)) {
-            $user = User::createOrUpdate([
-                Attributes::EMAIL => $email,
-                Attributes::PROVIDER => $provider,
-                Attributes::PROVIDER_ID => $provider_id,
-                Attributes::STATUS => Status::INCOMPLETE_PROFILE,
-                Attributes::AVATAR => $avatar,
-                Attributes::USERNAME => $username
-            ], [
-                Attributes::EMAIL,
-                Attributes::PROVIDER,
-                Attributes::PROVIDER_ID
-            ]);
-        } else {
-            $user->avatar = $avatar;
-            $user->save();
-        }
-
-        // login as
-        /** @var User $user */
-        if (!is_null($user)) {
-            $user = Auth::loginUsingId($user->id);
-        }
-
-        // login and return response
-        if (!is_null($user)) {
-            return $this->logMeIn($user);
-        }
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
 
     }
 
     /**
      * Log Me In
-     * @param User $user
+     * @param User|Photographer $user
      * @return JsonResponse
      */
     public function logMeIn($user)
@@ -161,16 +190,27 @@ class AuthenticationController extends CustomController
             /** @var Token $token */
             $token = $response[Attributes::TOKEN];
             // return success message
-            return GlobalHelpers::formattedJSONResponse(Messages::TOKEN_GENERATED, [
-                Attributes::TYPE => "Bearer",
-                Attributes::TOKEN => $response["accessToken"],
-                Attributes::TIMESTAMP => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->created_at),
-                Attributes::EXPIRES => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->expires_at),
-                Attributes::USER => User::returnTransformedItems($user),
-                Attributes::PARTNER => $user->myPartner() ? FamilyMember::returnTransformedItems($user->myPartner()) : null,
-                Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
-                Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($user->myFamilyInfo()),
-            ]);
+            if (is_a($user, User::class)) {
+                return GlobalHelpers::formattedJSONResponse(Messages::TOKEN_GENERATED, [
+                    Attributes::TYPE => "Bearer",
+                    Attributes::TOKEN => $response["accessToken"],
+                    Attributes::TIMESTAMP => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->created_at),
+                    Attributes::EXPIRES => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->expires_at),
+                    Attributes::USER => User::returnTransformedItems($user),
+                    Attributes::PARTNER => $user->myPartner() ? FamilyMember::returnTransformedItems($user->myPartner()) : null,
+                    Attributes::CHILDREN => FamilyMember::returnTransformedItems($user->myChildren()),
+                    Attributes::FAMILY_INFO => FamilyInfo::returnTransformedItems($user->myFamilyInfo()),
+                ]);
+            } else {
+                return GlobalHelpers::formattedJSONResponse(Messages::TOKEN_GENERATED, [
+                    Attributes::TYPE => "Bearer",
+                    Attributes::TOKEN => $response["accessToken"],
+                    Attributes::TIMESTAMP => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->created_at),
+                    Attributes::EXPIRES => CarbonHelper::getFormattedCarbonDateFromUTCDateTime($token->expires_at),
+                    Attributes::USER => Photographer::returnTransformedItems($user, ListPhotographerTransformer::class),
+                ]);
+
+            }
         }
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_UNAUTHORIZED);
     }

@@ -6,6 +6,11 @@ use App\Constants\Attributes;
 use App\Constants\Tables;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Laravel\Passport\HasApiTokens;
 use VIITech\Helpers\Constants\CastingTypes;
 
 /**
@@ -14,10 +19,9 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string name
  * @property int additional_charge
  */
-class Photographer extends CustomModel
+class Photographer extends CustomModel implements AuthenticatableContract, AuthorizableContract
 {
-
-    use ModelTrait, ImageTrait;
+    use ModelTrait, ImageTrait, Authenticatable, Authorizable, HasApiTokens;
 
     public const DIRECTORY = "uploads/photographers";
     protected $table = Tables::PHOTOGRAPHERS;
