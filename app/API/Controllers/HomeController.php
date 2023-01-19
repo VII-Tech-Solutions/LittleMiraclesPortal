@@ -298,8 +298,10 @@ class HomeController extends CustomController
                             $formatted_date = $time_from_to->format(Values::CARBON_HOUR_FORMAT);
 
                             $photographer_session = Session::/*where(Attributes::PHOTOGRAPHER, $photographer_id)->*/where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
-                            $user_session = Session::where(Attributes::USER_ID, $user->id)->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
-                            if (is_null($photographer_session) && is_null($user_session)) {
+                            if (!is_null($user)) {
+                                $user_session = Session::where(Attributes::USER_ID, $user->id)->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))->where(Attributes::TIME, $formatted_date)->first();
+                            }
+                            if (is_null($photographer_session) && !isset($user_session)) {
                                 $timings_collection->add($time_from_to->format(Values::CARBON_HOUR_FORMAT));
                             }
                         }
