@@ -136,8 +136,8 @@ class Attributes extends CustomEnum
     const RTL = "rtl";
     const TYPE = "type";
     const BOOLEAN = "boolean";
-    const NO = "No";
-    const YES = "Yes";
+    const NO = "no";
+    const YES = "yes";
     const MAXLENGTH = "maxlength";
     const LABEL = "label";
     const ATTRIBUTES = "attributes";
