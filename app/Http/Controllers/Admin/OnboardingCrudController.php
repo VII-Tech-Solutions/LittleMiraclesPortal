@@ -26,6 +26,9 @@ class OnboardingCrudController extends CustomCrudController
         $this->crud->setModel(Onboarding::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/onboardings');
         $this->crud->setEntityNameStrings('Onboarding', 'Onboardings');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
     }
 
     /**
