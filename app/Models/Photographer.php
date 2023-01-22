@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\Roles;
 use App\Constants\Tables;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
@@ -17,6 +18,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * Photographer
  *
  * @property string name
+ * @property string email
+ * @property integer role
  * @property int additional_charge
  */
 class Photographer extends CustomModel implements AuthenticatableContract, AuthorizableContract
@@ -32,6 +35,8 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
 
     protected $fillable = [
         Attributes::NAME,
+        Attributes::EMAIL,
+        Attributes::ROLE,
         Attributes::IMAGE,
         Attributes::STATUS,
         Attributes::ADDITIONAL_CHARGE
@@ -43,7 +48,8 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
     ];
 
     protected $appends = [
-        Attributes::STATUS_NAME
+        Attributes::STATUS_NAME,
+        Attributes::ROLE_NAME
     ];
 
     /**
@@ -73,6 +79,16 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
     public function setImageAttribute($value)
     {
         $this->setImage($value);
+    }
+
+    /**
+     * Attribute: role name
+     * @param $value
+     * @return string
+     */
+    function getRoleNameAttribute($value) {
+        $role_name = Roles::getKey($this->role);
+        return Helpers::readableText($role_name);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
+use App\Constants\Roles;
 use App\Constants\Status;
 use App\Http\Requests\PhotographerRequest;
 use App\Models\Photographer;
@@ -46,9 +47,11 @@ class PhotographerCrudController extends CustomCrudController
         // Column: Email
         $this->addEmailColumn("Email");
 
-
         // Column: Image
         $this->addImageColumn("Image");
+
+        // Column: Role
+        $this->addNameColumn("Role", 1, Attributes::ROLE_NAME);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -83,6 +86,9 @@ class PhotographerCrudController extends CustomCrudController
 
         // Field: Email
         $this->addEmailField(Attributes::EMAIL, "Email");
+
+        // Field: Role
+        $this->addDropdownField(Roles::all(), Attributes::ROLE, "Role");
 
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
