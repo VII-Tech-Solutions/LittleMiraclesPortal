@@ -43,6 +43,10 @@ class PhotographerCrudController extends CustomCrudController
         // Column: Name
         $this->addNameColumn("Name");
 
+        // Column: Email
+        $this->addEmailColumn("Email");
+
+
         // Column: Image
         $this->addImageColumn("Image");
 
@@ -76,6 +80,9 @@ class PhotographerCrudController extends CustomCrudController
 
         // Field: Name
         $this->addNameField(Attributes::NAME, "Name");
+
+        // Field: Email
+        $this->addEmailField(Attributes::EMAIL, "Email");
 
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
