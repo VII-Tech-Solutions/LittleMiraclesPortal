@@ -308,4 +308,6 @@ class Attributes extends CustomEnum
     const PAYMENT_METHOD_NAME = "payment_method_name";
     const BOOKING_TYPE = "booking_type";
     const ROLE = "role";
+    const PRO_PAST_EXPERIENCE = "pro_past_experience";
+    const HAPPY_PAST_EXPERIENCE = "happy_past_experience";
 }
