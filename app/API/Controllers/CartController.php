@@ -244,7 +244,7 @@ class CartController extends CustomController
 
             // get original price
             $original_price = $session->package->price;
-            if (!is_null($sub_sessions)) {
+            if (count($sub_sessions) > 0) {
                 /** @var Session $sub_session */
                 foreach ($sub_sessions as $sub_session) {
                     // get photographer
