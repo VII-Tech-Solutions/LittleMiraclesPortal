@@ -74,6 +74,7 @@ $api->version('v1', function ($api) {
         $api->get('/sessions/{id}/guideline', 'SessionController@showGuideline')->middleware('allowed_user:true'); // Show Session Guideline
         $api->post('/sessions/{id}/feedback', 'SessionController@submitFeedback')->middleware('allowed_user:true'); // Submit Session Feedback
         $api->post('/sessions/{id}/appointment', 'SessionController@bookAppointment')->middleware('allowed_user:true');  // Submit the appointment for the session
+        $api->get('/reviews', 'SessionController@listReviews')->middleware('allowed_user:true'); // List Reviews
 
         /*******************************
          * Gifts

@@ -1069,4 +1069,25 @@ xox";
         return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
     }
 
+    /**
+     * List Reviews
+     * @return JsonResponse
+     */
+    public function listReviews(): JsonResponse
+    {
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get user reviews
+        $reviews = Review::where(Attributes::USER_ID, $user->id)->get();
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class)
+        ]);
+    }
+
 }
