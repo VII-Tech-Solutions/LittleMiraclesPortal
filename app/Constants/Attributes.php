@@ -135,6 +135,9 @@ class Attributes extends CustomEnum
     const ONBOARDING = "onboarding";
     const RTL = "rtl";
     const TYPE = "type";
+    const BOOLEAN = "boolean";
+    const NO = "No";
+    const YES = "Yes";
     const MAXLENGTH = "maxlength";
     const LABEL = "label";
     const ATTRIBUTES = "attributes";
@@ -303,7 +306,4 @@ class Attributes extends CustomEnum
     const EXTRA_PEOPLE = "extra_people";
     const RETURN_URL = "return_url";
     const PAYMENT_METHOD_NAME = "payment_method_name";
-    const CONVERSATION_ID = "conversation_id";
-    const BOOKING_TYPE = "booking_type";
-    const ROLE = "role";
 }

@@ -29,6 +29,8 @@ class UserTransformer extends CustomTransformer
         Attributes::CHAT_WITH_EVERYONE,
         Attributes::FIREBASE_ID,
         Attributes::UPDATED_AT,
-        Attributes::DELETED_AT
+        Attributes::DELETED_AT,
+        Attributes::PRO_PAST_EXPERIENCE,
+        Attributes::HAPPY_PAST_EXPERIENCE
     ];
 }

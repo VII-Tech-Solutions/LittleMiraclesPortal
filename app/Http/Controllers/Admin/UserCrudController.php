@@ -81,6 +81,12 @@ class UserCrudController extends CustomCrudController
         // column: Past Experience
         $this->addPastExperienceColumn("Past Experience", 1, Attributes::PAST_EXPERIENCE);
 
+        // Field: Pro Past Experience
+        $this->addProPastExperienceColumn();
+
+        // Field: Happy Past Experience
+        $this->addHappyPastExperienceColumn();
+
         // Column: Family ID
         $this->addIDColumn("Family ID", 1, Attributes::FAMILY_ID);
 
@@ -145,6 +151,12 @@ class UserCrudController extends CustomCrudController
 
         // Field: Past Experience
         $this->addTextField(Attributes::PAST_EXPERIENCE,"Past Experience");
+
+        // Field: Pro Past Experience
+        $this->addBooleanField(Attributes::PRO_PAST_EXPERIENCE, "Pro Past Experience");
+
+        // Field: Pro Past Experience
+        $this->addBooleanField(Attributes::HAPPY_PAST_EXPERIENCE, "Happy Past Experience");
 
         // Field: Status
         $this->addStatusField(Status::all());

@@ -1927,6 +1927,40 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Pro Past Experience Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addProPastExperienceColumn(string $label = 'Pro Past Experience', int $priority = 1, string $column_name = Attributes::PRO_PAST_EXPERIENCE)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
+            Attributes::TYPE => Attributes::BOOLEAN,
+            Attributes::OPTION => [0 => Attributes::NO, 1 => Attributes::YES]
+        ]);
+    }
+
+    /**
+     * Add Happy Past Experience Column
+     * @param string|null $label
+     * @param int $priority
+     * @param string $column_name
+     */
+    function addHappyPastExperienceColumn(string $label = 'Happy Past Experience', int $priority = 1, string $column_name = Attributes::HAPPY_PAST_EXPERIENCE)
+    {
+        $this->crud->addColumn([
+            Attributes::NAME => $column_name,
+            Attributes::LABEL => $label,
+            Attributes::PRIORITY => $priority,
+            Attributes::TYPE => Attributes::BOOLEAN,
+            Attributes::OPTION => [0 => Attributes::NO, 1 => Attributes::YES]
+        ]);
+    }
+
+    /**
      * Add Custom Backdrop Column
      * @param string|null $label
      * @param int $priority
@@ -2299,6 +2333,24 @@ class CustomCrudController extends CrudController
             Attributes::LABEL => $label,
             Attributes::NAME => $name,
             Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::ATTRIBUTES => $this->disabled($disabled),
+        ]);
+    }
+
+    /**
+     * @param $name
+     * @param $label
+     * @param $default
+     * @param $disabled
+     * @return void
+     */
+    function addBooleanField($name, $label, $default = 0, $disabled = false)
+    {
+        CRUD::addField([
+            Attributes::LABEL => $label,
+            Attributes::NAME => $name,
+            Attributes::TYPE => FieldTypes::CHECKBOX,
+            Attributes::DEFAULT => $default,
             Attributes::ATTRIBUTES => $this->disabled($disabled),
         ]);
     }

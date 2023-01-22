@@ -36,6 +36,8 @@ class UserRequest extends FormRequest
             Attributes::PAST_EXPERIENCE=>'required',
             Attributes::PROVIDER=>'required',
             Attributes::AVATAR => 'required',
+            Attributes::PRO_PAST_EXPERIENCE => 'required',
+            Attributes::HAPPY_PAST_EXPERIENCE => 'required',
 
 
         ];

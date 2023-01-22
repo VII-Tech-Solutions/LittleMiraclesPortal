@@ -67,7 +67,9 @@ class User extends CustomModel implements
         Attributes::PAST_EXPERIENCE,
         Attributes::STATUS,
         Attributes::CHAT_WITH_EVERYONE,
-        Attributes::FIREBASE_ID
+        Attributes::FIREBASE_ID,
+        Attributes::PRO_PAST_EXPERIENCE,
+        Attributes::HAPPY_PAST_EXPERIENCE,
     ];
 
     /**
