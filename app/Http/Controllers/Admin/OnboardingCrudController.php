@@ -29,6 +29,7 @@ class OnboardingCrudController extends CustomCrudController
 
         // deny access
         $this->crud->denyAccess(["create"]);
+        $this->crud->denyAccess(["delete"]);
     }
 
     /**
