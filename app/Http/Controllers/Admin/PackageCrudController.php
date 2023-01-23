@@ -52,7 +52,7 @@ class PackageCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Session Package Type Filter
         $this->addPackageTypeFilter(SessionPackageTypes::all(), Attributes::TYPE,"Package Type");
@@ -158,7 +158,7 @@ class PackageCrudController extends CustomCrudController
         $this->addLocationField(Attributes::LOCATION_LINK, "Location Link");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
 
         // Field: Media

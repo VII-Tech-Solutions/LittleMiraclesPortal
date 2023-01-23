@@ -47,7 +47,7 @@ class FamilyMemberCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Gender
         $this->addGenderFilter(Gender::all());
@@ -122,7 +122,7 @@ class FamilyMemberCrudController extends CustomCrudController
         $this->addRelationshipField(Relationship::all(),Attributes::RELATIONSHIP,"Relationship");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 

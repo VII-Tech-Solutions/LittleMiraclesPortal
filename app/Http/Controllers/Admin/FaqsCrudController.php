@@ -34,7 +34,7 @@ class FaqsCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Name
         $this->addQuestionColumn("Question", 1, Attributes::QUESTION);
@@ -77,6 +77,6 @@ class FaqsCrudController extends CustomCrudController
         $this->addAnswerField(Attributes::ANSWER, Attributes::ANSWER, null, FieldTypes::TEXTAREA, 5, 200);
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
     }
 }

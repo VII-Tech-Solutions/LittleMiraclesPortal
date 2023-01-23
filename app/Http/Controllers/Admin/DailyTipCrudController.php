@@ -36,7 +36,7 @@ class DailyTipCrudController extends CustomCrudController
     protected function setupListOperation()
     {
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -91,7 +91,7 @@ class DailyTipCrudController extends CustomCrudController
         $this->addContentField(Attributes::CONTENT, Attributes::CONTENT, null, FieldTypes::CKEDITOR, 5, 200);
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

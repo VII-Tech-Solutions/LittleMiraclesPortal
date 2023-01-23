@@ -38,7 +38,7 @@ class WorkshopCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -99,7 +99,7 @@ class WorkshopCrudController extends CustomCrudController
         $this->addPriceField(Attributes::PRICE, "Price");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

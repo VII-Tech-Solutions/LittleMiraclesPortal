@@ -32,7 +32,7 @@ class TagCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Title
         $this->addNameColumn("Title", 1,Attributes::TITLE);
@@ -69,7 +69,7 @@ class TagCrudController extends CustomCrudController
         $this->addNameField(Attributes::TITLE, "Title");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

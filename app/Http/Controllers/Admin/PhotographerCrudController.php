@@ -26,7 +26,7 @@ class PhotographerCrudController extends CustomCrudController
     {
         $this->crud->setModel(Photographer::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/photographers');
-        $this->crud->setEntityNameStrings('Photographer', 'Photographers');
+        $this->crud->setEntityNameStrings('Admin & Photographers', 'Admin & Photographers');
     }
 
     /**

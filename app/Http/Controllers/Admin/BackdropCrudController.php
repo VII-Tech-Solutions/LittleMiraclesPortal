@@ -39,7 +39,7 @@ class BackdropCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Backdrop Category
         $this->addCustomCategoryFilter();
@@ -89,7 +89,7 @@ class BackdropCrudController extends CustomCrudController
         $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

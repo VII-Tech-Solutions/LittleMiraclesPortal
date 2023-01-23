@@ -32,7 +32,7 @@ class PaymentMethodCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -70,7 +70,7 @@ class PaymentMethodCrudController extends CustomCrudController
         $this->addNameField(Attributes::TITLE);
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

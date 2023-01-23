@@ -42,7 +42,7 @@ class FamilyInfoCrudController  extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // column: ID
         $this->addIDColumn("ID", 1, Attributes::ID);
@@ -55,7 +55,7 @@ class FamilyInfoCrudController  extends CustomCrudController
 
         // Column: Question ID
         $this->addColumnWithSearchLogic('Question',Attributes::QUESTION_ID,Attributes::QUESTION_ID,Attributes::QUESTION,FamilyInfoQuestion::class);
-        
+
         // Column: Answer
         $this->addAnswerColumn("Answer",1, Attributes::ANSWER);
 
@@ -90,7 +90,7 @@ class FamilyInfoCrudController  extends CustomCrudController
         $this->addAnswerField(Attributes::ANSWER,"Answer");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

@@ -48,7 +48,7 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Question Type
         $this->addQuestionTypeFilter(QuestionType::all(), Attributes::QUESTION_TYPE, "Type");
@@ -105,7 +105,7 @@ class FamilyInfoQuestionCrudController extends CustomCrudController
         $this->addOrderField();
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 

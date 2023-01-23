@@ -33,7 +33,7 @@ class PageCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -83,7 +83,7 @@ class PageCrudController extends CustomCrudController
         $this->addNameField(Attributes::SLUG,'Slug',null,Attributes::LTR,[],true);
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

@@ -34,7 +34,7 @@ class StudioMetadataCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Category
         $this->addCategoryFilter(StudioCategory::all());
@@ -95,7 +95,7 @@ class StudioMetadataCrudController extends CustomCrudController
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Field: Category
         $this->addCategoryField(StudioCategory::all());

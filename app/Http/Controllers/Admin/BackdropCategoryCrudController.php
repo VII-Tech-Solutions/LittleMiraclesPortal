@@ -41,7 +41,7 @@ class BackdropCategoryCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // column: ID
         $this->addIDColumn("ID", 1, Attributes::ID);
@@ -80,7 +80,7 @@ class BackdropCategoryCrudController extends CustomCrudController
 
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 }

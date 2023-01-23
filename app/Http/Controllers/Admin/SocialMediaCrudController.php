@@ -32,7 +32,7 @@ class SocialMediaCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -81,6 +81,6 @@ class SocialMediaCrudController extends CustomCrudController
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
     }
 }

@@ -37,7 +37,7 @@ class SectionCrudController extends CustomCrudController
     {
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Type
         $this->addTypeFilter(SectionTypes::all());
@@ -114,7 +114,7 @@ class SectionCrudController extends CustomCrudController
         $this->addTypeField(GoToAction::all(), Attributes::GO_TO, "Go To");
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Field: Is Featured
         $this->addIsPopularField(IsFeatured::all(),Attributes::IS_FEATURED,"Is Featured");

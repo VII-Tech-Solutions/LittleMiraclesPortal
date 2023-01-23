@@ -50,7 +50,7 @@ class AvailableDateCrudController extends CustomCrudController
     protected function setupListOperation()
     {
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Type
         $this->addStatusFilter(AvailableDateType::all(), Attributes::TYPE, "Type");
@@ -105,7 +105,7 @@ class AvailableDateCrudController extends CustomCrudController
         $this->addRepeatableDaysField();
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
     }
 

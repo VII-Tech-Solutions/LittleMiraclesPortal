@@ -49,7 +49,7 @@ class StudioPackageCrudController extends CustomCrudController
         //Attributes::SESSION_STATUS, added need filter
 
         // Filter: Status
-        $this->addStatusFilter(Status::all());
+        $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Column: ID
         $this->addIDColumn("ID",1,Attributes::ID);
@@ -110,7 +110,7 @@ class StudioPackageCrudController extends CustomCrudController
         $this->addBenefitsField();
 
         // Field: Status
-        $this->addStatusField(Status::all());
+        $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
 
         // Field: Media

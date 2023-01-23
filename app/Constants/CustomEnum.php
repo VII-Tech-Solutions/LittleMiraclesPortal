@@ -59,4 +59,14 @@ class CustomEnum extends Enum
         }
         return $collect->toArray();
     }
+
+    /**
+     * Only
+     * @param $keys
+     * @return array
+     */
+    static function only($keys)
+    {
+        return collect(self::all())->only($keys)->toArray();
+    }
 }
