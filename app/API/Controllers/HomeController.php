@@ -285,6 +285,11 @@ class HomeController extends CustomController
                 $timings_collection = collect();
 
                 $day_of_week = $date->dayOfWeek;
+                if ($day_of_week < 6) {
+                    $day_of_week += 1;
+                } else {
+                    $day_of_week = 0;
+                }
 
                 $timings = $hours->where(Attributes::DAY_ID, $day_of_week);
 
