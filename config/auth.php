@@ -47,6 +47,12 @@ return [
             'provider' => 'users',
             'hash' => true,
         ],
+
+        // photographers
+        'api_photographers' => [
+            'driver' => 'passport',
+            'provider' => 'photographers'
+        ]
     ],
 
     /*
@@ -71,6 +77,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'photographers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Photographer::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

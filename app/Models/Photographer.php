@@ -8,8 +8,11 @@ use App\Constants\Tables;
 use App\Traits\ImageTrait;
 use App\Traits\ModelTrait;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Laravel\Passport\HasApiTokens;
 use VIITech\Helpers\Constants\CastingTypes;
@@ -22,9 +25,9 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property integer role
  * @property int additional_charge
  */
-class Photographer extends CustomModel implements AuthenticatableContract, AuthorizableContract
+class Photographer extends CustomModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use ModelTrait, ImageTrait, Authenticatable, Authorizable, HasApiTokens;
+    use ModelTrait, ImageTrait, Authenticatable, Authorizable, HasApiTokens, CanResetPassword, MustVerifyEmail;
 
     public const DIRECTORY = "uploads/photographers";
     protected $table = Tables::PHOTOGRAPHERS;

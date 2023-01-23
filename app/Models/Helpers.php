@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\EnvVariables;
 use App\Constants\MediaType;
+use App\Constants\PortalType;
 use App\Constants\Status;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
@@ -165,6 +167,25 @@ class Helpers
             }
             return $user;
         } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param $type
+     * @return User|Photographer|Authenticatable|null
+     */
+    static function getCurrentUser($type = PortalType::USER) {
+        try {
+            if ($type == PortalType::USER) {
+                $user = Auth::guard('api')->user();
+            } else {
+                $user = Auth::guard("api_photographers")->user();
+            }
+            return $user;
+        } catch (Exception $e) {
+            Helpers::captureException($e);
             return null;
         }
     }

@@ -12,9 +12,11 @@ use App\Constants\AllPackages;
 use App\Constants\Attributes;
 use App\Constants\Gender;
 use App\Constants\Messages;
+use App\Constants\PortalType;
 use App\Constants\PromotionStatus;
 use App\Constants\Relationship;
 use App\Constants\ReviewStatus;
+use App\Constants\Roles;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Values;
@@ -453,8 +455,15 @@ class SessionController extends CustomController
     public function listAll(): JsonResponse
     {
 
+        // get portal type
+        $portal_type = GlobalHelpers::getValueFromHTTPRequest($this->request, "portal_type", PortalType::USER, CastingTypes::INTEGER);
+
         // get current user info
-        $user = Helpers::resolveUser();
+        if ($portal_type == PortalType::PHOTOGRAPHER) {
+            $user = Helpers::getCurrentUser($portal_type);
+        } else {
+            $user = Helpers::resolveUser($portal_type);
+        }
         if (is_null($user)) {
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
@@ -465,12 +474,19 @@ class SessionController extends CustomController
 
         //only get sessions and not sub_sessions
         $sessions = Session::sessions();
+        if (is_a($user, Photographer::class)) {
+            if ($user->role == Roles::PHOTOGRAPHER) {
+                $sessions->where(Attributes::PHOTOGRAPHER, $user->id);
+            }
+        }else {
+            $sessions->where(Attributes::USER_ID, $user->id);
+        }
         if (!empty($id)) {
-            $sessions = $sessions->where(Attributes::ID, $id)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+            $sessions = $sessions->where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/->sortByLatest()->get();
         } elseif (!empty($ids)) {
-            $sessions = $sessions->whereIn(Attributes::ID, $ids)->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+            $sessions = $sessions->whereIn(Attributes::ID, $ids)/*->where(Attributes::USER_ID, $user->id)*/->sortByLatest()->get();
         } else {
-            $sessions = $sessions->paid()->where(Attributes::USER_ID, $user->id)->sortByLatest()->get();
+            $sessions = $sessions->paid()/*->where(Attributes::USER_ID, $user->id)*/->sortByLatest()->get();
         }
 
         // get last updated items
@@ -484,7 +500,8 @@ class SessionController extends CustomController
 
         // get related reviews
         $reviews = $sessions->map->reviews;
-        $reviews = $reviews->where(Attributes::STATUS, ReviewStatus::ACTIVE)->flatten()->filter();
+        $reviews = $reviews->flatten()->unique(Attributes::ID)->filter()->where(Attributes::STATUS, ReviewStatus::ACTIVE);
+//        $reviews = $reviews->where(Attributes::STATUS, ReviewStatus::ACTIVE)->flatten()->filter();
 
         // get related packages
         $packages = $sessions->map->package;
