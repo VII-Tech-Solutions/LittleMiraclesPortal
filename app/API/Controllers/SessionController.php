@@ -501,7 +501,6 @@ class SessionController extends CustomController
         // get related reviews
         $reviews = $sessions->map->reviews;
         $reviews = $reviews->flatten()->unique(Attributes::ID)->filter()->where(Attributes::STATUS, ReviewStatus::ACTIVE);
-//        $reviews = $reviews->where(Attributes::STATUS, ReviewStatus::ACTIVE)->flatten()->filter();
 
         // get related packages
         $packages = $sessions->map->package;
