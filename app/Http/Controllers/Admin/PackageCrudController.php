@@ -136,6 +136,9 @@ class PackageCrudController extends CustomCrudController
         // Field: Benefits
         $this->addBenefitsField();
 
+        // Field: Minimum Backdrops
+        $this->addDropdownField(AllowedSelection::all(),Attributes::MIN_BACKDROP, "Minimum Backdrops");
+
         // Field: Backdrops Allowed
         $this->addDropdownField(AllowedSelection::all(),Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
 

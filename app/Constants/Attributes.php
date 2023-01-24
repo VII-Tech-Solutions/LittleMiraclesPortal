@@ -311,4 +311,5 @@ class Attributes extends CustomEnum
     const PRO_PAST_EXPERIENCE = "pro_past_experience";
     const HAPPY_PAST_EXPERIENCE = "happy_past_experience";
     const ROLE_NAME = "role_name";
+    const MIN_BACKDROP = "min_backdrop";
 }

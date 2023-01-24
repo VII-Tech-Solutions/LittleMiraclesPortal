@@ -30,6 +30,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property float price
  * @property string location_text
  * @property string location_link
+ * @property integer min_backdrop
+ * @property integer allowed_backdrop
  * @property boolean has_guideline
  * @property string image
  * @property boolean five_sessions_gift
@@ -56,6 +58,7 @@ class Package extends CustomModel
         Attributes::LOCATION_LINK,
         Attributes::STATUS,
         Attributes::CAKE_ALLOWED,
+        Attributes::MIN_BACKDROP,
         Attributes::BACKDROP_ALLOWED,
         Attributes::OUTDOOR_ALLOWED,
         Attributes::HAS_GUIDELINE,
