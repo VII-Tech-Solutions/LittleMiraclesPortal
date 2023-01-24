@@ -25,6 +25,7 @@ use App\Models\Benefit;
 use App\Models\Feedback;
 use App\Models\FeedbackQuestion;
 use App\Models\Helpers;
+use App\Models\Media;
 use App\Models\Package;
 use App\Models\Photographer;
 use App\Models\Promotion;
@@ -527,7 +528,7 @@ class SessionController extends CustomController
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
             Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
             Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
-            Attributes::MEDIA => Benefit::returnTransformedItems($media, ListMediaTransformer::class),
+            Attributes::MEDIA => Media::returnTransformedItems($media, ListMediaTransformer::class),
         ]);
     }
 
