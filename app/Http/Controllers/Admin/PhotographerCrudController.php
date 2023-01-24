@@ -7,14 +7,20 @@ use App\Constants\Roles;
 use App\Constants\Status;
 use App\Http\Requests\PhotographerRequest;
 use App\Models\Photographer;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Exception;
 use App\Models\Helpers;
+use App\Http\Requests\PhotographerRequest as StoreRequest;
 
 /**
  * Photographers CRUD Controller
  */
 class PhotographerCrudController extends CustomCrudController
 {
+
+    use CreateOperation {
+        store as traitStore;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -98,6 +104,8 @@ class PhotographerCrudController extends CustomCrudController
 
         // Field: Status
         $this->addStatusField(Status::all());
+
+            $this->crud->setValidation(StoreRequest::class);
 
     }
 }
