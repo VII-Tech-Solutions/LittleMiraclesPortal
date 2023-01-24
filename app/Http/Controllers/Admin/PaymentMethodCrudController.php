@@ -20,6 +20,9 @@ class PaymentMethodCrudController extends CustomCrudController
         $this->crud->setModel(PaymentMethod::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/payment-method');
         $this->crud->setEntityNameStrings('Payment Method', 'Payment Methods');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
     }
 
     /**
