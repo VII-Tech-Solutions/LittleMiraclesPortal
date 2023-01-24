@@ -45,10 +45,10 @@ class PaymentHelpers
 
         // get amount
         $amount = $order->subtotal;
-        if (!GlobalHelpers::isProductionEnv()) {
+//        if (!GlobalHelpers::isProductionEnv()) {
             // test amount
-            $amount = Values::TEST_AMOUNT;
-        }
+//            $amount = Values::TEST_AMOUNT;
+//        }
 
         if ($payment_method == PaymentMethods::CREDIT_CARD) {
             // todo success_url
