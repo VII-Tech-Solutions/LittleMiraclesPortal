@@ -463,7 +463,7 @@ class SessionController extends CustomController
         if ($portal_type == PortalType::PHOTOGRAPHER) {
             $user = Helpers::getCurrentUser($portal_type);
         } else {
-            $user = Helpers::resolveUser();
+            $user = Helpers::resolveUser($portal_type);
         }
         if (is_null($user)) {
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);

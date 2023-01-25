@@ -11,7 +11,6 @@ class Values extends CustomEnum
     const CARBON_HOUR_FORMAT = "g:i A";
     const CARBON_DATE_FORMAT = "Y-m-d";
     const TEST_AMOUNT = 0.1;
-    const PASSWORD_POLICY = 'string|required|between:6,20|regex:/^(?=.*[a-z])(?=.*\d).{6,20}/';
 
     // FCM
     const FCM_DEFAULT_TOPIC = "lms";
