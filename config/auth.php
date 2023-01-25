@@ -50,7 +50,7 @@ return [
 
         // photographers
         'api_photographers' => [
-            'driver' => 'passport',
+            'driver' => 'session',
             'provider' => 'photographers'
         ]
     ],
