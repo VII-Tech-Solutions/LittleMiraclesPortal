@@ -33,22 +33,23 @@ class PaymentHelpers
         // process url
         $process_url = url('/api/payment/process');
 
+        // get amount
+        $amount = $order->subtotal;
+//        if (!GlobalHelpers::isProductionEnv()) {
+        // test amount
+//            $amount = Values::TEST_AMOUNT;
+//        }
+
         // create transaction
         $transaction = new Transaction();
         $transaction->payment_method = $payment_method;
         $transaction->order_id = $order->id;
+        $transaction->amount = $amount;
         $transaction->save();
 
         // get personal info
         $customer_name = $order->user->first_name . ' ' . $order->user->last_name;
         $customer_phone_number = $order->user->phone_number;
-
-        // get amount
-        $amount = $order->subtotal;
-//        if (!GlobalHelpers::isProductionEnv()) {
-            // test amount
-//            $amount = Values::TEST_AMOUNT;
-//        }
 
         if ($payment_method == PaymentMethods::CREDIT_CARD) {
             // todo success_url
