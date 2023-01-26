@@ -91,7 +91,10 @@ class PhotographerCrudController extends CustomCrudController
         $this->addNameField(Attributes::NAME, "Name");
 
         // Field: Email
-        $this->addEmailField(Attributes::EMAIL, "Email");
+        $this->addEmailField(Attributes::EMAIL, "Email", null, [], true);
+
+        // Field: Password
+        $this->addPasswordField();
 
         // Field: Role
         $this->addDropdownField(Roles::all(), Attributes::ROLE, "Role");
@@ -105,7 +108,7 @@ class PhotographerCrudController extends CustomCrudController
         // Field: Status
         $this->addStatusField(Status::all());
 
-            $this->crud->setValidation(StoreRequest::class);
+        $this->crud->setValidation(StoreRequest::class);
 
     }
 }

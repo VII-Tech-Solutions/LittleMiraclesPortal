@@ -363,6 +363,18 @@ class CustomCrudController extends CrudController
     }
 
     /**
+     * Add Password Field
+     */
+    function addPasswordField()
+    {
+        CRUD::addField([
+            Attributes::NAME => Attributes::PASSWORD,
+            Attributes::TYPE => FieldTypes::TEXT,
+            Attributes::LABEL => "Password",
+        ]);
+    }
+
+    /**
      * Add Details Field
      * @param string|null $name
      * @param string|null $label

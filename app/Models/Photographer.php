@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use VIITech\Helpers\Constants\CastingTypes;
 
@@ -58,6 +59,11 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
         Attributes::ROLE_NAME
     ];
 
+    protected $hidden = [
+        Attributes::PASSWORD,
+        Attributes::ACCESS_TOKEN
+    ];
+
     /**
      * Get Attribute: status_name
      * @param $value
@@ -95,6 +101,16 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
     function getRoleNameAttribute($value) {
         $role_name = Roles::getKey($this->role);
         return Helpers::readableText($role_name);
+    }
+
+    /**
+     * Set Password Attribute
+     * @param $value
+     */
+    function setPasswordAttribute($value){
+        if(!empty($value) && Hash::needsRehash($value)){
+            $this->attributes[Attributes::PASSWORD] = Hash::make($value);
+        }
     }
 
 }
