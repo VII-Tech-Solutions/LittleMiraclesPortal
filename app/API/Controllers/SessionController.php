@@ -479,15 +479,15 @@ class SessionController extends CustomController
             if ($user->role == Roles::PHOTOGRAPHER) {
                 $sessions->where(Attributes::PHOTOGRAPHER, $user->id);
             }
-        }else {
+        } else {
             $sessions->where(Attributes::USER_ID, $user->id);
         }
         if (!empty($id)) {
-            $sessions = $sessions->where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/->sortByLatest()->get();
+            $sessions = $sessions->where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/ ->sortByLatest()->get();
         } elseif (!empty($ids)) {
-            $sessions = $sessions->whereIn(Attributes::ID, $ids)/*->where(Attributes::USER_ID, $user->id)*/->sortByLatest()->get();
+            $sessions = $sessions->whereIn(Attributes::ID, $ids)/*->where(Attributes::USER_ID, $user->id)*/ ->sortByLatest()->get();
         } else {
-            $sessions = $sessions->paid()/*->where(Attributes::USER_ID, $user->id)*/->sortByLatest()->get();
+            $sessions = $sessions->paid()/*->where(Attributes::USER_ID, $user->id)*/ ->sortByLatest()->get();
         }
 
         // get last updated items
@@ -1107,4 +1107,91 @@ xox";
         ]);
     }
 
+    /**
+     * Photographer Sessions
+     * @return JsonResponse
+     */
+    public function getPhotographerSessions(): JsonResponse
+    {
+        // get token
+        $token = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ACCESS_TOKEN, null, CastingTypes::STRING);
+
+        /** @var Photographer $user */
+        $user = Photographer::where(Attributes::ACCESS_TOKEN, $token)->first();
+        if (is_null($token) && is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get sessions
+        $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
+        $ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IDS, null, CastingTypes::ARRAY);
+
+        //only get sessions and not sub_sessions
+        $sessions = Session::sessions();
+        if ($user->role == Roles::PHOTOGRAPHER) {
+            $sessions->where(Attributes::PHOTOGRAPHER, $user->id);
+        }
+
+        if (!empty($id)) {
+            $sessions = $sessions->where(Attributes::ID, $id)->sortByLatest()->get();
+        } elseif (!empty($ids)) {
+            $sessions = $sessions->whereIn(Attributes::ID, $ids)->sortByLatest()->get();
+        } else {
+            $sessions = $sessions->paid()->sortByLatest()->get();
+        }
+
+        // get last updated items
+        if (!empty($this->last_update)) {
+            $sessions = Helpers::getLatestOnlyInCollection($sessions, $this->last_update);
+        }
+
+        // get related sub_session
+        $sub_session = $sessions->map->subSessions;
+        $sub_session = $sub_session->flatten()->filter();
+
+        // get related reviews
+        $reviews = $sessions->map->reviews;
+        $reviews = $reviews->flatten()->unique(Attributes::ID)->filter()->where(Attributes::STATUS, ReviewStatus::ACTIVE);
+
+        // get related packages
+        $packages = $sessions->map->package;
+        $packages = $packages->flatten()->filter();
+
+        // get package benefits
+        $benefits = $packages->map->benefits;
+        $benefits = $benefits->flatten()->filter();
+
+        // image examples
+        $media = collect();
+        foreach ($sessions->map->media as $session_media) {
+            $media->add($session_media);
+        }
+        foreach ($sub_session->map->media as $sub_session_media) {
+            $media->add($sub_session_media);
+        }
+        $media = $media->flatten()->filter()->unique(Attributes::ID);
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::SESSIONS => Session::returnTransformedItems($sessions, ListSessionTransformer::class),
+            Attributes::SUB_SESSIONS => Session::returnTransformedItems($sub_session, ListSubSessionTransformer::class),
+            Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
+            Attributes::REVIEWS => Review::returnTransformedItems($reviews, ListReviewsTransformer::class),
+            Attributes::BENEFITS => Benefit::returnTransformedItems($benefits, ListPackageBenefitTransformer::class),
+            Attributes::MEDIA => Media::returnTransformedItems($media, ListMediaTransformer::class),
+        ]);
+    }
+
+    /**
+     * Get Photographer Session Info
+     * @param $id
+     * @return JsonResponse
+     */
+    public function getPhotographerSessionInfo($id): JsonResponse
+    {
+        $this->request->merge([
+            Attributes::ID => $id
+        ]);
+        return $this->getPhotographerSessions();
+    }
 }

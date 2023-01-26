@@ -65,7 +65,9 @@ $api->version('v1', function ($api) {
          * Sessions
          *******************************/
         $api->get('/sessions', 'SessionController@listAll')->middleware('allowed_user:true'); // List All Sessions
+        $api->post('/photographer/sessions', 'SessionController@getPhotographerSessions'); // List All Sessions
         $api->get('/sessions/{id}', 'SessionController@getInfo')->middleware('allowed_user:true'); // Get Session Info
+        $api->post('/photographer/sessions/{id}', 'SessionController@getPhotographerSessionInfo'); // List All Sessions
         $api->post('/sessions', 'SessionController@bookSession')->middleware('allowed_user:true'); // Book a Session
         $api->post('/multiple-sessions', 'SessionController@bookMultipleSession')->middleware('allowed_user:true'); // Book Multiple Session
         $api->post('/sessions/{id}/promotion', 'SessionController@applyPromoCode')->middleware('allowed_user:true'); // Apply Promo Code to Session

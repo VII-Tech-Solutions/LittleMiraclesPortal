@@ -22,6 +22,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  *
  * @property string name
  * @property string email
+ * @property string password
  * @property integer role
  * @property int additional_charge
  */
@@ -39,8 +40,10 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
     protected $fillable = [
         Attributes::NAME,
         Attributes::EMAIL,
+        Attributes::PASSWORD,
         Attributes::ROLE,
         Attributes::IMAGE,
+        Attributes::ACCESS_TOKEN,
         Attributes::STATUS,
         Attributes::ADDITIONAL_CHARGE
     ];

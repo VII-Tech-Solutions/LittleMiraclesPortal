@@ -67,6 +67,8 @@ class PhotographerController extends CustomController
             /** @var array $response */
             /** @var Token $token */
             $token = $response[Attributes::TOKEN];
+            $user->access_token = $response['accessToken'];
+            $user->save();
             // return success message
             return GlobalHelpers::formattedJSONResponse(Messages::TOKEN_GENERATED, [
                 Attributes::TYPE => "Bearer",
