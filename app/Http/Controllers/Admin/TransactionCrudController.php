@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
+use App\Constants\PaymentMethods;
+use App\Constants\PaymentStatus;
 use App\Http\Requests\TransactionRequest;
+use App\Models\Order;
+use App\Models\Session;
 use App\Models\Transaction;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Helpers;
@@ -78,21 +82,38 @@ class TransactionCrudController extends CustomCrudController
     {
         CRUD::setValidation(TransactionRequest::class);
 
-        CRUD::field('transaction_id');
-        CRUD::field('amount');
-        CRUD::field('order_id');
-        CRUD::field('currency');
-        CRUD::field('gateway');
-        CRUD::field('payment_method');
-        CRUD::field('success_indicator');
-        CRUD::field('success_url');
-        CRUD::field('error_url');
-        CRUD::field('description');
-        CRUD::field('error_message');
-        CRUD::field('session_version');
-        CRUD::field('uid');
-        CRUD::field('payment_id');
-        CRUD::field('status');
+        // Field: ID
+        $this->addNumberField(Attributes::ID, Helpers::readableText(Attributes::TRANSACTION_ID), null, [], true);
+
+        // Field: Amount
+        $this->addNumberField(Attributes::AMOUNT, Helpers::readableText(Attributes::AMOUNT));
+
+        // Field: Order ID
+        $this->addNumberField(Attributes::ORDER_ID, Helpers::readableText(Attributes::ORDER_ID));
+
+        // Field: gateway
+        $this->addNameField(Attributes::GATEWAY, Helpers::readableText(Attributes::GATEWAY));
+
+        // Field: payment method
+        $this->addDropdownField(PaymentMethods::all(), Attributes::PAYMENT_METHOD, Helpers::readableText(Attributes::PAYMENT_METHOD));
+
+        // Field: success indicator
+        $this->addNameField(Attributes::SUCCESS_INDICATOR, Helpers::readableText(Attributes::SUCCESS_INDICATOR));
+
+        // Field: description
+        $this->addNameField(Attributes::DESCRIPTION, Helpers::readableText(Attributes::DESCRIPTION));
+
+        // Field: error message
+        $this->addNameField(Attributes::ERROR_MESSAGE, Helpers::readableText(Attributes::ERROR_MESSAGE));
+
+        // Field: session version
+        $this->addNameField(Attributes::SESSION_VERSION, Helpers::readableText(Attributes::SESSION_VERSION));
+
+        // Field: payment id
+        $this->addNameField(Attributes::PAYMENT_ID, Helpers::readableText(Attributes::PAYMENT_ID));
+
+        // Field: status
+        $this->addDropdownField(PaymentStatus::all(), Attributes::STATUS, Helpers::readableText(Attributes::STATUS));
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
