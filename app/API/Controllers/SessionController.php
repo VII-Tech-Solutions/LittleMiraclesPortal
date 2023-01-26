@@ -629,6 +629,9 @@ class SessionController extends CustomController
             $children_name[$children_count] = $child->first_name;
         }
 
+        $object = "";
+        $object2 = "";
+        $object3 = "";
         if ($children_count == 2) {
             foreach ($children_name as $names) {
                 $name[$children_count2] = $names . "&";
