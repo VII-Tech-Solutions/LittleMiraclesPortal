@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5|^8.0",
+        "ext-json": "*",
         "aws/aws-sdk-php-laravel": "^3.6",
         "backpack/crud": "4.1.*",
         "backpack/permissionmanager": "^6.0",
@@ -23,14 +24,14 @@
         "laravel/passport": "^9.3",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
+        "mailjet/laravel-mailjet": "^3.0",
         "ramsey/uuid": "^3",
         "sentry/sentry-laravel": "^2.10",
         "spatie/laravel-backup": "^6.16",
         "spatie/laravel-collection-macros": "^6.3",
         "spatie/laravel-fractal": "^5.8",
         "spatie/laravel-query-builder": "^4.0",
-        "viitech/laravel-dev-helpers": "^0.1.16",
-        "ext-json": "*"
+        "viitech/laravel-dev-helpers": "^0.1.16"
     },
     "require-dev": {
         "backpack/generators": "^3.1",
