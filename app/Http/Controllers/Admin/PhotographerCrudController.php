@@ -11,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Exception;
 use App\Models\Helpers;
 use App\Http\Requests\PhotographerRequest as StoreRequest;
+use App\Http\Requests\PhotographerUpdateRequest as UpdateRequest;
 
 /**
  * Photographers CRUD Controller
@@ -73,6 +74,8 @@ class PhotographerCrudController extends CustomCrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+
+        $this->crud->setValidation(UpdateRequest::class);
     }
 
     /**
@@ -85,13 +88,13 @@ class PhotographerCrudController extends CustomCrudController
     {
 
         // Validation
-        $this->crud->setValidation(PhotographerRequest::class);
+        $this->crud->setValidation(StoreRequest::class);
 
         // Field: Name
         $this->addNameField(Attributes::NAME, "Name");
 
         // Field: Email
-        $this->addEmailField(Attributes::EMAIL, "Email", null, [], true);
+        $this->addEmailField(Attributes::EMAIL, "Email");
 
         // Field: Password
         $this->addPasswordField();
@@ -107,8 +110,5 @@ class PhotographerCrudController extends CustomCrudController
 
         // Field: Status
         $this->addStatusField(Status::all());
-
-        $this->crud->setValidation(StoreRequest::class);
-
     }
 }
