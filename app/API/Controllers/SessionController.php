@@ -100,6 +100,9 @@ class SessionController extends CustomController
             $total_price += $session_photographer->additional_charge;
         }
 
+        // calculate vat price
+        $vat_amount = $total_price * Values::VAT_AMOUNT;
+
         // find the package
         /** @var Package $package */
         $package = Package::find($package_id);
@@ -132,6 +135,7 @@ class SessionController extends CustomController
             Attributes::PAYMENT_METHOD => $payment_method,
             Attributes::STATUS => SessionStatus::UNPAID,
             Attributes::TOTAL_PRICE => $total_price,
+            Attributes::VAT_AMOUNT => $vat_amount,
             Attributes::PHOTOGRAPHER => $photographer,
             Attributes::INCLUDE_ME => $include_me,
             Attributes::LOCATION_LINK => $location_link,
@@ -257,6 +261,9 @@ class SessionController extends CustomController
         // calculate package price
         $total_price = $package->price;
 
+        // calculate vat amount
+        $vat_amount = $total_price * Values::VAT_AMOUNT;
+
         // create or update the session
         $session = Session::createOrUpdate([
             Attributes::TITLE => $package->title . " " . $package->tag,
@@ -269,6 +276,7 @@ class SessionController extends CustomController
             Attributes::PAYMENT_METHOD => $payment_method,
             Attributes::STATUS => SessionStatus::UNPAID,
             Attributes::TOTAL_PRICE => $total_price,
+            Attributes::VAT_AMOUNT => $vat_amount,
         ], [
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
@@ -316,6 +324,9 @@ class SessionController extends CustomController
                 $total_price += $session_photographer->additional_charge;
             }
 
+            // calculate vat price
+            $vat_amount = $total_price * Values::VAT_AMOUNT;
+
             // create session
             $sub_session = Session::createOrUpdate([
                 Attributes::TITLE => $sub_package->title . " " . 'Session',
@@ -334,7 +345,8 @@ class SessionController extends CustomController
                 Attributes::LOCATION_TEXT => $location_text,
                 Attributes::IS_OUTDOOR => $is_outdoor,
                 Attributes::TOTAL_PRICE => $total_price,
-                Attributes::EXTRA_PEOPLE => $extra_people
+                Attributes::EXTRA_PEOPLE => $extra_people,
+                Attributes::VAT_AMOUNT => $vat_amount,
             ], [
                 Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID
             ]);
@@ -792,11 +804,16 @@ xox";
                     $discount_amount = $original_price * ($offer / 100);
                     $total_price_after_discount = $original_price - $discount_amount;
 
+                    // calculate vat and total
+                    $total_price = $total_price_after_discount ?? $original_price;
+                    $vat_amount = $total_price * Values::VAT_AMOUNT;
+                    $total_price = $total_price + $vat_amount;
+
                     // return response
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
                         Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
                         Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_amount),
-                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price_after_discount)
+                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price)
                     ], null, Response::HTTP_OK);
 
                 } else {

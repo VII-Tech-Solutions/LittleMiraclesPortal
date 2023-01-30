@@ -18,6 +18,7 @@ use phpDocumentor\Reflection\Types\Collection;
  * @property double total_price
  * @property double discount_price
  * @property double subtotal
+ * @property double vat_amount
  * @property integer status
  * @property integer user_id
  * @property Collection orderItems
@@ -32,6 +33,7 @@ class Order extends CustomModel
         Attributes::PROMO_CODE,
         Attributes::TOTAL_PRICE,
         Attributes::DISCOUNT_PRICE,
+        Attributes::VAT_AMOUNT,
         Attributes::SUBTOTAL,
         Attributes::STATUS,
         Attributes::USER_ID

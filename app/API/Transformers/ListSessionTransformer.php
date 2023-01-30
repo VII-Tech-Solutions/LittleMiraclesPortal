@@ -21,6 +21,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::CUSTOM_CAKE,
         Attributes::COMMENTS,
         Attributes::TOTAL_PRICE,
+        Attributes::VAT_AMOUNT,
         Attributes::BENEFITS_IDS,
         Attributes::SUB_SESSIONS_IDS,
         Attributes::REVIEWS_IDS,

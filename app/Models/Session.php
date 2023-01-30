@@ -39,6 +39,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string formatted_backdrop
  * @property int promo_id
  * @property int total_price
+ * @property double vat_amount
  * @property int photographer
  * @property string photographer_name
  * @property string photographer_email
@@ -81,6 +82,7 @@ class Session extends CustomModel
         Attributes::LOCATION_LINK,
         Attributes::LOCATION_TEXT,
         Attributes::IS_OUTDOOR,
+        Attributes::VAT_AMOUNT,
         Attributes::GIFT_CLAIMED,
         Attributes::SESSION_ID,
         Attributes::SUB_PACKAGE_ID,

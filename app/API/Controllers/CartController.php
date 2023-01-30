@@ -11,6 +11,7 @@ use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentStatus;
+use App\Constants\Values;
 use App\Helpers\PaymentHelpers;
 use App\Models\CartItem;
 use App\Models\Helpers;
@@ -281,12 +282,18 @@ class CartController extends CustomController
             $total_price_after_discount = $original_price - $discount_amount;
         }
 
+        // calculate vat and subtotal
+        $subtotal = $total_price_after_discount ?? $original_price;
+        $vat_amount = $subtotal * Values::VAT_AMOUNT;
+        $subtotal = $subtotal + $vat_amount;
+
         // create order
         $order = Order::createOrUpdate([
             Attributes::PROMO_CODE => $promo_code,
             Attributes::TOTAL_PRICE => $original_price,
             Attributes::DISCOUNT_PRICE => $discount_amount ?? null,
-            Attributes::SUBTOTAL => $total_price_after_discount ?? $original_price,
+            Attributes::VAT_AMOUNT => $vat_amount,
+            Attributes::SUBTOTAL => $subtotal,
             Attributes::USER_ID => $user->id,
             Attributes::BOOKING_TYPE => $booking_type
         ]);

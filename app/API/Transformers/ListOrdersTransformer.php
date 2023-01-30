@@ -15,6 +15,7 @@ class ListOrdersTransformer extends CustomTransformer
         Attributes::PROMO_CODE,
         Attributes::TOTAL_PRICE,
         Attributes::DISCOUNT_PRICE,
+        Attributes::VAT_AMOUNT,
         Attributes::SUBTOTAL,
         Attributes::STATUS,
         Attributes::CREATED_AT,
