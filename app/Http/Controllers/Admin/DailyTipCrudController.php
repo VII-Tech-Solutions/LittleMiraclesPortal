@@ -24,7 +24,7 @@ class DailyTipCrudController extends CustomCrudController
     {
         $this->crud->setModel(DailyTip::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/daily-tips');
-        $this->crud->setEntityNameStrings('Daily Tip', 'Daily Tips');
+        $this->crud->setEntityNameStrings('Tips & Tricks', 'Tips & Tricks');
     }
 
     /**
