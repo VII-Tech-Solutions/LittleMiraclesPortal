@@ -90,6 +90,7 @@ $api->version('v1', function ($api) {
          *******************************/
         $api->put('/profile', 'ProfileController@update')->middleware('allowed_user'); // Update profile
         $api->put('/partner', 'ProfileController@updatePartner')->middleware('allowed_user'); // Update partner
+        $api->delete('/partner', 'ProfileController@removePartner')->middleware('allowed_user'); // Update partner
         $api->put('/children', 'ProfileController@updateChildren')->middleware('allowed_user'); // Update children
         $api->put('/family', 'ProfileController@updateFamily')->middleware('allowed_user'); // Update family
 

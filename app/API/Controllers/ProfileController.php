@@ -247,4 +247,32 @@ class ProfileController extends CustomController
 
     }
 
+    /**
+     * Remove Partner
+     * @return JsonResponse
+     * @throws Exception
+     */
+    function removePartner(): JsonResponse
+    {
+        // get current user info
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get partner
+        $partner = $user->myPartner();
+        if (is_null($partner)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PARTNER_NOT_FOUND, null, null, Response::HTTP_NOT_FOUND);
+        }
+
+        // remove partner
+        if ($partner->delete()) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PARTNER_REMOVED, [], null, Response::HTTP_OK);
+        }
+
+        // return response
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+
+    }
 }

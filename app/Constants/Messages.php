@@ -41,4 +41,6 @@ class Messages extends CustomEnum
     const CART_ITEM_ADDED = "Cart item added successfully";
     const CART_ITEM_REMOVED = "Cart item has been removed successfully";
     const ORDER_CREATED = "Order created successfully";
+    const PARTNER_REMOVED = "Partner removed successfully";
+    const PARTNER_NOT_FOUND = "Partner not found";
 }
