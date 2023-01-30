@@ -21,6 +21,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int type
  * @property int is_popular
  * @property int outdoor_allowed
+ * @property int indoor_allowed
  * @property Collection benefits
  * @property Collection reviews
  * @property Collection media
@@ -61,6 +62,7 @@ class Package extends CustomModel
         Attributes::MIN_BACKDROP,
         Attributes::BACKDROP_ALLOWED,
         Attributes::OUTDOOR_ALLOWED,
+        Attributes::INDOOR_ALLOWED,
         Attributes::HAS_GUIDELINE,
         Attributes::FIVE_SESSIONS_GIFT,
     ];

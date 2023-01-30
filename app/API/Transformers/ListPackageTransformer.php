@@ -32,6 +32,8 @@ class ListPackageTransformer extends CustomTransformer
         Attributes::CAKE_ALLOWED,
         Attributes::OUTDOOR_ALLOWED,
         Attributes::HAS_GUIDELINE,
+        Attributes::INDOOR_ALLOWED,
+        Attributes::OUTDOOR_ALLOWED,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,

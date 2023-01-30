@@ -315,4 +315,5 @@ class Attributes extends CustomEnum
     const ACCESS_TOKEN = "access_token";
     const PHOTOGRAPHER_EMAIL = "photographer_email";
     const VAT_AMOUNT = "vat_amount";
+    const INDOOR_ALLOWED = "indoor_allowed";
 }

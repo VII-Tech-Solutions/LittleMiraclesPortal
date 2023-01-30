@@ -69,6 +69,9 @@ class PackageCrudController extends CustomCrudController
         // Filter: Outdoor Allowed Filter
         $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::OUTDOOR_ALLOWED,"Outdoor Allowed");
 
+        // Filter: Indoor Allowed Filter
+        $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::INDOOR_ALLOWED,"Indoor Allowed");
+
         // Column: ID
         $this->addIDColumn("ID",1,Attributes::ID);
 
@@ -147,6 +150,9 @@ class PackageCrudController extends CustomCrudController
 
         // Field: Outdoor Allowed
         $this->addDropdownField(AllowedOutdoor::all(),Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
+
+        // Field: Indoor Allowed
+        $this->addDropdownField(AllowedOutdoor::all(),Attributes::INDOOR_ALLOWED, "Indoor Allowed");
 
         // Field: Has Guideline
         $this->addIsPopularField(Guideline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
