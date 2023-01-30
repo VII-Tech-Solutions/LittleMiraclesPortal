@@ -16,6 +16,6 @@ class TestEmail extends Command
     public function handle()
     {
         $session = Session::where(Attributes::ID, 212)->first();
-        MailjetHelpers::bookingConfirmed($session);
+        MailjetHelpers::bookingRescheduled($session);
     }
 }

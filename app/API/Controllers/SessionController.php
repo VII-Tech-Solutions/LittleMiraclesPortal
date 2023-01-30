@@ -1022,6 +1022,7 @@ xox";
 
         if ($save_session) {
             if (is_a($session, Session::class)) {
+                MailjetHelpers::bookingRescheduled($session);
                 return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                     Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
                 ], null, Response::HTTP_OK);
