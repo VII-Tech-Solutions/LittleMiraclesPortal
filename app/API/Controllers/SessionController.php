@@ -1084,6 +1084,7 @@ xox";
         ]);
 
         if (is_a($session, Session::class) && $save_appointment) {
+            MailjetHelpers::bookingAppointment($save_appointment);
             return GlobalHelpers::formattedJSONResponse(Messages::SESSION_APPOINTMENT_BOOKED, [
                 Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
             ], null, Response::HTTP_OK);

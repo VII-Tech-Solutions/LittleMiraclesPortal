@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Constants\Attributes;
 use App\Helpers\MailjetHelpers;
+use App\Models\Appointment;
 use App\Models\BackpackUser;
 use App\Models\Photographer;
 use App\Models\Session;
@@ -16,6 +17,7 @@ class TestEmail extends Command
     public function handle()
     {
         $session = Session::where(Attributes::ID, 212)->first();
-        MailjetHelpers::bookingRescheduled($session);
+        $appointment = Appointment::where(Attributes::ID, 8)->first();
+        MailjetHelpers::appointmentBooked($appointment);
     }
 }
