@@ -41,6 +41,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int total_price
  * @property int photographer
  * @property string photographer_name
+ * @property string photographer_email
  * @property array benefits_ids
  * @property array media_ids
  * @property array reviews_ids
@@ -109,6 +110,7 @@ class Session extends CustomModel
         Attributes::FORMATTED_BACKDROP,
         Attributes::FORMATTED_CAKE,
         Attributes::PHOTOGRAPHER_NAME,
+        Attributes::PHOTOGRAPHER_EMAIL,
         Attributes::HAS_GUIDELINE,
         Attributes::REVIEWS_IDS,
         Attributes::MEDIA_IDS,
@@ -167,11 +169,26 @@ class Session extends CustomModel
      */
     public function getPhotographerNameAttribute()
     {
+        /** @var Photographer $photographer */
         $photographer = Photographer::find($this->photographer);
         if (is_null($photographer)) {
             return null;
         }
         return $photographer->name;
+    }
+
+    /**
+     * Attribute: photographer_email
+     * @return string
+     */
+    public function getPhotographerEmailAttribute()
+    {
+        /** @var Photographer $photographer */
+        $photographer = Photographer::find($this->photographer);
+        if (is_null($photographer)) {
+            return null;
+        }
+        return $photographer->email;
     }
 
     /**

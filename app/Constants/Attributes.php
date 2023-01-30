@@ -313,4 +313,5 @@ class Attributes extends CustomEnum
     const ROLE_NAME = "role_name";
     const MIN_BACKDROP = "min_backdrop";
     const ACCESS_TOKEN = "access_token";
+    const PHOTOGRAPHER_EMAIL = "photographer_email";
 }

@@ -36,6 +36,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::LOCATION_LINK,
         Attributes::IS_OUTDOOR,
         Attributes::PHOTOGRAPHER_NAME,
+        Attributes::PHOTOGRAPHER_EMAIL,
         Attributes::PHOTOGRAPHER,
         Attributes::HAS_GUIDELINE,
         Attributes::GIFT_CLAIMED,

@@ -20,6 +20,7 @@ use App\Constants\Roles;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Values;
+use App\Helpers\MailjetHelpers;
 use App\Models\Appointment;
 use App\Models\Benefit;
 use App\Models\Feedback;
@@ -960,6 +961,7 @@ xox";
                 }
 
                 if (is_a($session, Session::class)) {
+                    MailjetHelpers::bookingConfirmed($session);
                     return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                         Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
                     ], null, Response::HTTP_OK);

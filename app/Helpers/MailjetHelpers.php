@@ -2,10 +2,15 @@
 
 namespace App\Helpers;
 
+use App\Constants\Attributes;
 use App\Constants\EnvVariables;
 use App\Constants\Messages;
+use App\Constants\Roles;
+use App\Models\Backdrop;
 use App\Models\Helpers;
+use App\Models\Photographer;
 use App\Models\Session;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Mailjet\Client;
 use Mailjet\Resources;
@@ -15,7 +20,12 @@ use VIITech\Helpers\GlobalHelpers;
 class MailjetHelpers
 {
 
-    static function customerBookingConfirmed(Session $session) {
+    /**
+     * Booking Confirmed
+     * @param Session $session
+     * @return JsonResponse|void
+     */
+    static function bookingConfirmed(Session $session) {
         // create Mailjet Client
         $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true, ['version' => 'v3.1']);
 
@@ -24,19 +34,29 @@ class MailjetHelpers
         $data->session_name = $session->title;
         $data->photographer_name = $session->photographer_name;
         $data->username = $session->user->first_name . ' ' . $session->user->last_name;
+        $data->phone_number = $session->user->phone_number;
+        $data->email = $session->user->email;
         $data->date = $session->date;
         $data->time = $session->time;
+        $data->package_name = $session->package_name;
         $data->people = $session->people()->count();
-        $data->backdrop1_name = $session->formatted_backdrop;
+        /** @var Backdrop $backdrops */
+        $backdrops = $session->backdrops()->get();
+        $backdrop = "";
+        for ($i = 1; $i <= count($backdrops); $i++) {
+            if (!empty($backdrop)) {
+                $backdrop .= "<br>";
+            }
+            $backdrop .= "Backdrop $i: " . $backdrops[$i - 1 ]->title;
+        }
+        $data->backdrops = $backdrop;
         $data->cake_name = $session->formatted_cake;
-        $data->comment = $session->comment ?? "";
-
+        $data->comment = $session->comment ?? "-";
 
         $data = json_encode($data);
 
-
-        // prepare body
-        $body = [
+        // prepare body (customer)
+        $body_customer = [
             'Messages' => [
                 [
                     'From' => [
@@ -55,8 +75,60 @@ class MailjetHelpers
                 ]
             ]
         ];
-        // send email
-        $response = $mj->post(Resources::$Email, ['body' => $body]);
+        // send email (customer)
+        $response = $mj->post(Resources::$Email, ['body' => $body_customer]);
+
+        // prepare body (photographer)
+        $body_photographer = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => env(EnvVariables::MAIL_FROM_ADDRESS),
+                        'Name' => env(EnvVariables::MAIL_FROM_NAME)
+                    ],
+                    'To' => [
+                        [
+                            'Email' => $session->photographer_email,
+                            'Name' => $session->photographer_name
+                        ]
+                    ],
+                    'TemplateID' => 4510606,
+                    'TemplateLanguage' => true,
+                    'Variables' => json_decode($data, true)
+                ]
+            ]
+        ];
+        // send email (photographer)
+        $response = $mj->post(Resources::$Email, ['body' => $body_photographer]);
+
+        // prepare body (admin)
+        /** @var Photographer $admins */
+        $admins = Photographer::where(Attributes::ROLE, Roles::ADMIN)->get();
+        $to_emails = array();
+        foreach ($admins as $admin) {
+            $to_emails[] =  [
+                'Email' => $admin->email,
+                'Name' => $admin->name
+            ];
+        }
+        $body_admin = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => env(EnvVariables::MAIL_FROM_ADDRESS),
+                        'Name' => env(EnvVariables::MAIL_FROM_NAME)
+                    ],
+                    'To' =>
+                        $to_emails
+                    ,
+                    'TemplateID' => 4510797,
+                    'TemplateLanguage' => true,
+                    'Variables' => json_decode($data, true)
+                ]
+            ]
+        ];
+        // send email (admin)
+        $response = $mj->post(Resources::$Email, ['body' => $body_admin]);
 
         // return response
         if (!$response->success()) {
