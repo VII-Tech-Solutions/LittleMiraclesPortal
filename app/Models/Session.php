@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\PaymentMethods;
 use App\Constants\Relationship;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
@@ -474,5 +475,40 @@ class Session extends CustomModel
         return $q->where(Attributes::SESSION_ID)->where(Attributes::SUB_PACKAGE_ID);
     }
 
+    /**
+     * Generate Invoice Data
+     * @return array
+     */
+    function generateInvoiceData(): array
+    {
 
+        // get customer
+        $customer = $this->user;
+
+        // get photographer
+        /** @var Photographer $photographer */
+        $photographer = Photographer::find($this->photographer);
+
+        // calculate total price
+        $subtotal = $this->package->price + ($photographer->additional_charge ?? 0);
+        $vat_amount = $this->vat_amount;
+        $total = $subtotal + $vat_amount;
+
+        // return data
+        return [
+            Attributes::NAME => $customer->first_name . ' ' . $customer->last_name,
+            Attributes::EMAIL => $customer->email,
+            Attributes::DATE => $this->date,
+            Attributes::TIME => $this->time,
+            Attributes::PACKAGE_NAME => $this->package_name,
+            Attributes::PACKAGE_PRICE => $this->package->price,
+            Attributes::PHOTOGRAPHER_NAME => $this->photographer_name,
+            Attributes::ADDITIONAL_CHARGE => $photographer->additional_charge ?? null,
+            Attributes::SUBTOTAL => $subtotal,
+            Attributes::VAT_AMOUNT => $vat_amount,
+            Attributes::TOTAL => $total,
+            Attributes::PAYMENT_METHOD => PaymentMethods::DEBIT_CARD,
+            Attributes::PAYMENT_ID => "12345"
+        ];
+    }
 }

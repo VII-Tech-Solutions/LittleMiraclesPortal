@@ -16,7 +16,7 @@
             float: left;
             width: 134.89px;
             height: 134.89px;
-            background-image: url(logo.png);
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/little-miracles-app.appspot.com/o/logo%2FLogo.png?alt=media&token=f23b1576-b38a-4979-b19c-117d1f208142');
             background-size: cover;
             margin-right: 24px;
         }

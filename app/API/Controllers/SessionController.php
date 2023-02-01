@@ -33,9 +33,11 @@ use App\Models\Promotion;
 use App\Models\Review;
 use App\Models\Session;
 use App\Models\SessionDetail;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
 
@@ -992,7 +994,10 @@ xox";
                 }
 
                 if (is_a($session, Session::class)) {
-                    MailjetHelpers::bookingConfirmed($session);
+                    $pdf = $this->generateInvoice($session->id);
+                    $filename = "invoice-" . $session->id . ".pdf";
+                    Storage::put($filename, $pdf);
+                    MailjetHelpers::bookingConfirmed($session, $filename);
                     return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                         Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
                     ], null, Response::HTTP_OK);
@@ -1231,5 +1236,26 @@ xox";
             Attributes::ID => $id
         ]);
         return $this->getPhotographerSessions();
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse|\Illuminate\Http\Response
+     */
+    static function generateInvoice($id)
+    {
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+        /** @var Session $session */
+        $session = Session::where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/->first();
+        if (is_null($session)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        $data = $session->generateInvoiceData();
+
+        return SnappyPdf::loadView('invoice', ['data'=> $data])->setPaper('a4')->inline('github.pdf');
     }
 }

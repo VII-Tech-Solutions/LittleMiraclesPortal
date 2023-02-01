@@ -16,6 +16,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
  * @property string transaction_id
  * @property integer user_id
  * @property integer order_id
+ * @property integer session_id
  * @property double amount
  * @property string currency
  * @property string gateway
@@ -39,6 +40,7 @@ class Transaction extends CustomModel
         Attributes::AMOUNT,
         Attributes::ORDER_ID,
         Attributes::CURRENCY,
+        Attributes::SESSION_ID,
         Attributes::GATEWAY,
         Attributes::PAYMENT_METHOD,
         Attributes::SUCCESS_INDICATOR,
