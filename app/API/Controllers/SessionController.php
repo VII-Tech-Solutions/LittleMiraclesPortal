@@ -994,10 +994,10 @@ xox";
                 }
 
                 if (is_a($session, Session::class)) {
-                    $pdf = $this->generateInvoice($session->id);
-                    $filename = "invoice-" . $session->id . ".pdf";
-                    Storage::put($filename, $pdf);
-                    MailjetHelpers::bookingConfirmed($session, $filename);
+//                    $pdf = $this->generateInvoice($session->id);
+//                    $filename = "invoice-" . $session->id . ".pdf";
+//                    Storage::put($filename, $pdf);
+                    MailjetHelpers::bookingConfirmed($session/*, $filename*/);
                     return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                         Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
                     ], null, Response::HTTP_OK);
