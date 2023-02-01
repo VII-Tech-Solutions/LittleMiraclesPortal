@@ -94,10 +94,15 @@ class SessionController extends CustomController
         /** @var Photographer $session_photographer */
         $session_photographer = Photographer::find($photographer);
 
+        // get glimmer package
+        $glimmer_package = Package::where(Attributes::NAME, "Glimmer")->first();
+
         // calculate package price
         $total_price = $package->price;
-        if (!is_null($session_photographer->additional_charge)) {
-            $total_price += $session_photographer->additional_charge;
+        if ($glimmer_package->id != $package->id) {
+            if (!is_null($session_photographer->additional_charge)) {
+                $total_price += $session_photographer->additional_charge;
+            }
         }
 
         // calculate vat and subtotal price
@@ -320,10 +325,15 @@ class SessionController extends CustomController
             /** @var Photographer $session_photographer */
             $session_photographer = Photographer::find($photographer);
 
+            // get glimmer package
+            $glimmer_package = Package::where(Attributes::TITLE, 'Glimmer')->first();
+
             // calculate package price
             $total_price = $package->price;
-            if (!is_null($session_photographer->additional_charge)) {
-                $total_price += $session_photographer->additional_charge;
+            if ($glimmer_package->id != $package->id) {
+                if (!is_null($session_photographer->additional_charge)) {
+                    $total_price += $session_photographer->additional_charge;
+                }
             }
 
             // calculate vat and subtotal price

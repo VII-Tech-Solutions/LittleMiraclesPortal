@@ -316,4 +316,6 @@ class Attributes extends CustomEnum
     const PHOTOGRAPHER_EMAIL = "photographer_email";
     const VAT_AMOUNT = "vat_amount";
     const INDOOR_ALLOWED = "indoor_allowed";
+    const PACKAGE_PRICE = "package_price";
+    const TOTAL = "total";
 }

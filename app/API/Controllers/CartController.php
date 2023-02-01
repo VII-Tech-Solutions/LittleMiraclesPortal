@@ -245,22 +245,25 @@ class CartController extends CustomController
 
             // get original price
             $original_price = $session->package->price;
-            if (count($sub_sessions) > 0) {
-                /** @var Session $sub_session */
-                foreach ($sub_sessions as $sub_session) {
+            $shimmer = Package::where(Attributes::TITLE, "Glimmer")->first();
+            if ($shimmer->id != $session->package_id) {
+                if (count($sub_sessions) > 0) {
+                    /** @var Session $sub_session */
+                    foreach ($sub_sessions as $sub_session) {
+                        // get photographer
+                        /** @var Photographer $photographer */
+                        $photographer = Photographer::find($sub_session->photographer);
+                        if (!is_null($photographer->additional_charge)) {
+                            $original_price += $photographer->additional_charge;
+                        }
+                    }
+                } else {
                     // get photographer
                     /** @var Photographer $photographer */
-                    $photographer = Photographer::find($sub_session->photographer);
+                    $photographer = Photographer::find($session->photographer);
                     if (!is_null($photographer->additional_charge)) {
                         $original_price += $photographer->additional_charge;
                     }
-                }
-            } else {
-                // get photographer
-                /** @var Photographer $photographer */
-                $photographer = Photographer::find($session->photographer);
-                if (!is_null($photographer->additional_charge)) {
-                    $original_price += $photographer->additional_charge;
                 }
             }
         } else if ($booking_type == BookingType::STUDIO) {
