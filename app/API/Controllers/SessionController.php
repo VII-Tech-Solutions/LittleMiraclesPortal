@@ -1256,6 +1256,6 @@ xox";
 
         $data = $session->generateInvoiceData();
 
-        return SnappyPdf::loadView('invoice', ['data'=> $data])->setPaper('a4')->inline('github.pdf');
+        return SnappyPdf::loadView('invoice', ['data'=> $data])/*->setPaper('a4')->inline('github.pdf')*/;
     }
 }
