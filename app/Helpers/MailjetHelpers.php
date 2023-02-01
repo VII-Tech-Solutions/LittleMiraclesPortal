@@ -58,10 +58,10 @@ class MailjetHelpers
         $data = json_encode($data);
 
         // get pdf
-//        $pdf_base64 = "";
-//        if (!is_null($filename)) {
-//            $pdf_base64 = base64_encode(file_get_contents(storage_path("./app/$filename")));
-//        }
+        $pdf_base64 = "";
+        if (!is_null($filename)) {
+            $pdf_base64 = base64_encode(file_get_contents(storage_path("./app/$filename")));
+        }
 
         // prepare body (customer)
         $body_customer = [
@@ -80,13 +80,13 @@ class MailjetHelpers
                     'TemplateID' => 4509155,
                     'TemplateLanguage' => true,
                     'Variables' => json_decode($data, true),
-//                    'Attachments' => [
-//                        [
-//                            'ContentType' => 'application/pdf',
-//                            'Filename' => $filename,
-//                            'Base64Content' => $pdf_base64
-//                        ]
-//                    ]
+                    'Attachments' => [
+                        [
+                            'ContentType' => 'application/pdf',
+                            'Filename' => $filename,
+                            'Base64Content' => $pdf_base64
+                        ]
+                    ]
                 ]
             ]
         ];
