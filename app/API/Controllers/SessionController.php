@@ -805,15 +805,15 @@ xox";
                     $total_price_after_discount = $original_price - $discount_amount;
 
                     // calculate vat and total
-                    $total_price = $total_price_after_discount ?? $original_price;
-                    $vat_amount = $total_price * Values::VAT_AMOUNT;
-                    $total_price = $total_price + $vat_amount;
+//                    $total_price = $total_price_after_discount ?? $original_price;
+//                    $vat_amount = $total_price * Values::VAT_AMOUNT;
+//                    $total_price = $total_price + $vat_amount;
 
                     // return response
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
                         Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
                         Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_amount),
-                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price)
+                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price_after_discount)
                     ], null, Response::HTTP_OK);
 
                 } else {
@@ -1101,7 +1101,7 @@ xox";
         ]);
 
         if (is_a($session, Session::class) && $save_appointment) {
-            MailjetHelpers::bookingAppointment($save_appointment);
+            MailjetHelpers::appointmentBooked($save_appointment);
             return GlobalHelpers::formattedJSONResponse(Messages::SESSION_APPOINTMENT_BOOKED, [
                 Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
             ], null, Response::HTTP_OK);
