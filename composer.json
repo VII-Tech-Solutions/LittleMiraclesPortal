@@ -28,7 +28,6 @@
         "mailjet/laravel-mailjet": "^3.0",
         "mailjet/mailjet-apiv3-php": "^1.5",
         "ramsey/uuid": "^3",
-        "mikehaertl/phpwkhtmltopdf": "^2.5",
         "sentry/sentry-laravel": "^2.10",
         "spatie/laravel-backup": "^6.16",
         "spatie/laravel-collection-macros": "^6.3",
