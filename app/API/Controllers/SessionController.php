@@ -95,7 +95,7 @@ class SessionController extends CustomController
         $session_photographer = Photographer::find($photographer);
 
         // get glimmer package
-        $glimmer_package = Package::where(Attributes::NAME, "Glimmer")->first();
+        $glimmer_package = Package::where(Attributes::TITLE, "Glimmer")->first();
 
         // calculate package price
         $total_price = $package->price;
