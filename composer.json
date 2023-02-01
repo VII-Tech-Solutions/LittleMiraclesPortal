@@ -25,6 +25,7 @@
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
         "mailjet/laravel-mailjet": "^3.0",
+        "mailjet/mailjet-apiv3-php": "^1.5",
         "ramsey/uuid": "^3",
         "sentry/sentry-laravel": "^2.10",
         "spatie/laravel-backup": "^6.16",
