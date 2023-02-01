@@ -29,7 +29,7 @@ class MailjetHelpers
      */
     static function bookingConfirmed(Session $session) {
         // create Mailjet Client
-        $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true);
+        $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true, ['version' => 'v3.1']);
 
         // prepare data
         $data = new stdClass();
