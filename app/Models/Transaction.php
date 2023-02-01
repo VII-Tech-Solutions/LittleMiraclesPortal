@@ -7,6 +7,7 @@ use App\Constants\PaymentMethods;
 use App\Constants\PaymentStatus;
 use App\Constants\Tables;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Transaction
@@ -30,10 +31,13 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
  * @property string payment_id
  * @property integer payment_method
  * @property integer status
+ * @property Order order
+ * @property Session session
  */
 class Transaction extends CustomModel
 {
     use CrudTrait;
+
     protected $table = Tables::TRANSACTIONS;
     protected $fillable = [
         Attributes::TRANSACTION_ID,
@@ -62,7 +66,8 @@ class Transaction extends CustomModel
      * Attribute: status name
      * @return string
      */
-    function getStatusNameAttribute(): string {
+    function getStatusNameAttribute(): string
+    {
         $text = PaymentStatus::getKey($this->status);
         return Helpers::readableText($text);
     }
@@ -71,8 +76,28 @@ class Transaction extends CustomModel
      * Attribute: payment method name
      * @return string
      */
-    function getPaymentMethodNameAttribute(): string {
+    function getPaymentMethodNameAttribute(): string
+    {
         $text = PaymentMethods::getKey($this->payment_method);
         return Helpers::readableText($text);
+    }
+
+    /**
+     * Relationship: session
+     * @return BelongsTo
+     */
+    function session(): BelongsTo
+    {
+        return $this->belongsTo(Session::class, Attributes::SESSION_ID, Attributes::ID)
+            ->where(Attributes::STATUS, PaymentStatus::CONFIRMED);
+    }
+
+    /**
+     * Relationship: order
+     * @return BelongsTo
+     */
+    function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, Attributes::ORDER_ID, Attributes::ID);
     }
 }

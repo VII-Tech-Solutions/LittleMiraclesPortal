@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Constants\Attributes;
 use App\Constants\OrderStatus;
+use App\Constants\PaymentStatus;
 use App\Constants\Tables;
 use App\Traits\ModelTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -21,8 +22,10 @@ use phpDocumentor\Reflection\Types\Collection;
  * @property double vat_amount
  * @property integer status
  * @property integer user_id
+ * @property integer session_id
  * @property Collection orderItems
  * @property User user
+ * @property Transaction transaction
  */
 class Order extends CustomModel
 {
@@ -36,7 +39,8 @@ class Order extends CustomModel
         Attributes::VAT_AMOUNT,
         Attributes::SUBTOTAL,
         Attributes::STATUS,
-        Attributes::USER_ID
+        Attributes::USER_ID,
+        Attributes::SESSION_ID
     ];
 
     /**
@@ -67,5 +71,12 @@ class Order extends CustomModel
         return $this->belongsTo(User::class, Attributes::USER_ID);
     }
 
-
+    /**
+     * Relationship: transactions
+     * @return BelongsTo
+     */
+    public function transaction(): BelongsTo {
+        return $this->belongsTo(Transaction::class, Attributes::ID, Attributes::ORDER_ID)
+            ->where(Attributes::STATUS, PaymentStatus::CONFIRMED);
+    }
 }

@@ -494,6 +494,14 @@ class Session extends CustomModel
         $vat_amount = $this->vat_amount;
         $total = $subtotal + $vat_amount;
 
+        // get order
+        /** @var Order $order */
+        $order = Order::where(Attributes::SESSION_ID, $this->id)->first();
+        $transaction = $order->transaction;
+
+        // get payment method
+        $payment_method = Helpers::readableText(PaymentMethods::getKey((int)$transaction->payment_method));
+
         // return data
         return [
             Attributes::NAME => $customer->first_name . ' ' . $customer->last_name,
@@ -507,8 +515,8 @@ class Session extends CustomModel
             Attributes::SUBTOTAL => $subtotal,
             Attributes::VAT_AMOUNT => $vat_amount,
             Attributes::TOTAL => $total,
-            Attributes::PAYMENT_METHOD => PaymentMethods::DEBIT_CARD,
-            Attributes::PAYMENT_ID => "12345"
+            Attributes::PAYMENT_METHOD => $payment_method ?? null,
+            Attributes::PAYMENT_ID => $transaction->payment_id ?? null,
         ];
     }
 }

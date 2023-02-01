@@ -298,7 +298,10 @@ class CartController extends CustomController
             Attributes::VAT_AMOUNT => $vat_amount,
             Attributes::SUBTOTAL => $subtotal,
             Attributes::USER_ID => $user->id,
-            Attributes::BOOKING_TYPE => $booking_type
+            Attributes::BOOKING_TYPE => $booking_type,
+            Attributes::SESSION_ID => $session->id ?? null,
+        ], [
+            Attributes::SESSION_ID
         ]);
 
         if (!is_a($order, Order::class)) {
