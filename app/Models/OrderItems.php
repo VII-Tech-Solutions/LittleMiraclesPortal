@@ -12,6 +12,7 @@ use App\Constants\Tables;
  * @property integer order_id
  * @property integer item_id
  * @property integer user_id
+ * @property integer session_id
  */
 class OrderItems extends CustomModel
 {
@@ -19,6 +20,7 @@ class OrderItems extends CustomModel
     protected $fillable = [
         Attributes::ORDER_ID,
         Attributes::ITEM_ID,
-        Attributes::USER_ID
+        Attributes::USER_ID,
+        Attributes::SESSION_ID
     ];
 }
