@@ -100,8 +100,9 @@ class SessionController extends CustomController
             $total_price += $session_photographer->additional_charge;
         }
 
-        // calculate vat price
+        // calculate vat and subtotal price
         $vat_amount = $total_price * Values::VAT_AMOUNT;
+        $subtotal = $total_price + $vat_amount;
 
         // find the package
         /** @var Package $package */
@@ -136,6 +137,7 @@ class SessionController extends CustomController
             Attributes::STATUS => SessionStatus::UNPAID,
             Attributes::TOTAL_PRICE => $total_price,
             Attributes::VAT_AMOUNT => $vat_amount,
+            Attributes::SUBTOTAL => $subtotal,
             Attributes::PHOTOGRAPHER => $photographer,
             Attributes::INCLUDE_ME => $include_me,
             Attributes::LOCATION_LINK => $location_link,
@@ -324,8 +326,9 @@ class SessionController extends CustomController
                 $total_price += $session_photographer->additional_charge;
             }
 
-            // calculate vat price
+            // calculate vat and subtotal price
             $vat_amount = $total_price * Values::VAT_AMOUNT;
+            $subtotal = $total_price + $vat_amount;
 
             // create session
             $sub_session = Session::createOrUpdate([
@@ -347,6 +350,7 @@ class SessionController extends CustomController
                 Attributes::TOTAL_PRICE => $total_price,
                 Attributes::EXTRA_PEOPLE => $extra_people,
                 Attributes::VAT_AMOUNT => $vat_amount,
+                Attributes::SUBTOTAL => $subtotal,
             ], [
                 Attributes::SESSION_ID, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID, Attributes::USER_ID
             ]);

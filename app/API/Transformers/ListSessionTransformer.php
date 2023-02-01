@@ -45,6 +45,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
         Attributes::BOOKING_TEXT,
-        Attributes::EXTRA_PEOPLE
+        Attributes::EXTRA_PEOPLE,
+        Attributes::SUBTOTAL
     ];
 }
