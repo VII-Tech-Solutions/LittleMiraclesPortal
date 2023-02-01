@@ -51,8 +51,8 @@ class MailjetHelpers
             }
             $backdrop .= "Backdrop $i: " . $backdrops[$i - 1 ]->title;
         }
-        $data->backdrops = $backdrop;
-        $data->cake_name = $session->formatted_cake;
+        $data->backdrops = $backdrop ?? "-";
+        $data->cake_name = $session->formatted_cake ?? "-";
         $data->comment = $session->comment ?? "-";
 
         $data = json_encode($data);
