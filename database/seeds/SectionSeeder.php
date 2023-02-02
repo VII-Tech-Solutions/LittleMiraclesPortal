@@ -18,7 +18,7 @@ class SectionSeeder extends Seeder
     public function run()
     {
         Section::createOrUpdate([
-            Attributes::TITLE => "Welcome to Little Miracles by Sherin",
+            Attributes::TITLE => "Welcome to Little Miracles",
             Attributes::IMAGE => "storage/uploads/sections/difTmJLiwLxuhv1D.jpg",
             Attributes::CONTENT => "Check out our photo session packages to get you started",
             Attributes::TYPE => SectionTypes::HEADER,
