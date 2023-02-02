@@ -130,7 +130,7 @@ class HomeController extends CustomController
         $onboardings = Onboarding::withTrashed()->active()->get()->sortBy(Attributes::ORDER);
 
         // get photographers
-        $photographers = Photographer::withTrashed()->active()->get();
+        $photographers = Photographer::withTrashed()->active()->orderBy(Attributes::PRIORITY)->get();
 
         // get cakes
         $cakes = Cake::withTrashed()->active()->get();

@@ -108,6 +108,9 @@ class PhotographerCrudController extends CustomCrudController
         // Field: Additional Charge
         $this->addNumberField(Attributes::ADDITIONAL_CHARGE, Helpers::readableText(Attributes::ADDITIONAL_CHARGE));
 
+        // Field: Priority
+        $this->addNumberField(Attributes::PRIORITY, Helpers::readableText(Attributes::PRIORITY));
+
         // Field: Status
         $this->addStatusField(Status::all());
     }

@@ -26,6 +26,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string password
  * @property integer role
  * @property int additional_charge
+ * @property int priority
  */
 class Photographer extends CustomModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
@@ -46,6 +47,7 @@ class Photographer extends CustomModel implements AuthenticatableContract, Autho
         Attributes::IMAGE,
         Attributes::ACCESS_TOKEN,
         Attributes::STATUS,
+        Attributes::PRIORITY,
         Attributes::ADDITIONAL_CHARGE
     ];
 
