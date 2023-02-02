@@ -112,6 +112,9 @@ class TransactionCrudController extends CustomCrudController
         // Field: payment id
         $this->addNameField(Attributes::PAYMENT_ID, Helpers::readableText(Attributes::PAYMENT_ID));
 
+        // Field: session
+        $this->addNameField(Attributes::SESSION_NAME, Helpers::readableText(Attributes::SESSION_NAME));
+
         // Field: status
         $this->addDropdownField(PaymentStatus::all(), Attributes::STATUS, Helpers::readableText(Attributes::STATUS));
 

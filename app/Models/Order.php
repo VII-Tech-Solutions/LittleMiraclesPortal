@@ -26,6 +26,7 @@ use phpDocumentor\Reflection\Types\Collection;
  * @property Collection orderItems
  * @property User user
  * @property Transaction transaction
+ * @property Session session
  */
 class Order extends CustomModel
 {
@@ -78,5 +79,14 @@ class Order extends CustomModel
     public function transaction(): BelongsTo {
         return $this->belongsTo(Transaction::class, Attributes::ID, Attributes::ORDER_ID)
             ->where(Attributes::STATUS, PaymentStatus::CONFIRMED);
+    }
+
+    /**
+     * Relationship: session
+     * @return BelongsTo
+     */
+    public function session(): BelongsTo
+    {
+        return $this->belongsTo(Session::class, Attributes::SESSION_ID, Attributes::ID);
     }
 }

@@ -59,7 +59,8 @@ class Transaction extends CustomModel
     ];
 
     protected $appends = [
-        Attributes::PAYMENT_METHOD_NAME
+        Attributes::PAYMENT_METHOD_NAME,
+        Attributes::SESSION_NAME
     ];
 
     /**
@@ -83,21 +84,24 @@ class Transaction extends CustomModel
     }
 
     /**
-     * Relationship: session
-     * @return BelongsTo
-     */
-    function session(): BelongsTo
-    {
-        return $this->belongsTo(Session::class, Attributes::SESSION_ID, Attributes::ID)
-            ->where(Attributes::STATUS, PaymentStatus::CONFIRMED);
-    }
-
-    /**
      * Relationship: order
      * @return BelongsTo
      */
     function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, Attributes::ORDER_ID, Attributes::ID);
+    }
+
+    /**
+     * Attribute: session name
+     * @return string|null
+     */
+    function getSessionNameAttribute()
+    {
+        $session = $this->order->session;
+        if (is_null($session)) {
+            return null;
+        }
+        return $session->title;
     }
 }
