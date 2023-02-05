@@ -10,7 +10,7 @@ class PhotographerLoginRequest extends CustomRequest
     public function rules() {
         return [
             Attributes::EMAIL => 'string|required|max:250',
-            Attributes::PASSWORD => Values::PASSWORD_POLICY,
+            Attributes::PASSWORD => 'string|required'
         ];
     }
 
