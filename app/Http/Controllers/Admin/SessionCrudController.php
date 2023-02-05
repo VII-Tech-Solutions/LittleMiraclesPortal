@@ -32,6 +32,7 @@ class SessionCrudController extends CustomCrudController
         update as traitUpdate;
     }
 
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -54,6 +55,7 @@ class SessionCrudController extends CustomCrudController
 
         // override edit view
         $this->crud->setEditView('edit.session');
+        $this->crud->setShowView("show.session");
 
     }
 
