@@ -108,6 +108,7 @@
                                 <th>User Name</th>
                                 <th>Package Name</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         @else
                             <tr>
@@ -122,6 +123,10 @@
                                 <td>{{$subSession->user_name}}</td>
                                 <td>{{$subSession->package_name}}</td>
                                 <td>{{$subSession->status_name}}</td>
+                                <td>
+                                    <a href="{{ route('sub-sessions.edit', $subSession->id) }}">Edit</a>
+                                </td>
+
                             </tr>
                         @endforeach
                         </tbody>
