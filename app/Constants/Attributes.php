@@ -318,4 +318,5 @@ class Attributes extends CustomEnum
     const INDOOR_ALLOWED = "indoor_allowed";
     const PACKAGE_PRICE = "package_price";
     const TOTAL = "total";
+    const COLOR_ID = "color_id";
 }

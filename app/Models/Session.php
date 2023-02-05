@@ -313,7 +313,14 @@ class Session extends CustomModel
         $cakes = $this->cakes()->get();
         $array = null;
         foreach ($cakes as $cake) {
-            $array[] = $cake->category_name . " - " . $cake->title;
+            $sessionDetails = SessionDetail::where(Attributes::SESSION_ID, $this->id)->where(Attributes::VALUE, $cake->id)->where(Attributes::TYPE, SessionDetailsType::CAKE)->first();
+            /** @var Cake $color */
+            $color = Cake::find($sessionDetails->color_id) ?? null;
+            if (is_null($color)) {
+                $array[] = $cake->name;
+                continue;
+            }
+            $array[] = $cake->name . " - " . $color->title;
         }
         if (empty($array)) {
             return null;
@@ -448,7 +455,7 @@ class Session extends CustomModel
      */
     public function cakes()
     {
-        return $this->belongsToMany(Cake::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
+        return $this->belongsToMany(CakeCategory::class, Tables::SESSION_DETAILS, null, Attributes::VALUE, Attributes::ID)
             ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::CAKE);
     }
 

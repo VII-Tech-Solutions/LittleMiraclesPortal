@@ -192,7 +192,8 @@ class SessionController extends CustomController
             foreach ($cakes as $item) {
                 SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::CAKE,
-                    Attributes::VALUE => $item,
+                    Attributes::VALUE => $item[Attributes::CATEGORY_ID],
+                    Attributes::COLOR_ID => $item[Attributes::COLOR_ID],
                     Attributes::USER_ID => $user->id,
                     Attributes::FAMILY_ID => $user->family_id,
                     Attributes::SESSION_ID => $session->id,
@@ -404,7 +405,8 @@ class SessionController extends CustomController
                 foreach ($cakes as $item) {
                     SessionDetail::createOrUpdate([
                         Attributes::TYPE => SessionDetailsType::CAKE,
-                        Attributes::VALUE => $item,
+                        Attributes::VALUE => $item[Attributes::CATEGORY_ID],
+                        Attributes::COLOR_ID => $item[Attributes::COLOR_ID],
                         Attributes::USER_ID => $user->id,
                         Attributes::FAMILY_ID => $user->family_id,
                         Attributes::SESSION_ID => $sub_session->id,

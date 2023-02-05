@@ -20,6 +20,7 @@ class SessionDetail extends CustomModel
     protected $fillable = [
         Attributes::TYPE,
         Attributes::VALUE,
+        Attributes::COLOR_ID,
         Attributes::SESSION_ID,
         Attributes::PACKAGE_ID,
         Attributes::USER_ID,
