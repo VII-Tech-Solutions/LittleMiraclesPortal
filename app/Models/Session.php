@@ -220,7 +220,15 @@ class Session extends CustomModel
         } else {
             $children = $children . " babies";
         }
-        return "$children, $adults";
+        $extra = "";
+        if ($this->extra_people > 0) {
+            if ($this->extra_people == 1) {
+                $extra = " + " . $this->extra_people . " Additional Guest";
+            } else if ($this->extra_people > 1) {
+                $extra = " + " . $this->extra_people . " Additional Guests";
+            }
+        }
+        return "$children, $adults $extra";
     }
 
     /**
