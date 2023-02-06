@@ -57,7 +57,7 @@ class FamilyInfoCrudController  extends CustomCrudController
         $this->addColumnWithSearchLogic('Question',Attributes::QUESTION_ID,Attributes::QUESTION_ID,Attributes::QUESTION,FamilyInfoQuestion::class);
 
         // Column: Answer
-        $this->addAnswerColumn("Answer",1, Attributes::ANSWER);
+        $this->addAnswerColumn("Answer",1, Attributes::ANSWER_TEXT);
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -87,7 +87,7 @@ class FamilyInfoCrudController  extends CustomCrudController
         $this->crud->setValidation(FamilyInfoRequest::class);
 
         // Field: Answer
-        $this->addAnswerField(Attributes::ANSWER,"Answer");
+        $this->addAnswerField(Attributes::ANSWER_TEXT,"Answer");
 
         // Field: Status
         $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));

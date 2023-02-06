@@ -14,6 +14,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int session_status
  * @property int gender
  * @property int relationship
+ * @property string answer
  */
 class FamilyInfo extends CustomModel
 {
@@ -41,6 +42,7 @@ class FamilyInfo extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
+        Attributes::ANSWER_TEXT
     ];
 
 
@@ -54,7 +56,32 @@ class FamilyInfo extends CustomModel
         return $this->getStatusName($value);
     }
 
+    /**
+     * Attribute: Answer Text
+     * @param $value
+     * @return string|null
+     */
+    function getAnswerTextAttribute($value)
+    {
+        $answer = $this->answer;
+        $answer_text = null;
+        if (preg_match("/[a-z]/i", $answer)) {
+            return $answer;
+        }
 
+        $answer_options = explode(",",$answer);
+        foreach ($answer_options as $option) {
+            /** @var FamilyInfoQuestionOption $option_text */
+            $option_text = FamilyInfoQuestionOption::find(trim($option)) ?? null;
+            if (!is_null($answer_text) && !is_null($option_text)) {
+                $answer_text .= ", ";
+            }
+            $answer_text .= $option_text->value ?? (trim($option));
+        }
+
+        // return answer text
+        return $answer_text;
+    }
 }
 
 
