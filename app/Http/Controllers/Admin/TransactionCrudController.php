@@ -39,7 +39,8 @@ class TransactionCrudController extends CustomCrudController
         // deny access
         $this->crud->denyAccess(["create"]);
 
-
+        // override show view
+        $this->crud->setShowView("show.transaction");
     }
 
     /**
