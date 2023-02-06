@@ -1170,11 +1170,16 @@ xox";
         // get sessions
         $id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ID, null, CastingTypes::STRING);
         $ids = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IDS, null, CastingTypes::ARRAY);
+        $date = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DATE, null, CastingTypes::STRING);
 
         //only get sessions and not sub_sessions
         $sessions = Session::sessions();
         if ($user->role == Roles::PHOTOGRAPHER) {
             $sessions->where(Attributes::PHOTOGRAPHER, $user->id);
+        }
+
+        if (!empty($date)) {
+            $sessions = $sessions->where(Attributes::DATE, $date);
         }
 
         if (!empty($id)) {
