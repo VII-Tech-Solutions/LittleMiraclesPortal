@@ -60,7 +60,7 @@ class MailjetHelpers
         // get pdf
         $pdf_base64 = "";
         if (!is_null($filename)) {
-            $pdf_base64 = base64_encode(file_get_contents(storage_path("./app/$filename")));
+            $pdf_base64 = base64_encode(file_get_contents(url("./storage/invoices/$filename")));
         }
 
         // prepare body (customer)

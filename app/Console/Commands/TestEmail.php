@@ -18,7 +18,7 @@ class TestEmail extends Command
         $session = Session::where(Attributes::ID, 354)->first();
         $pdf = SessionController::generateInvoice($session->id);
         $filename = "invoice-" . $session->id . ".pdf";
-        Storage::put($filename, $pdf);
+        Storage::put("./public/invoices/$filename", $pdf);
         MailjetHelpers::bookingConfirmed($session, $filename);
     }
 }
