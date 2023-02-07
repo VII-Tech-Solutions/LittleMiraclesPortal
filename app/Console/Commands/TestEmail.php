@@ -8,14 +8,20 @@ use App\Helpers\MailjetHelpers;
 use App\Models\Session;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use VIITech\Helpers\GlobalHelpers;
 
 class TestEmail extends Command
 {
     protected $signature = 'test:email';
     protected $description = 'send emails for testing';
+
     public function handle()
     {
-        $session = Session::where(Attributes::ID, 354)->first();
+        if (GlobalHelpers::isProductionEnv()) {
+            $session = Session::where(Attributes::ID, 344)->first();
+        } else {
+            $session = Session::where(Attributes::ID, 354)->first();
+        }
         $pdf = SessionController::generateInvoice($session->id);
         $filename = "invoice-" . $session->id . ".pdf";
         Storage::put("./public/invoices/$filename", $pdf);
