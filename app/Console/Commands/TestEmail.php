@@ -2,13 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\API\Controllers\SessionController;
 use App\Constants\Attributes;
 use App\Helpers\MailjetHelpers;
-use App\Models\Appointment;
-use App\Models\BackpackUser;
-use App\Models\Photographer;
 use App\Models\Session;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class TestEmail extends Command
 {
@@ -16,8 +15,10 @@ class TestEmail extends Command
     protected $description = 'send emails for testing';
     public function handle()
     {
-        $session = Session::where(Attributes::ID, 212)->first();
-        $appointment = Appointment::where(Attributes::ID, 8)->first();
-        MailjetHelpers::appointmentBooked($appointment);
+        $session = Session::where(Attributes::ID, 354)->first();
+        $pdf = SessionController::generateInvoice($session->id);
+        $filename = "invoice-" . $session->id . ".pdf";
+        Storage::put($filename, $pdf);
+        MailjetHelpers::bookingConfirmed($session, $filename);
     }
 }

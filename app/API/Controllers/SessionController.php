@@ -1251,10 +1251,10 @@ xox";
      */
     static function generateInvoice($id)
     {
-        $user = Helpers::resolveUser();
-        if (is_null($user)) {
-            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
-        }
+//        $user = Helpers::resolveUser();
+//        if (is_null($user)) {
+//            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+//        }
         /** @var Session $session */
         $session = Session::where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/->first();
         if (is_null($session)) {
