@@ -119,12 +119,12 @@ class MailjetHelpers
             ]
         ];
         // send email (photographer)
-//        $response = $mj->post(Resources::$Email, ['body' => $body_photographer]);
+        $response = $mj->post(Resources::$Email, ['body' => $body_photographer]);
 
         // return response
-//        if (!$response->success()) {
-//            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
-//        }
+        if (!$response->success()) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
 
         // prepare body (admin)
         /** @var Photographer $admins */
@@ -151,12 +151,12 @@ class MailjetHelpers
             ]
         ];
         // send email (admin)
-//        $response = $mj->post(Resources::$Email, ['body' => $body_admin]);
+        $response = $mj->post(Resources::$Email, ['body' => $body_admin]);
 
         // return response
-//        if (!$response->success()) {
-//            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
-//        }
+        if (!$response->success()) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
