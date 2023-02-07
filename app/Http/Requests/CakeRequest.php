@@ -19,7 +19,6 @@ class CakeRequest extends CustomRequest
     {
         return [
             Attributes::TITLE => 'required|min:2|max:255',
-            Attributes::CATEGORY_ID => 'required',
             Attributes::IMAGE => 'required',
         ];
     }
