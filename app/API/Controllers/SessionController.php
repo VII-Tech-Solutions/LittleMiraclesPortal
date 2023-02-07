@@ -996,10 +996,10 @@ xox";
                 }
 
                 if (is_a($session, Session::class)) {
-//                    $pdf = $this->generateInvoice($session->id);
-//                    $filename = "invoice-" . $session->id . ".pdf";
-//                    Storage::put($filename, $pdf);
-                    MailjetHelpers::bookingConfirmed($session/*, $filename*/);
+                    $pdf = $this->generateInvoice($session->id);
+                    $filename = "invoice-" . $session->id . ".pdf";
+                    Storage::put("./public/invoices/$filename", $pdf);
+                    MailjetHelpers::bookingConfirmed($session, $filename);
                     return GlobalHelpers::formattedJSONResponse(Messages::SESSION_CONFIRMED, [
                         Attributes::SESSIONS => Session::returnTransformedItems($session, ListSessionTransformer::class),
                     ], null, Response::HTTP_OK);
@@ -1251,10 +1251,10 @@ xox";
      */
     static function generateInvoice($id)
     {
-//        $user = Helpers::resolveUser();
-//        if (is_null($user)) {
-//            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
-//        }
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
         /** @var Session $session */
         $session = Session::where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/->first();
         if (is_null($session)) {
