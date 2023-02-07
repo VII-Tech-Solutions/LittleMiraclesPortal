@@ -51,6 +51,8 @@ class CakeCategoryCrudController extends CustomCrudController
         // column: Name
         $this->addNameColumn("Name",2, Attributes::NAME);
 
+        // column: Image
+        $this->addImageColumn("Image");
 
     }
 
@@ -79,7 +81,8 @@ class CakeCategoryCrudController extends CustomCrudController
         // Field: Name
         $this->addNameField(Attributes::NAME,"Name");
 
-
+        // Field: Featured Image
+        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
 
         // Field: Status
         $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));

@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Constants\Attributes;
 use App\Constants\Status;
 use App\Constants\Tables;
+use App\Traits\ImageTrait;
+use App\Traits\ModelTrait;
 
 /**
  * CakeCategory
@@ -14,6 +16,9 @@ use App\Constants\Tables;
 class CakeCategory extends CustomModel
 {
 
+    use ModelTrait, ImageTrait;
+
+    public const DIRECTORY = "uploads/photographers";
     protected $table = Tables::CAKE_CATEGORIES;
     protected $guarded = [
         Attributes::ID
@@ -21,6 +26,7 @@ class CakeCategory extends CustomModel
 
     protected $fillable = [
         Attributes::NAME,
+        Attributes::IMAGE,
         Attributes::STATUS,
     ];
 
@@ -38,5 +44,24 @@ class CakeCategory extends CustomModel
     {
         $text = Status::getKey($this->status);
         return Helpers::readableText($text);
+    }
+
+    /**
+     * Get image Attribute
+     * @param $value
+     * @return string|null
+     */
+    function getImageAttribute($value)
+    {
+        return $this->getImage($value);
+    }
+
+    /**
+     * Set Attribute: Image
+     * @param $value
+     */
+    public function setImageAttribute($value)
+    {
+        $this->setImage($value);
     }
 }

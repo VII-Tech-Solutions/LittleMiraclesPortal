@@ -13,6 +13,7 @@ class ListCakeCategoryTransformer extends CustomTransformer
     public $fields = [
         Attributes::ID,
         Attributes::NAME,
+        Attributes::IMAGE,
         Attributes::STATUS,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
