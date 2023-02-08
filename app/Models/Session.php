@@ -123,6 +123,7 @@ class Session extends CustomModel
         Attributes::FEATURED_IMAGE,
         Attributes::SUB_SESSIONS_IDS,
         Attributes::BOOKING_TEXT,
+        'people_data'
     ];
 
 
@@ -229,6 +230,29 @@ class Session extends CustomModel
             }
         }
         return "$children, $adults $extra";
+    }
+
+    /**
+     * Attribute: people_data
+     * @return array
+     */
+    public function getPeopleDataAttribute()
+    {
+        $parentData = collect([]);
+        $childData = collect([]);
+        if ($this->include_me){
+            $parentData->push(['name' => $this->user_name]);
+        }
+
+        foreach ($this->people()->where(Attributes::RELATIONSHIP, Relationship::PARTNER)->get() as $parent) {
+            $parentData->push(['name' => $parent->first_name . ' ' . $parent->last_name]);
+        }
+
+        foreach ($this->people()->where(Attributes::RELATIONSHIP, Relationship::CHILDREN)->get() as $child) {
+            $childData->push(['name' => $child->first_name . ' ' . $child->last_name]);
+        }
+
+        return ['parents' => $parentData, 'childrens' => $childData];
     }
 
     /**

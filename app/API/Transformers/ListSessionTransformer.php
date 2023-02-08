@@ -31,6 +31,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::FORMATTED_DATE,
         Attributes::TIME,
         Attributes::FORMATTED_PEOPLE,
+        'people_data',
         Attributes::FORMATTED_BACKDROP,
         Attributes::FORMATTED_CAKE,
         Attributes::LOCATION_TEXT,
