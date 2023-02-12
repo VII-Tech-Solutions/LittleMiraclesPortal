@@ -39,7 +39,8 @@ class FirebaseHelper
             $body = $data[Attributes::MESSAGE] ?? null;
 
             if (empty($env)) {
-                $env = GlobalHelpers::isProductionEnv() ? "production" : "staging";
+//                $env = GlobalHelpers::isProductionEnv() ? "production" : "local";
+                $env = config('app.env');
             }
 
             if (empty($topic) || empty($title) || empty($body)) {
