@@ -9,14 +9,12 @@ use Exception;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\Messaging\ApiConnectionFailed;
 use Kreait\Firebase\Exception\Messaging\InvalidMessage;
-use Kreait\Firebase\Exception\Messaging\NotFound;
 use Kreait\Firebase\Exception\Messaging\QuotaExceeded;
 use Kreait\Firebase\Exception\Messaging\ServerError;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\AndroidConfig;
 use Kreait\Firebase\Messaging\ApnsConfig;
 use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification;
 use VIITech\Helpers\GlobalHelpers;
 
 /**
@@ -34,8 +32,9 @@ class FirebaseHelper
      */
     static function sendFCMByTopic($topic = Values::FCM_DEFAULT_TOPIC, $user_id = null, $env = null, $data = [], $with_debug = false, $count = 0)
     {
-        try {
 
+        try {
+            $data = $data->except('_token');
             $title = $data[Attributes::TITLE] ?? null;
             $body = $data[Attributes::MESSAGE] ?? null;
 
@@ -55,11 +54,13 @@ class FirebaseHelper
                 $data[Attributes::FAMILY_ID] = null;
             }
 
-            $message = CloudMessage::withTarget(Attributes::CONDITION, "'$topic' in topics && '$env' in topics")
-                ->withNotification(Notification::fromArray([
-                    Attributes::TITLE => $title,
-                    Attributes::BODY => $body,
-                ]))->withData($data);
+//            $message = CloudMessage::withTarget('topic', $topic)
+//                ->withNotification(['title' => $title, 'body' => $body]);
+//                ->withData($data); //for testing
+
+            $message = CloudMessage::withTarget(Attributes::CONDITION, "'$topic' in topics && !('$env' in topics)")
+                ->withNotification(['title' => $title, 'body' => $body])
+                ->withData($data);
 
             $android_config = AndroidConfig::fromArray([
                 Attributes::PRIORITY => Values::FCM_PRIORITY_ANDROID,
@@ -92,7 +93,8 @@ class FirebaseHelper
             $base = (new Factory())->withProjectId(Values::FCM_PROJECT_ID)
                 ->withServiceAccount(storage_path("firebase_credentials.json"));
 
-            $base->createMessaging()->send($message);
+            $result = $base->createMessaging()->send($message);
+//            dd($result, 'test');
 
             return true;
 

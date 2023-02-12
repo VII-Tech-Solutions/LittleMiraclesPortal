@@ -6,6 +6,8 @@ use App\Constants\Attributes;
 use App\Constants\FieldTypes;
 use App\Constants\NotificationTypes;
 use App\Constants\Status;
+use App\Constants\Values;
+use App\Helpers\FirebaseHelper;
 use App\Http\Requests\NotificationRequest;
 use App\Models\Notification;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -14,6 +16,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Backpack\CRUD\app\Http\Controllers\Operations\Response;
+use Kreait\Firebase\Messaging\CloudMessage;
 
 /**
  * Class NotificationCrudController
@@ -118,12 +121,13 @@ class NotificationCrudController extends CustomCrudController
 
         // Send FCM
         $status = $this->crud->getRequest()->get(Attributes::STATUS);
-        if($status == Status::ACTIVE){
+        if ($status == Status::ACTIVE) {
+            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC, null, null, request());
             // TODO send FCM
 //            Helpers::sendFCM($this->crud->getRequest()->all());
         }
 
-        // return response
+        // return $response
         return $result;
     }
 
