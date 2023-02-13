@@ -81,4 +81,41 @@ class PhotographerController extends CustomController
         }
         return GlobalHelpers::formattedJSONResponse(Messages::INVALID_CREDENTIALS, null, null, Response::HTTP_UNAUTHORIZED);
     }
+
+    /**
+     * Update
+     * @return JsonResponse
+     */
+    public function update(): JsonResponse
+    {
+        // get token
+        $token = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ACCESS_TOKEN, null, CastingTypes::STRING);
+
+        // get photographer
+        $photographer = Photographer::where(Attributes::ACCESS_TOKEN, $token)->first();
+        if (is_null($token) && is_null($photographer)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, \Dingo\Api\Http\Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get parameters
+        $firebase_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FIREBASE_ID, null, CastingTypes::STRING);
+        $device_token = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::DEVICE_TOKEN, null, CastingTypes::STRING);
+
+        // update photographer
+        $update_photographer = Photographer::createOrUpdate([
+            Attributes::ID => $photographer->id,
+            Attributes::FIREBASE_ID => $firebase_id,
+            Attributes::DEVICE_TOKEN => $device_token
+        ], [
+            Attributes::ID
+        ]);
+
+        if ($update_photographer) {
+            return GlobalHelpers::formattedJSONResponse("Photographer Updated Successfully", [
+                Attributes::PHOTOGRAPHER => Photographer::returnTransformedItems($update_photographer, ListPhotographerTransformer::class)
+            ], null, Response::HTTP_OK);
+        }
+
+        return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, [], null, \Dingo\Api\Http\Response::HTTP_BAD_REQUEST);
+    }
 }

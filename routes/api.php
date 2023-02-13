@@ -93,6 +93,7 @@ $api->version('v1', function ($api) {
         $api->delete('/partner', 'ProfileController@removePartner')->middleware('allowed_user'); // Update partner
         $api->put('/children', 'ProfileController@updateChildren')->middleware('allowed_user'); // Update children
         $api->put('/family', 'ProfileController@updateFamily')->middleware('allowed_user'); // Update family
+        $api->post('/update/photographer', 'PhotographerController@update');
 
         /*******************************
          * Studio Packages

@@ -19,6 +19,8 @@ class ListPhotographerTransformer extends CustomTransformer
         Attributes::STATUS,
         Attributes::ADDITIONAL_CHARGE,
         Attributes::PRIORITY,
+        Attributes::FIREBASE_ID,
+        Attributes::DEVICE_TOKEN,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
     ];
