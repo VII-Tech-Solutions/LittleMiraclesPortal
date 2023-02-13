@@ -90,10 +90,10 @@ class FirebaseHelper
             ]);
 
             $message = $message->withAndroidConfig($android_config)->withApnsConfig($apns_config);
-dd($message);
             $base = (new Factory())->withProjectId(Values::FCM_PROJECT_ID)
                 ->withServiceAccount(storage_path("firebase_credentials.json"));
 
+            dd($base);
             $result = $base->createMessaging()->send($message);
 //            dd($result, 'test');
 
