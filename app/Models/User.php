@@ -34,6 +34,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string email
  * @property string phone_number
  * @property string firebase_id
+ * @property string device_token
  */
 class User extends CustomModel implements
     AuthenticatableContract,
@@ -72,6 +73,7 @@ class User extends CustomModel implements
         Attributes::FIREBASE_ID,
         Attributes::PRO_PAST_EXPERIENCE,
         Attributes::HAPPY_PAST_EXPERIENCE,
+        Attributes::DEVICE_TOKEN,
     ];
 
     /**

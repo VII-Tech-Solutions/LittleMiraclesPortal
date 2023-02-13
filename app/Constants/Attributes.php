@@ -321,4 +321,5 @@ class Attributes extends CustomEnum
     const COLOR_ID = "color_id";
     const ANSWER_TEXT = "answer_text";
     const CONVERSATION_ID = "conversation_id";
+    const DEVICE_TOKEN = "device_token";
 }

@@ -31,6 +31,7 @@ class UserTransformer extends CustomTransformer
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT,
         Attributes::PRO_PAST_EXPERIENCE,
-        Attributes::HAPPY_PAST_EXPERIENCE
+        Attributes::HAPPY_PAST_EXPERIENCE,
+        Attributes::DEVICE_TOKEN
     ];
 }
