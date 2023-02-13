@@ -94,7 +94,6 @@ class FirebaseHelper
                 ->withServiceAccount(storage_path("firebase_credentials.json"));
 
             $result = $base->createMessaging()->send($message);
-            dd($base, $result);
 //            dd($result, 'test');
 
             return true;
