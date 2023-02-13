@@ -63,7 +63,6 @@ class FirebaseHelper
                 ->withNotification(['title' => $title, 'body' => $body])
                 ->withData($data);
 
-            dd($env, $message);
             $android_config = AndroidConfig::fromArray([
                 Attributes::PRIORITY => Values::FCM_PRIORITY_ANDROID,
                 Attributes::NOTIFICATION => [
@@ -91,7 +90,7 @@ class FirebaseHelper
             ]);
 
             $message = $message->withAndroidConfig($android_config)->withApnsConfig($apns_config);
-
+dd($message);
             $base = (new Factory())->withProjectId(Values::FCM_PROJECT_ID)
                 ->withServiceAccount(storage_path("firebase_credentials.json"));
 
