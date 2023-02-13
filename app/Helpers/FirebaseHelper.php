@@ -63,6 +63,7 @@ class FirebaseHelper
                 ->withNotification(['title' => $title, 'body' => $body])
                 ->withData($data);
 
+            dd($env, $message);
             $android_config = AndroidConfig::fromArray([
                 Attributes::PRIORITY => Values::FCM_PRIORITY_ANDROID,
                 Attributes::NOTIFICATION => [
