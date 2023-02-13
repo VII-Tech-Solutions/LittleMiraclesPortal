@@ -320,4 +320,5 @@ class Attributes extends CustomEnum
     const TOTAL = "total";
     const COLOR_ID = "color_id";
     const ANSWER_TEXT = "answer_text";
+    const CONVERSATION_ID = "conversation_id";
 }

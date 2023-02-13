@@ -33,6 +33,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string full_name
  * @property string email
  * @property string phone_number
+ * @property string firebase_id
  */
 class User extends CustomModel implements
     AuthenticatableContract,
