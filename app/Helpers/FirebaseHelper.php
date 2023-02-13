@@ -93,8 +93,8 @@ class FirebaseHelper
             $base = (new Factory())->withProjectId(Values::FCM_PROJECT_ID)
                 ->withServiceAccount(storage_path("firebase_credentials.json"));
 
-            dd($base);
             $result = $base->createMessaging()->send($message);
+            dd($base, $result);
 //            dd($result, 'test');
 
             return true;
