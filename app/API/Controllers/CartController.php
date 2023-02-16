@@ -131,9 +131,9 @@ class CartController extends CustomController
 
         // return response
         return Helpers::returnResponse([
-            Attributes::TOTAL_PRICE => $total_price,
-            Attributes::SUBTOTAL => $subtotal,
-            Attributes::VAT_AMOUNT => $vat_amount,
+            Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price),
+            Attributes::SUBTOTAL => Helpers::formattedPrice($subtotal),
+            Attributes::VAT_AMOUNT => Helpers::formattedPrice($vat_amount),
             Attributes::CART_ITEMS => CartItem::returnTransformedItems($cart_items, ListCartItemsTransformer::class),
         ]);
     }
