@@ -71,7 +71,7 @@
     <a class='nav-link nav-dropdown-toggle' href="#"><i class="nav-icon la la-search"></i>Explore</a>
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('daily-tips') }}'><i class='nav-icon la la-lightbulb'></i>Tips & Tricks</a></li>
-{{--        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promotions') }}'><i class='nav-icon la la-bullhorn'></i>Promotions</a></li>--}}
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promotions') }}'><i class='nav-icon la la-bullhorn'></i>Promotions</a></li>
 {{--        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('workshops') }}'><i class='nav-icon la la-users-cog'></i>Workshops</a></li>--}}
     </ul>
 </li>
