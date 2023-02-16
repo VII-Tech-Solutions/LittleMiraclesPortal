@@ -299,7 +299,7 @@ class CartController extends CustomController
             Attributes::SUBTOTAL => $subtotal,
             Attributes::USER_ID => $user->id,
             Attributes::BOOKING_TYPE => $booking_type,
-            Attributes::SESSION_ID => $session->id ?? null,
+            Attributes::SESSION_ID => isset($session) ? $session->id : null,
         ], [
             Attributes::SESSION_ID
         ]);
@@ -309,13 +309,13 @@ class CartController extends CustomController
         }
 
         // add order items
-        if (BookingType::SESSION) {
+        if ($booking_type == BookingType::SESSION) {
             OrderItems::createOrUpdate([
                 Attributes::ORDER_ID => $order->id,
                 Attributes::USER_ID => $user->id,
-                Attributes::SESSION_ID => $session->id
+                Attributes::SESSION_ID => $session->id ?? null
             ]);
-        } else if (BookingType::STUDIO) {
+        } else if ($booking_type == BookingType::STUDIO) {
             foreach ($cart_items as $item) {
                 OrderItems::createOrUpdate([
                     Attributes::ORDER_ID => $order->id,
