@@ -19,6 +19,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property integer image
  * @property integer description
  * @property string category
+ * @property float starting_price
  * @property integer status
  */
 class StudioPackage extends CustomModel

@@ -76,7 +76,7 @@ class CartController extends CustomController
         /** @var StudioPackage $package */
         $package = StudioPackage::find($package_id);
         $specs_price = StudioMetadata::whereIn(Attributes::ID, [$album_size, $spreads, $paper_type, $cover_type, $canvas_size, $paper_size, $print_type])->pluck(Attributes::PRICE)->sum();
-        $total_price = ($package->price + $specs_price) * $quantity;
+        $total_price = ($package->starting_price + $specs_price) * $quantity;
 
         // create cart item
         $cart_item = CartItem::createOrUpdate([
