@@ -22,6 +22,7 @@ use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Session;
 use App\Models\StudioMetadata;
+use App\Models\StudioPackage;
 use App\Models\Transaction;
 use Dingo\Api\Http\Response;
 use Exception;
@@ -72,8 +73,8 @@ class CartController extends CustomController
         $album_title = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ALBUM_TITLE, null, CastingTypes::STRING);
 
         // calculate total price
-        /** @var Package $package */
-        $package = Package::find($package_id);
+        /** @var StudioPackage $package */
+        $package = StudioPackage::find($package_id);
         $specs_price = StudioMetadata::whereIn(Attributes::ID, [$album_size, $spreads, $paper_type, $cover_type, $canvas_size, $paper_size, $print_type])->pluck(Attributes::PRICE)->sum();
         $total_price = ($package->price + $specs_price) * $quantity;
 
