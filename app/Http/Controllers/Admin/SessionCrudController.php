@@ -9,8 +9,10 @@ use App\Constants\SessionStatus;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
 use App\Models\Cake;
+use App\Models\FamilyMember;
 use App\Models\Helpers;
 use App\Models\Package;
+use App\Models\PaymentMethod;
 use App\Models\Photographer;
 use App\Models\Session;
 use App\Models\SessionDetail;
@@ -18,13 +20,13 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
 /**
  * Session CRUD Controller
  */
 class SessionCrudController extends CustomCrudController
 {
-
     use CreateOperation {
         store as traitStore;
     }
@@ -32,7 +34,10 @@ class SessionCrudController extends CustomCrudController
         update as traitUpdate;
     }
 
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use ShowOperation {
+        show as traitShow;
+    }
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -283,6 +288,37 @@ class SessionCrudController extends CustomCrudController
 
         // return response
         return $result;
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->crud->addColumn([
+            'name'     => 'family_id',
+            'label'    => 'Family',
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                $people = $entry->people()->first();
+                return $people ? $people->first_name . ' ' . $people->last_name : ' - ';
+            }
+        ]);
+
+        $this->crud->addColumn([
+            'name'     => 'photographer',
+            'label'    => 'Photographer',
+            'type'     => 'closure',
+            'function' => function($entry) {
+                return $entry->photographer_name ?? ' - ';
+            }
+        ]);
+
+        $this->crud->addColumn([
+            'name'     => 'payment_method',
+            'label'    => 'Payment Method',
+            'type'     => 'closure',
+            'function' => function($entry) {
+                return $entry->payment_method_label ?: ' - ';
+            }
+        ]);
     }
 
 }

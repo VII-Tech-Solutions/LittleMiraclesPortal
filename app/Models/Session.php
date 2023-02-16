@@ -514,6 +514,11 @@ class Session extends CustomModel
         return $q->where(Attributes::SESSION_ID)->where(Attributes::SUB_PACKAGE_ID);
     }
 
+    public function getPaymentMethodLabelAttribute()
+    {
+        return PaymentMethods::getKey($this->payment_method);
+    }
+
     /**
      * Generate Invoice Data
      * @return array
