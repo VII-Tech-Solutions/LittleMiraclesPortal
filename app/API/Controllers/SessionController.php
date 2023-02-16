@@ -827,15 +827,17 @@ xox";
                     $total_price_after_discount = $original_price - $discount_amount;
 
                     // calculate vat and total
-//                    $total_price = $total_price_after_discount ?? $original_price;
-//                    $vat_amount = $total_price * Values::VAT_AMOUNT;
-//                    $total_price = $total_price + $vat_amount;
+                    $total_price = $total_price_after_discount ?? $original_price;
+                    $vat_amount = $total_price * Values::VAT_AMOUNT;
+                    $subtotal = $total_price + $vat_amount;
 
                     // return response
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [
                         Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
                         Attributes::DISCOUNT_PRICE => Helpers::formattedPrice($discount_amount),
-                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price_after_discount)
+                        Attributes::TOTAL_PRICE => Helpers::formattedPrice($total_price_after_discount),
+                        Attributes::VAT_AMOUNT => Helpers::formattedPrice($vat_amount),
+                        Attributes::SUBTOTAL => Helpers::formattedPrice($subtotal),
                     ], null, Response::HTTP_OK);
 
                 } else {
