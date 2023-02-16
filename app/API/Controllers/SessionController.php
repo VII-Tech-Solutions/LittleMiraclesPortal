@@ -84,6 +84,8 @@ class SessionController extends CustomController
         $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
         $location_link = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
         $extra_people = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::EXTRA_PEOPLE, null, CastingTypes::STRING);
+        $custom_backdrop = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CUSTOM_BACKDROP, null, CastingTypes::STRING);
+        $custom_cake = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CUSTOM_CAKE, null, CastingTypes::STRING);
 
         // Get package then validate
         /** @var Package $package */
@@ -150,7 +152,9 @@ class SessionController extends CustomController
             Attributes::LOCATION_LINK => $location_link,
             Attributes::LOCATION_TEXT => $location_text,
             Attributes::IS_OUTDOOR => $is_outdoor,
-            Attributes::EXTRA_PEOPLE => $extra_people
+            Attributes::EXTRA_PEOPLE => $extra_people,
+            Attributes::CUSTOM_BACKDROP => $custom_backdrop,
+            Attributes::CUSTOM_CAKE => $custom_cake,
         ], [
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
