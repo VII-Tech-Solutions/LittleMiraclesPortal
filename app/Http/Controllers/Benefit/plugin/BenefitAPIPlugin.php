@@ -36,7 +36,8 @@ class iPayBenefitPipe {
 	protected $error = null;
 	protected $errorText = null;
 	protected $trandata = null;
-	protected $endPoint = "https://test.benefit-gateway.bh/payment/API/hosted.htm";
+	protected $endPoint = "https://www.benefit-gateway.bh/payment/API/hosted.htm"; // live
+//	protected $endPoint = "https://test.benefit-gateway.bh/payment/API/hosted.htm"; // test
 	protected $tranDate = null;
 	protected $authRespCode = null;
 	protected $authCode = null;
