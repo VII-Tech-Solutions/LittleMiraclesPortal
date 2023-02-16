@@ -125,12 +125,15 @@ class CartController extends CustomController
         // get user cart items (unpurchased)
         $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED);
         $total_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
+        $vat_amount = $total_price * Values::VAT_AMOUNT;
+        $subtotal = $total_price + $vat_amount;
         $cart_items = $cart_items->get();
 
         // return response
         return Helpers::returnResponse([
             Attributes::TOTAL_PRICE => $total_price,
-            Attributes::SUBTOTAL => $total_price,
+            Attributes::SUBTOTAL => $subtotal,
+            Attributes::VAT_AMOUNT => $vat_amount,
             Attributes::CART_ITEMS => CartItem::returnTransformedItems($cart_items, ListCartItemsTransformer::class),
         ]);
     }
