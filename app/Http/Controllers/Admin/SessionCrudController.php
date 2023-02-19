@@ -319,6 +319,15 @@ class SessionCrudController extends CustomCrudController
                 return $entry->payment_method_label ?: ' - ';
             }
         ]);
+
+        $this->crud->addColumn([
+            'name'     => 'status',
+            'label'    => 'Status',
+            'type'     => 'closure',
+            'function' => function($entry) {
+                return $entry->status_name ?: ' - ';
+            }
+        ]);
     }
 
 }
