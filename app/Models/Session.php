@@ -522,6 +522,15 @@ class Session extends CustomModel
     }
 
     /**
+     * Attribute: time
+     * @param $value
+     * @return string
+     */
+    function getTimeAttribute($value) {
+        return (Carbon::parse($value)->format('H:i'));
+    }
+
+    /**
      * Scope: Sessions
      * @param $q
      * @return bool
