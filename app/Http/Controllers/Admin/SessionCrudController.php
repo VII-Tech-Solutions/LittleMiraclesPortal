@@ -362,7 +362,7 @@ class SessionCrudController extends CustomCrudController
             'function' => function ($entry) {
                 $promotion = $entry->promotion()->first();
                 if (is_null($promotion)) {
-                    return null;
+                    return "-";
                 }
                 return $promotion->promo_code ?: ' - ';
             }
