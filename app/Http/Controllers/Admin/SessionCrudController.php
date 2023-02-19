@@ -9,6 +9,7 @@ use App\Constants\SessionStatus;
 use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
 use App\Models\Cake;
+use App\Models\CakeCategory;
 use App\Models\FamilyMember;
 use App\Models\Helpers;
 use App\Models\Package;
@@ -144,7 +145,7 @@ class SessionCrudController extends CustomCrudController
         $this->addSessionDetailField(Attributes::BACKDROPS, "Backdrops", "Backdrop", Backdrop::class);
 
         // Field: Cakes
-        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
+        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", CakeCategory::class, Attributes::NAME);
 
         // Field: Backdrops
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
@@ -231,10 +232,7 @@ class SessionCrudController extends CustomCrudController
         $cakes = collect($cakes)->flatten()->filter();
 
         // get people
-        $people = $this->crud->getRequest()->get(Attributes::PEOPLE);
-        $this->crud->getRequest()->request->remove(Attributes::PEOPLE);
-        $people = json_decode($people, true);
-        $people = collect($people)->flatten()->filter();
+        $people = $this->crud->entry->people()->get();
 
         // update and return response
         $result = $this->traitUpdate();
@@ -290,12 +288,12 @@ class SessionCrudController extends CustomCrudController
             foreach ($people as $person) {
                 $person_exists = SessionDetail::where(Attributes::SESSION_ID, $session->id)
                     ->where(Attributes::TYPE, SessionDetailsType::PEOPLE)
-                    ->where(Attributes::VALUE, $person)->exists();
+                    ->where(Attributes::VALUE, $person->id)->exists();
 
                 if (!$person_exists) {
                     SessionDetail::createOrUpdate([
                         Attributes::TYPE => SessionDetailsType::PEOPLE,
-                        Attributes::VALUE => $person,
+                        Attributes::VALUE => $person->id,
                         Attributes::SESSION_ID => $session->id,
                         Attributes::PACKAGE_ID => $session->package_id,
                         Attributes::USER_ID => $session->user_id,
