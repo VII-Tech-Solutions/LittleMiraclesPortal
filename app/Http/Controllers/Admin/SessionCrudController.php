@@ -298,8 +298,8 @@ class SessionCrudController extends CustomCrudController
             'label' => Helpers::readableText(Attributes::FAMILY),
             'type' => 'closure',
             'function' => function ($entry) {
-                $people = $entry->people()->first();
-                return $people ? $people->first_name . ' ' . $people->last_name : ' - ';
+                $user = $entry->user()->first();
+                return $user ? $user->first_name . ' ' . $user->last_name : ' - ';
             }
         ]);
 
@@ -429,6 +429,36 @@ class SessionCrudController extends CustomCrudController
                     return "-";
                 }
                 return $session->title ?: ' - ';
+            }
+        ]);
+
+        // total price
+        $this->crud->addColumn([
+            'name' => Attributes::TOTAL_PRICE,
+            'label' => Helpers::readableText(Attributes::TOTAL_PRICE),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->total_price ? $entry->total_price . ' BHD': ' - ';
+            }
+        ]);
+
+        // vat amount
+        $this->crud->addColumn([
+            'name' => Attributes::VAT_AMOUNT,
+            'label' => Helpers::readableText(Attributes::VAT_AMOUNT),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->vat_amount ? $entry->vat_amount . ' BHD': ' - ';
+            }
+        ]);
+
+        // subtotal
+        $this->crud->addColumn([
+            'name' => Attributes::SUBTOTAL,
+            'label' => Helpers::readableText(Attributes::SUBTOTAL),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->subtotal ? $entry->subtotal . ' BHD': ' - ';
             }
         ]);
     }
