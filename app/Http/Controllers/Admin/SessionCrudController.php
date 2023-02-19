@@ -230,6 +230,12 @@ class SessionCrudController extends CustomCrudController
         $cakes = json_decode($cakes, true);
         $cakes = collect($cakes)->flatten()->filter();
 
+        // get people
+        $people = $this->crud->getRequest()->get(Attributes::PEOPLE);
+        $this->crud->getRequest()->request->remove(Attributes::PEOPLE);
+        $people = json_decode($people, true);
+        $people = collect($people)->flatten()->filter();
+
         // update and return response
         $result = $this->traitUpdate();
 
@@ -270,6 +276,26 @@ class SessionCrudController extends CustomCrudController
                     SessionDetail::createOrUpdate([
                         Attributes::TYPE => SessionDetailsType::CAKE,
                         Attributes::VALUE => $cake,
+                        Attributes::SESSION_ID => $session->id,
+                        Attributes::PACKAGE_ID => $session->package_id,
+                        Attributes::USER_ID => $session->user_id,
+                        Attributes::FAMILY_ID => $session->family_id
+                    ]);
+                }
+            }
+        }
+
+        // add people
+        if ($people->isNotEmpty()) {
+            foreach ($people as $person) {
+                $person_exists = SessionDetail::where(Attributes::SESSION_ID, $session->id)
+                    ->where(Attributes::TYPE, SessionDetailsType::PEOPLE)
+                    ->where(Attributes::VALUE, $person)->exists();
+
+                if (!$person_exists) {
+                    SessionDetail::createOrUpdate([
+                        Attributes::TYPE => SessionDetailsType::PEOPLE,
+                        Attributes::VALUE => $person,
                         Attributes::SESSION_ID => $session->id,
                         Attributes::PACKAGE_ID => $session->package_id,
                         Attributes::USER_ID => $session->user_id,
@@ -432,13 +458,13 @@ class SessionCrudController extends CustomCrudController
             }
         ]);
 
-        // total price
+        // subtotal
         $this->crud->addColumn([
-            'name' => Attributes::TOTAL_PRICE,
-            'label' => Helpers::readableText(Attributes::TOTAL_PRICE),
+            'name' => Attributes::SUBTOTAL,
+            'label' => Helpers::readableText(Attributes::SUBTOTAL),
             'type' => 'closure',
             'function' => function ($entry) {
-                return $entry->total_price ? $entry->total_price . ' BHD': ' - ';
+                return $entry->subtotal ? $entry->subtotal . ' BHD': ' - ';
             }
         ]);
 
@@ -452,13 +478,23 @@ class SessionCrudController extends CustomCrudController
             }
         ]);
 
-        // subtotal
+        // total price
         $this->crud->addColumn([
-            'name' => Attributes::SUBTOTAL,
-            'label' => Helpers::readableText(Attributes::SUBTOTAL),
+            'name' => Attributes::TOTAL_PRICE,
+            'label' => Helpers::readableText(Attributes::TOTAL_PRICE),
             'type' => 'closure',
             'function' => function ($entry) {
-                return $entry->subtotal ? $entry->subtotal . ' BHD': ' - ';
+                return $entry->total_price ? $entry->total_price . ' BHD': ' - ';
+            }
+        ]);
+
+        // Booked at
+        $this->crud->addColumn([
+            'name' => Attributes::CREATED_AT,
+            'label' => "Booked At",
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->created_at ? $entry->created_at->format('d/m/Y H:i A') : ' - ';
             }
         ]);
     }
