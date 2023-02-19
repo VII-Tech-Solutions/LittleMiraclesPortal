@@ -293,9 +293,9 @@ class SessionCrudController extends CustomCrudController
     protected function setupShowOperation()
     {
         $this->crud->addColumn([
-            'name'     => 'family_id',
-            'label'    => 'Family',
-            'type'     => 'closure',
+            'name' => 'family_id',
+            'label' => 'Family',
+            'type' => 'closure',
             'function' => function ($entry) {
                 $people = $entry->people()->first();
                 return $people ? $people->first_name . ' ' . $people->last_name : ' - ';
@@ -303,28 +303,28 @@ class SessionCrudController extends CustomCrudController
         ]);
 
         $this->crud->addColumn([
-            'name'     => 'photographer',
-            'label'    => 'Photographer',
-            'type'     => 'closure',
-            'function' => function($entry) {
+            'name' => 'photographer',
+            'label' => 'Photographer',
+            'type' => 'closure',
+            'function' => function ($entry) {
                 return $entry->photographer_name ?? ' - ';
             }
         ]);
 
         $this->crud->addColumn([
-            'name'     => 'payment_method',
-            'label'    => 'Payment Method',
-            'type'     => 'closure',
-            'function' => function($entry) {
-                return $entry->payment_method_label ?: ' - ';
+            'name' => 'payment_method',
+            'label' => 'Payment Method',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->payment_method_label ? Helpers::readableText($entry->payment_method_label) : ' - ';
             }
         ]);
 
         $this->crud->addColumn([
-            'name'     => 'status',
-            'label'    => 'Status',
-            'type'     => 'closure',
-            'function' => function($entry) {
+            'name' => 'status',
+            'label' => 'Status',
+            'type' => 'closure',
+            'function' => function ($entry) {
                 return $entry->status_name ?: ' - ';
             }
         ]);
