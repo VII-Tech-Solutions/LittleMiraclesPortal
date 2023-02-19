@@ -464,7 +464,7 @@ class SessionCrudController extends CustomCrudController
             'label' => Helpers::readableText(Attributes::SUBTOTAL),
             'type' => 'closure',
             'function' => function ($entry) {
-                return $entry->subtotal ? $entry->subtotal . ' BHD': ' - ';
+                return $entry->subtotal ? $entry->subtotal . ' BHD' : ' - ';
             }
         ]);
 
@@ -474,7 +474,7 @@ class SessionCrudController extends CustomCrudController
             'label' => Helpers::readableText(Attributes::VAT_AMOUNT),
             'type' => 'closure',
             'function' => function ($entry) {
-                return $entry->vat_amount ? $entry->vat_amount . ' BHD': ' - ';
+                return $entry->vat_amount ? $entry->vat_amount . ' BHD' : ' - ';
             }
         ]);
 
@@ -484,7 +484,7 @@ class SessionCrudController extends CustomCrudController
             'label' => Helpers::readableText(Attributes::TOTAL_PRICE),
             'type' => 'closure',
             'function' => function ($entry) {
-                return $entry->total_price ? $entry->total_price . ' BHD': ' - ';
+                return $entry->total_price ? $entry->total_price . ' BHD' : ' - ';
             }
         ]);
 
@@ -494,7 +494,7 @@ class SessionCrudController extends CustomCrudController
             'label' => "Booked At",
             'type' => 'closure',
             'function' => function ($entry) {
-                return $entry->created_at ? $entry->created_at->format('d/m/Y H:i A') : ' - ';
+                return $entry->created_at ? $entry->created_at->format('Y-m-d H:i A') : ' - ';
             }
         ]);
     }
