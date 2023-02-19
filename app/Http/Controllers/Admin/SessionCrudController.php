@@ -282,7 +282,7 @@ class SessionCrudController extends CustomCrudController
                     SessionDetail::createOrUpdate([
                         Attributes::TYPE => SessionDetailsType::CAKE,
                         Attributes::VALUE => $cake,
-                        Attributes::COLOR_ID => $colors[$i],
+                        Attributes::COLOR_ID => $colors[$i] ?? null,
                         Attributes::SESSION_ID => $session->id,
                         Attributes::PACKAGE_ID => $session->package_id,
                         Attributes::USER_ID => $session->user_id,
