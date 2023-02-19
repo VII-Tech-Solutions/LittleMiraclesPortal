@@ -408,13 +408,27 @@ class SessionCrudController extends CustomCrudController
             }
         ]);
 
-        // comments
+        // Comments
         $this->crud->addColumn([
             'name' => Attributes::COMMENTS,
             'label' => Helpers::readableText(Attributes::COMMENTS),
             'type' => 'closure',
             'function' => function ($entry) {
                 return $entry->comments ?: ' - ';
+            }
+        ]);
+
+        // Linked Session
+        $this->crud->addColumn([
+            'name' => Attributes::SESSION_ID,
+            'label' => "Linked Session",
+            'type' => 'closure',
+            'function' => function ($entry) {
+                $session = $entry->linkedSession()->first();
+                if (is_null($session)) {
+                    return "-";
+                }
+                return $session->title ?: ' - ';
             }
         ]);
     }

@@ -293,6 +293,15 @@ class Session extends CustomModel
 
 
     /**
+     * Relationships: linked session
+     * @return BelongsTo
+     */
+    public function linkedSession()
+    {
+        return $this->belongsTo(Session::class, Attributes::SESSION_ID, Attributes::ID);
+    }
+
+    /**
      * Relationships: sub_sessions
      * @return HasMany
      */
