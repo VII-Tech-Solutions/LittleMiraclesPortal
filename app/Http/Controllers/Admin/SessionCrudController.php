@@ -337,7 +337,7 @@ class SessionCrudController extends CustomCrudController
         // Payment Method
         $this->crud->addColumn([
             'name' => Attributes::FORMATTED_PEOPLE,
-            'label' => Helpers::readableText(Attributes::FORMATTED_PEOPLE),
+            'label' => Helpers::readableText(Attributes::PEOPLE),
             'type' => 'closure',
             'function' => function ($entry) {
                 return $entry->formatted_people;
