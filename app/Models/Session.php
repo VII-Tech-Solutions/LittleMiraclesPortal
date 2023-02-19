@@ -493,6 +493,14 @@ class Session extends CustomModel
             ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::ADDITIONS);
     }
 
+    /**
+     * Relationships: promotion
+     * @return BelongsTo
+     */
+    public function promotion(): BelongsTo
+    {
+        return $this->belongsTo(Promotion::class, Attributes::PROMO_ID, Attributes::ID);
+    }
 
     /**
      * Scope: Paid

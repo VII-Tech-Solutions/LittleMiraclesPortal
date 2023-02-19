@@ -292,9 +292,10 @@ class SessionCrudController extends CustomCrudController
 
     protected function setupShowOperation()
     {
+        // Family ID
         $this->crud->addColumn([
-            'name' => 'family_id',
-            'label' => 'Family',
+            'name' => Attributes::FAMILY_ID,
+            'label' => Helpers::readableText(Attributes::FAMILY),
             'type' => 'closure',
             'function' => function ($entry) {
                 $people = $entry->people()->first();
@@ -302,8 +303,19 @@ class SessionCrudController extends CustomCrudController
             }
         ]);
 
+        // Title
         $this->crud->addColumn([
-            'name' => 'photographer',
+            'name' => Attributes::TITLE,
+            'label' => Helpers::readableText(Attributes::TITLE),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->title ?? ' - ';
+            }
+        ]);
+
+        // Photographer
+        $this->crud->addColumn([
+            'name' => Attributes::PHOTOGRAPHER,
             'label' => 'Photographer',
             'type' => 'closure',
             'function' => function ($entry) {
@@ -311,23 +323,99 @@ class SessionCrudController extends CustomCrudController
             }
         ]);
 
+        // Payment Method
         $this->crud->addColumn([
-            'name' => 'payment_method',
-            'label' => 'Payment Method',
+            'name' => Attributes::PAYMENT_METHOD,
+            'label' => Helpers::readableText(Attributes::PAYMENT_METHOD),
             'type' => 'closure',
             'function' => function ($entry) {
                 return $entry->payment_method_label ? Helpers::readableText($entry->payment_method_label) : ' - ';
             }
         ]);
 
+
+        // Payment Method
         $this->crud->addColumn([
-            'name' => 'status',
-            'label' => 'Status',
+            'name' => Attributes::FORMATTED_PEOPLE,
+            'label' => Helpers::readableText(Attributes::FORMATTED_PEOPLE),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->formatted_people;
+            }
+        ]);
+
+        // Status
+        $this->crud->addColumn([
+            'name' => Attributes::STATUS,
+            'label' => Helpers::readableText(Attributes::STATUS),
             'type' => 'closure',
             'function' => function ($entry) {
                 return $entry->status_name ?: ' - ';
             }
         ]);
-    }
 
+        // Promo Code
+        $this->crud->addColumn([
+            'name' => Attributes::PROMO_ID,
+            'label' => Helpers::readableText(Attributes::PROMO_CODE),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                $promotion = $entry->promotion()->first();
+                if (is_null($promotion)) {
+                    return null;
+                }
+                return $promotion->promo_code ?: ' - ';
+            }
+        ]);
+
+        // Backdrop
+        $this->crud->addColumn([
+            'name' => Attributes::FORMATTED_BACKDROP,
+            'label' => 'Backdrop',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->formatted_backdrop ?: ' - ';
+            }
+        ]);
+
+        // Custom Backdrop
+        $this->crud->addColumn([
+            'name' => Attributes::CUSTOM_BACKDROP,
+            'label' => Helpers::readableText(Attributes::CUSTOM_BACKDROP),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->custom_backdrop ?: ' - ';
+            }
+        ]);
+
+        // Cake
+        $this->crud->addColumn([
+            'name' => Attributes::FORMATTED_CAKE,
+            'label' => 'Cake',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->formatted_cake ?: ' - ';
+            }
+        ]);
+
+        // Custom Cake
+        $this->crud->addColumn([
+            'name' => Attributes::CUSTOM_CAKE,
+            'label' => Helpers::readableText(Attributes::CUSTOM_CAKE),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->custom_cake ?: ' - ';
+            }
+        ]);
+
+        // comments
+        $this->crud->addColumn([
+            'name' => Attributes::COMMENTS,
+            'label' => Helpers::readableText(Attributes::COMMENTS),
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->comments ?: ' - ';
+            }
+        ]);
+    }
 }
