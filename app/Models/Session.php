@@ -493,6 +493,16 @@ class Session extends CustomModel
     }
 
     /**
+     * Relationships: Cake Colors
+     * @return BelongsToMany
+     */
+    public function colors()
+    {
+        return $this->belongsToMany(Cake::class, Tables::SESSION_DETAILS, null, Attributes::COLOR_ID, Attributes::ID)
+            ->where(Tables::SESSION_DETAILS . "." . Attributes::TYPE, SessionDetailsType::CAKE);
+    }
+
+    /**
      * Relationships: Additions
      * @return BelongsToMany
      */

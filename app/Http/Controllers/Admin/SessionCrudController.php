@@ -10,10 +10,8 @@ use App\Http\Requests\SessionRequest;
 use App\Models\Backdrop;
 use App\Models\Cake;
 use App\Models\CakeCategory;
-use App\Models\FamilyMember;
 use App\Models\Helpers;
 use App\Models\Package;
-use App\Models\PaymentMethod;
 use App\Models\Photographer;
 use App\Models\Session;
 use App\Models\SessionDetail;
@@ -147,6 +145,9 @@ class SessionCrudController extends CustomCrudController
         // Field: Cakes
         $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", CakeCategory::class, Attributes::NAME);
 
+        // Field: Cakes Color
+        $this->addSessionDetailField(Attributes::COLORS, "Cake Color", "Color", Cake::class);
+
         // Field: Backdrops
 //        $this->addSessionDetailField(Attributes::CAKES, "Cakes", "Cake", Cake::class);
 
@@ -231,8 +232,14 @@ class SessionCrudController extends CustomCrudController
         $cakes = json_decode($cakes, true);
         $cakes = collect($cakes)->flatten()->filter();
 
+        // get cake colors
+        $colors = $this->crud->getRequest()->get(Attributes::COLORS);
+        $this->crud->getRequest()->request->remove(Attributes::COLORS);
+        $colors = json_decode($colors, true);
+        $colors = collect($colors)->flatten()->filter();
+
         // get people
-        $people = $this->crud->entry->people()->get();
+        $people = $session->people()->get();
 
         // update and return response
         $result = $this->traitUpdate();
@@ -265,6 +272,7 @@ class SessionCrudController extends CustomCrudController
 
         // add cakes
         if ($cakes->isNotEmpty()) {
+            $i = 0;
             foreach ($cakes as $cake) {
                 $cake_exists = SessionDetail::where(Attributes::SESSION_ID, $session->id)
                     ->where(Attributes::TYPE, SessionDetailsType::CAKE)
@@ -274,12 +282,14 @@ class SessionCrudController extends CustomCrudController
                     SessionDetail::createOrUpdate([
                         Attributes::TYPE => SessionDetailsType::CAKE,
                         Attributes::VALUE => $cake,
+                        Attributes::COLOR_ID => $colors[$i],
                         Attributes::SESSION_ID => $session->id,
                         Attributes::PACKAGE_ID => $session->package_id,
                         Attributes::USER_ID => $session->user_id,
                         Attributes::FAMILY_ID => $session->family_id
                     ]);
                 }
+                $i++;
             }
         }
 
