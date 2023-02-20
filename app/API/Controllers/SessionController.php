@@ -33,6 +33,7 @@ use App\Models\Promotion;
 use App\Models\Review;
 use App\Models\Session;
 use App\Models\SessionDetail;
+use App\Models\SubPackage;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Dingo\Api\Http\Response;
@@ -98,12 +99,12 @@ class SessionController extends CustomController
         /** @var Photographer $session_photographer */
         $session_photographer = Photographer::find($photographer);
 
-        // get glimmer package
-        $glimmer_package = Package::where(Attributes::TITLE, "Glimmer")->first();
+        // get Sherin packages
+        $sherin_packages = Package::whereIn(Attributes::TITLE, ["Glimmer", "Mini Session"])->pluck(Attributes::ID)->toArray();
 
         // calculate package price
         $total_price = $package->price;
-        if ($glimmer_package->id != $package->id) {
+        if (!in_array($package->id, $sherin_packages)) {
             if (!is_null($session_photographer->additional_charge)) {
                 $total_price += $session_photographer->additional_charge;
             }
@@ -311,6 +312,7 @@ class SessionController extends CustomController
 
 
             // check sub package
+            /** @var SubPackage $sub_package */
             $sub_package = $package->subpackages->where(Attributes::ID, $sub_package_id)->first();
 
             if (is_null($sub_package)) {
@@ -332,12 +334,13 @@ class SessionController extends CustomController
             /** @var Photographer $session_photographer */
             $session_photographer = Photographer::find($photographer);
 
-            // get glimmer package
-            $glimmer_package = Package::where(Attributes::TITLE, 'Glimmer')->first();
+            // get Sherin sub packages
+            $sherin_subpackages = Package::whereIn(Attributes::TITLE, ['Baby bump'])->pluck(Attributes::ID)->toArray();
+
 
             // calculate package price
             $total_price = $package->price;
-            if ($glimmer_package->id != $package->id) {
+            if (!in_array($sub_package->id, $sherin_subpackages)) {
                 if (!is_null($session_photographer->additional_charge)) {
                     $total_price += $session_photographer->additional_charge;
                 }
@@ -1262,13 +1265,13 @@ xox";
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
         /** @var Session $session */
-        $session = Session::where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/->first();
+        $session = Session::where(Attributes::ID, $id)/*->where(Attributes::USER_ID, $user->id)*/ ->first();
         if (is_null($session)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SESSION, null, null, Response::HTTP_BAD_REQUEST);
         }
 
         $data = $session->generateInvoiceData();
 
-        return SnappyPdf::loadView('invoice', ['data'=> $data])->setPaper('a4')->inline('github.pdf');
+        return SnappyPdf::loadView('invoice', ['data' => $data])->setPaper('a4')->inline('github.pdf');
     }
 }
