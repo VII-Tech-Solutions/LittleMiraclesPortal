@@ -27,16 +27,19 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // cleanup telescope
-        if(env(EnvVariables::TELESCOPE_ENABLED) == true){
+        if (env(EnvVariables::TELESCOPE_ENABLED) == true) {
             $schedule->command('telescope:prune')->daily();
         }
 
         // Database Backup
-        if(GlobalHelpers::isProductionEnv()){
+        if (GlobalHelpers::isProductionEnv()) {
             $schedule->command('backup:clean')->daily()->at('03:00');
             $schedule->command('backup:run --only-db')->daily()->at('03:30');
             $schedule->command('backup:monitor')->daily()->at('03:15');
         }
+
+        // change session status
+        $schedule->command('session:status')->daily()->at('00:00');
     }
 
     /**
@@ -46,7 +49,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
