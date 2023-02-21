@@ -20,6 +20,7 @@ use App\Constants\Roles;
 use App\Constants\SessionDetailsType;
 use App\Constants\SessionStatus;
 use App\Constants\Values;
+use App\Helpers\FirebaseHelper;
 use App\Helpers\MailjetHelpers;
 use App\Models\Appointment;
 use App\Models\Benefit;
@@ -1005,6 +1006,33 @@ xox";
                 }
 
                 if (is_a($session, Session::class)) {
+
+                    // get photographer
+                    /** @var Photographer $photographer */
+                    $photographer = Photographer::find($session->photographer);
+
+                    // notification to photographers
+                    $photographer_notification = [
+                        Attributes::TITLE => "New Booking",
+                        Attributes::MESSAGE => "Someone's popular! $user->first_name $user->last_name has booked the $session->title with you on $session->date at $session->time!"
+                    ];
+
+                    FirebaseHelper::sendFCMByToken($photographer->device_token, $photographer->id, null, $photographer_notification);
+
+                    // get admins
+                    /** @var Photographer $admins */
+                    $admins = Photographer::where(Attributes::ROLE, Roles::ADMIN)->get();
+
+                    // notification for admin
+                    $admin_notification = [
+                        Attributes::TITLE => "New Booking",
+                        Attributes::MESSAGE => "Your photographers are in demand! $user->first_name $user->last_name just booked the $session->title on $session->date at $session->time!"
+                    ];
+
+                    /** @var Photographer $admin */
+                    foreach ($admins as $admin) {
+                        FirebaseHelper::sendFCMByToken($admin->device_token, $admin->id, null, $admin_notification);
+                    }
                     $pdf = $this->generateInvoice($session->id);
                     $filename = "invoice-" . $session->id . ".pdf";
                     Storage::put("./public/invoices/$filename", $pdf);

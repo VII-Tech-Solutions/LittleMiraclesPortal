@@ -11,7 +11,9 @@ use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentStatus;
+use App\Constants\Roles;
 use App\Constants\Values;
+use App\Helpers\FirebaseHelper;
 use App\Helpers\PaymentHelpers;
 use App\Models\CartItem;
 use App\Models\Helpers;
@@ -418,6 +420,7 @@ class CartController extends CustomController
         $transaction = Transaction::where(Attributes::SUCCESS_INDICATOR, $result_indicator)->first();
         if (!is_null($transaction)) {
             // get order
+            /** @var Order $order */
             $order = Order::where(Attributes::ID, $transaction->order_id)->first();
             $order->status = OrderStatus::PAID;
             $order->save();
@@ -425,6 +428,27 @@ class CartController extends CustomController
             // update transaction status
             $transaction->status = PaymentStatus::CONFIRMED;
             $transaction->save();
+
+            // send notification
+            if ($order->booking_type == BookingType::STUDIO) {
+                // get user
+                $user = $order->user;
+
+                // get admins
+                /** @var Photographer $admins */
+                $admins = Photographer::where(Attributes::ROLE, Roles::ADMIN)->get();
+
+                // notification for admin
+                $admin_notification = [
+                    Attributes::TITLE => "New Order",
+                    Attributes::MESSAGE => "You have a new order! $user->first_name $user->last_name has made a new purchase with $order->id!"
+                ];
+
+                /** @var Photographer $admin */
+                foreach ($admins as $admin) {
+                    FirebaseHelper::sendFCMByToken($admin->device_token, $admin->id, null, $admin_notification);
+                }
+            }
         }
 
         // redirect to url

@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\Values;
 use App\Models\Helpers;
 use Exception;
+use Facade\FlareClient\Http\Exceptions\NotFound;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\Messaging\ApiConnectionFailed;
 use Kreait\Firebase\Exception\Messaging\InvalidMessage;
@@ -131,10 +132,10 @@ class FirebaseHelper
             }
 
             $message = CloudMessage::withTarget(Attributes::TOKEN, $token)
-                ->withNotification(Notification::fromArray([
+                ->withNotification([
                     Attributes::TITLE => $title,
                     Attributes::BODY => $body,
-                ]))->withData($data);
+                ])->withData($data);
 
             $android_config = AndroidConfig::fromArray([
                 Attributes::PRIORITY => Values::FCM_PRIORITY_ANDROID,

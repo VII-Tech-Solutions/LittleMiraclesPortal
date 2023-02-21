@@ -23,6 +23,7 @@ use phpDocumentor\Reflection\Types\Collection;
  * @property integer status
  * @property integer user_id
  * @property integer session_id
+ * @property integer booking_type
  * @property Collection orderItems
  * @property User user
  * @property Transaction transaction
@@ -41,6 +42,7 @@ class Order extends CustomModel
         Attributes::SUBTOTAL,
         Attributes::STATUS,
         Attributes::USER_ID,
+        Attributes::BOOKING_TYPE,
         Attributes::SESSION_ID
     ];
 
