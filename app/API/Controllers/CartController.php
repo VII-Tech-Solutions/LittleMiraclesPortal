@@ -251,8 +251,9 @@ class CartController extends CustomController
 
             // get original price
             $original_price = $session->package->price;
-            $shimmer = Package::where(Attributes::TITLE, "Glimmer")->first();
-            if ($shimmer->id != $session->package_id) {
+            // get Sherin packages
+            $sherin_packages = Package::whereIn(Attributes::TITLE, ["Glimmer", "Mini Session"])->pluck(Attributes::ID)->toArray();
+            if (!in_array($session->package_id, $sherin_packages)) {
                 if (count($sub_sessions) > 0) {
                     /** @var Session $sub_session */
                     foreach ($sub_sessions as $sub_session) {
