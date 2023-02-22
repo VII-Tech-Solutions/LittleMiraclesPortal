@@ -336,7 +336,7 @@ class SessionController extends CustomController
             $session_photographer = Photographer::find($photographer);
 
             // get Sherin sub packages
-            $sherin_subpackages = Package::whereIn(Attributes::TITLE, ['Baby bump'])->pluck(Attributes::ID)->toArray();
+            $sherin_subpackages = Package::whereIn(Attributes::TITLE, ['Welcome to the world!'])->pluck(Attributes::ID)->toArray();
 
 
             // calculate package price
