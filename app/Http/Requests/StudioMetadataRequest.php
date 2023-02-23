@@ -17,8 +17,8 @@ class StudioMetadataRequest extends CustomRequest
     public function rules()
     {
         return [
-            Attributes::IMAGE => 'required',
-            Attributes::TITLE=>'required|min:2|max:255',
+//            Attributes::IMAGE => 'required',
+            Attributes::TITLE=>'required',
             Attributes::DESCRIPTION => 'required'
         ];
     }
