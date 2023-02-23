@@ -84,10 +84,6 @@ class StudioMetadataCrudController extends CustomCrudController
         // Field: Title
         $this->addNameField(Attributes::TITLE);
 
-        // Field: Description
-        $this->addContentField(Attributes::DESCRIPTION, Attributes::DESCRIPTION, null, FieldTypes::TEXTAREA, 5, 200);
-
-
         // Field: Price
         $this->addPriceField(Attributes::PRICE, 'Price');
 
