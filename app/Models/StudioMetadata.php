@@ -19,6 +19,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property integer description
  * @property string category
  * @property integer status
+ * @property integer thickness_id
  */
 class StudioMetadata extends CustomModel
 {
@@ -37,6 +38,7 @@ class StudioMetadata extends CustomModel
         Attributes::CATEGORY,
         Attributes::STATUS,
         Attributes::PRICE,
+        Attributes::THICKNESS_ID
     ];
 
     protected $casts = [

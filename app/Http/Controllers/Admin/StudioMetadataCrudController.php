@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Attributes;
-use App\Constants\FieldTypes;
 use App\Constants\Status;
 use App\Constants\StudioCategory;
 use App\Http\Requests\StudioMetadataRequest;
+use App\Models\Helpers;
 use App\Models\StudioMetadata;
 
 class StudioMetadataCrudController extends CustomCrudController
@@ -95,5 +95,8 @@ class StudioMetadataCrudController extends CustomCrudController
 
         // Field: Category
         $this->addCategoryField(StudioCategory::all());
+
+        // Field: Thickness
+        $this->addCategoryField(StudioMetadata::where(Attributes::CATEGORY, StudioCategory::CANVAS_THICKNESS)->pluck(Attributes::TITLE, Attributes::ID), Attributes::THICKNESS_ID, Helpers::readableText(Attributes::THICKNESS), null, true);
     }
 }
