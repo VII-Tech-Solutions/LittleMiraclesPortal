@@ -98,5 +98,11 @@ class StudioMetadataCrudController extends CustomCrudController
 
         // Field: Thickness
         $this->addCategoryField(StudioMetadata::where(Attributes::CATEGORY, StudioCategory::CANVAS_THICKNESS)->pluck(Attributes::TITLE, Attributes::ID), Attributes::THICKNESS_ID, Helpers::readableText(Attributes::THICKNESS), null, true);
+
+        // Field: Print Type
+        $this->addCategoryField(StudioMetadata::where(Attributes::CATEGORY, StudioCategory::PRINT_TYPE)->pluck(Attributes::TITLE, Attributes::ID), Attributes::PRINT_TYPE_ID, Helpers::readableText(Attributes::PRINT_TYPE), null, true);
+
+        // Field: Paper Type
+        $this->addCategoryField(StudioMetadata::where(Attributes::CATEGORY, StudioCategory::PAPER_TYPE)->pluck(Attributes::TITLE, Attributes::ID), Attributes::PAPER_TYPE_ID, Helpers::readableText(Attributes::PAPER_TYPE), null, true);
     }
 }

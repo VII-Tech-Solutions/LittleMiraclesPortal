@@ -22,6 +22,9 @@ class ListStudioMetadataTransformer extends CustomTransformer
         Attributes::STARTING_PRICE,
         Attributes::MEDIA_IDS,
         Attributes::PRICE,
+        Attributes::THICKNESS_ID,
+        Attributes::PRINT_TYPE_ID,
+        Attributes::PAPER_TYPE_ID,
         Attributes::UPDATED_AT,
         Attributes::DELETED_AT
     ];

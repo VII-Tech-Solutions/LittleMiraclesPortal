@@ -325,4 +325,6 @@ class Attributes extends CustomEnum
     const COLORS = "colors";
     const THICKNESS_ID = "thickness_id";
     const THICKNESS = "thickness";
+    const PRINT_TYPE_ID = "print_type_id";
+    const PAPER_TYPE_ID = "paper_type_id";
 }
