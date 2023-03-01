@@ -11,6 +11,7 @@ use App\API\Transformers\ListDailyTipTransformer;
 use App\API\Transformers\ListFAQsTransformer;
 use App\API\Transformers\ListNotificationsTransformer;
 use App\API\Transformers\ListOnboardingTransformer;
+use App\API\Transformers\ListPackagePhotographersTransformer;
 use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListPageTransformer;
 use App\API\Transformers\ListPhotographerTransformer;
@@ -39,6 +40,7 @@ use App\Models\Helpers;
 use App\Models\Notification;
 use App\Models\Onboarding;
 use App\Models\Package;
+use App\Models\PackagePhotographer;
 use App\Models\Page;
 use App\Models\Photographer;
 use App\Models\Promotion;
@@ -162,6 +164,9 @@ class HomeController extends CustomController
         // get packages
         $packages = Package::withTrashed()->active()->get();
 
+        // get package photographers
+        $package_photographers = PackagePhotographer::withTrashed()->active()->get();
+
         // get pages
         $pages = Page::withTrashed()->active()->get();
 
@@ -195,6 +200,7 @@ class HomeController extends CustomController
         $studio_metadata = Helpers::getLatestOnlyInCollection($studio_metadata, $this->last_update);
         $social = Helpers::getLatestOnlyInCollection($social, $this->last_update);
         $packages = Helpers::getLatestOnlyInCollection($packages, $this->last_update);
+        $package_photographers = Helpers::getLatestOnlyInCollection($package_photographers, $this->last_update);
         $pages = Helpers::getLatestOnlyInCollection($pages, $this->last_update);
         $backdrop_categories = Helpers::getLatestOnlyInCollection($backdrop_categories, $this->last_update);
         $cake_categories = Helpers::getLatestOnlyInCollection($cake_categories, $this->last_update);
@@ -215,6 +221,7 @@ class HomeController extends CustomController
             Attributes::STUDIO_METADATA => StudioMetadata::returnTransformedItems($studio_metadata, ListStudioMetadataTransformer::class),
             Attributes::SOCIAL_MEDIA => SocialMedia::returnTransformedItems($social, ListSocialMediaTransformer::class),
             Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class),
+            Attributes::PACKAGE_PHOTOGRAPHERS => PackagePhotographer::returnTransformedItems($package_photographers, ListPackagePhotographersTransformer::class),
             Attributes::PAGES => Page::returnTransformedItems($pages, ListPageTransformer::class),
             Attributes::PAYMENT_METHODS => $payment_methods,
             Attributes::BACKDROP_CATEGORIES => BackdropCategory::returnTransformedItems($backdrop_categories, ListBackdropCategoryTransformer::class),

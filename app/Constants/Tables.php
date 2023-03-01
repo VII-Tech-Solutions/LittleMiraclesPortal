@@ -57,4 +57,5 @@ class Tables extends CustomEnum
     const ORDERS = "orders";
     const ORDER_ITEMS = "order_items";
     const TRANSACTIONS = "transactions";
+    const PACKAGE_PHOTOGRAPHERS = "package_photographers";
 }

@@ -166,6 +166,10 @@ class PackageCrudController extends CustomCrudController
         // Field: Location link
         $this->addLocationField(Attributes::LOCATION_LINK, "Location Link");
 
+        // Field: Photographer
+        $this->addPhotographerField("Photographer", "Photographer");
+
+
         // Field: Status
         $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 

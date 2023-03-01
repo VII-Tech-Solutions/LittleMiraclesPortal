@@ -36,6 +36,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property boolean has_guideline
  * @property string image
  * @property boolean five_sessions_gift
+ * @property Photographer package_photographer
  */
 class Package extends CustomModel
 {
@@ -236,6 +237,15 @@ class Package extends CustomModel
     public function subpackages()
     {
         return $this->belongsToMany(SubPackage::class, Tables::PACKAGE_SUB_PACKAGES, Attributes::SUB_PACKAGE_ID, Attributes::PACKAGE_ID);
+    }
+
+    /**
+     * Relationships: package_photographers
+     * @return BelongsToMany
+     */
+    public function packagePhotographers(): BelongsToMany
+    {
+        return $this->belongsToMany(Photographer::class, Tables::PACKAGE_PHOTOGRAPHERS, Attributes::PACKAGE_ID, Attributes::PHOTOGRAPHER_ID);
     }
 
     /**
