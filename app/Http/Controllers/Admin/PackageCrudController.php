@@ -13,6 +13,7 @@ use App\Constants\Status;
 use App\Http\Requests\SessionPackageRequest;
 use App\Models\Helpers;
 use App\Models\Package;
+use App\Models\PackagePhotographer;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
@@ -26,8 +27,12 @@ use Prologue\Alerts\Facades\Alert;
 class PackageCrudController extends CustomCrudController
 {
 
-    use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
+    use CreateOperation {
+        store as traitStore;
+    }
+    use UpdateOperation {
+        update as traitUpdate;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -55,25 +60,25 @@ class PackageCrudController extends CustomCrudController
         $this->addStatusFilter(Status::only([Status::ACTIVE, Status::DRAFT]));
 
         // Filter: Session Package Type Filter
-        $this->addPackageTypeFilter(SessionPackageTypes::all(), Attributes::TYPE,"Package Type");
+        $this->addPackageTypeFilter(SessionPackageTypes::all(), Attributes::TYPE, "Package Type");
 
         // Filter: Is Popular Filter
-        $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR,"Is Popular");
+        $this->addIsPopularFilter(IsPopular::all(), Attributes::IS_POPULAR, "Is Popular");
 
         // Filter: Five Sessions Gift
-        $this->addIsPopularFilter(IsPopular::all(), Attributes::FIVE_SESSIONS_GIFT,"Five Sessions Gift");
+        $this->addIsPopularFilter(IsPopular::all(), Attributes::FIVE_SESSIONS_GIFT, "Five Sessions Gift");
 
         // Filter: Has Guideline Filter
-        $this->addIsPopularFilter(Guideline::all(), Attributes::HAS_GUIDELINE,"Has Guideline");
+        $this->addIsPopularFilter(Guideline::all(), Attributes::HAS_GUIDELINE, "Has Guideline");
 
         // Filter: Outdoor Allowed Filter
-        $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::OUTDOOR_ALLOWED,"Outdoor Allowed");
+        $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
 
         // Filter: Indoor Allowed Filter
-        $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::INDOOR_ALLOWED,"Indoor Allowed");
+        $this->addIsPopularFilter(AllowedOutdoor::all(), Attributes::INDOOR_ALLOWED, "Indoor Allowed");
 
         // Column: ID
-        $this->addIDColumn("ID",1,Attributes::ID);
+        $this->addIDColumn("ID", 1, Attributes::ID);
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -82,7 +87,7 @@ class PackageCrudController extends CustomCrudController
         $this->addPriceColumn("Price", 1, Attributes::PRICE);
 
         // Column: Type
-        $this->addTypeColumn(Attributes::TYPE_NAME , 1,"Type");
+        $this->addTypeColumn(Attributes::TYPE_NAME, 1, "Type");
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
@@ -125,7 +130,7 @@ class PackageCrudController extends CustomCrudController
         $this->addPriceField(Attributes::PRICE, "Price");
 
         // Field: Is Popular
-        $this->addIsPopularField(IsPopular::all(),Attributes::IS_POPULAR,"Is Popular");
+        $this->addIsPopularField(IsPopular::all(), Attributes::IS_POPULAR, "Is Popular");
 
         // Field: Type
         $this->addPackageTypeField(SessionPackageTypes::all(), Attributes::TYPE, "Type");
@@ -140,28 +145,28 @@ class PackageCrudController extends CustomCrudController
         $this->addBenefitsField();
 
         // Field: Minimum Backdrops
-        $this->addDropdownField(AllowedSelection::all(),Attributes::MIN_BACKDROP, "Minimum Backdrops");
+        $this->addDropdownField(AllowedSelection::all(), Attributes::MIN_BACKDROP, "Minimum Backdrops");
 
         // Field: Backdrops Allowed
-        $this->addDropdownField(AllowedSelection::all(),Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
+        $this->addDropdownField(AllowedSelection::all(), Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
 
         // Field: Cakes Allowed
-        $this->addDropdownField(AllowedSelection::all(),Attributes::CAKE_ALLOWED, "Cakes Allowed");
+        $this->addDropdownField(AllowedSelection::all(), Attributes::CAKE_ALLOWED, "Cakes Allowed");
 
         // Field: Outdoor Allowed
-        $this->addDropdownField(AllowedOutdoor::all(),Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
+        $this->addDropdownField(AllowedOutdoor::all(), Attributes::OUTDOOR_ALLOWED, "Outdoor Allowed");
 
         // Field: Indoor Allowed
-        $this->addDropdownField(AllowedOutdoor::all(),Attributes::INDOOR_ALLOWED, "Indoor Allowed");
+        $this->addDropdownField(AllowedOutdoor::all(), Attributes::INDOOR_ALLOWED, "Indoor Allowed");
 
         // Field: Has Guideline
-        $this->addIsPopularField(Guideline::all(),Attributes::HAS_GUIDELINE, "Has Guideline");
+        $this->addIsPopularField(Guideline::all(), Attributes::HAS_GUIDELINE, "Has Guideline");
 
         // Field: Five Sessions Gift
-        $this->addDropdownField(AllowedOutdoor::all(),Attributes::FIVE_SESSIONS_GIFT, "Five Sessions Gift");
+        $this->addDropdownField(AllowedOutdoor::all(), Attributes::FIVE_SESSIONS_GIFT, "Five Sessions Gift");
 
         // Field: Location Text
-        $this->addLocationTextField(Attributes::LOCATION_TEXT,"Location Text");
+        $this->addLocationTextField(Attributes::LOCATION_TEXT, "Location Text");
 
         // Field: Location link
         $this->addLocationField(Attributes::LOCATION_LINK, "Location Link");
@@ -190,7 +195,7 @@ class PackageCrudController extends CustomCrudController
         // get media ids
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         // don't accept if less than 4
-        if(!is_array($media_ids) || count($media_ids) < 4 ){
+        if (!is_array($media_ids) || count($media_ids) < 4) {
             Alert::error("You need to select at least 4 images! ")->flash();
             return back()->withInput();
         }
@@ -209,7 +214,7 @@ class PackageCrudController extends CustomCrudController
         return $result;
     }
 
-    /**
+    /**z§
      * Update
      * @return Response|RedirectResponse
      */
@@ -219,11 +224,20 @@ class PackageCrudController extends CustomCrudController
         // get media ids
         $media_ids = $this->crud->getRequest()->get(Attributes::MEDIA_IDS);
         // don't accept if less than 4
-        if(!is_array($media_ids) || count($media_ids) < 4 ){
+        if (!is_array($media_ids) || count($media_ids) < 4) {
             Alert::error("You need to select at least 4 images! ")->flash();
             return back()->withInput();
         }
         $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
+
+        // get photographers
+        $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
+
+        // get additional charges
+        $additional_charge = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE);
+
+        $this->crud->getRequest()->request->remove(Attributes::PHOTOGRAPHERS);
+        $this->crud->getRequest()->request->remove(Attributes::ADDITIONAL_CHARGE);
 
         // update and return response
         $result = $this->traitUpdate();
@@ -231,10 +245,38 @@ class PackageCrudController extends CustomCrudController
         // media
         $this->media($media_ids);
 
+        // photographers
+        $this->addPhotographers($photographers, $additional_charge);
+
         // clear cache
         Helpers::clearCache(Package::class);
         // return response
         return $result;
+    }
+
+    /**
+     * Add Photographers
+     * @param $photographers
+     * @param $additional_charge
+     * @return void
+     */
+    public function addPhotographers($photographers, $additional_charge)
+    {
+        $package_id = $this->crud->entry->id;
+        $package_photographers = Collect();
+        foreach ($photographers as $key => $photographer) {
+            $package_photographer = PackagePhotographer::createOrUpdate([
+                Attributes::PHOTOGRAPHER_ID => $photographer,
+                Attributes::PACKAGE_ID => $package_id,
+                Attributes::ADDITIONAL_CHARGE => $additional_charge[$key],
+            ], [
+                Attributes::PACKAGE_ID,
+                Attributes::PHOTOGRAPHER_ID
+            ]);
+
+            $package_photographers->add($package_photographer->id);
+        }
+        PackagePhotographer::where(Attributes::PACKAGE_ID, $package_id)->whereNotIn(Attributes::ID, $package_photographers)->forceDelete();
     }
 
 }
