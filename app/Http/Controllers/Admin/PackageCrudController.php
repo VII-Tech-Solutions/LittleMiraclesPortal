@@ -174,7 +174,6 @@ class PackageCrudController extends CustomCrudController
         // Field: Photographer
         $this->addPhotographerField("Photographer", "Photographer");
 
-
         // Field: Status
         $this->addStatusField(Status::only([Status::ACTIVE, Status::DRAFT]));
 
@@ -201,11 +200,23 @@ class PackageCrudController extends CustomCrudController
         }
         $this->crud->getRequest()->request->remove(Attributes::MEDIA_IDS);
 
+        // get photographers
+        $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
+
+        // get additional charge
+        $additional_charge = [];
+        foreach ($photographers as $photographer) {
+            $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+        }
+
         // create and return response
         $result = $this->traitStore();
 
         // media
         $this->media($media_ids);
+
+        // photographers
+        $this->addPhotographers($photographers, $additional_charge);
 
         // clear cache
         Helpers::clearCache(Package::class);
@@ -233,8 +244,15 @@ class PackageCrudController extends CustomCrudController
         // get photographers
         $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
 
-        // get additional charges
-        $additional_charge = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE);
+        // get additional charge
+        $additional_charge = [];
+        if (!is_null($photographers)) {
+            if ($photographers > 0) {
+                foreach ($photographers as $photographer) {
+                    $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+                }
+            }
+        }
 
         $this->crud->getRequest()->request->remove(Attributes::PHOTOGRAPHERS);
         $this->crud->getRequest()->request->remove(Attributes::ADDITIONAL_CHARGE);
@@ -245,8 +263,10 @@ class PackageCrudController extends CustomCrudController
         // media
         $this->media($media_ids);
 
-        // photographers
-        $this->addPhotographers($photographers, $additional_charge);
+        if (!is_null($photographers)) {
+            // photographers
+            $this->addPhotographers($photographers, $additional_charge);
+        }
 
         // clear cache
         Helpers::clearCache(Package::class);
@@ -268,7 +288,7 @@ class PackageCrudController extends CustomCrudController
             $package_photographer = PackagePhotographer::createOrUpdate([
                 Attributes::PHOTOGRAPHER_ID => $photographer,
                 Attributes::PACKAGE_ID => $package_id,
-                Attributes::ADDITIONAL_CHARGE => $additional_charge[$key],
+                Attributes::ADDITIONAL_CHARGE => $additional_charge[$photographer],
             ], [
                 Attributes::PACKAGE_ID,
                 Attributes::PHOTOGRAPHER_ID

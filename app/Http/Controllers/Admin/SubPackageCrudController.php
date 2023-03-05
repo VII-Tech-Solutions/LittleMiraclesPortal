@@ -105,8 +105,11 @@ class SubPackageCrudController extends CustomCrudController
         // get photographers
         $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
 
-        // get additional charges
-        $additional_charge = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE);
+        // get additional charge
+        $additional_charge = [];
+        foreach ($photographers as $photographer) {
+            $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+        }
 
         // get package id
         $package_id = $this->crud->getRequest()->get(Attributes::PACKAGE_ID);
@@ -130,8 +133,11 @@ class SubPackageCrudController extends CustomCrudController
         // get photographers
         $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
 
-        // get additional charges
-        $additional_charge = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE);
+        // get additional charge
+        $additional_charge = [];
+        foreach ($photographers as $photographer) {
+            $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+        }
 
         // get package id
         $package_id = $this->crud->getRequest()->get(Attributes::PACKAGE_ID);
@@ -161,7 +167,7 @@ class SubPackageCrudController extends CustomCrudController
                 Attributes::PHOTOGRAPHER_ID => $photographer,
                 Attributes::PACKAGE_ID => $package_id,
                 Attributes::SUB_PACKAGE_ID => $sub_package_id,
-                Attributes::ADDITIONAL_CHARGE => $additional_charge[$key],
+                Attributes::ADDITIONAL_CHARGE => $additional_charge[$photographer],
             ], [
                 Attributes::PACKAGE_ID,
                 Attributes::PHOTOGRAPHER_ID

@@ -38,12 +38,12 @@ $photographers = Photographer::all();
             <input type="checkbox" id="photographers[]" name="photographers[]" value="{{$photographer->id}}"
                    checked> {{$photographer->name}}
             @php($additional_charge = PackagePhotographer::where(Attributes::PACKAGE_ID, $package->id)->where(Attributes::SUB_PACKAGE_ID, $sub_package->id)->where(Attributes::PHOTOGRAPHER_ID, $photographer->id)->pluck(Attributes::ADDITIONAL_CHARGE)->first())
-            Additional Charge <input type="text" id="additional_charge[]]" name="additional_charge[]"
+            Additional Charge <input type="text" id="additional_charge_{{$photographer->id}}" name="additional_charge_{{$photographer->id}}"
                                      value="{{$additional_charge}}">  <br>
         @else
             <input type="checkbox" id="photographers[]" name="photographers[]"
                    value="{{$photographer->id}}"> {{$photographer->name}}
-            Additional Charge <input type="text" id="additional_charge[]]" name="additional_charge[]" value="">
+            Additional Charge <input type="text" id="additional_charge_{{$photographer->id}}" name="additional_charge_{{$photographer->id}}" value="">
             <br>
         @endif
     @endforeach
