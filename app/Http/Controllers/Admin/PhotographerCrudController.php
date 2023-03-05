@@ -105,9 +105,6 @@ class PhotographerCrudController extends CustomCrudController
         // Field: Featured Image
         $this->addFeaturedImageField(Attributes::IMAGE, Attributes::IMAGE, true);
 
-        // Field: Additional Charge
-        $this->addNumberField(Attributes::ADDITIONAL_CHARGE, Helpers::readableText(Attributes::ADDITIONAL_CHARGE));
-
         // Field: Priority
         $this->addNumberField(Attributes::PRIORITY, Helpers::readableText(Attributes::PRIORITY));
 
