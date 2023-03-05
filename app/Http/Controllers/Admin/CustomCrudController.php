@@ -2448,6 +2448,19 @@ class CustomCrudController extends CrudController
         ]);
     }
 
+    function addSubPackagePhotographerField($label = null, $tab_name = null) {
+        if (is_null($label)) {
+            $label = "Photographer";
+        }
+        CRUD::addField([
+            Attributes::TYPE => FieldTypes::SUBPACKAGE_PHOTOGRAPHER,
+            Attributes::NAME => Attributes::PHOTOGRAPHER_ID,
+            Attributes::LABEL => $label,
+            Attributes::FAKE => true,
+            Attributes::TAB => "Photographer",
+        ]);
+    }
+
     /**
      * Add Cake Category
      */

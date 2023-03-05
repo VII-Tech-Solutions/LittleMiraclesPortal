@@ -2,25 +2,29 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Constants\AllowedOutdoor;
 use App\Constants\AllowedSelection;
 use App\Constants\Attributes;
-use App\Constants\FieldTypes;
-use App\Constants\Guideline;
-use App\Constants\IsPopular;
-use App\Constants\Status;
-use App\Constants\SessionPackageTypes;
-use App\Http\Requests\SessionPackageRequest;
 use App\Http\Requests\SubPackageRequest;
-use App\Models\Package;
+use App\Models\PackagePhotographer;
 use App\Models\SubPackage;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 /**
  * SubPackageCrudController CRUD Controller
  */
 class SubPackageCrudController extends CustomCrudController
 {
+
+    use CreateOperation {
+        store as traitStore;
+    }
+    use UpdateOperation {
+        update as traitUpdate;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -33,6 +37,9 @@ class SubPackageCrudController extends CustomCrudController
         $this->crud->setModel(SubPackage::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/sub-packages');
         $this->crud->setEntityNameStrings('Sub Package', 'Sub Packages');
+
+        // deny access
+        $this->crud->denyAccess(["create"]);
     }
 
     /**
@@ -43,16 +50,11 @@ class SubPackageCrudController extends CustomCrudController
      */
     protected function setupListOperation()
     {
-
-
-
         // Column: ID
-        $this->addIDColumn("ID",1,Attributes::ID);
+        $this->addIDColumn("ID", 1, Attributes::ID);
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
-
-
     }
 
     /**
@@ -85,11 +87,90 @@ class SubPackageCrudController extends CustomCrudController
         $this->addNameField(Attributes::DESCRIPTION, "Description");
 
         // Field: Backdrops Allowed
-        $this->addDropdownField(AllowedSelection::all(),Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
+        $this->addDropdownField(AllowedSelection::all(), Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
 
         // Field: Cakes Allowed
-        $this->addDropdownField(AllowedSelection::all(),Attributes::CAKE_ALLOWED, "Cakes Allowed");
+        $this->addDropdownField(AllowedSelection::all(), Attributes::CAKE_ALLOWED, "Cakes Allowed");
 
-
+        // Field: Photographer
+        $this->addSubPackagePhotographerField("Photographer", "Photographer");
     }
+
+    /**
+     * Store
+     * @return RedirectResponse
+     */
+    public function store()
+    {
+        // get photographers
+        $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
+
+        // get additional charges
+        $additional_charge = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE);
+
+        // get package id
+        $package_id = $this->crud->getRequest()->get(Attributes::PACKAGE_ID);
+
+        // update and return response
+        $result = $this->traitStore();
+
+        // photographers
+        $this->addPhotographers($photographers, $additional_charge, $package_id);
+
+        // return response
+        return $result;
+    }
+
+    /**
+     * Update
+     * @return Response
+     */
+    public function update()
+    {
+        // get photographers
+        $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
+
+        // get additional charges
+        $additional_charge = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE);
+
+        // get package id
+        $package_id = $this->crud->getRequest()->get(Attributes::PACKAGE_ID);
+
+        // update and return response
+        $result = $this->traitUpdate();
+
+        // photographers
+        $this->addPhotographers($photographers, $additional_charge, $package_id);
+
+        // return response
+        return $result;
+    }
+
+    /**
+     * Add Photographers
+     * @param $photographers
+     * @param $additional_charge
+     * @return void
+     */
+    public function addPhotographers($photographers, $additional_charge, $package_id)
+    {
+        $sub_package_id = $this->crud->entry->id;
+        $sub_package_photographers = Collect();
+        foreach ($photographers as $key => $photographer) {
+            $package_photographer = PackagePhotographer::createOrUpdate([
+                Attributes::PHOTOGRAPHER_ID => $photographer,
+                Attributes::PACKAGE_ID => $package_id,
+                Attributes::SUB_PACKAGE_ID => $sub_package_id,
+                Attributes::ADDITIONAL_CHARGE => $additional_charge[$key],
+            ], [
+                Attributes::PACKAGE_ID,
+                Attributes::PHOTOGRAPHER_ID
+            ]);
+
+            $sub_package_photographers->add($package_photographer->id);
+        }
+        PackagePhotographer::where(Attributes::PACKAGE_ID, $package_id)->where(Attributes::SUB_PACKAGE_ID, $sub_package_id)->whereNotIn(Attributes::ID, $sub_package_photographers)->forceDelete();
+    }
+
+
 }

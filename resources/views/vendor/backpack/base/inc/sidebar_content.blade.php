@@ -36,6 +36,7 @@
 <li class='nav-item nav-dropdown'>
     <a class='nav-link nav-dropdown-toggle' href="#"><i class="nav-icon la la-box-open"></i>Package</a>
     <ul class="nav-dropdown-items">
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sub-packages') }}'><i class='nav-icon la la-box'></i>Sub-Packages</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('packages') }}'><i class='nav-icon la la-box'></i>Packages</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sessions') }}'><i class='nav-icon la la-calendar-check'></i>Sessions</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sub-session') }}'><i class='nav-icon la la-calendar-check'></i> Sub sessions</a></li>

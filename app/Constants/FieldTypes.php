@@ -33,6 +33,7 @@ class FieldTypes extends CustomEnum
     const DATE_RANGE = "date_range";
     const MEDIA = "media";
     const PHOTOGRAPHER = "photographer";
+    const SUBPACKAGE_PHOTOGRAPHER = "subpackage_photographer";
     const SELECT2_NESTED = 'select2_nested';
 
 }
