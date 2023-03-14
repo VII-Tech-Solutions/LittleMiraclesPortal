@@ -31,7 +31,8 @@ class PackagePhotographer extends CustomModel
         Attributes::STATUS
     ];
     protected $appends = [
-        Attributes::PHOTOGRAPHER_NAME
+        Attributes::PHOTOGRAPHER_NAME,
+        Attributes::PHOTOGRAPHER_IMAGE
     ];
 
     /**

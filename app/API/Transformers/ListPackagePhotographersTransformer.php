@@ -17,6 +17,7 @@ class ListPackagePhotographersTransformer extends CustomTransformer
         Attributes::PHOTOGRAPHER_ID,
         Attributes::ADDITIONAL_CHARGE,
         Attributes::PHOTOGRAPHER_NAME,
+        Attributes::PHOTOGRAPHER_IMAGE,
         Attributes::STATUS,
         Attributes::CREATED_AT,
         Attributes::UPDATED_AT,
