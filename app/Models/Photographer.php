@@ -27,6 +27,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property integer role
  * @property int additional_charge
  * @property int priority
+ * @property string image
  * @property string firebase_id
  * @property string device_token
  */

@@ -75,4 +75,18 @@ class PackagePhotographer extends CustomModel
         }
         return $photographer->name;
     }
+
+    /**
+     * Attribute: photographer name
+     * @return string|null
+     */
+    public function getPhotographerImageAttribute()
+    {
+        /** @var Photographer $photographer */
+        $photographer = $this->photographer()->first();
+        if (is_null($photographer)) {
+            return null;
+        }
+        return $photographer->image;
+    }
 }
