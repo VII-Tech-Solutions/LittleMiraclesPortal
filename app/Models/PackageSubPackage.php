@@ -24,8 +24,5 @@ class PackageSubPackage extends CustomModel
         Attributes::SUB_PACKAGE_ID,
         Attributes::PACKAGE_ID
     ];
-
-
-
 }
 

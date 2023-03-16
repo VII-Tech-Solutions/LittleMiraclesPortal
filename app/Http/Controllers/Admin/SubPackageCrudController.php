@@ -6,6 +6,7 @@ use App\Constants\AllowedSelection;
 use App\Constants\Attributes;
 use App\Http\Requests\SubPackageRequest;
 use App\Models\PackagePhotographer;
+use App\Models\PackageSubPackage;
 use App\Models\SubPackage;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -39,7 +40,9 @@ class SubPackageCrudController extends CustomCrudController
         $this->crud->setEntityNameStrings('Sub Package', 'Sub Packages');
 
         // deny access
-        $this->crud->denyAccess(["create"]);
+        if (str_ends_with(url()->current(), 'sub-packages')) {
+            $this->crud->denyAccess(["create"]);
+        }
     }
 
     /**
@@ -92,8 +95,10 @@ class SubPackageCrudController extends CustomCrudController
         // Field: Cakes Allowed
         $this->addDropdownField(AllowedSelection::all(), Attributes::CAKE_ALLOWED, "Cakes Allowed");
 
-        // Field: Photographer
-        $this->addSubPackagePhotographerField("Photographer", "Photographer");
+        if (str_ends_with(url()->current(), 'sub-packages')) {
+            // Field: Photographer
+            $this->addSubPackagePhotographerField("Photographer", "Photographer");
+        }
     }
 
     /**
@@ -102,23 +107,41 @@ class SubPackageCrudController extends CustomCrudController
      */
     public function store()
     {
-        // get photographers
-        $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
-
-        // get additional charge
-        $additional_charge = [];
-        foreach ($photographers as $photographer) {
-            $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+        // get package id
+        if (!str_ends_with(url()->current(), 'sub-packages')) {
+            $http_referrer = $this->crud->getRequest()->get('http_referrer');
+            $str_pos = strpos($http_referrer, '/admin/packages/');
+            $id = substr($http_referrer, $str_pos + strlen('/admin/packages/'), 1);
         }
 
+        if (str_ends_with(url()->current(), 'sub-packages')) {
+            // get photographers
+            $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS) ?? null;
+
+            // get additional charge
+            $additional_charge = [];
+            foreach ($photographers as $photographer) {
+                $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+            }
+        }
         // get package id
         $package_id = $this->crud->getRequest()->get(Attributes::PACKAGE_ID);
 
         // update and return response
         $result = $this->traitStore();
 
+        // add subpackage
+        if (!str_ends_with(url()->current(), 'sub-packages')) {
+            $package_sub_package = new PackageSubPackage();
+            $package_sub_package->package_id = $id;
+            $package_sub_package->sub_package_id = $result['data']['id'];
+            $package_sub_package->save();
+        }
+
         // photographers
-        $this->addPhotographers($photographers, $additional_charge, $package_id);
+        if (str_ends_with(url()->current(), 'sub-packages')) {
+            $this->addPhotographers($photographers, $additional_charge, $package_id);
+        }
 
         // return response
         return $result;
@@ -130,13 +153,15 @@ class SubPackageCrudController extends CustomCrudController
      */
     public function update()
     {
-        // get photographers
-        $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
+        if (str_ends_with(url()->current(), 'sub-packages')) {
+            // get photographers
+            $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
 
-        // get additional charge
-        $additional_charge = [];
-        foreach ($photographers as $photographer) {
-            $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+            // get additional charge
+            $additional_charge = [];
+            foreach ($photographers as $photographer) {
+                $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+            }
         }
 
         // get package id
@@ -145,9 +170,10 @@ class SubPackageCrudController extends CustomCrudController
         // update and return response
         $result = $this->traitUpdate();
 
-        // photographers
-        $this->addPhotographers($photographers, $additional_charge, $package_id);
-
+        if (str_ends_with(url()->current(), 'sub-packages')) {
+            // photographers
+            $this->addPhotographers($photographers, $additional_charge, $package_id);
+        }
         // return response
         return $result;
     }
