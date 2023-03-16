@@ -15,7 +15,7 @@ class PackageSubPackage extends CustomModel
 {
     use ModelTrait;
 
-    protected $table = Tables::SUB_PACKAGES;
+    protected $table = Tables::PACKAGE_SUB_PACKAGES;
     protected $guarded = [
         Attributes::ID
     ];
