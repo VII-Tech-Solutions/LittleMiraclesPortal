@@ -133,8 +133,8 @@ class SubPackageCrudController extends CustomCrudController
         // add subpackage
         if (str_contains(url()->current(), 'inline')) {
             $package_sub_package = new PackageSubPackage();
-            $package_sub_package->package_id = $id;
-            $package_sub_package->sub_package_id = $result['data']['id'];
+            $package_sub_package->package_id = $result['data']['id'];
+            $package_sub_package->sub_package_id = $id;
             $package_sub_package->save();
         }
 
@@ -159,8 +159,10 @@ class SubPackageCrudController extends CustomCrudController
 
             // get additional charge
             $additional_charge = [];
-            foreach ($photographers as $photographer) {
-                $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+            if (!is_null($photographers)) {
+                foreach ($photographers as $photographer) {
+                    $additional_charge[$photographer] = $this->crud->getRequest()->get(Attributes::ADDITIONAL_CHARGE . "_" . $photographer);
+                }
             }
         }
 
@@ -188,18 +190,20 @@ class SubPackageCrudController extends CustomCrudController
     {
         $sub_package_id = $this->crud->entry->id;
         $sub_package_photographers = Collect();
-        foreach ($photographers as $key => $photographer) {
-            $package_photographer = PackagePhotographer::createOrUpdate([
-                Attributes::PHOTOGRAPHER_ID => $photographer,
-                Attributes::PACKAGE_ID => $package_id,
-                Attributes::SUB_PACKAGE_ID => $sub_package_id,
-                Attributes::ADDITIONAL_CHARGE => $additional_charge[$photographer],
-            ], [
-                Attributes::PACKAGE_ID,
-                Attributes::PHOTOGRAPHER_ID
-            ]);
+        if (!is_null($photographers)) {
+            foreach ($photographers as $key => $photographer) {
+                $package_photographer = PackagePhotographer::createOrUpdate([
+                    Attributes::PHOTOGRAPHER_ID => $photographer,
+                    Attributes::PACKAGE_ID => $package_id,
+                    Attributes::SUB_PACKAGE_ID => $sub_package_id,
+                    Attributes::ADDITIONAL_CHARGE => $additional_charge[$photographer],
+                ], [
+                    Attributes::PACKAGE_ID,
+                    Attributes::PHOTOGRAPHER_ID
+                ]);
 
-            $sub_package_photographers->add($package_photographer->id);
+                $sub_package_photographers->add($package_photographer->id);
+            }
         }
         PackagePhotographer::where(Attributes::PACKAGE_ID, $package_id)->where(Attributes::SUB_PACKAGE_ID, $sub_package_id)->whereNotIn(Attributes::ID, $sub_package_photographers)->forceDelete();
     }
