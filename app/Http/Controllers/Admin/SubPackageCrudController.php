@@ -40,7 +40,7 @@ class SubPackageCrudController extends CustomCrudController
         $this->crud->setEntityNameStrings('Sub Package', 'Sub Packages');
 
         // deny access
-        if (str_ends_with(url()->current(), 'sub-packages')) {
+        if (!str_contains(url()->current(), 'inline')) {
             $this->crud->denyAccess(["create"]);
         }
     }
@@ -95,7 +95,7 @@ class SubPackageCrudController extends CustomCrudController
         // Field: Cakes Allowed
         $this->addDropdownField(AllowedSelection::all(), Attributes::CAKE_ALLOWED, "Cakes Allowed");
 
-        if (str_ends_with(url()->current(), 'sub-packages')) {
+        if (!str_contains(url()->current(), 'inline')) {
             // Field: Photographer
             $this->addSubPackagePhotographerField("Photographer", "Photographer");
         }
@@ -108,13 +108,13 @@ class SubPackageCrudController extends CustomCrudController
     public function store()
     {
         // get package id
-        if (!str_ends_with(url()->current(), 'sub-packages')) {
+        if (str_contains(url()->current(), 'inline')) {
             $http_referrer = $this->crud->getRequest()->get('http_referrer');
             $str_pos = strpos($http_referrer, '/admin/packages/');
             $id = substr($http_referrer, $str_pos + strlen('/admin/packages/'), 1);
         }
 
-        if (str_ends_with(url()->current(), 'sub-packages')) {
+        if (!str_contains(url()->current(), 'inline')) {
             // get photographers
             $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS) ?? null;
 
@@ -131,7 +131,7 @@ class SubPackageCrudController extends CustomCrudController
         $result = $this->traitStore();
 
         // add subpackage
-        if (!str_ends_with(url()->current(), 'sub-packages')) {
+        if (str_contains(url()->current(), 'inline')) {
             $package_sub_package = new PackageSubPackage();
             $package_sub_package->package_id = $id;
             $package_sub_package->sub_package_id = $result['data']['id'];
@@ -139,7 +139,7 @@ class SubPackageCrudController extends CustomCrudController
         }
 
         // photographers
-        if (str_ends_with(url()->current(), 'sub-packages')) {
+        if (!str_contains(url()->current(), 'inline')) {
             $this->addPhotographers($photographers, $additional_charge, $package_id);
         }
 
@@ -153,7 +153,7 @@ class SubPackageCrudController extends CustomCrudController
      */
     public function update()
     {
-        if (str_ends_with(url()->current(), 'sub-packages')) {
+        if (!str_contains(url()->current(), 'inline')) {
             // get photographers
             $photographers = $this->crud->getRequest()->get(Attributes::PHOTOGRAPHERS);
 
@@ -170,7 +170,7 @@ class SubPackageCrudController extends CustomCrudController
         // update and return response
         $result = $this->traitUpdate();
 
-        if (str_ends_with(url()->current(), 'sub-packages')) {
+        if (!str_contains(url()->current(), 'inline')) {
             // photographers
             $this->addPhotographers($photographers, $additional_charge, $package_id);
         }
