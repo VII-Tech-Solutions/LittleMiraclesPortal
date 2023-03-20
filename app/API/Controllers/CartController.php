@@ -20,6 +20,7 @@ use App\Models\Helpers;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Package;
+use App\Models\PackagePhotographer;
 use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Session;
@@ -251,27 +252,12 @@ class CartController extends CustomController
 
             // get original price
             $original_price = $session->package->price;
-            // get Sherin packages
-            $sherin_packages = Package::whereIn(Attributes::TITLE, ["Glimmer", "Mini Session"])->pluck(Attributes::ID)->toArray();
-            if (!in_array($session->package_id, $sherin_packages)) {
-                if (count($sub_sessions) > 0) {
-                    /** @var Session $sub_session */
-                    foreach ($sub_sessions as $sub_session) {
-                        // get photographer
-                        /** @var Photographer $photographer */
-                        $photographer = Photographer::find($sub_session->photographer);
-                        if (!is_null($photographer->additional_charge)) {
-                            $original_price += $photographer->additional_charge;
-                        }
-                    }
-                } else {
-                    // get photographer
-                    /** @var Photographer $photographer */
-                    $photographer = Photographer::find($session->photographer);
-                    if (!is_null($photographer->additional_charge)) {
-                        $original_price += $photographer->additional_charge;
-                    }
-                }
+
+            // get additional charge
+            /** @var PackagePhotographer $package_photographer */
+            $package_photographer = PackagePhotographer::where(Attributes::PACKAGE_ID, $session->package_id)->where(Attributes::PHOTOGRAPHER_ID, $session->photographer)->first();
+            if (!is_null($package_photographer) && !is_null($package_photographer->additional_charge)) {
+                $original_price += $package_photographer->additional_charge;
             }
         } else if ($booking_type == BookingType::STUDIO) {
             // get cart items

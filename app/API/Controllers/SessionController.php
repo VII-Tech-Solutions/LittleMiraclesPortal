@@ -29,6 +29,7 @@ use App\Models\FeedbackQuestion;
 use App\Models\Helpers;
 use App\Models\Media;
 use App\Models\Package;
+use App\Models\PackagePhotographer;
 use App\Models\Photographer;
 use App\Models\Promotion;
 use App\Models\Review;
@@ -100,15 +101,14 @@ class SessionController extends CustomController
         /** @var Photographer $session_photographer */
         $session_photographer = Photographer::find($photographer);
 
-        // get Sherin packages
-        $sherin_packages = Package::whereIn(Attributes::TITLE, ["Glimmer", "Mini Session"])->pluck(Attributes::ID)->toArray();
-
         // calculate package price
         $total_price = $package->price;
-        if (!in_array($package->id, $sherin_packages)) {
-            if (!is_null($session_photographer->additional_charge)) {
-                $total_price += $session_photographer->additional_charge;
-            }
+
+        // get additional charge
+        /** @var PackagePhotographer $package_photographer */
+        $package_photographer = PackagePhotographer::where(Attributes::PACKAGE_ID, $package->id)->where(Attributes::PHOTOGRAPHER_ID, $session_photographer->id)->first();
+        if (!is_null($package_photographer) && !is_null($package_photographer->additional_charge)) {
+            $total_price += $package_photographer->additional_charge;
         }
 
         // calculate vat and subtotal price
@@ -335,16 +335,14 @@ class SessionController extends CustomController
             /** @var Photographer $session_photographer */
             $session_photographer = Photographer::find($photographer);
 
-            // get Sherin sub packages
-            $sherin_subpackages = Package::whereIn(Attributes::TITLE, ['Welcome to the world!'])->pluck(Attributes::ID)->toArray();
-
-
             // calculate package price
             $total_price = $package->price;
-            if (!in_array($sub_package->id, $sherin_subpackages)) {
-                if (!is_null($session_photographer->additional_charge)) {
-                    $total_price += $session_photographer->additional_charge;
-                }
+
+            // get additional charge
+            /** @var PackagePhotographer $package_photographer */
+            $package_photographer = PackagePhotographer::where(Attributes::PACKAGE_ID, $package->id)->where(Attributes::SUB_PACKAGE_ID, $sub_package->id)->where(Attributes::PHOTOGRAPHER_ID, $session_photographer->id)->first();
+            if (!is_null($package_photographer) && !is_null($package_photographer->additional_charge)) {
+                $total_price += $package_photographer->additional_charge;
             }
 
             // calculate vat and subtotal price
