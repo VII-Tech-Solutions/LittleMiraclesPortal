@@ -199,7 +199,8 @@ class SubPackageCrudController extends CustomCrudController
                     Attributes::ADDITIONAL_CHARGE => $additional_charge[$photographer],
                 ], [
                     Attributes::PACKAGE_ID,
-                    Attributes::PHOTOGRAPHER_ID
+                    Attributes::PHOTOGRAPHER_ID,
+                    Attributes::SUB_PACKAGE_ID
                 ]);
 
                 $sub_package_photographers->add($package_photographer->id);
