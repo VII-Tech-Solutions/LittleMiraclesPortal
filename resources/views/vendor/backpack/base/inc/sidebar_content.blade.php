@@ -53,7 +53,7 @@
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-metadata') }}'><i class='nav-icon la la-camera'></i>Studio</a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-packages') }}'><i class='nav-icon la la-box'></i>Studio Packages</a></li>
-
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-order') }}'><i class='nav-icon la la-question'></i> Studio orders</a></li>
     </ul>
 </li>
 
@@ -153,4 +153,3 @@
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('transaction') }}'><i class='nav-icon la la-question'></i> Transactions</a></li>
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('studio-order') }}'><i class='nav-icon la la-question'></i> Studio orders</a></li>
