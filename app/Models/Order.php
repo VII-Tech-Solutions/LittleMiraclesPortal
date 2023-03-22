@@ -10,6 +10,7 @@ use App\Traits\ModelTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use phpDocumentor\Reflection\Types\Collection;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * Class Order
@@ -28,6 +29,7 @@ use phpDocumentor\Reflection\Types\Collection;
  * @property User user
  * @property Transaction transaction
  * @property Session session
+ * @property CartItem items
  */
 class Order extends CustomModel
 {
@@ -50,8 +52,9 @@ class Order extends CustomModel
      * Relationship: Order Items
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function orderItems() {
-        return $this->belongsToMany(CartItem::class, Tables::ORDER_ITEMS,  Attributes::ORDER_ID, Attributes::ITEM_ID);
+    public function orderItems()
+    {
+        return $this->belongsToMany(CartItem::class, Tables::ORDER_ITEMS, Attributes::ORDER_ID, Attributes::ITEM_ID);
     }
 
     /**
@@ -78,7 +81,8 @@ class Order extends CustomModel
      * Relationship: transactions
      * @return BelongsTo
      */
-    public function transaction(): BelongsTo {
+    public function transaction(): BelongsTo
+    {
         return $this->belongsTo(Transaction::class, Attributes::ID, Attributes::ORDER_ID)
             ->where(Attributes::STATUS, PaymentStatus::CONFIRMED);
     }
@@ -90,5 +94,27 @@ class Order extends CustomModel
     public function session(): BelongsTo
     {
         return $this->belongsTo(Session::class, Attributes::SESSION_ID, Attributes::ID);
+    }
+
+    /**
+     * Relationship: items
+     * @return HasManyThrough
+     */
+    public function items(): HasManyThrough
+    {
+        return $this->hasManyThrough(CartItem::class, OrderItems::class, Attributes::ORDER_ID, Attributes::ID, Attributes::ID, Attributes::ITEM_ID);
+    }
+
+    /**
+     * Attribute: user name
+     * @return string|null
+     */
+    public function getUserNameAttribute()
+    {
+        $user = $this->user;
+        if (is_null($user)) {
+            return null;
+        }
+        return $user->first_name . ' ' . $user->last_name;
     }
 }
