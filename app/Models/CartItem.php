@@ -32,6 +32,7 @@ use App\Constants\Tables;
  */
 class CartItem extends CustomModel
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     protected $table = Tables::CART_ITEMS;
     protected $fillable = [
         Attributes::PACKAGE_ID,

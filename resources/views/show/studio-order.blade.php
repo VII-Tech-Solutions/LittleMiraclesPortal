@@ -110,6 +110,7 @@
                                 <th>Description</th>
                                 <th>Album Title</th>
                                 <th>Comment</th>
+                                <th>Edit</th>
                             </tr>
                         @else
                             <tr>
@@ -123,6 +124,9 @@
                                 <td>{{$item->description}}</td>
                                 <td>{{$item->album_title}}</td>
                                 <td>{{$item->additional_comment}}</td>
+                                <td>
+                                    <a href="{{ route('cart-item.edit', $item->id) }}">Edit</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
