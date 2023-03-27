@@ -38,6 +38,16 @@ if(isset($entry)){
 }
 
 ?>
+
+@if(Route::getCurrentRoute()->getName() == 'cart-item.edit')
+    @php
+        $cartItem = \App\Models\CartItem::find(Route::current()->parameter('id'));
+        $cartMedia =  Media::find(explode(',', $cartItem->media_ids));
+    @endphp
+@endif
+
+
+
 <div class="col-md-12" id="content">
     <h3>Images</h3>
     <p style="padding-bottom: 5px;">
@@ -72,6 +82,16 @@ if(isset($entry)){
         @endif
     </div>
 </div>
+
+@isset($cartMedia)
+    <div class="row">
+        @foreach ($cartMedia as $cartM)
+            <div class="col-md-3">
+                <img src="{{ asset($cartM->url) }}" alt="{{ $cartM->name }}" class="img-fluid">
+            </div>
+        @endforeach
+    </div>
+@endisset
 
 @push('before_styles')
     <link rel="stylesheet" href="{{ mix('css/media.css') }}">
