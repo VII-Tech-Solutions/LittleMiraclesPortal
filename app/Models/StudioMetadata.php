@@ -20,6 +20,8 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string category
  * @property integer status
  * @property integer thickness_id
+ * @property integer print_type_id
+ * @property integer paper_type_id
  */
 class StudioMetadata extends CustomModel
 {
@@ -38,7 +40,9 @@ class StudioMetadata extends CustomModel
         Attributes::CATEGORY,
         Attributes::STATUS,
         Attributes::PRICE,
-        Attributes::THICKNESS_ID
+        Attributes::THICKNESS_ID,
+        Attributes::PRINT_TYPE_ID,
+        Attributes::PAPER_TYPE_ID
     ];
 
     protected $casts = [
