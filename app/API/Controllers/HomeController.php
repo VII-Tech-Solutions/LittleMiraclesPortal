@@ -181,8 +181,7 @@ class HomeController extends CustomController
         $backdrop_categories = $backdrop_categories->flatten()->filter()->unique(Attributes::ID);
 
         // fetch cake categories
-        $cake_categories = $cakes->map->category;
-        $cake_categories = $cake_categories->flatten()->filter()->unique(Attributes::ID);
+        $cake_categories = CakeCategory::withTrashed()->active()->get();
 
         // get notifications
         $notifications = Notification::withTrashed()->active()->get();
