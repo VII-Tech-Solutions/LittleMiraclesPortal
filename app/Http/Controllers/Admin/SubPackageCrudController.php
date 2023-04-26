@@ -89,6 +89,9 @@ class SubPackageCrudController extends CustomCrudController
         // Field: Description
         $this->addNameField(Attributes::DESCRIPTION, "Description");
 
+        // Field: Details
+        $this->addNameField(Attributes::DETAILS, "Details");
+
         // Field: Backdrops Allowed
         $this->addDropdownField(AllowedSelection::all(), Attributes::BACKDROP_ALLOWED, "Backdrops Allowed");
 

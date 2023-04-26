@@ -14,6 +14,7 @@ class SubPackagesTransformer extends CustomTransformer
         Attributes::ID,
         Attributes::TITLE,
         Attributes::DESCRIPTION,
+        Attributes::DETAILS,
         Attributes::BACKDROP_ALLOWED,
         Attributes::CAKE_ALLOWED,
     ];

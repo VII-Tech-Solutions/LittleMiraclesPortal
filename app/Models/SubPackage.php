@@ -28,6 +28,7 @@ class SubPackage extends CustomModel
     protected $fillable = [
         Attributes::TITLE,
         Attributes::DESCRIPTION,
+        Attributes::DETAILS,
         Attributes::CAKE_ALLOWED,
         Attributes::BACKDROP_ALLOWED,
         Attributes::PACKAGE_ID,
