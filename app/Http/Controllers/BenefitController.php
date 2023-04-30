@@ -394,11 +394,6 @@ class BenefitController extends CustomController
             $order->status = $success ? OrderStatus::PAID : OrderStatus::CANCELLED;
             $order->save();
 
-            // update session
-            $session = Session::where(Attributes::ID, $order->session_id)->first();
-            $session->status = SessionStatus::BOOKED;
-            $session->save();
-
             // update transaction
             $transaction->status = $success ? PaymentStatus::CONFIRMED : PaymentStatus::REJECTED;
             $transaction->error_message = $error_message;
