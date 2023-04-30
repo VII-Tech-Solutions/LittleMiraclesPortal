@@ -12,6 +12,7 @@ use App\Constants\Messages;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentStatus;
 use App\Constants\Roles;
+use App\Constants\SessionStatus;
 use App\Constants\Values;
 use App\Helpers\FirebaseHelper;
 use App\Helpers\PaymentHelpers;
@@ -437,6 +438,11 @@ class CartController extends CustomController
                 foreach ($admins as $admin) {
                     FirebaseHelper::sendFCMByToken($admin->device_token, $admin->id, null, $admin_notification);
                 }
+            } else if ($order->booking_type == BookingType::SESSION) {
+                // update sesssion
+                $session = Session::where('id', $order->session_id)->first();
+                $session->status = SessionStatus::BOOKED;
+                $session->save();
             }
         }
 

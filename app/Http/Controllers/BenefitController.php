@@ -7,8 +7,10 @@ use App\Constants\Attributes;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentStatus;
+use App\Constants\SessionStatus;
 use App\Models\Helpers;
 use App\Models\Order;
+use App\Models\Session;
 use App\Models\Transaction;
 use Benefit\plugin\iPayBenefitPipe;
 use VIITech\Helpers\Constants\CastingTypes;
@@ -387,9 +389,15 @@ class BenefitController extends CustomController
 
         if (!is_null($transaction)) {
             // get order
+            /** @var Order $order */
             $order = Order::where(Attributes::ID, $transaction->order_id)->first();
             $order->status = $success ? OrderStatus::PAID : OrderStatus::CANCELLED;
             $order->save();
+
+            // update session
+            $session = Session::where(Attributes::ID, $order->session_id)->first();
+            $session->status = SessionStatus::BOOKED;
+            $session->save();
 
             // update transaction
             $transaction->status = $success ? PaymentStatus::CONFIRMED : PaymentStatus::REJECTED;
