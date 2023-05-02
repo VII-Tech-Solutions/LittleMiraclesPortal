@@ -43,4 +43,5 @@ class Messages extends CustomEnum
     const ORDER_CREATED = "Order created successfully";
     const PARTNER_REMOVED = "Partner removed successfully";
     const PARTNER_NOT_FOUND = "Partner not found";
+    const PACKAGE_NOT_FOUND = "Package not found";
 }

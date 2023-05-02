@@ -6,6 +6,7 @@ use App\API\Transformers\ListPromotionTransformer;
 use App\Constants\Attributes;
 use App\Constants\GiftStatus;
 use App\Constants\Messages;
+use App\Constants\PromotionStatus;
 use App\Constants\PromotionType;
 use App\Constants\SessionStatus;
 use App\Constants\Status;
@@ -17,6 +18,7 @@ use Carbon\Carbon;
 use Dingo\Api\Http\Response;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
+use VIITech\Helpers\Constants\CastingTypes;
 use VIITech\Helpers\GlobalHelpers;
 
 /**
@@ -59,6 +61,67 @@ class GiftController extends CustomController
         // return response
         return Helpers::returnResponse([
             Attributes::GIFTS => Promotion::returnTransformedItems($gifts, ListPromotionTransformer::class),
+        ]);
+    }
+
+    /**
+     *  Create Gift
+     * @return JsonResponse
+     */
+    public function sendGift(): JsonResponse
+    {
+        // get current user
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get data
+        $package_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PACKAGE_ID, null, CastingTypes::INTEGER);
+        $to = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TO, null, CastingTypes::STRING);
+        $from = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FROM, null, CastingTypes::STRING);
+        $message = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::MESSAGE, null, CastingTypes::STRING);
+
+        // get package
+        $package = Package::find($package_id);
+        if (is_null($package)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PACKAGE_NOT_FOUND, null, null, Response::HTTP_NOT_FOUND);
+        }
+
+        // generate unique promo code for user
+        $code = "123456789";
+        $count = 0;
+        do {
+            $code = Helpers::generateCode();
+            $existing_promotions = Promotion::where(Attributes::PROMO_CODE, $code)->count();
+            $count++;
+        } while ($existing_promotions != 0 && $count == 10);
+
+        // create gift
+        $gift = Promotion::createOrUpdate([
+            Attributes::PACKAGE_ID => $package->id,
+            Attributes::USER_ID => $user->id,
+            Attributes::TO => $to,
+            Attributes::FROM => $from,
+            Attributes::MESSAGE => $message,
+            Attributes::TYPE => PromotionType::GIFT,
+            Attributes::PROMO_CODE => $code,
+            Attributes::POSTED_AT => Carbon::now()->format('Y-m-d'),
+            Attributes::AVAILABLE_FROM => Carbon::now()->format('Y-m-d'),
+            Attributes::AVAILABLE_UNTIL => Carbon::now()->addYear()->format('Y-m-d'),
+            Attributes::DAYS_OF_VALIDITY => 365,
+            Attributes::VALID_UNTIL => Carbon::now()->addDays(365 )->format('Y-m-d'),
+            Attributes::STATUS => PromotionStatus::INACTIVE,
+        ]);
+
+        // validate the gift
+        if(!is_a($gift, Promotion::class)){
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::GIFT => Promotion::returnTransformedItems($gift, ListPromotionTransformer::class),
         ]);
     }
 

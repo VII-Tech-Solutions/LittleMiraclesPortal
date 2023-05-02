@@ -44,6 +44,9 @@ class Promotion extends CustomModel
         Attributes::AVAILABLE_FROM,
         Attributes::AVAILABLE_UNTIL,
         Attributes::DAYS_OF_VALIDITY,
+        Attributes::TO,
+        Attributes::FROM,
+        Attributes::MESSAGE,
     ];
 
     protected $casts = [

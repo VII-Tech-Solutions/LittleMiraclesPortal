@@ -329,4 +329,5 @@ class Attributes extends CustomEnum
     const PAPER_TYPE_ID = "paper_type_id";
     const PACKAGE_PHOTOGRAPHERS = "package_photographers";
     const PHOTOGRAPHER_IMAGE = "photographer_image";
+    const GIFT = "gift";
 }
