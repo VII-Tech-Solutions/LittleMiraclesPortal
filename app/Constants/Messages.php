@@ -44,4 +44,6 @@ class Messages extends CustomEnum
     const PARTNER_REMOVED = "Partner removed successfully";
     const PARTNER_NOT_FOUND = "Partner not found";
     const PACKAGE_NOT_FOUND = "Package not found";
+    const WRONG_PACKAGE = "Promo code can be only applied on the selected package";
+    const PROMOTION_CODE_ALREADY_REDEEMED = "Promotion code already redeemed";
 }

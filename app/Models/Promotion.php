@@ -16,9 +16,11 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string offer
  * @property string valid_until
  * @property integer package_id
+ * @property integer type
  * @property string promo_code
  * @property string to
  * @property string from
+ * @property boolean redeemed
  * @property string message
  * @property User user
  * @property Package package
@@ -53,6 +55,7 @@ class Promotion extends CustomModel
         Attributes::TO,
         Attributes::FROM,
         Attributes::MESSAGE,
+        Attributes::REDEEMED
     ];
 
     protected $casts = [

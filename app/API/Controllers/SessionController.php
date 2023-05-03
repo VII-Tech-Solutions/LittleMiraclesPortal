@@ -820,6 +820,10 @@ xox";
                 if ($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL) {
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
                 }
+                if ($promotion->redeemed) {
+                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_ALREADY_REDEEMED, null, null, Response::HTTP_BAD_REQUEST);
+                }
+
                 // and check the valid until date for the promotion
                 if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
                     // calculate

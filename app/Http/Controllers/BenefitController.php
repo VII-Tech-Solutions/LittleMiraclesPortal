@@ -9,6 +9,7 @@ use App\Constants\OrderStatus;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentStatus;
 use App\Constants\PromotionStatus;
+use App\Constants\PromotionType;
 use App\Helpers\MailjetHelpers;
 use App\Models\Helpers;
 use App\Models\Order;
@@ -401,6 +402,17 @@ class BenefitController extends CustomController
             $transaction->error_message = $error_message;
             $transaction->payment_id = $payment_id;
             $transaction->save();
+
+            // get promotion
+            /** @var Promotion $promotion */
+            $promotion = Promotion::where(Attributes::PROMO_CODE, $order->promo_code)->first();
+            if (!is_null($promotion)) {
+                // set as redeemed
+                if ($promotion->type == PromotionType::GIFT) {
+                    $promotion->redeemed = true;
+                    $promotion->save();
+                }
+            }
 
             if ($order->booking_type == BookingType::GIFT) {
                 // update gift status

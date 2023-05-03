@@ -12,6 +12,7 @@ use App\Constants\Messages;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentStatus;
 use App\Constants\PromotionStatus;
+use App\Constants\PromotionType;
 use App\Constants\Roles;
 use App\Constants\Values;
 use App\Helpers\FirebaseHelper;
@@ -28,6 +29,7 @@ use App\Models\Session;
 use App\Models\StudioMetadata;
 use App\Models\StudioPackage;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Dingo\Api\Http\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -273,7 +275,20 @@ class CartController extends CustomController
 
         // get promotion
         if (!is_null($promo_code)) {
+            /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
+            // validate gift code
+            if ($booking_type == BookingType::SESSION && $promotion->type == PromotionType::GIFT) {
+                if ($promotion->redeemed) {
+                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_ALREADY_REDEEMED, null, null, Response::HTTP_BAD_REQUEST);
+                }
+                if (Carbon::now()->format('Y-m-d') > Carbon::parse($promotion->valid_until)->format('Y-m-d')) {
+                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
+                }
+                if ($promotion->package_id != $session->package_id) {
+                    return GlobalHelpers::formattedJSONResponse(Messages::WRONG_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
+                }
+            }
             $offer = $promotion->offer ?? null;
             $discount_amount = $original_price * ($offer / 100);
             $total_price_after_discount = $original_price - $discount_amount;
@@ -437,6 +452,17 @@ class CartController extends CustomController
                 /** @var Photographer $admin */
                 foreach ($admins as $admin) {
                     FirebaseHelper::sendFCMByToken($admin->device_token, $admin->id, null, $admin_notification);
+                }
+
+                // get promotion
+                /** @var Promotion $promotion */
+                $promotion = Promotion::where(Attributes::PROMO_CODE, $order->promo_code)->first();
+                if (!is_null($promotion)) {
+                    // set as redeemed
+                    if ($promotion->type == PromotionType::GIFT) {
+                        $promotion->redeemed = true;
+                        $promotion->save();
+                    }
                 }
             } else if ($order->booking_type == BookingType::GIFT) {
                 // update gift status

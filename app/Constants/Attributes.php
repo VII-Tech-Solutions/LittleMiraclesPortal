@@ -330,4 +330,5 @@ class Attributes extends CustomEnum
     const PACKAGE_PHOTOGRAPHERS = "package_photographers";
     const PHOTOGRAPHER_IMAGE = "photographer_image";
     const GIFT = "gift";
+    const REDEEMED = "redeemed";
 }
