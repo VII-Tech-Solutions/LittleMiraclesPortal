@@ -11,8 +11,8 @@ use App\Constants\CartItemStatus;
 use App\Constants\Messages;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentStatus;
+use App\Constants\PromotionStatus;
 use App\Constants\Roles;
-use App\Constants\SessionStatus;
 use App\Constants\Values;
 use App\Helpers\FirebaseHelper;
 use App\Helpers\PaymentHelpers;
@@ -20,7 +20,6 @@ use App\Models\CartItem;
 use App\Models\Helpers;
 use App\Models\Order;
 use App\Models\OrderItems;
-use App\Models\Package;
 use App\Models\PackagePhotographer;
 use App\Models\Photographer;
 use App\Models\Promotion;
@@ -438,6 +437,13 @@ class CartController extends CustomController
                 foreach ($admins as $admin) {
                     FirebaseHelper::sendFCMByToken($admin->device_token, $admin->id, null, $admin_notification);
                 }
+            } else if ($order->booking_type == BookingType::GIFT) {
+                // update gift status
+                $gift = Promotion::where(Attributes::ID, $order->promo_id)->first();
+                $gift->status = PromotionStatus::ACTIVE;
+                $gift->save();
+
+                // todo send email notification
             }
         }
 

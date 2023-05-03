@@ -3,10 +3,10 @@
 namespace App\Helpers;
 
 use App\Constants\Attributes;
+use App\Constants\BookingType;
 use App\Constants\Messages;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentMethods;
-use App\Constants\Values;
 use App\Http\Controllers\BenefitController;
 use App\Models\Order;
 use App\Models\Transaction;
@@ -32,6 +32,9 @@ class PaymentHelpers
         GlobalHelpers::debugger("PaymentHelpers@generatePaymentLink", DebuggerLevels::INFO);
         // process url
         $process_url = url('/api/payment/process');
+        if ($order->booking_type == BookingType::GIFT) {
+            $process_url = url('/api/gifts/payment/process');
+        }
 
         // get amount
         $amount = $order->subtotal;

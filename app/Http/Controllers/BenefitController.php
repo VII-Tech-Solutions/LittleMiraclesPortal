@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\API\Controllers\CustomController;
 use App\Constants\Attributes;
+use App\Constants\BookingType;
 use App\Constants\OrderStatus;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentStatus;
-use App\Constants\SessionStatus;
+use App\Constants\PromotionStatus;
 use App\Models\Helpers;
 use App\Models\Order;
-use App\Models\Session;
+use App\Models\Promotion;
 use App\Models\Transaction;
 use Benefit\plugin\iPayBenefitPipe;
 use VIITech\Helpers\Constants\CastingTypes;
@@ -399,6 +400,16 @@ class BenefitController extends CustomController
             $transaction->error_message = $error_message;
             $transaction->payment_id = $payment_id;
             $transaction->save();
+
+            if ($order->booking_type == BookingType::GIFT) {
+                // update gift status
+                $gift = Promotion::where(Attributes::ID, $order->promo_id)->first();
+                $gift->status = PromotionStatus::ACTIVE;
+                $gift->save();
+
+                // todo send email notification
+
+            }
         }
 
         // return response
