@@ -4,16 +4,21 @@ namespace App\API\Controllers;
 
 use App\API\Transformers\ListPromotionTransformer;
 use App\Constants\Attributes;
+use App\Constants\BookingType;
 use App\Constants\GiftStatus;
 use App\Constants\Messages;
 use App\Constants\PromotionStatus;
 use App\Constants\PromotionType;
 use App\Constants\SessionStatus;
 use App\Constants\Status;
+use App\Constants\Values;
+use App\Helpers\PaymentHelpers;
 use App\Models\Helpers;
+use App\Models\Order;
 use App\Models\Package;
 use App\Models\Promotion;
 use App\Models\Session;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Dingo\Api\Http\Response;
 use Illuminate\Database\Query\Builder;
@@ -110,12 +115,12 @@ class GiftController extends CustomController
             Attributes::AVAILABLE_FROM => Carbon::now()->format('Y-m-d'),
             Attributes::AVAILABLE_UNTIL => Carbon::now()->addYear()->format('Y-m-d'),
             Attributes::DAYS_OF_VALIDITY => 365,
-            Attributes::VALID_UNTIL => Carbon::now()->addDays(365 )->format('Y-m-d'),
+            Attributes::VALID_UNTIL => Carbon::now()->addDays(365)->format('Y-m-d'),
             Attributes::STATUS => PromotionStatus::INACTIVE,
         ]);
 
         // validate the gift
-        if(!is_a($gift, Promotion::class)){
+        if (!is_a($gift, Promotion::class)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -155,7 +160,7 @@ class GiftController extends CustomController
             ->where(Attributes::GIFT_CLAIMED, false)
             ->orderBy(Attributes::CREATED_AT);
 
-        if($sessions->count() < 5){
+        if ($sessions->count() < 5) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -165,19 +170,19 @@ class GiftController extends CustomController
             ->whereDate(Attributes::AVAILABLE_FROM, '<=', Carbon::now()->format('Y-m-d'))
             ->whereDate(Attributes::AVAILABLE_UNTIL, '>=', Carbon::now()->format('Y-m-d'))->first();
 
-        if(is_null($package)){
+        if (is_null($package)) {
             $package = Package::where(Attributes::TITLE, 'Mini Session')->first();
-            if(is_null($package)){
+            if (is_null($package)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
-            }else{
+            } else {
                 // if not found, then will need to generate mini session by default
                 $package = Promotion::createOrUpdate([
-                 Attributes::PACKAGE_ID => $package->id,
-                 Attributes::IMAGE => $package->image,
-                 Attributes::AVAILABLE_FROM => Carbon::now()->format('Y-m-d'),
-                 Attributes::AVAILABLE_UNTIL => Carbon::now()->addMonths(6)->format('Y-m-d'),
-                 Attributes::DAYS_OF_VALIDITY => 180,
-                 Attributes::TYPE => PromotionType::GIFT
+                    Attributes::PACKAGE_ID => $package->id,
+                    Attributes::IMAGE => $package->image,
+                    Attributes::AVAILABLE_FROM => Carbon::now()->format('Y-m-d'),
+                    Attributes::AVAILABLE_UNTIL => Carbon::now()->addMonths(6)->format('Y-m-d'),
+                    Attributes::DAYS_OF_VALIDITY => 180,
+                    Attributes::TYPE => PromotionType::GIFT
                 ]);
             }
         }
@@ -209,19 +214,19 @@ class GiftController extends CustomController
         ]);
 //
 //        // validate the gift
-        if(!is_a($gift, Promotion::class)){
+        if (!is_a($gift, Promotion::class)) {
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
         // update all sessions
-        $sessions->each(function($session){
+        $sessions->each(function ($session) {
             /** @var Session $session */
             $session->gift_claimed = true;
             $session->save();
 
             //get all sub_sessions and confirm them
             $sub_sessions = $session->subSessions()->get();
-            foreach ($sub_sessions as $sub_session){
+            foreach ($sub_sessions as $sub_session) {
                 $sub_session->gift_claimed = true;
                 $save_sub_session = $sub_session->save();
             }
@@ -233,4 +238,60 @@ class GiftController extends CustomController
         ], null, Response::HTTP_OK);
     }
 
+    /**
+     * Checkout Gift
+     * @param $id
+     * @return JsonResponse
+     */
+    public function checkout($id): JsonResponse
+    {
+        // get current user
+        $user = Helpers::resolveUser();
+        if (is_null($user)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // get payment method
+        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::STRING);
+
+        // get gift
+        /** @var Promotion $gift */
+        $gift = Promotion::find($id);
+        if (is_null($gift)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // get package
+        /** @var Package $package */
+        $package = Package::find($gift->package_id);
+
+        // calculate total
+        $total = $package->price;
+        $vat_amount = $total * Values::VAT_AMOUNT;
+        $subtotal = $total + $vat_amount;
+
+        // create order
+        $order = Order::createOrUpdate([
+            Attributes::USER_ID => $user->id,
+            Attributes::TOTAL => $total,
+            Attributes::SUBTOTAL => $subtotal,
+            Attributes::VAT_AMOUNT => $vat_amount,
+            Attributes::BOOKING_TYPE => BookingType::GIFT,
+            Attributes::PROMO_ID => $gift->id,
+        ]);
+
+        if (!is_a($order, Order::class)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
+        /** @var Transaction $transaction */
+        list(Attributes::TRANSACTION => $transaction,
+            Attributes::PAYMENT_URL => $payment_url) = PaymentHelpers::generatePaymentLink($order, $payment_method);
+
+        // return response
+        return Helpers::returnResponse([
+            Attributes::PAYMENT_URL => $payment_url,
+            Attributes::SUCCESS_INDICATOR => $transaction->success_indicator ?? null,
+        ]);
+    }
 }

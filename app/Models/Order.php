@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property integer status
  * @property integer user_id
  * @property integer session_id
+ * @property integer promo_id
  * @property integer booking_type
  * @property Collection orderItems
  * @property User user
@@ -45,7 +46,8 @@ class Order extends CustomModel
         Attributes::STATUS,
         Attributes::USER_ID,
         Attributes::BOOKING_TYPE,
-        Attributes::SESSION_ID
+        Attributes::SESSION_ID,
+        Attributes::PROMO_ID
     ];
 
     /**

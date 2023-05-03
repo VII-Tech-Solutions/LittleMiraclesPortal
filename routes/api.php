@@ -85,6 +85,7 @@ $api->version('v1', function ($api) {
         $api->get('/gifts', 'GiftController@listAll')->middleware('allowed_user:true'); // List All Gifts
         $api->post('/gifts/claim', 'GiftController@claim')->middleware('allowed_user:true'); // Claim Gift
         $api->post('/gifts', 'GiftController@sendGift')->middleware('allowed_user:true'); // Create Gift
+        $api->post('/gifts/{id}/checkout', 'GiftController@checkout')->middleware('allowed_user:true'); // Gift Checkout
 
         /*******************************
          * Profile
