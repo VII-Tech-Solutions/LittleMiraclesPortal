@@ -16,6 +16,12 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string offer
  * @property string valid_until
  * @property integer package_id
+ * @property string promo_code
+ * @property string to
+ * @property string from
+ * @property string message
+ * @property User user
+ * @property Package package
  */
 class Promotion extends CustomModel
 {
@@ -134,6 +140,15 @@ class Promotion extends CustomModel
     public function package(): BelongsTo
     {
         return $this->BelongsTo(Package::class, Attributes::PACKAGE_ID);
+    }
+
+    /**
+     * Relationships: user
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, Attributes::USER_ID);
     }
 
 

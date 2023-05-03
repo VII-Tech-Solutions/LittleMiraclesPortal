@@ -8,8 +8,8 @@ use App\Constants\Messages;
 use App\Constants\Roles;
 use App\Models\Appointment;
 use App\Models\Backdrop;
-use App\Models\Helpers;
 use App\Models\Photographer;
+use App\Models\Promotion;
 use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -389,6 +389,56 @@ class MailjetHelpers
         ];
         // send email (admin)
         $response = $mj->post(Resources::$Email, ['body' => $body_admin]);
+
+        // return response
+        if (!$response->success()) {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * sendGift
+     * @param Promotion $gift
+     * @return JsonResponse|void
+     */
+    static function sendGift(Promotion $gift) {
+
+        // create Mailjet Client
+        $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true, ['version' => 'v3.1']);
+
+        // prepare data
+        $data = new stdClass();
+        $data->username = $gift->user->first_name . ' ' . $gift->user->last_name;
+        $data->package_name = $gift->package->title;
+        $expiry_date = Carbon::parse($gift->valid_until)->format('d/m/Y');
+        $data->expiry_date = $expiry_date;
+        $data->gift_code = $gift->promo_code;
+        $data->message = $gift->message;
+
+        $data = json_encode($data);
+
+        $body = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => env(EnvVariables::MAIL_FROM_ADDRESS),
+                        'Name' => env(EnvVariables::MAIL_FROM_NAME)
+                    ],
+                    'To' => [
+                        [
+                            'Email' => $gift->to,
+                            'Name' => "tasneem"
+                        ]
+                    ],
+                    'TemplateID' => 4689707,
+                    'TemplateLanguage' => true,
+                    'Variables' => json_decode($data, true)
+                ]
+            ]
+        ];
+
+        // send email
+        $response = $mj->post(Resources::$Email, ['body' => $body]);
 
         // return response
         if (!$response->success()) {

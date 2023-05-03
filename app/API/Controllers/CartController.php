@@ -15,6 +15,7 @@ use App\Constants\PromotionStatus;
 use App\Constants\Roles;
 use App\Constants\Values;
 use App\Helpers\FirebaseHelper;
+use App\Helpers\MailjetHelpers;
 use App\Helpers\PaymentHelpers;
 use App\Models\CartItem;
 use App\Models\Helpers;
@@ -439,11 +440,13 @@ class CartController extends CustomController
                 }
             } else if ($order->booking_type == BookingType::GIFT) {
                 // update gift status
+                /** @var Promotion $gift */
                 $gift = Promotion::where(Attributes::ID, $order->promo_id)->first();
                 $gift->status = PromotionStatus::ACTIVE;
                 $gift->save();
 
-                // todo send email notification
+                // send email notification
+                MailjetHelpers::sendGift($gift);
             }
         }
 

@@ -9,6 +9,7 @@ use App\Constants\OrderStatus;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentStatus;
 use App\Constants\PromotionStatus;
+use App\Helpers\MailjetHelpers;
 use App\Models\Helpers;
 use App\Models\Order;
 use App\Models\Promotion;
@@ -403,11 +404,13 @@ class BenefitController extends CustomController
 
             if ($order->booking_type == BookingType::GIFT) {
                 // update gift status
+                /** @var Promotion $gift */
                 $gift = Promotion::where(Attributes::ID, $order->promo_id)->first();
                 $gift->status = PromotionStatus::ACTIVE;
                 $gift->save();
 
-                // todo send email notification
+                // send email notification
+                MailjetHelpers::sendGift($gift);
 
             }
         }
