@@ -117,6 +117,7 @@ class GiftController extends CustomController
             Attributes::DAYS_OF_VALIDITY => 365,
             Attributes::VALID_UNTIL => Carbon::now()->addDays(365)->format('Y-m-d'),
             Attributes::STATUS => PromotionStatus::INACTIVE,
+            Attributes::OFFER => 100
         ]);
 
         // validate the gift
