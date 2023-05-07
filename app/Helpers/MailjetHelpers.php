@@ -427,7 +427,7 @@ class MailjetHelpers
                     'To' => [
                         [
                             'Email' => $gift->to,
-                            'Name' => "tasneem"
+                            'Name' => $gift->to
                         ]
                     ],
                     'TemplateID' => 4689707,

@@ -5,22 +5,13 @@ namespace App\Http\Controllers\Admin;
 use Alert;
 use App\Constants\Attributes;
 use App\Constants\FieldTypes;
-use App\Constants\GiftStatus;
 use App\Constants\GiftValidityDays;
 use App\Constants\PromotionStatus;
 use App\Constants\PromotionType;
-use App\Constants\Status;
 use App\Http\Requests\GiftRequest;
-use App\Http\Requests\PromotionRequest;
-use App\Models\Package;
 use App\Models\Promotion;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Redirect;
-use VIITech\Helpers\GlobalHelpers;
 
 /**
  * Promotions CRUD Controller
@@ -40,7 +31,7 @@ class GiftCrudController extends CustomCrudController
         $this->crud->setEntityNameStrings('Gift', 'Gifts');
 
         $this->crud->addClause('where',function ($q){
-           return $q->where(Attributes::USER_ID, null)->where(Attributes::TYPE, PromotionType::GIFT);
+           return $q->where(Attributes::TYPE, PromotionType::GIFT);
         });
 
     }
@@ -103,9 +94,6 @@ class GiftCrudController extends CustomCrudController
         // Field: Select Package
         $this->addRelationshipField(null, Attributes::PACKAGE_ID, 'Select Package', null, null, FieldTypes::SELECT, 'package', "App\Models\Package" ,Attributes::TITLE );
 
-        // Field: Image
-        $this->addFeaturedImageField(Attributes::IMAGE, "Image", true);
-
         // Field: Available From
         $this->addDateField(Attributes::AVAILABLE_FROM , "Start Date");
 
@@ -117,12 +105,17 @@ class GiftCrudController extends CustomCrudController
             Attributes::DAYS_OF_VALIDITY, 'Days of validity'
         );
 
-        // Field: Type
-        $this->addHiddenField(Attributes::TYPE, PromotionType::GIFT);
-
         // Field: Status
         $this->addStatusField(PromotionStatus::all());
 
+        // Field: To
+        $this->addNameField(Attributes::TO, 'To');
+
+        // Field: From
+        $this->addNameField(Attributes::FROM, 'From');
+
+        // Field: Message
+        $this->addTextField(Attributes::MESSAGE, 'Message');
     }
 
 
