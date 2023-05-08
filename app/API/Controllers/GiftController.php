@@ -253,7 +253,7 @@ class GiftController extends CustomController
         }
 
         // get payment method
-        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::STRING);
+        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
 
         // get gift
         /** @var Promotion $gift */
