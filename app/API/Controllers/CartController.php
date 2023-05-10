@@ -277,6 +277,10 @@ class CartController extends CustomController
         if (!is_null($promo_code)) {
             /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
+
+            $offer = $promotion->offer ?? null;
+            $discount_amount = $original_price * ($offer / 100);
+
             // validate gift code
             if ($booking_type == BookingType::SESSION && $promotion->type == PromotionType::GIFT) {
                 if ($promotion->redeemed) {
@@ -288,9 +292,11 @@ class CartController extends CustomController
                 if ($promotion->package_id != $session->package_id) {
                     return GlobalHelpers::formattedJSONResponse(Messages::WRONG_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
                 }
+
+                $package_price = $session->package->price;
+                $discount_amount = $package_price * ($offer / 100);
             }
-            $offer = $promotion->offer ?? null;
-            $discount_amount = $original_price * ($offer / 100);
+
             $total_price_after_discount = $original_price - $discount_amount;
         }
 

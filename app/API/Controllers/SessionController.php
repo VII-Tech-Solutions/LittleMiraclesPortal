@@ -14,6 +14,7 @@ use App\Constants\Gender;
 use App\Constants\Messages;
 use App\Constants\PortalType;
 use App\Constants\PromotionStatus;
+use App\Constants\PromotionType;
 use App\Constants\Relationship;
 use App\Constants\ReviewStatus;
 use App\Constants\Roles;
@@ -827,9 +828,13 @@ xox";
                 // and check the valid until date for the promotion
                 if (Carbon::parse($promotion->valid_until, Values::DEFAULT_TIMEZONE)->gte(Carbon::now(Values::DEFAULT_TIMEZONE))) {
                     // calculate
-                    $original_price = $session->total_price;
                     $offer = $promotion->offer;
+                    $original_price = $session->total_price;
                     $discount_amount = $original_price * ($offer / 100);
+                    if ($promotion->type == PromotionType::GIFT) {
+                        $package_price = $session->package->price;
+                        $discount_amount = $package_price * ($offer / 100);
+                    }
                     $total_price_after_discount = $original_price - $discount_amount;
 
                     // calculate vat and total
