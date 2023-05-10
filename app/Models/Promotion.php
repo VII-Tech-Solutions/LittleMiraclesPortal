@@ -72,7 +72,10 @@ class Promotion extends CustomModel
 
     protected $appends = [
         Attributes::STATUS_NAME,
-        Attributes::DAYS_OF_VALIDITY_TEXT
+        Attributes::DAYS_OF_VALIDITY_TEXT,
+        Attributes::PACKAGE_IMAGE,
+        Attributes::PACKAGE_TITLE,
+        Attributes::PACKAGE_TAG,
     ];
 
     /**
@@ -124,6 +127,50 @@ class Promotion extends CustomModel
 
         return $this->package()->first()->title ?? null;
     }
+
+    /**
+     * Get package title
+     * @param $value
+     * @return string|null
+     */
+    function getPackageTitleAttribute($value)
+    {
+        if(!is_null($value)){
+            return $value;
+        }
+
+        return $this->package()->first()->title ?? null;
+    }
+
+    /**
+     * Get package image
+     * @param $value
+     * @return string|null
+     */
+    function getPackageImageAttribute($value)
+    {
+        if(!is_null($value)){
+            return $value;
+        }
+
+        return $this->package()->first()->image ?? null;
+    }
+
+
+    /**
+     * Get package tag
+     * @param $value
+     * @return string|null
+     */
+    function getPackageTagAttribute($value)
+    {
+        if(!is_null($value)){
+            return $value;
+        }
+
+        return $this->package()->first()->tag ?? null;
+    }
+
     /**
      * Set Attribute: Image
      * @param $value
