@@ -57,22 +57,16 @@ class GiftController extends CustomController
         }
 
         // get gifts
-        $gifts = Promotion::where(Attributes::USER_ID, $user->id)->orderByDesc(Attributes::CREATED_AT)->get();
+        $gifts = Promotion::where(Attributes::USER_ID, $user->id)->with('package')->orderByDesc(Attributes::CREATED_AT)->get();
 
         // get last updated items
         if (!empty($this->last_update)) {
             $gifts = Helpers::getLatestOnlyInCollection($gifts, $this->last_update);
         }
 
-        // get packages
-        $packages = $gifts->map->package;
-        $packages = $packages->unique(Attributes::ID);
-
-
         // return response
         return Helpers::returnResponse([
             Attributes::GIFTS => Promotion::returnTransformedItems($gifts, ListPromotionTransformer::class),
-            Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class)
         ]);
     }
 

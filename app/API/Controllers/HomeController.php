@@ -26,7 +26,7 @@ use App\Constants\AvailableDateType;
 use App\Constants\Headers;
 use App\Constants\Messages;
 use App\Constants\NotificationType;
-use App\Constants\PaymentMethod;
+use App\Constants\PaymentMethods;
 use App\Constants\PromotionType;
 use App\Constants\Values;
 use App\Models\AvailableDate;
@@ -174,7 +174,7 @@ class HomeController extends CustomController
         $studio_packages = StudioPackage::withTrashed()->active()->get();
 
         // get payment methods
-        $payment_methods = PaymentMethod::readableArray();
+        $payment_methods = PaymentMethods::readableArray();
 
         // fetch backdrop categories
         $backdrop_categories = $backdrops->map->category;
