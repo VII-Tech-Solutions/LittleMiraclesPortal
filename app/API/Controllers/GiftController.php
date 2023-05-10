@@ -2,6 +2,7 @@
 
 namespace App\API\Controllers;
 
+use App\API\Transformers\ListPackageTransformer;
 use App\API\Transformers\ListPromotionTransformer;
 use App\Constants\Attributes;
 use App\Constants\BookingType;
@@ -63,9 +64,15 @@ class GiftController extends CustomController
             $gifts = Helpers::getLatestOnlyInCollection($gifts, $this->last_update);
         }
 
+        // get packages
+        $packages = $gifts->map->package;
+        $packages = $packages->unique(Attributes::ID);
+
+
         // return response
         return Helpers::returnResponse([
             Attributes::GIFTS => Promotion::returnTransformedItems($gifts, ListPromotionTransformer::class),
+            Attributes::PACKAGES => Package::returnTransformedItems($packages, ListPackageTransformer::class)
         ]);
     }
 
