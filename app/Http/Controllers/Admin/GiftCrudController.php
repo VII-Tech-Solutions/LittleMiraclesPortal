@@ -114,6 +114,10 @@ class GiftCrudController extends CustomCrudController
         // Field: From
         $this->addNameField(Attributes::FROM, 'From');
 
+        // Field: promo code
+        $this->addNameField(Attributes::PROMO_CODE, 'Promo Code');
+
+
         // Field: Message
         $this->addTextField(Attributes::MESSAGE, 'Message');
     }
