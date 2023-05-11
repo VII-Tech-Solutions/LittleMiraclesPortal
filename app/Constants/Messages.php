@@ -17,6 +17,7 @@ class Messages extends CustomEnum
     const UNABLE_TO_UPDATE_STATUS = "Unable to update status";
     const ACCOUNT_DELETED = "Account has been deleted successfully";
     const PROMO_CODE_APPLIED = "Promo code applied";
+    const PROMO_CODE_REMOVED = "Promo code removed";
     const REVIEW_SUBMITTED = "Review submitted successfully";
     const FEEDBACK_SUBMITTED = "Feedback submitted successfully";
     const GUIDELINE_GENERATED_SUCCESSFULLY = "Guideline generated successfully";
@@ -46,4 +47,5 @@ class Messages extends CustomEnum
     const PACKAGE_NOT_FOUND = "Package not found";
     const WRONG_PACKAGE = "Promo code can be only applied on the selected package";
     const PROMOTION_CODE_ALREADY_REDEEMED = "Promotion code already redeemed";
+    const INVALID_BOOKING_TYPE = "Invalid booking type";
 }

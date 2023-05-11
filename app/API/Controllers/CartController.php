@@ -29,7 +29,6 @@ use App\Models\Session;
 use App\Models\StudioMetadata;
 use App\Models\StudioPackage;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Dingo\Api\Http\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -238,9 +237,13 @@ class CartController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
 
+        // get parameters
+        $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
+        $booking_type = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BOOKING_TYPE, null, CastingTypes::INTEGER);
+        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::STRING);
+
         // validate booking type
         $original_price = 0;
-        $booking_type = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::BOOKING_TYPE, null, CastingTypes::INTEGER);
         if ($booking_type == BookingType::SESSION) {
             // get session
             $session_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::SESSION_ID, null, CastingTypes::INTEGER);
@@ -262,56 +265,40 @@ class CartController extends CustomController
             if (!is_null($package_photographer) && !is_null($package_photographer->additional_charge)) {
                 $original_price += $package_photographer->additional_charge;
             }
+
+            $subtotal = $session->subtotal;
+            $vat_amount = $session->vat_amount;
+            $promo_code = $session->promotion->promo_code;
         } else if ($booking_type == BookingType::STUDIO) {
             // get cart items
             $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
+
             // get original price
             $original_price = $cart_items->pluck(Attributes::TOTAL_PRICE)->sum();
-        }
 
-        // get parameters
-        $promo_code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
-        $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::STRING);
+            if (!is_null($promo_code)) {
+                /** @var Promotion $promotion */
+                $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
 
-        // get promotion
-        if (!is_null($promo_code)) {
-            /** @var Promotion $promotion */
-            $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $promo_code)->first();
-
-            $offer = $promotion->offer ?? null;
-            $discount_amount = $original_price * ($offer / 100);
-
-            // validate gift code
-            if ($booking_type == BookingType::SESSION && $promotion->type == PromotionType::GIFT) {
-                if ($promotion->redeemed) {
-                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_ALREADY_REDEEMED, null, null, Response::HTTP_BAD_REQUEST);
-                }
-                if (Carbon::now()->format('Y-m-d') > Carbon::parse($promotion->valid_until)->format('Y-m-d')) {
-                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_EXPIRED, null, null, Response::HTTP_BAD_REQUEST);
-                }
-                if ($promotion->package_id != $session->package_id) {
-                    return GlobalHelpers::formattedJSONResponse(Messages::WRONG_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
-                }
-
-                $package_price = $session->package->price;
-                $discount_amount = $package_price * ($offer / 100);
+                $offer = $promotion->offer ?? null;
+                $discount_amount = $original_price * ($offer / 100);
+                $total_price_after_discount = $original_price - $discount_amount;
             }
+            $total_price = $total_price_after_discount ?? $original_price;
+            $vat_amount = $total_price * Values::VAT_AMOUNT;
+            $subtotal = $total_price + $vat_amount;
 
-            $total_price_after_discount = $original_price - $discount_amount;
+        } else {
+            return GlobalHelpers::formattedJSONResponse(Messages::INVALID_BOOKING_TYPE, null, null, Response::HTTP_BAD_REQUEST);
         }
-
-        // calculate vat and subtotal
-        $subtotal = $total_price_after_discount ?? $original_price;
-        $vat_amount = $subtotal * Values::VAT_AMOUNT;
-        $subtotal = $subtotal + $vat_amount;
 
         // create order
         $order = Order::createOrUpdate([
             Attributes::PROMO_CODE => $promo_code,
             Attributes::TOTAL_PRICE => $original_price,
             Attributes::DISCOUNT_PRICE => $discount_amount ?? null,
-            Attributes::VAT_AMOUNT => $vat_amount,
-            Attributes::SUBTOTAL => $subtotal,
+            Attributes::VAT_AMOUNT => $vat_amount ?? null,
+            Attributes::SUBTOTAL => $subtotal ?? null,
             Attributes::USER_ID => $user->id,
             Attributes::BOOKING_TYPE => $booking_type,
             Attributes::SESSION_ID => isset($session) ? $session->id : null,
@@ -440,7 +427,6 @@ class CartController extends CustomController
             $transaction->status = PaymentStatus::CONFIRMED;
             $transaction->save();
 
-            // send notification
             if ($order->booking_type == BookingType::STUDIO) {
                 // get user
                 $user = $order->user;
@@ -455,11 +441,12 @@ class CartController extends CustomController
                     Attributes::MESSAGE => "You have a new order! $user->first_name $user->last_name has made a new purchase with $order->id!"
                 ];
 
+                // send notification
                 /** @var Photographer $admin */
                 foreach ($admins as $admin) {
                     FirebaseHelper::sendFCMByToken($admin->device_token, $admin->id, null, $admin_notification);
                 }
-
+            } else if ($order->booking_type == BookingType::SESSION) {
                 // get promotion
                 /** @var Promotion $promotion */
                 $promotion = Promotion::where(Attributes::PROMO_CODE, $order->promo_code)->first();

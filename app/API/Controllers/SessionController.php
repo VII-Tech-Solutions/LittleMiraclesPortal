@@ -804,18 +804,41 @@ xox";
 
         // get parameters
         $code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
+        $remove = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::REMOVE, false, CastingTypes::BOOLEAN);
 
         // validate code
         if (!is_null($code)) {
 
             // promo used in session
-            if (!is_null($session->promo_id)) {
+            if (!$remove && !is_null($session->promo_id)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAS_A_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
             }
 
             // get promotion
             /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
+
+            if ($remove) {
+                $original_price = $session->total_price;
+                $vat_amount = $original_price * Values::VAT_AMOUNT;
+                $subtotal = $original_price + $vat_amount;
+
+                // remove promo code
+                $session->promo_id = null;
+                $session->discount_price = null;
+                $session->subtotal = $subtotal;
+                $session->save();
+
+                // return response
+                return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_REMOVED, [
+                    Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
+                    Attributes::DISCOUNT_PRICE => Helpers::formattedPrice(0),
+                    Attributes::TOTAL_PRICE => Helpers::formattedPrice($original_price),
+                    Attributes::VAT_AMOUNT => Helpers::formattedPrice($vat_amount),
+                    Attributes::SUBTOTAL => Helpers::formattedPrice($subtotal),
+                ], null, Response::HTTP_OK);
+            }
+
             if (!is_null($promotion)) {
                 // check if the package id doesn't match the current session package id and if it is not 0 -> then it is false since "0" is All packages
                 if ($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL) {
@@ -841,6 +864,13 @@ xox";
                     $total_price = $total_price_after_discount ?? $original_price;
                     $vat_amount = $total_price * Values::VAT_AMOUNT;
                     $subtotal = $total_price + $vat_amount;
+
+                    // update session
+                    $session->promo_id = $promotion->id;
+                    $session->discount_price = $discount_amount;
+                    $session->subtotal = $subtotal;
+                    $session->vat_amount = $vat_amount;
+                    $session->save();
 
                     // return response
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_APPLIED, [

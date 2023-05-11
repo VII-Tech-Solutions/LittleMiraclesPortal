@@ -41,6 +41,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property int promo_id
  * @property int total_price
  * @property double vat_amount
+ * @property double discount_price
  * @property double subtotal
  * @property int photographer
  * @property string photographer_name
@@ -51,6 +52,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property string featured_image
  * @property boolean gift_claimed
  * @property integer extra_people
+ * @property Promotion promotion
  * @method static Builder sortByLatest()
  * @method static \Illuminate\Database\Eloquent\Builder|self paid()
  * @method static \Illuminate\Database\Eloquent\Builder|self sessions()
@@ -85,6 +87,7 @@ class Session extends CustomModel
         Attributes::LOCATION_TEXT,
         Attributes::IS_OUTDOOR,
         Attributes::VAT_AMOUNT,
+        Attributes::DISCOUNT_PRICE,
         Attributes::SUBTOTAL,
         Attributes::GIFT_CLAIMED,
         Attributes::SESSION_ID,
