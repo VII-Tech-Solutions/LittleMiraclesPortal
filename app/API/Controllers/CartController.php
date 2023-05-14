@@ -268,7 +268,7 @@ class CartController extends CustomController
 
             $subtotal = $session->subtotal;
             $vat_amount = $session->vat_amount;
-            $promo_code = $session->promotion->promo_code;
+            $promo_code = $session->promotion->promo_code ?? null;
         } else if ($booking_type == BookingType::STUDIO) {
             // get cart items
             $cart_items = CartItem::where(Attributes::USER_ID, $user->id)->where(Attributes::STATUS, CartItemStatus::UNPURCHASED)->get();
