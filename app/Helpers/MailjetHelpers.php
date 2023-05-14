@@ -408,7 +408,7 @@ class MailjetHelpers
 
         // prepare data
         $data = new stdClass();
-        $data->username = $gift->user->first_name . ' ' . $gift->user->last_name;
+        $data->username = $gift->from;
         $data->package_name = $gift->package->title;
         $expiry_date = Carbon::parse($gift->valid_until)->format('d/m/Y');
         $data->expiry_date = $expiry_date;
