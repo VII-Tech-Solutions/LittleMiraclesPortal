@@ -1046,6 +1046,17 @@ xox";
 
                 if (is_a($session, Session::class)) {
 
+                    // get promotion
+                    /** @var Promotion $promotion */
+                    $promotion = Promotion::where(Attributes::ID, $session->promo_id)->first();
+                    if (!is_null($promotion)) {
+                        // set as redeemed
+                        if ($promotion->type == PromotionType::GIFT) {
+                            $promotion->redeemed = true;
+                            $promotion->save();
+                        }
+                    }
+
                     // get photographer
                     /** @var Photographer $photographer */
                     $photographer = Photographer::find($session->photographer);
