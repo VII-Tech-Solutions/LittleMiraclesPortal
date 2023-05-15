@@ -274,13 +274,6 @@ class SessionController extends CustomController
             return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
-
-        // calculate package price
-        $total_price = $package->price;
-
-        // calculate vat amount
-        $vat_amount = $total_price * Values::VAT_AMOUNT;
-
         // create or update the session
         $session = Session::createOrUpdate([
             Attributes::TITLE => $package->title . " " . $package->tag,
@@ -292,12 +285,12 @@ class SessionController extends CustomController
             Attributes::TIME => $time,
             Attributes::PAYMENT_METHOD => $payment_method,
             Attributes::STATUS => SessionStatus::UNPAID,
-            Attributes::TOTAL_PRICE => $total_price,
-            Attributes::VAT_AMOUNT => $vat_amount,
         ], [
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
 
+        // calculate package price
+        $session_total_price = $package->price;
         foreach ($sub_sessions as $sub_session) {
 
             $sub_package_id = GlobalHelpers::getValueFromHTTPRequest($sub_session, Attributes::SUB_PACKAGE_ID, null, CastingTypes::INTEGER);
@@ -321,7 +314,6 @@ class SessionController extends CustomController
                 return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_FIND_SUB_PACKAGE, null, null, Response::HTTP_NOT_FOUND);
             }
 
-
             // location
             $is_outdoor = false;
             if (!is_null($location_link)) {
@@ -344,6 +336,7 @@ class SessionController extends CustomController
             $package_photographer = PackagePhotographer::where(Attributes::PACKAGE_ID, $package->id)->where(Attributes::SUB_PACKAGE_ID, $sub_package->id)->where(Attributes::PHOTOGRAPHER_ID, $session_photographer->id)->first();
             if (!is_null($package_photographer) && !is_null($package_photographer->additional_charge)) {
                 $total_price += $package_photographer->additional_charge;
+                $session_total_price += $package_photographer->additional_charge;
             }
 
             // calculate vat and subtotal price
@@ -439,8 +432,17 @@ class SessionController extends CustomController
                     ]);
                 }
             }
-
         }
+
+        // calculate vat and subtotal price
+        $vat_amount = $session_total_price * Values::VAT_AMOUNT;
+        $subtotal = $session_total_price + $vat_amount;
+
+        // update session price
+        $session->total_price = $session_total_price;
+        $session->vat_amount = $vat_amount;
+        $session->subtotal = $subtotal;
+        $session->save();
 
         // return response
         $this->request->merge([
