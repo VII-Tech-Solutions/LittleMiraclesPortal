@@ -126,7 +126,8 @@ class Session extends CustomModel
         Attributes::FEATURED_IMAGE,
         Attributes::SUB_SESSIONS_IDS,
         Attributes::BOOKING_TEXT,
-        'people_data'
+        'people_data',
+        Attributes::PROMO_CODE
     ];
 
 
@@ -170,6 +171,19 @@ class Session extends CustomModel
             return null;
         }
         return Carbon::parse($date)->format("jS, F Y");
+    }
+
+    /**
+     * Attribute: formatted_date
+     * @return string
+     */
+    public function getPromotCodeAttribute()
+    {
+        $promotion = $this->promotion;
+        if (is_null($promotion)) {
+            return null;
+        }
+        return $promotion->promo_code;
     }
 
     /**
