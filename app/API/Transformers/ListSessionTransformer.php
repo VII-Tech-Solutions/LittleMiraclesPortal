@@ -48,6 +48,7 @@ class ListSessionTransformer extends CustomTransformer
         Attributes::BOOKING_TEXT,
         Attributes::EXTRA_PEOPLE,
         Attributes::SUBTOTAL,
-        Attributes::PROMO_ID
+        Attributes::PROMO_ID,
+        Attributes::PROMO_CODE
     ];
 }
