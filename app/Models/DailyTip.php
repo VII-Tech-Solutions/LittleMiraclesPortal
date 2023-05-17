@@ -32,7 +32,6 @@ class DailyTip extends CustomModel
 
     protected $casts = [
         Attributes::TITLE => CastingTypes::STRING,
-        Attributes::POSTED_AT => CastingTypes::STRING,
         Attributes::CONTENT => CastingTypes::STRING,
         Attributes::STATUS => CastingTypes::INTEGER,
     ];
