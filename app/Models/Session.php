@@ -177,7 +177,7 @@ class Session extends CustomModel
      * Attribute: formatted_date
      * @return string
      */
-    public function getPromotCodeAttribute()
+    public function getPromoCodeAttribute()
     {
         $promotion = $this->promotion;
         if (is_null($promotion)) {
