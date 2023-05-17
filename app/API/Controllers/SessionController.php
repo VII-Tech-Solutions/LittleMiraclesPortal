@@ -808,46 +808,54 @@ xox";
         $code = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CODE, null, CastingTypes::STRING);
         $remove = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::REMOVE, false, CastingTypes::BOOLEAN);
 
+        if ($remove) {
+            $original_price = $session->total_price;
+            $vat_amount = $original_price * Values::VAT_AMOUNT;
+            $subtotal = $original_price + $vat_amount;
+
+            // remove promo code
+            $session->promo_id = null;
+            $session->discount_price = null;
+            $session->subtotal = $subtotal;
+            $session->save();
+
+            // return response
+            return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_REMOVED, [
+                Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
+                Attributes::DISCOUNT_PRICE => Helpers::formattedPrice(0),
+                Attributes::TOTAL_PRICE => Helpers::formattedPrice($original_price),
+                Attributes::VAT_AMOUNT => Helpers::formattedPrice($vat_amount),
+                Attributes::SUBTOTAL => Helpers::formattedPrice($subtotal),
+            ], null, Response::HTTP_OK);
+        }
+
+        // promo used in session
+        if (!is_null($session->promo_id)) {
+            return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAS_PROMO_CODE_APPLIED, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
         // validate code
         if (!is_null($code)) {
-
-            // promo used in session
-            if (!$remove && !is_null($session->promo_id)) {
-                return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAS_A_PROMOTION_CODE, null, null, Response::HTTP_BAD_REQUEST);
-            }
 
             // get promotion
             /** @var Promotion $promotion */
             $promotion = Promotion::active()->where(Attributes::PROMO_CODE, $code)->first();
-
-            if ($remove) {
-                $original_price = $session->total_price;
-                $vat_amount = $original_price * Values::VAT_AMOUNT;
-                $subtotal = $original_price + $vat_amount;
-
-                // remove promo code
-                $session->promo_id = null;
-                $session->discount_price = null;
-                $session->subtotal = $subtotal;
-                $session->save();
-
-                // return response
-                return GlobalHelpers::formattedJSONResponse(Messages::PROMO_CODE_REMOVED, [
-                    Attributes::ORIGINAL_PRICE => Helpers::formattedPrice($original_price),
-                    Attributes::DISCOUNT_PRICE => Helpers::formattedPrice(0),
-                    Attributes::TOTAL_PRICE => Helpers::formattedPrice($original_price),
-                    Attributes::VAT_AMOUNT => Helpers::formattedPrice($vat_amount),
-                    Attributes::SUBTOTAL => Helpers::formattedPrice($subtotal),
-                ], null, Response::HTTP_OK);
-            }
 
             if (!is_null($promotion)) {
                 // check if the package id doesn't match the current session package id and if it is not 0 -> then it is false since "0" is All packages
                 if ($promotion->package_id !== $session->package_id && $promotion->package_id !== AllPackages::ALL) {
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_NOT_FOR_THIS_PACKAGE, null, null, Response::HTTP_BAD_REQUEST);
                 }
+
+                // check if redeemed
                 if ($promotion->redeemed) {
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_ALREADY_REDEEMED, null, null, Response::HTTP_BAD_REQUEST);
+                }
+
+                // check if promotion used by the same user
+                $used_promotion = Session::where(Attributes::USER_ID, $user->id)->where(Attributes::PROMO_ID, $promotion->id)->where(Attributes::STATUS,'!=', SessionStatus::UNPAID)->first();
+                if (!is_null($used_promotion)) {
+                    return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_IS_USED_PREVIOUSLY, null, null, Response::HTTP_BAD_REQUEST);
                 }
 
                 // and check the valid until date for the promotion
