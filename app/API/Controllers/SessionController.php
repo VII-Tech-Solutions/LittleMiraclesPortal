@@ -829,11 +829,6 @@ xox";
             ], null, Response::HTTP_OK);
         }
 
-        // promo used in session
-        if (!is_null($session->promo_id)) {
-            return GlobalHelpers::formattedJSONResponse(Messages::SESSION_HAS_PROMO_CODE_APPLIED, null, null, Response::HTTP_BAD_REQUEST);
-        }
-
         // validate code
         if (!is_null($code)) {
 
