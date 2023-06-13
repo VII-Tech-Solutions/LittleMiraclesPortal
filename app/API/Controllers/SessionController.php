@@ -848,7 +848,7 @@ xox";
                 }
 
                 // check if promotion used by the same user
-                $used_promotion = Session::where(Attributes::USER_ID, $user->id)->where(Attributes::PROMO_ID, $promotion->id)->where(Attributes::STATUS,'!=', SessionStatus::UNPAID)->first();
+                $used_promotion = Session::where(Attributes::USER_ID, $user->id)->where(Attributes::PROMO_ID, $promotion->id)->where(Attributes::STATUS, '!=', SessionStatus::UNPAID)->first();
                 if (!is_null($used_promotion)) {
                     return GlobalHelpers::formattedJSONResponse(Messages::PROMOTION_CODE_IS_USED_PREVIOUSLY, null, null, Response::HTTP_BAD_REQUEST);
                 }

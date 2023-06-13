@@ -27,7 +27,8 @@ class MailjetHelpers
      * @param Session $session
      * @return JsonResponse|void
      */
-    static function bookingConfirmed(Session $session, $filename = null) {
+    static function bookingConfirmed(Session $session, $filename = null)
+    {
         // create Mailjet Client
         $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true, ['version' => 'v3.1']);
 
@@ -49,7 +50,7 @@ class MailjetHelpers
             if (!empty($backdrop)) {
                 $backdrop .= "<br>";
             }
-            $backdrop .= "Backdrop $i: " . $backdrops[$i - 1 ]->title;
+            $backdrop .= "Backdrop $i: " . $backdrops[$i - 1]->title;
         }
         $data->backdrops = $backdrop ?? "-";
         $data->cake_name = $session->formatted_cake ?? "-";
@@ -131,7 +132,7 @@ class MailjetHelpers
         $admins = Photographer::where(Attributes::ROLE, Roles::ADMIN)->get();
         $to_emails = array();
         foreach ($admins as $admin) {
-            $to_emails[] =  [
+            $to_emails[] = [
                 'Email' => $admin->email,
                 'Name' => $admin->name
             ];
@@ -164,7 +165,8 @@ class MailjetHelpers
      * @param Session $session
      * @return JsonResponse|void
      */
-    static function bookingRescheduled(Session $session) {
+    static function bookingRescheduled(Session $session)
+    {
         // create Mailjet Client
         $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true, ['version' => 'v3.1']);
 
@@ -187,7 +189,7 @@ class MailjetHelpers
             if (!empty($backdrop)) {
                 $backdrop .= "<br>";
             }
-            $backdrop .= "Backdrop $i: " . $backdrops[$i - 1 ]->title;
+            $backdrop .= "Backdrop $i: " . $backdrops[$i - 1]->title;
         }
         $data->backdrops = $backdrop;
         $data->cake_name = $session->formatted_cake;
@@ -289,7 +291,8 @@ class MailjetHelpers
      * @param Appointment $appointment
      * @return JsonResponse|void
      */
-    static function appointmentBooked(Appointment $appointment) {
+    static function appointmentBooked(Appointment $appointment)
+    {
         // create Mailjet Client
         $mj = new Client(env(EnvVariables::MAILJET_APIKEY), env(EnvVariables::MAILJET_APISECRET), true, ['version' => 'v3.1']);
 
@@ -368,7 +371,7 @@ class MailjetHelpers
         $admins = Photographer::where(Attributes::ROLE, Roles::ADMIN)->get();
         $to_emails = array();
         foreach ($admins as $admin) {
-            $to_emails[] =  [
+            $to_emails[] = [
                 'Email' => $admin->email,
                 'Name' => $admin->name
             ];

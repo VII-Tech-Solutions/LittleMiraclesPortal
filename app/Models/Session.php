@@ -257,7 +257,7 @@ class Session extends CustomModel
     {
         $parentData = collect([]);
         $childData = collect([]);
-        if ($this->include_me){
+        if ($this->include_me) {
             $parentData->push(['name' => $this->user_name]);
         }
 
@@ -553,7 +553,8 @@ class Session extends CustomModel
      * @param $value
      * @return string
      */
-    function getTimeAttribute($value) {
+    function getTimeAttribute($value)
+    {
         return (Carbon::parse($value)->format('H:i'));
     }
 
@@ -587,17 +588,19 @@ class Session extends CustomModel
         $photographer = Photographer::find($this->photographer);
 
         // calculate total price
-        $subtotal = $this->package->price + ($photographer->additional_charge ?? 0);
+        $subtotal = $this->total_price;
         $vat_amount = $this->vat_amount;
-        $total = $subtotal + $vat_amount;
+        $total = $this->subtotal;
 
         // get order
         /** @var Order $order */
         $order = Order::where(Attributes::SESSION_ID, $this->id)->first();
-        $transaction = $order->transaction;
+        $transaction = $order->transaction ?? null;
 
         // get payment method
-        $payment_method = Helpers::readableText(PaymentMethods::getKey((int)$transaction->payment_method));
+        if (!is_null($transaction) && !is_null($transaction->payment_method)) {
+            $payment_method = Helpers::readableText(PaymentMethods::getKey((int)$transaction->payment_method));
+        }
 
         // return data
         return [
