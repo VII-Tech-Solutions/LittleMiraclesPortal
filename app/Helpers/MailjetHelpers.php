@@ -42,7 +42,7 @@ class MailjetHelpers
         $data->date = $session->date;
         $data->time = $session->time;
         $data->package_name = $session->package_name;
-        $data->people = $session->people()->count();
+        $data->people = ($session->include_me) ? $session->people()->count() + 1 : $session->people()->count();
         /** @var Backdrop $backdrops */
         $backdrops = $session->backdrops()->get();
         $backdrop = "";
