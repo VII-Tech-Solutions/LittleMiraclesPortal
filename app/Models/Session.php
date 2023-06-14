@@ -586,6 +586,12 @@ class Session extends CustomModel
         // get photographer
         /** @var Photographer $photographer */
         $photographer = Photographer::find($this->photographer);
+        /** @var PackagePhotographer $package_photographer */
+        $photographer_charge = 0;
+        $package_photographer = PackagePhotographer::where(Attributes::PACKAGE_ID, $this->package_id)->where(Attributes::PHOTOGRAPHER_ID, $photographer->id)->first();
+        if (!is_null($package_photographer) && !is_null($package_photographer->additional_charge)) {
+            $photographer_charge = $package_photographer->additional_charge;
+        }
 
         // calculate total price
         $subtotal = $this->total_price;
@@ -611,7 +617,7 @@ class Session extends CustomModel
             Attributes::PACKAGE_NAME => $this->package_name,
             Attributes::PACKAGE_PRICE => $this->package->price,
             Attributes::PHOTOGRAPHER_NAME => $this->photographer_name,
-            Attributes::ADDITIONAL_CHARGE => $photographer->additional_charge ?? null,
+            Attributes::ADDITIONAL_CHARGE => $photographer_charge,
             Attributes::SUBTOTAL => $subtotal,
             Attributes::VAT_AMOUNT => $vat_amount,
             Attributes::TOTAL => $total,
