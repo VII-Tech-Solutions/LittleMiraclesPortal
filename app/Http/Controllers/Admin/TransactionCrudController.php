@@ -61,13 +61,16 @@ class TransactionCrudController extends CustomCrudController
         $this->addNameColumn("Amount", 1, Attributes::AMOUNT);
 
         // Column: Payment Method
-        $this->addColumn(Attributes::PAYMENT_METHOD_NAME,  Helpers::readableText(Attributes::PAYMENT_METHOD));
+        $this->addColumn(Attributes::GATEWAY,  Helpers::readableText(Attributes::GATEWAY));
 
         // Column: Date
         $this->addColumn(Attributes::CREATED_AT,  Helpers::readableText(Attributes::DATE));
 
         // Column: Status
         $this->addStatusColumn(Attributes::STATUS_NAME);
+
+        // Filter: Status
+        $this->addStatusFilter(PaymentStatus::all());
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
