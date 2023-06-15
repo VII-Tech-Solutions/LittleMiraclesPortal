@@ -44,11 +44,14 @@ class PaymentHelpers
 //        }
 
         // create transaction
-        $transaction = new Transaction();
-        $transaction->payment_method = $payment_method;
-        $transaction->order_id = $order->id;
-        $transaction->amount = $amount;
-        $transaction->save();
+        $transaction = Transaction::createOrUpdate([
+            Attributes::AMOUNT => $amount,
+            Attributes::ORDER_ID => $order->id,
+            Attributes::PAYMENT_METHOD => $payment_method,
+        ], [
+            Attributes::ORDER_ID,
+            Attributes::PAYMENT_METHOD,
+        ]);
 
         // get personal info
         $customer_name = $order->user->first_name . ' ' . $order->user->last_name;
