@@ -50,7 +50,6 @@ class PaymentHelpers
             Attributes::PAYMENT_METHOD => $payment_method,
         ], [
             Attributes::ORDER_ID,
-            Attributes::PAYMENT_METHOD,
         ]);
 
         // get personal info
