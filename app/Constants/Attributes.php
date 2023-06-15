@@ -335,4 +335,6 @@ class Attributes extends CustomEnum
     const PACKAGE_TAG = "package_tag";
     const PACKAGE_TITLE = "package_title";
     const REMOVE = "remove";
+    const Date = "date";
+    const Time = "time";
 }

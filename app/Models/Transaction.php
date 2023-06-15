@@ -60,7 +60,9 @@ class Transaction extends CustomModel
 
     protected $appends = [
         Attributes::PAYMENT_METHOD_NAME,
-        Attributes::SESSION_NAME
+        Attributes::SESSION_NAME,
+        Attributes::USER_NAME,
+        Attributes::SESSION_ID
     ];
 
     /**
@@ -103,5 +105,31 @@ class Transaction extends CustomModel
             return null;
         }
         return $session->title;
+    }
+
+    /**
+     * Attribute: user name
+     * @return string|null
+     */
+    function getUserNameAttribute()
+    {
+        $session = $this->order->session;
+        if (is_null($session)) {
+            return null;
+        }
+        return $session->user_name;
+    }
+
+    /**
+     * Attribute: session id
+     * @return integer|null
+     */
+    function getSessionIdAttribute()
+    {
+        $session = $this->order->session;
+        if (is_null($session)) {
+            return null;
+        }
+        return $session->id;
     }
 }

@@ -54,8 +54,11 @@ class TransactionCrudController extends CustomCrudController
         // Column: ID
         $this->addColumn(Attributes::ID, 'ID');
 
-        // Column: Order ID
-        $this->addColumn(Attributes::ORDER_ID, 'Order ID');
+        // Column: User Name
+        $this->addColumn(Attributes::USER_NAME, 'User Name');
+
+        // Column: Session ID
+        $this->addColumn(Attributes::SESSION_ID, 'Session ID');
 
         // Column: Amount
         $this->addNameColumn("Amount", 1, Attributes::AMOUNT);
