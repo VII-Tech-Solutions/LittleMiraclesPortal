@@ -45,10 +45,10 @@ class ProfileController extends CustomController
         }
 
         // validate request
-//        $validation_response = GlobalHelpers::validateRequest(new ProfileUpdateRequest(), $this->request);
-//        if (GlobalHelpers::isValidObject($validation_response, JsonResponse::class)) {
-//            return $validation_response;
-//        }
+        $validation_response = GlobalHelpers::validateRequest(new ProfileUpdateRequest(), $this->request);
+        if (GlobalHelpers::isValidObject($validation_response, JsonResponse::class)) {
+            return $validation_response;
+        }
 
         $is_partner = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IS_PARTNER, null, CastingTypes::BOOLEAN);
 
