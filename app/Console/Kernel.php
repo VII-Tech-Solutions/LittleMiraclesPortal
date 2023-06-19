@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('backup:clean')->daily()->at('03:00');
             $schedule->command('backup:run --only-db')->daily()->at('03:30');
             $schedule->command('backup:monitor')->daily()->at('03:15');
+            $schedule->command('session:status')->twiceDaily();
         }
 
         // change session status

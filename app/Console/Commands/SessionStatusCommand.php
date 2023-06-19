@@ -44,24 +44,24 @@ class SessionStatusCommand extends Command
             else if ($today_date >= Carbon::parse($session->date)->addDay()->format(Values::CARBON_DATE_FORMAT) && $today_date < Carbon::parse($session->date)->addDays(14)->format(Values::CARBON_DATE_FORMAT)) {
                 // change status
                 $session->status = SessionStatus::MAGIC_MAKING;
-                // prepare notification
-                $notification_body = [
-                    "title" => "Photos are ready",
-                    "message" => "Great news, $user->first_name $user->last_name! Your photos from the $session->title session are ready!",
-                ];
             } // Getting all your photos in order
             else if ($today_date >= Carbon::parse($session->date)->addDays(14)->format(Values::CARBON_DATE_FORMAT) && $today_date < Carbon::parse($session->date)->addDays(28)->format(Values::CARBON_DATE_FORMAT)) {
                 $session->status = SessionStatus::GETTING_IN_ORDER;
             } // Your photos are ready!
             else if ($today_date >= Carbon::parse($session->date)->addDays(28)->format(Values::CARBON_DATE_FORMAT)) {
                 $session->status = SessionStatus::READY;
+                // prepare notification
+                $notification_body = [
+                    "title" => "Photos are ready",
+                    "message" => "Great news, $user->first_name $user->last_name! Your photos from the $session->title session are ready!",
+                ];
             }
 
             // update status
             $session->save();
 
             // send notification
-            if (isset($notification_body)) {
+            if (isset($notification_body) && Carbon::now()->format('a') == 'am') {
                 $notification = FirebaseHelper::sendFCMByToken($user->device_token, $user->id, null, $notification_body);
             }
         }
