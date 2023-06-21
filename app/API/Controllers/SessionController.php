@@ -85,7 +85,7 @@ class SessionController extends CustomController
         $photographer = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PHOTOGRAPHER, null, CastingTypes::INTEGER);
         $additions = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ADDITIONS, null, CastingTypes::ARRAY);
         $payment_method = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENT_METHOD, null, CastingTypes::INTEGER);
-        $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, null, CastingTypes::BOOLEAN);
+        $include_me = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::INCLUDE_ME, false, CastingTypes::BOOLEAN);
         $location_link = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::LOCATION_LINK, null, CastingTypes::STRING);
         $extra_people = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::EXTRA_PEOPLE, null, CastingTypes::STRING);
         $custom_backdrop = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::CUSTOM_BACKDROP, null, CastingTypes::STRING);

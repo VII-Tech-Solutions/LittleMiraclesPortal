@@ -236,9 +236,9 @@ class Session extends CustomModel
             $adults = $adults . " adults";
         }
         if ($children == 1) {
-            $children = $children . " baby";
+            $children = $children . " child";
         } else {
-            $children = $children . " babies";
+            $children = $children . " children";
         }
         $extra = "";
         if ($this->extra_people > 0) {
