@@ -163,9 +163,10 @@ class SessionController extends CustomController
         ]);
         SessionDetail::where(Attributes::SESSION_ID, $session->id)->whereIn(Attributes::TYPE, [3, 2])->forceDelete();
         // save session people
+        $people_collection = collect();
         if (!is_null($people) && count($people) > 0) {
             foreach ($people as $item) {
-                SessionDetail::createOrUpdate([
+                $people = SessionDetail::createOrUpdate([
                     Attributes::TYPE => SessionDetailsType::PEOPLE,
                     Attributes::VALUE => $item,
                     Attributes::USER_ID => $user->id,
@@ -175,7 +176,9 @@ class SessionController extends CustomController
                 ], [
                     Attributes::USER_ID, Attributes::SESSION_ID, Attributes::TYPE, Attributes::VALUE
                 ]);
+                $people_collection->push($people->id);
             }
+            SessionDetail::where(Attributes::SESSION_ID, $session->id)->whereNotIn(Attributes::ID, $people_collection)->delete();
         }
 
         // save session backdrops
