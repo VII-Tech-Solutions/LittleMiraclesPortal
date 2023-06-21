@@ -379,6 +379,7 @@ class BenefitController extends CustomController
         // get values
         $payment_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::PAYMENTID, null, CastingTypes::STRING);
         $transaction_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TRACKID, null, CastingTypes::STRING);
+        $transaction_id = explode('-', $transaction_id)[0];
 
         if (empty($error_message)) {
             $error_message = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::ERRORTEXT, null, CastingTypes::STRING);
