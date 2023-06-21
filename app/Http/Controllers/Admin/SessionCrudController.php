@@ -93,8 +93,8 @@ class SessionCrudController extends CustomCrudController
         // Column: User ID
         $this->addUserNameColumn();
 
-        // Column: Package Name
-        $this->addIDColumn("Package Name", 1, Attributes::PACKAGE_NAME);
+        // Column: phone number
+        $this->addColumn(Attributes::PHONE_NUMBER, 'Phone Number');
 
         // Column: Date
         $this->addColumn(Attributes::Date, 'Date');

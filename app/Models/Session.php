@@ -53,6 +53,7 @@ use VIITech\Helpers\Constants\CastingTypes;
  * @property boolean gift_claimed
  * @property integer extra_people
  * @property Promotion promotion
+ * @property string phone_number
  * @method static Builder sortByLatest()
  * @method static \Illuminate\Database\Eloquent\Builder|self paid()
  * @method static \Illuminate\Database\Eloquent\Builder|self sessions()
@@ -127,7 +128,8 @@ class Session extends CustomModel
         Attributes::SUB_SESSIONS_IDS,
         Attributes::BOOKING_TEXT,
         'people_data',
-        Attributes::PROMO_CODE
+        Attributes::PROMO_CODE,
+        Attributes::PHONE_NUMBER
     ];
 
 
@@ -270,6 +272,19 @@ class Session extends CustomModel
         }
 
         return ['parents' => $parentData, 'childrens' => $childData];
+    }
+
+    /**
+     * Attribute: phone_number
+     * @return string|null
+     */
+    public function getPhoneNumberAttribute()
+    {
+        $user = $this->user;
+        if (is_null($user)) {
+            return null;
+        }
+        return $user->phone_number;
     }
 
     /**
