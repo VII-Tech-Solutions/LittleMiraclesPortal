@@ -163,7 +163,7 @@ class SessionController extends CustomController
         ]);
         SessionDetail::where(Attributes::SESSION_ID, $session->id)->whereIn(Attributes::TYPE, [3, 2])->forceDelete();
         // save session people
-        SessionDetail::where(Attributes::SESSION_ID, $session->id)->delete();
+        SessionDetail::where(Attributes::SESSION_ID, $session->id)->forceDelete();
         if (!is_null($people) && count($people) > 0) {
             foreach ($people as $item) {
                 $people = SessionDetail::createOrUpdate([
