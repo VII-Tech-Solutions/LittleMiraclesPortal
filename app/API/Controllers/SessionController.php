@@ -178,8 +178,8 @@ class SessionController extends CustomController
                 ]);
                 $people_collection->push($people->id);
             }
-            SessionDetail::where(Attributes::SESSION_ID, $session->id)->whereNotIn(Attributes::ID, $people_collection)->delete();
         }
+        SessionDetail::where(Attributes::SESSION_ID, $session->id)->whereNotIn(Attributes::ID, $people_collection)->delete();
 
         // save session backdrops
         if (!is_null($backdrops) && count($backdrops) > 0) {
