@@ -49,4 +49,5 @@ class Messages extends CustomEnum
     const WRONG_PACKAGE = "Promo code can be only applied on the selected package";
     const PROMOTION_CODE_ALREADY_REDEEMED = "Promotion code already redeemed";
     const INVALID_BOOKING_TYPE = "Invalid booking type";
+    const INVALID_BOOKING_DATE_TIME = "Sorry, the date & time you selected is no longer available";
 }

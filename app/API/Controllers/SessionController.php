@@ -102,6 +102,12 @@ class SessionController extends CustomController
         /** @var Photographer $session_photographer */
         $session_photographer = Photographer::find($photographer);
 
+        // check data and time availability
+        $data_time_available = Session::paid()->where(Attributes::DATE, $date)->where(Attributes::TIME, $time)->exists();
+        if ($data_time_available) {
+            return GlobalHelpers::formattedJSONResponse(Messages::INVALID_BOOKING_DATE_TIME, null, null, Response::HTTP_BAD_REQUEST);
+        }
+
         // calculate package price
         $total_price = $package->price;
 
