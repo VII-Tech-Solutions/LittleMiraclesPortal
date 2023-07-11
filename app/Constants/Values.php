@@ -8,8 +8,8 @@ class Values extends CustomEnum
     const DEFAULT_PAGE = 1;
     const NO_RESOURCE_KEY = "NO_RESOURCE_KEY";
     const DEFAULT_TIMEZONE = "Asia/Bahrain";
-    const CARBON_HOUR_FORMAT = "g:i A";
-    const CARBON_24_HOUR_FORMAT = "G:i";
+    const CARBON_HOUR_FORMAT = "h:i A";
+    const CARBON_24_HOUR_FORMAT = "H:i";
     const CARBON_DATE_FORMAT = "Y-m-d";
     const TEST_AMOUNT = 0.1;
     const VAT_AMOUNT = 0.1;

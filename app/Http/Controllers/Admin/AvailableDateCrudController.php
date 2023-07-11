@@ -176,8 +176,8 @@ class AvailableDateCrudController extends CustomCrudController
                 Attributes::AVAILABLE_DATE_ID => $available_date_id,
                 Attributes::DAY => $day,
                 Attributes::DAY_ID => $day_id,
-                Attributes::FROM => Carbon::parse($start_time)->format(Values::CARBON_HOUR_FORMAT),
-                Attributes::TO => Carbon::parse($end_time)->format(Values::CARBON_HOUR_FORMAT),
+                Attributes::FROM => $start_time,
+                Attributes::TO => $end_time,
                 Attributes::STATUS => Status::ACTIVE,
             ]);
         })->filter();
