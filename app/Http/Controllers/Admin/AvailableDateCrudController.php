@@ -6,6 +6,7 @@ use App\Constants\Attributes;
 use App\Constants\AvailableDateType;
 use App\Constants\Days;
 use App\Constants\Status;
+use App\Constants\Values;
 use App\Http\Requests\AvailableDateRequest;
 use App\Models\AvailableDate;
 use App\Models\Helpers;
@@ -15,6 +16,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
 
 /**
  * Available Date CRUD Controller
@@ -174,8 +176,8 @@ class AvailableDateCrudController extends CustomCrudController
                 Attributes::AVAILABLE_DATE_ID => $available_date_id,
                 Attributes::DAY => $day,
                 Attributes::DAY_ID => $day_id,
-                Attributes::FROM => $start_time,
-                Attributes::TO => $end_time,
+                Attributes::FROM => Carbon::parse($start_time)->format(Values::CARBON_HOUR_FORMAT),
+                Attributes::TO => Carbon::parse($end_time)->format(Values::CARBON_HOUR_FORMAT),
                 Attributes::STATUS => Status::ACTIVE,
             ]);
         })->filter();

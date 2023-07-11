@@ -311,13 +311,11 @@ class HomeController extends CustomController
 
                             $photographer_session = Session::paid()/*where(Attributes::PHOTOGRAPHER, $photographer_id)*/->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))
                                 ->where(Attributes::TIME, $formatted_date)
-                                ->orWhere(Attributes::TIME, $formatted_24_date)
                                 ->first();
                             if (!is_null($user)) {
                                 $user_session = Session::where(Attributes::USER_ID, $user->id)
                                     ->where(Attributes::DATE, $date->format(Values::CARBON_DATE_FORMAT))
                                     ->where(Attributes::TIME, $formatted_date)
-                                    ->orWhere(Attributes::TIME, $formatted_24_date)
                                     ->first();
                             }
                             if (is_null($photographer_session) && !isset($user_session)) {
