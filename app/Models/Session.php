@@ -93,7 +93,8 @@ class Session extends CustomModel
         Attributes::GIFT_CLAIMED,
         Attributes::SESSION_ID,
         Attributes::SUB_PACKAGE_ID,
-        Attributes::EXTRA_PEOPLE
+        Attributes::EXTRA_PEOPLE,
+        'request_data'
     ];
 
     protected $casts = [

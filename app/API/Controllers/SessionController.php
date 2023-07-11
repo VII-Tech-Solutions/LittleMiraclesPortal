@@ -169,6 +169,7 @@ class SessionController extends CustomController
             Attributes::EXTRA_PEOPLE => $extra_people,
             Attributes::CUSTOM_BACKDROP => $custom_backdrop,
             Attributes::CUSTOM_CAKE => $custom_cake,
+            'request_data' => json_encode($this->request->all())
         ], [
             Attributes::PACKAGE_ID, Attributes::USER_ID, Attributes::DATE, Attributes::TIME
         ]);
