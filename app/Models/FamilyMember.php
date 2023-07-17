@@ -7,12 +7,17 @@ use App\Constants\Attributes;
 use App\Constants\Tables;
 use App\Traits\ModelTrait;
 use VIITech\Helpers\Constants\CastingTypes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Family Member
  * @property int session_status
  * @property int gender
  * @property int relationship
+ * @property string birth_date
+ * @property string first_name
+ * @property string last_name
+ * @property User user
  */
 class FamilyMember extends CustomModel
 {
@@ -92,5 +97,12 @@ class FamilyMember extends CustomModel
         }
     }
 
-
+    /**
+     * Relationship: user
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
