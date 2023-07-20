@@ -56,7 +56,8 @@ class UserToken extends CustomModel
         if(is_null($user_id)){
             return false;
         }
-        $user_tokens = User::where(Attributes::USER_ID, $user_id)->orderByDesc(Attributes::CREATED_AT)->pluck(Attributes::DEVICE_TOKEN);
+
+        $user_tokens = User::where(Attributes::ID, $user_id)->orderByDesc(Attributes::CREATED_AT)->pluck(Attributes::DEVICE_TOKEN);
         if($user_tokens->isEmpty()){
             return FirebaseHelper::sendFCMByTopic(Helpers::userTopic($user_id), $user_id, $env, $data, $with_debug);
         }
