@@ -337,4 +337,5 @@ class Attributes extends CustomEnum
     const REMOVE = "remove";
     const Date = "date";
     const Time = "time";
+    const IS_PHOTOGRAPHER = "is_photographer";
 }

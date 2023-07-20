@@ -51,13 +51,17 @@ class UserToken extends CustomModel
      * @param $with_debug
      * @return bool
      */
-    static function sendFCMByToken($user_id, $env, $data, $with_debug = false){
+    static function sendFCMByToken($user_id, $env, $is_photographer, $data, $with_debug = false){
         /** @var Collection $user_tokens */
         if(is_null($user_id)){
             return false;
         }
 
-        $user_tokens = User::where(Attributes::ID, $user_id)->orderByDesc(Attributes::CREATED_AT)->pluck(Attributes::DEVICE_TOKEN);
+        if ($is_photographer) {
+            $user_tokens = Photographer::where(Attributes::ID, $user_id)->pluck(Attributes::DEVICE_TOKEN);
+        } else {
+            $user_tokens = User::where(Attributes::ID, $user_id)->orderByDesc(Attributes::CREATED_AT)->pluck(Attributes::DEVICE_TOKEN);
+        }
         if($user_tokens->isEmpty()){
             return FirebaseHelper::sendFCMByTopic(Helpers::userTopic($user_id), $user_id, $env, $data, $with_debug);
         }

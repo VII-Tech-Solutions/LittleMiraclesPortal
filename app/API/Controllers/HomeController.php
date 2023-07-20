@@ -402,9 +402,10 @@ class HomeController extends CustomController
         $family_id = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::FAMILY_ID, null, CastingTypes::STRING);
         $topic = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::TOPIC, null, CastingTypes::STRING);
         $user_id = str_replace("user_", "", $topic);
+        $is_photographer = GlobalHelpers::getValueFromHTTPRequest($this->request, Attributes::IS_PHOTOGRAPHER, null, CastingTypes::BOOLEAN);
 
         // send fcm
-        $sent = UserToken::sendFCMByToken($user_id, $environment, [
+        $sent = UserToken::sendFCMByToken($user_id, $environment, $is_photographer, [
             Attributes::TITLE => $title,
             Attributes::MESSAGE => $message,
             Attributes::TYPE => NotificationType::CHAT,
