@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\Attributes;
+use App\Constants\Roles;
 use App\Constants\Tables;
 use App\Helpers\FirebaseHelper;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -58,7 +59,7 @@ class UserToken extends CustomModel
         }
 
         if ($is_photographer) {
-            $user_tokens = Photographer::where(Attributes::ID, $user_id)->pluck(Attributes::DEVICE_TOKEN);
+            $user_tokens = Photographer::where(Attributes::ROLE, Roles::ADMIN)->pluck(Attributes::DEVICE_TOKEN);
         } else {
             $user_tokens = User::where(Attributes::ID, $user_id)->orderByDesc(Attributes::CREATED_AT)->pluck(Attributes::DEVICE_TOKEN);
         }
