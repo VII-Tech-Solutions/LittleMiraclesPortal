@@ -43,6 +43,10 @@ class BenefitController extends CustomController
         $pipe->setcardType("D");
         $pipe->setcurrencyCode("048");
 
+        $pipe->setAlias(Helpers::getBenefitAlias());
+        $pipe->setResourcePath(Helpers::getBenefitAuthFolderPath());
+        $pipe->setKeystorePath(Helpers::getBenefitAuthFolderPath());
+
         $pipe->setresponseURL(url("/api/benefit/process"));
         $pipe->seterrorURL(url("/api/benefit/process"));
 
@@ -187,6 +191,7 @@ class BenefitController extends CustomController
             }
 
         } else if (isset($_POST['ErrorText'])) {
+            dd($_POST['ErrorText']);
             $paymentID = $_POST["paymentid"];
             $trackID = $_POST["trackid"];
             $amount = $_POST["amt"];
@@ -222,6 +227,8 @@ class BenefitController extends CustomController
 
         // get transaction
         $transaction = Transaction::where(Attributes::PAYMENT_ID, $payment_id)->where(Attributes::ORDER_ID, $order_id)->first();
+        $transaction->payment_id = $payment_id;
+        $transaction->save();
 
         $trandata = "";
         $paymentID = "";
