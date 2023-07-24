@@ -225,6 +225,7 @@ class BenefitController extends CustomController
         $payment_id = $this->getData("paymentid") ?? null;
         $order_id = explode('-', $this->getData("trackid"))[0] ?? null;
 
+        dd($order_id);
         // get transaction
         /** @var Transaction $transaction */
         $transaction = Transaction::where(Attributes::ORDER_ID, $order_id)->first();
