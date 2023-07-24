@@ -191,7 +191,6 @@ class BenefitController extends CustomController
             }
 
         } else if (isset($_POST['ErrorText'])) {
-            dd($_POST['ErrorText']);
             $paymentID = $_POST["paymentid"];
             $trackID = $_POST["trackid"];
             $amount = $_POST["amt"];
@@ -231,7 +230,6 @@ class BenefitController extends CustomController
         $transaction->payment_id = $payment_id;
         $transaction->save();
 
-        dd($transaction);
         $trandata = "";
         $paymentID = "";
         $result = "";
