@@ -118,7 +118,7 @@ class PaymentHelpers
             $transaction->gateway = PaymentGateways::BENEFIT;
             $transaction->save();
 
-            $payment_url = self::generateBenefitPaymentLink($amount, $transaction->id, $customer_name, $customer_phone_number, $success_url, $error_url);
+            $payment_url = self::generateBenefitPaymentLink($amount, $order->id, $transaction->id, $customer_name, $customer_phone_number, $success_url, $error_url);
         }
 
         return [
@@ -137,12 +137,12 @@ class PaymentHelpers
      * @param $error_url
      * @return string
      */
-    static function generateBenefitPaymentLink($amount, $transaction_id, $customer_name, $customer_phone_number, $success_url, $error_url)
+    static function generateBenefitPaymentLink($amount, $order_id, $transaction_id, $customer_name, $customer_phone_number, $success_url, $error_url)
     {
         try {
             $benefit_request_data = [
                 Attributes::AMOUNT => $amount,
-                Attributes::ORDER_ID => $transaction_id,
+                Attributes::ORDER_ID => $order_id,
                 Attributes::TRACKID => $transaction_id,
                 Attributes::CUSTOMER_NAME => $customer_name,
                 Attributes::CUSTOMER_PHONE_NUMBER => $customer_phone_number,
