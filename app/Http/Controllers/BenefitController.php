@@ -226,9 +226,7 @@ class BenefitController extends CustomController
 
         // get transaction
         /** @var Transaction $transaction */
-        $transaction = Transaction::where(Attributes::ORDER_ID, $order_id)->first();
-        $transaction->payment_id = $payment_id;
-        $transaction->save();
+        $transaction = Transaction::where(Attributes::PAYMENT_ID, $payment_id)->where(Attributes::ID, $order_id)->first();
 
         $trandata = "";
         $paymentID = "";

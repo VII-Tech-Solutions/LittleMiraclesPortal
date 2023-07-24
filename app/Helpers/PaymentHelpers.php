@@ -142,7 +142,7 @@ class PaymentHelpers
         try {
             $benefit_request_data = [
                 Attributes::AMOUNT => $amount,
-                Attributes::ORDER_ID => $order_id,
+                Attributes::ORDER_ID => $transaction_id,
                 Attributes::TRACKID => $transaction_id,
                 Attributes::CUSTOMER_NAME => $customer_name,
                 Attributes::CUSTOMER_PHONE_NUMBER => $customer_phone_number,
