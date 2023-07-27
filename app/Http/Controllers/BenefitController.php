@@ -43,6 +43,10 @@ class BenefitController extends CustomController
         $pipe->setcardType("D");
         $pipe->setcurrencyCode("048");
 
+        $pipe->setAlias(Helpers::getBenefitAlias());
+        $pipe->setResourcePath(Helpers::getBenefitAuthFolderPath());
+        $pipe->setKeystorePath(Helpers::getBenefitAuthFolderPath());
+
         $pipe->setresponseURL(url("/api/benefit/process"));
         $pipe->seterrorURL(url("/api/benefit/process"));
 
@@ -221,7 +225,8 @@ class BenefitController extends CustomController
         $order_id = explode('-', $this->getData("trackid"))[0] ?? null;
 
         // get transaction
-        $transaction = Transaction::where(Attributes::PAYMENT_ID, $payment_id)->where(Attributes::ORDER_ID, $order_id)->first();
+        /** @var Transaction $transaction */
+        $transaction = Transaction::where(Attributes::PAYMENT_ID, $payment_id)->where(Attributes::ID, $order_id)->first();
 
         $trandata = "";
         $paymentID = "";
