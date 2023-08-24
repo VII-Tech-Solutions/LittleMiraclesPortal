@@ -26,8 +26,12 @@ use Kreait\Firebase\Messaging\CloudMessage;
 class NotificationCrudController extends CustomCrudController
 {
 
-    use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
+    use CreateOperation {
+        store as traitStore;
+    }
+    use UpdateOperation {
+        update as traitUpdate;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -55,7 +59,7 @@ class NotificationCrudController extends CustomCrudController
         $this->addStatusFilter();
 
         // Filter: Type
-        $this->addStatusFilter(NotificationTypes::all(),Attributes::TYPE,'Type');
+        $this->addStatusFilter(NotificationTypes::all(), Attributes::TYPE, 'Type');
 
         // Column: Title
         $this->addNameColumn("Title", 1, Attributes::TITLE);
@@ -122,8 +126,7 @@ class NotificationCrudController extends CustomCrudController
         // Send FCM
         $status = $this->crud->getRequest()->get(Attributes::STATUS);
         if ($status == Status::ACTIVE) {
-            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC_TEST, null, null, request());
-//            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC, null, null, request());
+            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC, null, null, request());
             // TODO send FCM
 //            Helpers::sendFCM($this->crud->getRequest()->all());
         }
@@ -144,7 +147,8 @@ class NotificationCrudController extends CustomCrudController
 
         // Send FCM
         $status = $this->crud->getRequest()->get(Attributes::STATUS);
-        if($status == Status::ACTIVE){
+        if ($status == Status::ACTIVE) {
+            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC, null, null, request());
             // TODO send FCM
 //            Helpers::sendFCM($this->crud->getRequest()->all());
         }
