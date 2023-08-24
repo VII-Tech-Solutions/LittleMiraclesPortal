@@ -122,7 +122,8 @@ class NotificationCrudController extends CustomCrudController
         // Send FCM
         $status = $this->crud->getRequest()->get(Attributes::STATUS);
         if ($status == Status::ACTIVE) {
-            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC, null, null, request());
+            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC_TEST, null, null, request());
+//            $response = FirebaseHelper::sendFCMByTopic(Values::FCM_DEFAULT_TOPIC, null, null, request());
             // TODO send FCM
 //            Helpers::sendFCM($this->crud->getRequest()->all());
         }

@@ -17,6 +17,7 @@ class Values extends CustomEnum
 
     // FCM
     const FCM_DEFAULT_TOPIC = "lms";
+    const FCM_DEFAULT_TOPIC_TEST = "lmstest";
     const FCM_PROJECT_ID = "little-miracles-app";
     const FCM_PRIORITY_IOS = "10";
     const FCM_PRIORITY_ANDROID = "high";
