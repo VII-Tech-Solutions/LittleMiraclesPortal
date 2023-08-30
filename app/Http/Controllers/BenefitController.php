@@ -26,6 +26,7 @@ class BenefitController extends CustomController
     static function checkout($benefit_data)
     {
         require('Benefit/plugin/BenefitAPIPlugin.php');
+
         $order_uid = Helpers::appendEnvNumber() . time() . Helpers::generateBigRandomNumber();
         $amount = $benefit_data[Attributes::AMOUNT];
         $order_id = $benefit_data[Attributes::ORDER_ID];
@@ -36,9 +37,9 @@ class BenefitController extends CustomController
 
         $pipe = new iPayBenefitPipe();
         // modify the following to reflect your "Tranportal ID", "Tranportal Password ", "Terminal Resourcekey"
-        $pipe->setkey(env('TERMINAL_RESOURCEKEY'));
-        $pipe->setid(env('TRANPORTAL_ID'));
-        $pipe->setpassword(env('TRANPORTAL_PASSWORD'));
+        $pipe->setkey(config('services.benefit.terminal_resourcekey'));
+        $pipe->setid(config('services.benefit.tranportal_id'));
+        $pipe->setpassword(config('services.benefit.tranportal_password'));
         $pipe->setaction("1");
         $pipe->setcardType("D");
         $pipe->setcurrencyCode("048");
@@ -93,7 +94,7 @@ class BenefitController extends CustomController
             $pipe = new iPayBenefitPipe();
 
             // modify the following to reflect your "Terminal Resourcekey"
-            $pipe->setkey(env('TERMINAL_RESOURCEKEY'));
+            $pipe->setkey(config('services.benefit.terminal_resourcekey'));
 
             $pipe->settrandata($trandata);
 
@@ -218,7 +219,7 @@ class BenefitController extends CustomController
         require_once("Benefit/plugin/BenefitAPIPlugin.php");
 
         $myObj = new iPayBenefitPipe();
-        $myObj->setkey(env('TERMINAL_RESOURCEKEY'));
+        $myObj->setkey(config('services.benefit.terminal_resourcekey'));
 
         // get parameters
         $payment_id = $this->getData("paymentid") ?? null;
@@ -300,7 +301,7 @@ class BenefitController extends CustomController
         require_once("Benefit/plugin/BenefitAPIPlugin.php");
 
         $myObj = new iPayBenefitPipe();
-        $myObj->setkey(env('TERMINAL_RESOURCEKEY'));
+        $myObj->setkey(config('services.benefit.terminal_resourcekey'));
 
         $trandata = "";
         $paymentID = "";
@@ -357,8 +358,11 @@ class BenefitController extends CustomController
         } else {
             $errorText = "Unknown Exception";
         }
-
-        return $this->showResult(false, $errorText);
+        if (empty($errorText)) {
+            return $this->showResult(true, $errorText);
+        } else {
+            return $this->showResult(false, $errorText);
+        }
     }
 
     /**
@@ -410,26 +414,27 @@ class BenefitController extends CustomController
             $transaction->save();
 
             // get promotion
-            /** @var Promotion $promotion */
-            $promotion = Promotion::where(Attributes::PROMO_CODE, $order->promo_code)->first();
-            if (!is_null($promotion)) {
-                // set as redeemed
-                if ($promotion->type == PromotionType::GIFT) {
-                    $promotion->redeemed = true;
-                    $promotion->save();
+            if ($success) {
+                /** @var Promotion $promotion */
+                $promotion = Promotion::where(Attributes::PROMO_CODE, $order->promo_code)->first();
+                if (!is_null($promotion)) {
+                    // set as redeemed
+                    if ($promotion->type == PromotionType::GIFT) {
+                        $promotion->redeemed = true;
+                        $promotion->save();
+                    }
                 }
-            }
 
-            if ($order->booking_type == BookingType::GIFT) {
-                // update gift status
-                /** @var Promotion $gift */
-                $gift = Promotion::where(Attributes::ID, $order->promo_id)->first();
-                $gift->status = PromotionStatus::ACTIVE;
-                $gift->save();
+                if ($order->booking_type == BookingType::GIFT) {
+                    // update gift status
+                    /** @var Promotion $gift */
+                    $gift = Promotion::where(Attributes::ID, $order->promo_id)->first();
+                    $gift->status = PromotionStatus::ACTIVE;
+                    $gift->save();
 
-                // send email notification
-                MailjetHelpers::sendGift($gift);
-
+                    // send email notification
+                    MailjetHelpers::sendGift($gift);
+                }
             }
         }
 

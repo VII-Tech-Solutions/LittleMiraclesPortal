@@ -29,5 +29,14 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'benefit' => [
+        'environment' => env('BENEFIT_ENVIRONMENT'),
+        'username' => env('BENEFIT_ENVIRONMENT'),
+        'institution_id' => env('BENEFIT_INSTITUTION_ID'),
+        'merchant_id' => env('BENEFIT_MERCHANT_ID'),
+        'tranportal_id' => env('TRANPORTAL_ID'),
+        'tranportal_password' => env('TRANPORTAL_PASSWORD'),
+        'terminal_resourcekey' => env('TERMINAL_RESOURCEKEY'),
+        'payment_secret' => env('PAYMENT_SECRET'),
+    ]
 ];

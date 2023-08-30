@@ -146,11 +146,11 @@ class PaymentHelpers
                 Attributes::TRACKID => $transaction_id,
                 Attributes::CUSTOMER_NAME => $customer_name,
                 Attributes::CUSTOMER_PHONE_NUMBER => $customer_phone_number,
-                Attributes::PAYMENT_SECRET => env('PAYMENT_SECRET'),
-                Attributes::BENEFIT_MIDDLEWARE_TOKEN => env('PAYMENT_SECRET'),
+                Attributes::PAYMENT_SECRET => config('services.benefit.payment_secret'),
+                Attributes::BENEFIT_MIDDLEWARE_TOKEN => config('services.benefit.payment_secret'),
                 Attributes::SUCCESS_URL => $success_url,
                 Attributes::ERROR_URL => $error_url,
-                Attributes::MERCHANT_ID => env('BENEFIT_MERCHANT_ID'),
+                Attributes::MERCHANT_ID => config('services.benefit.merchant_id'),
                 Attributes::DESCRIPTION => "Little Miracles"
             ];
 
