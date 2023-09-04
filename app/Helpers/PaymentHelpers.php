@@ -57,14 +57,12 @@ class PaymentHelpers
         $customer_phone_number = $order->user->phone_number;
 
         if ($payment_method == PaymentMethods::CREDIT_CARD) {
-            // todo success_url
-            // todo error_url
             $transaction->gateway = PaymentGateways::CREDIMAX;
             $transaction->save();
 
             // get merchant id and api password
-            $merchant_id = env('MERCHANT_ID');
-            $api_password = env('PAYMENT_SECRET');
+            $merchant_id = config('services.credimax.merchant_id');
+            $api_password = config('services.credimax.payment_secret');
 
             if (is_null($merchant_id) && is_null($api_password)) {
                 return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
@@ -72,13 +70,13 @@ class PaymentHelpers
 
             $create_session_data = [
                 "apiOperation" => "INITIATE_CHECKOUT",
-                "apiPassword" => env('PAYMENT_SECRET'),
-                "apiUsername" => "merchant." . env('MERCHANT_ID'),
+                "apiPassword" => config('services.credimax.payment_secret'),
+                "apiUsername" => "merchant." . config('services.credimax.merchant_id'),
                 "interaction.returnUrl" => $process_url,
-                "interaction.merchant.name" => env('MERCHANT_NAME'),
+                "interaction.merchant.name" => config('services.credimax.merchant_name'),
                 "interaction.operation" => "PURCHASE",
                 "interaction.displayControl.billingAddress" => "HIDE",
-                "merchant" => env('MERCHANT_ID'),
+                "merchant" => config('services.credimax.merchant_id'),
                 "order.amount" => $amount,
                 "order.currency" => "BHD",
                 "order.description" => "Booking",
@@ -110,7 +108,7 @@ class PaymentHelpers
             } catch (Exception $e) {
                 return $e->getMessage();
             }
-        } else {
+        } else if ($payment_method == PaymentMethods::DEBIT_CARD) {
             $success_url = url("/api/benefit/approved?order_id=$order->id");
             $error_url = url("/api/benefit/declined?order_id=$order->id");
             $transaction->success_url = $success_url;
@@ -119,6 +117,8 @@ class PaymentHelpers
             $transaction->save();
 
             $payment_url = self::generateBenefitPaymentLink($amount, $transaction->id, $customer_name, $customer_phone_number, $success_url, $error_url);
+        } else {
+            return GlobalHelpers::formattedJSONResponse(Messages::UNABLE_TO_PROCESS, null, null, Response::HTTP_BAD_REQUEST);
         }
 
         return [
