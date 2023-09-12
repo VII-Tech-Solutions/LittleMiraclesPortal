@@ -38,7 +38,6 @@ class Kernel extends ConsoleKernel
             $schedule->command('backup:monitor')->daily()->at('03:15');
             $schedule->command('session:status')->twiceDaily();
             $schedule->command('birthday:notification')->daily()->at('00:00');
-            $schedule->command('test:notification')->everyFiveMinutes();
         }
 
         // change session status
