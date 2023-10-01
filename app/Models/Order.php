@@ -76,7 +76,7 @@ class Order extends CustomModel
      */
     public function user()
     {
-        return $this->belongsTo(User::class, Attributes::USER_ID);
+        return $this->belongsTo(User::class, Attributes::USER_ID)->withTrashed();
     }
 
     /**
