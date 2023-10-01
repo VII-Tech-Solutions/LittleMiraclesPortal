@@ -4,7 +4,11 @@ namespace App\API\Controllers;
 
 use App\Constants\Attributes;
 use App\Constants\Messages;
+use App\Constants\SessionStatus;
+use App\Models\FamilyInfo;
+use App\Models\FamilyMember;
 use App\Models\Helpers;
+use App\Models\Session;
 use App\Models\User;
 use Dingo\Api\Http\Response;
 use Exception;
@@ -38,6 +42,21 @@ class UserController extends CustomController
         if (is_null($user)) {
             return GlobalHelpers::formattedJSONResponse(Messages::PERMISSION_DENIED, null, null, Response::HTTP_UNAUTHORIZED);
         }
+
+        // check booked sessions
+        $booked_sessions = Session::where('user_id', $user->id)->whereNotIn('status', [SessionStatus::UNPAID, SessionStatus::READY])->count();
+
+        // check booked orders
+//        $booked_orders = Order::where('user_id', $user->id)->where('session_id', '=', null)
+//            ->where('status', OrderStatus::PAID)->count();
+
+        if ($booked_sessions > 0 /*|| $booked_orders > 0*/) {
+            return GlobalHelpers::formattedJSONResponse("You have ..", null. null, Response::HTTP_BAD_REQUEST);
+        }
+
+        // delete family info and family member
+        FamilyInfo::where('user_id', $user->id)->delete();
+        FamilyMember::where('user_id', $user->id)->delete();
 
         // return response
         if($user->delete()){
