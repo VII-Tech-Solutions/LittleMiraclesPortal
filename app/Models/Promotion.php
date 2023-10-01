@@ -198,7 +198,7 @@ class Promotion extends CustomModel
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, Attributes::USER_ID);
+        return $this->belongsTo(User::class, Attributes::USER_ID)->withTrashed();
     }
 
 

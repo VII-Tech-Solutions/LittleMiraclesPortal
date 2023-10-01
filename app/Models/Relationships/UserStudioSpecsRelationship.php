@@ -18,7 +18,7 @@ trait UserStudioSpecsRelationship
 {
     public function user()
     {
-        return $this->belongsTo(User::Class, Attributes::USER_ID);
+        return $this->belongsTo(User::Class, Attributes::USER_ID)->withTrashed();
     }
     public function studio_package()
     {
