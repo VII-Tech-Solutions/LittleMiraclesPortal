@@ -51,7 +51,7 @@ class UserController extends CustomController
 //            ->where('status', OrderStatus::PAID)->count();
 
         if ($booked_sessions > 0 /*|| $booked_orders > 0*/) {
-            return GlobalHelpers::formattedJSONResponse("You have ..", null. null, Response::HTTP_BAD_REQUEST);
+            return GlobalHelpers::formattedJSONResponse("Sorry, you currently have bookings associated with your account, and as a result, you cannot delete your account at this time. If you still wish to proceed, please contact our support team for assistance.", null, null, Response::HTTP_BAD_REQUEST);
         }
 
         // delete family info and family member
