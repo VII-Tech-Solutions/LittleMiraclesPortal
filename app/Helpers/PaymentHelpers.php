@@ -39,7 +39,7 @@ class PaymentHelpers
 
         // get amount
         $amount = $order->subtotal;
-        if ($user = $order->user->id == 19) {
+        if ($user = $order->user->id == 19 || $user = $order->user->id == 157) {
             $amount = Values::TEST_AMOUNT;
         }
 //        if (!GlobalHelpers::isProductionEnv()) {
