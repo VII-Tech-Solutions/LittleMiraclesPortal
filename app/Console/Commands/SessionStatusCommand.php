@@ -48,7 +48,7 @@ class SessionStatusCommand extends Command
             else if ($today_date >= Carbon::parse($session->date)->addDays(14)->format(Values::CARBON_DATE_FORMAT) && $today_date < Carbon::parse($session->date)->addDays(28)->format(Values::CARBON_DATE_FORMAT)) {
                 $session->status = SessionStatus::GETTING_IN_ORDER;
             } // Your photos are ready!
-            else if ($today_date >= Carbon::parse($session->date)->addDays(28)->format(Values::CARBON_DATE_FORMAT)) {
+            else if ($today_date >= Carbon::parse($session->date)->addDays(42)->format(Values::CARBON_DATE_FORMAT)) {
                 $session->status = SessionStatus::READY;
                 // prepare notification
                 $notification_body = [
