@@ -7,6 +7,7 @@ use App\Constants\BookingType;
 use App\Constants\Messages;
 use App\Constants\PaymentGateways;
 use App\Constants\PaymentMethods;
+use App\Constants\Values;
 use App\Http\Controllers\BenefitController;
 use App\Models\Order;
 use App\Models\Transaction;
@@ -38,6 +39,9 @@ class PaymentHelpers
 
         // get amount
         $amount = $order->subtotal;
+        if ($user = $order->user->id == 19) {
+            $amount = Values::TEST_AMOUNT;
+        }
 //        if (!GlobalHelpers::isProductionEnv()) {
         // test amount
 //            $amount = Values::TEST_AMOUNT;
