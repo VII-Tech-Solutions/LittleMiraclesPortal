@@ -18,7 +18,7 @@ class HappyBirthdayCommand extends Command
     public function handle()
     {
         $today_date = Carbon::now()->format('m-d');
-        $children = FamilyMember::where('relationship', Relationship::CHILDREN)->where('user_id', 22)->get();
+        $children = FamilyMember::where('relationship', Relationship::CHILDREN)->get();
 
         /** @var FamilyMember $child */
         foreach ($children as $child) {
