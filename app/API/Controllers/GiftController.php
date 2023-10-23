@@ -280,6 +280,8 @@ class GiftController extends CustomController
             Attributes::VAT_AMOUNT => $vat_amount,
             Attributes::BOOKING_TYPE => BookingType::GIFT,
             Attributes::PROMO_ID => $gift->id,
+        ], [
+            Attributes::PROMO_ID
         ]);
 
         if (!is_a($order, Order::class)) {

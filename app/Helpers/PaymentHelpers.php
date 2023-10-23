@@ -33,9 +33,6 @@ class PaymentHelpers
         GlobalHelpers::debugger("PaymentHelpers@generatePaymentLink", DebuggerLevels::INFO);
         // process url
         $process_url = url('/api/payment/process');
-        if ($order->booking_type == BookingType::GIFT) {
-            $process_url = url('/api/gifts/payment/process');
-        }
 
         // get amount
         $amount = $order->subtotal;
@@ -97,6 +94,8 @@ class PaymentHelpers
             if ($request_response_result == 'SUCCESS' && !is_null($merchant_id)) {
                 $session_id = $response_body['session.id'];
                 $transaction->success_indicator = $response_body['successIndicator'];
+                $transaction->success_url = $process_url;
+                $transaction->error_url = $process_url;
                 $transaction->save();
             }
 

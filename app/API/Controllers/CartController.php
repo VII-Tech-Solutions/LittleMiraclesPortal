@@ -316,6 +316,8 @@ class CartController extends CustomController
                 Attributes::ORDER_ID => $order->id,
                 Attributes::USER_ID => $user->id,
                 Attributes::SESSION_ID => $session->id ?? null
+            ], [
+                Attributes::ORDER_ID, Attributes::SESSION_ID
             ]);
         } else if ($booking_type == BookingType::STUDIO) {
             foreach ($cart_items as $item) {
@@ -323,6 +325,8 @@ class CartController extends CustomController
                     Attributes::ORDER_ID => $order->id,
                     Attributes::ITEM_ID => $item->id,
                     Attributes::USER_ID => $user->id,
+                ], [
+                    Attributes::ORDER_ID, Attributes::ITEM_ID
                 ]);
 
                 // change item status
